@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aurora.mapper.PhotoAlbumMapper">
+
+
+    <select id="listPhotoAlbumsAdmin" resultType="com.aurora.dto.PhotoAlbumAdminDTO">
+        SELECT
+        pa.id,
+        album_name,
+        album_desc,
+        album_cover,
+        COUNT( a.id ) AS photo_count,
+        status
+        FROM
+        (
+        SELECT
+        id,
+        album_name,
+        album_desc,
+        album_cover,
+        status
+        FROM
+        t_photo_album
+        WHERE
+        is_delete = 0
+        <if test="condition.keywords != null">
+            and album_name like concat('%',#{condition.keywords},'%')
+        </if>
+        ORDER BY
+        id desc
+        LIMIT #{current},#{size}
+        ) pa
+        LEFT JOIN
+        (
+        SELECT
+        id,
+        album_id
+        FROM
+        t_photo
+        WHERE
+        is_delete = 0
+        )
+        a ON pa.id = a.album_id
+        GROUP BY
+        pa.id
+    </select>
+</mapper>

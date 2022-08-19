@@ -1,0 +1,77 @@
+// global transition css
+
+/* bouncy-transition */
+.fade-bounce-y-enter-active {
+  transition: all 0.2s cubic-bezier(0, 1.8, 1, 1.2);
+}
+
+.fade-bounce-y-leave-active {
+  transition: all 0.2s cubic-bezier(0, 1.8, 1, 1.2);
+}
+
+.fade-bounce-y-enter-from,
+.fade-bounce-y-leave-to {
+  transform: translateY(20%);
+  opacity: 0;
+}
+
+.fade-bounce-pure-y-enter-active {
+  transition: transform 0.2s cubic-bezier(0, 1.8, 1, 1.2);
+}
+
+.fade-bounce-pure-y-leave-active {
+  transition: transform 0.2s cubic-bezier(0, 1.8, 1, 1.2);
+}
+
+.fade-bounce-pure-y-enter-from,
+.fade-bounce-pure-y-leave-to {
+  transform: translateY(15%);
+  opacity: 0;
+}
+
+/* fade-slide */
+.fade-slide-y-enter-active {
+  transition: all 0.2s ease;
+}
+
+.fade-slide-y-leave-active {
+  transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.fade-slide-y-enter-from,
+.fade-slide-y-leave-to {
+  transform: translateY(10px);
+  opacity: 0;
+}
+
+/* breadcrumb transition */
+.breadcrumb-enter-active,
+.breadcrumb-leave-active {
+  transition: all 0.2s;
+}
+
+.breadcrumb-enter,
+.breadcrumb-leave-active {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.breadcrumb-move {
+  transition: all 0.2s;
+}
+
+.breadcrumb-leave-active {
+  position: absolute;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

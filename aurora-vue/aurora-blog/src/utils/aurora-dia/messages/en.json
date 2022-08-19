@@ -1,0 +1,158 @@
+{
+  "messages": [
+    "Hi, I am <span>Dia</span>, I am here to help you~",
+    "Long time no see, time passes with the blink of the eyes...",
+    "Hi～ Come play with me！",
+    "*Hammer your chest with my kitty fist*",
+    "showQuote"
+  ],
+  "console": "LOL, you opened the console, want to find out my little secrets?",
+  "copy": "What have you copied? Remember to add the source when using it!",
+  "visibility_change": "Welcome back my friend!~",
+  "welcome": {
+    "5_7": "Good morning! The plan for a day lies in the morning, and a beautiful day is about to begin.",
+    "7_11": "Good morning! How is your day doing? don't sit for too long!",
+    "11_13": "It's noon, Must have being working all morning, and it's lunch time!",
+    "13_17": "It's easy to get sleepy in the afternoon. Have a cup of coffee maybe?",
+    "17_19": "It's evening! The sunset outside the window is beautiful.",
+    "19_21": "Good evening, how are you doing today?",
+    "21_23": ["It's getting late, rest early, good night~", "Take good care of your eyes!"],
+    "24": "Are you a night owl? Will you able get up tomorrow?"
+  },
+  "referrer": {
+    "self": "Welcome to <span>「[PLACEHOLDER]」</span>",
+    "baidu": "Hello！Friend from Baidu search engine,<br>did you search <span>「[PLACEHOLDER]」</span> to find me？",
+    "so": "Hello！Friend from 360 search engine,<br>did you search <span>「[PLACEHOLDER]」</span> to find me？",
+    "google": "Hello！Friend from Google search engine,<br>enjoy your time reading <span>「[PLACEHOLDER]」</span>",
+    "site": "Hello there, friend from <span>[PLACEHOLDER]</span>",
+    "other": "Thanks for reading <span>「[PLACEHOLDER]」</span>"
+  },
+  "mouseover": [
+    {
+      "selector": "#Aurora-Dia",
+      "text": [
+        "Waaaaaaaa...What are you <span>doing</span>? O.O",
+        "Please be gentle, I am very delicate! O.O",
+        "<span>Sir yes sir!</span> What can I help you with? O.O"
+      ]
+    },
+    {
+      "selector": "[data-menu='Home']",
+      "text": [
+        "Click to go to the <span>home page</span>. ",
+        "Yes, click here to go <span>back home</span>.",
+        "Go take a look at the <span>home page</span>."
+      ]
+    },
+    {
+      "selector": "[data-menu='About']",
+      "text": [
+        "You want to know more about my <span>master</span>?",
+        "Here hides all the <span>secrets of my master</span>, want to take a look?",
+        "Found my master's <span>secret hideout</span>!"
+      ]
+    },
+    {
+      "selector": "[data-menu='Archives']",
+      "text": [
+        "Here stores all the <span>works</span> my master had done！",
+        "Wanna see my master's <span>library?</span>",
+        "Yes, my masters' <span>ancient histories</span> are all here!"
+      ]
+    },
+    {
+      "selector": "[data-menu='Tags']",
+      "text": [
+        "Click here to look at <span>article tags</span>.",
+        "Tags are used to better <span>categorize</span> your articles."
+      ]
+    },
+    {
+      "selector": "[data-dia='language']",
+      "text": "Master's blog supports multiple <span>languages.</span>"
+    },
+    {
+      "selector": "[data-dia='light-switch']",
+      "text": "You can switch between <span>light</span> and <span>dark</span> mode, click the switch to see the magic!"
+    },
+    {
+      "selector": "[data-dia='author']",
+      "text": [
+        "Here is a short profile of my master.",
+        "Click any of these links can teleport to my master's other worlds."
+      ]
+    },
+    {
+      "selector": "[data-dia='jump-to-comment']",
+      "text": [
+        "Do you want to check out the comments?",
+        "Click here will help you jump right into the comments section."
+      ]
+    }
+  ],
+  "click": [
+    {
+      "selector": "[data-dia='search']",
+      "text": [
+        "Didn't find what you are looking for? Try search it here!",
+        "You can also use <span>ctrl/cmd + k</span> keyboard shortcut to open the search menu."
+      ]
+    },
+    {
+      "selector": "[data-dia='article-link']",
+      "text": [
+        "Enjoy reading:<span>「{text}」</span>.",
+        "That's a good pick, enjoy time reading this article.",
+        "Hope you can learn something from:<span>「{text}」</span>."
+      ]
+    },
+    {
+      "selector": ".gt-header-textarea",
+      "text": [
+        "Wanna write something?",
+        "Be sure write your comment carefully meow~",
+        "Anything you want to say to the author?",
+        "If you think the article is good, leave a message for the author."
+      ]
+    },
+    {
+      "selector": ".veditor",
+      "text": [
+        "Wanna write something?",
+        "Be sure write your comment carefully meow~",
+        "Anything you want to say to the author?",
+        "If you think the article is good, leave a message for the author."
+      ]
+    }
+  ],
+  "events": [
+    {
+      "date": "01/01",
+      "text": "<span>Happy new year</span>，{year}～"
+    },
+    {
+      "date": "02/14",
+      "text": "It's <span>Valentine's Day</span>，have you found your loved one in {year}?"
+    },
+    {
+      "date": "03/08",
+      "text": "Today is <span>International Women's Day</span>！"
+    },
+    {
+      "date": "04/01",
+      "text": "Tell you a secret, don't trust anyone today, because today is <span>April Fool</span>"
+    },
+    {
+      "date": "05/01",
+      "text": "Today is <span>International Labour Day</span>，have you planned to go travel?"
+    },
+    {
+      "date": "12/20-12/30",
+      "text": "These few days is <span>Christmas</span>，my master must being shopping like crazy!"
+    },
+    {
+      "date": "12/31",
+      "text": "Today is <span>New Year's Eve</span>, this year is going away, but next year is going to be better!"
+    }
+  ]
+}

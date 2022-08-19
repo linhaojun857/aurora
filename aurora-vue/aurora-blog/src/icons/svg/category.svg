@@ -1,0 +1,8 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="" xmlns="http://www.w3.org/2000/svg" data-reactroot="">
+<path fill="" d="M8 4V5C8 5.55 8.45 6 9 6H15C15.55 6 16 5.55 16 5V4H19C19.55 4 20 4.45 20 5V21C20 21.55 19.55 22 19 22H5C4.45 22 4 21.55 4 21V5C4 4.45 4.45 4 5 4H8Z" undefined="1"></path>
+<path stroke-linejoin="round" stroke-width="2" stroke="" d="M8 4V5C8 5.55 8.45 6 9 6H15C15.55 6 16 5.55 16 5V4"></path>
+<path fill="" d="M15 6H9C8.45 6 8 5.55 8 5V3C8 2.45 8.45 2 9 2H15C15.55 2 16 2.45 16 3V5C16 5.55 15.55 6 15 6Z" undefined="1"></path>
+<path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" stroke="" d="M16 10H8"></path>
+<path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" stroke="" d="M16 18H8"></path>
+<path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" stroke="" d="M16 14H8"></path>
+</svg>

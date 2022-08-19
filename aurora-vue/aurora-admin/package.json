@@ -1,0 +1,38 @@
+{
+  "name": "aurora-admin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "core-js": "^3.8.3",
+    "dayjs": "^1.11.4",
+    "element-ui": "^2.15.8",
+    "image-conversion": "^2.1.1",
+    "mavon-editor": "^2.9.0",
+    "nprogress": "^0.2.0",
+    "path": "^0.12.7",
+    "vue": "^2.6.14",
+    "vue-axios": "^3.4.1",
+    "vue-calendar-heatmap": "^0.8.4",
+    "vue-echarts": "^5.0.0-beta.0",
+    "vue-router": "^3.5.1",
+    "vuex": "^3.6.2",
+    "vuex-persistedstate": "^4.1.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "vue-template-compiler": "^2.6.14"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

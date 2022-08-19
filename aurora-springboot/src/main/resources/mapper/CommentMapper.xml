@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aurora.mapper.CommentMapper">
+    <select id="listComments" resultType="com.aurora.dto.CommentDTO">
+        SELECT
+        u.nickname,
+        u.avatar,
+        u.website,
+        c.user_id,
+        c.id,
+        c.comment_content,
+        c.create_time
+        FROM
+        t_comment c
+        JOIN t_user_info u ON c.user_id = u.id
+        <where>
+            <if test="commentVO.topicId != null">
+                topic_id = #{commentVO.topicId}
+            </if>
+            AND type = #{commentVO.type}
+            AND c.is_review = 1
+            AND parent_id IS NULL
+        </where>
+        ORDER BY
+        c.id DESC
+    </select>
+    <select id="listReplies" resultType="com.aurora.dto.ReplyDTO">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        c.user_id,
+        u.nickname,
+        u.avatar,
+        u.website,
+        c.reply_user_id,
+        r.nickname AS reply_nickname,
+        r.website AS reply_website,
+        c.id,
+        c.parent_id,
+        c.comment_content,
+        c.create_time,
+        row_number () over ( PARTITION BY parent_id ORDER BY create_time ASC ) row_num
+        FROM
+        t_comment c
+        JOIN t_user_info u ON c.user_id = u.id
+        JOIN t_user_info r ON c.reply_user_id = r.id
+        WHERE
+        c.is_review = 1
+        AND
+        parent_id IN
+        (
+        <foreach collection="commentIds" item="commentId" separator=",">
+            #{commentId}
+        </foreach>
+        )
+        order by c.create_time desc
+        ) t
+    </select>
+    <select id="listTopSevenComments" resultType="com.aurora.dto.CommentDTO">
+        SELECT u.nickname,
+               u.avatar,
+               u.website,
+               c.user_id,
+               c.id,
+               c.comment_content,
+               c.create_time
+        FROM t_comment c
+                 JOIN t_user_info u ON c.user_id = u.id
+        where c.is_review = 1
+        ORDER BY c.id DESC LIMIT 0 , 7
+    </select>
+    <select id="countComments" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        from
+        t_comment c
+        LEFT JOIN t_user_info u ON c.user_id = u.id
+        <where>
+            <if test="conditionVO.type != null">
+                c.type = #{conditionVO.type}
+            </if>
+            <if test="conditionVO.isReview != null">
+                and c.is_review = #{conditionVO.isReview}
+            </if>
+            <if test="conditionVO.keywords != null">
+                and u.nickname like concat('%',#{conditionVO.keywords},'%')
+            </if>
+        </where>
+    </select>
+    <select id="listCommentsAdmin" resultType="com.aurora.dto.CommentAdminDTO">
+        SELECT
+        c.id,
+        u.avatar,
+        u.nickname,
+        r.nickname AS reply_nickname,
+        a.article_title,
+        c.comment_content,
+        c.type,
+        c.create_time,
+        c.is_review
+        FROM
+        t_comment c
+        LEFT JOIN t_article a ON c.topic_id = a.id
+        LEFT JOIN t_user_info u ON c.user_id = u.id
+        LEFT JOIN t_user_info r ON c.reply_user_id = r.id
+        <where>
+            <if test="conditionVO.type != null">
+                c.type = #{conditionVO.type}
+            </if>
+            <if test="conditionVO.isReview != null">
+                and c.is_review = #{conditionVO.isReview}
+            </if>
+            <if test="conditionVO.keywords != null">
+                and u.nickname like concat('%',#{conditionVO.keywords},'%')
+            </if>
+        </where>
+        ORDER BY
+        id DESC
+        LIMIT #{current},#{size}
+    </select>
+    <select id="listCommentCountByTopicIds" resultType="com.aurora.dto.CommentCountDTO">
+        SELECT
+        topic_id as id,
+        COUNT( 1 ) AS comment_count
+        FROM
+        t_comment
+        WHERE
+        topic_id IN
+        <foreach open="(" collection="topicIds" item="topicId" separator="," close=")">
+            #{topicId}
+        </foreach>
+        AND
+        parent_id IS NULL
+        GROUP BY
+        topic_id
+    </select>
+</mapper>

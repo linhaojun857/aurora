@@ -1,0 +1,34 @@
+export default {
+    archives:[
+        {
+            year:2020,
+            month:1,
+            articles:[
+                {
+                    id:1,
+                    date:{
+                        month:1,
+                        day:12,
+                        year:2020
+                    },
+                    title:'mock归档一'
+                }
+            ]
+        },
+        {
+            year:2021,
+            month:2,
+            articles:[
+                {
+                    id:2,
+                    date:{
+                        month:2,
+                        day:12,
+                        year:2021
+                    },
+                    title:'mock归档二'
+                }
+            ]
+        }
+    ]
+}

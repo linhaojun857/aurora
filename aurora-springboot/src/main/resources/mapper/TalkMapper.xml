@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aurora.mapper.TalkMapper">
+
+    <select id="listTalks" resultType="com.aurora.dto.TalkDTO">
+        SELECT t.id,
+               nickname,
+               avatar,
+               content,
+               images,
+               t.is_top,
+               t.create_time
+        FROM t_talk t
+                 JOIN t_user_info ui ON t.user_id = ui.id
+        WHERE t.status = 1
+        ORDER BY t.is_top DESC,
+                 t.id DESC
+            LIMIT #{current}, #{size}
+    </select>
+    <select id="getTalkById" resultType="com.aurora.dto.TalkDTO">
+        SELECT t.id,
+               nickname,
+               avatar,
+               content,
+               images,
+               t.create_time
+        FROM t_talk t
+                 JOIN t_user_info ui ON t.user_id = ui.id
+        WHERE t.id = #{talkId}
+          AND t.status = 1
+    </select>
+    <select id="listTalksAdmin" resultType="com.aurora.dto.TalkAdminDTO">
+        SELECT
+        t.id,
+        nickname,
+        avatar,
+        content,
+        images,
+        t.is_top,
+        t.status,
+        t.create_time
+        FROM
+        t_talk t
+        JOIN t_user_info ui ON t.user_id = ui.id
+        <where>
+            <if test="conditionVO.status != null">
+                t.status = #{conditionVO.status}
+            </if>
+        </where>
+        ORDER BY
+        t.is_top DESC,
+        t.id DESC
+        LIMIT #{current},#{size}
+    </select>
+    <select id="getTalkByIdAdmin" resultType="com.aurora.dto.TalkAdminDTO">
+        SELECT t.id,
+               nickname,
+               avatar,
+               content,
+               images,
+               t.is_top,
+               t.status,
+               t.create_time
+        FROM t_talk t
+                 JOIN t_user_info ui ON t.user_id = ui.id
+        WHERE t.id = #{talkId}
+    </select>
+
+</mapper>

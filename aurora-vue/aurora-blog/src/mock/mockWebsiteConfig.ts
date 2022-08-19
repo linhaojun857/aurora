@@ -1,0 +1,25 @@
+export default {
+  author: '花未眠',
+  nick: 'huaweimian',
+  description: '一个疯狂的coder',
+  avatar: 'https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/config/52a81cd2772167b645569342e81ce312.jpg',
+  logo: 'https://img-blog.csdnimg.cn/20210313122054101.png',
+  multi_language: true,
+  article_count: '10',
+  talk_count: '200',
+  category_count: '20',
+  tag_count: '30',
+  github: 'https://www.linhaojun.top',
+  twitter: 'https://www.linhaojun.top',
+  stackoverflow: 'https://www.linhaojun.top',
+  wechat: 'https://www.linhaojun.top',
+  qq: 'https://www.linhaojun.top',
+  weibo: 'https://www.linhaojun.top',
+  beian_number:'苏ICP备2022012376号',
+  website_create_time:'2021-05-30T15:19:24.000Z',
+  aurora_bot_enable:true
+}
+
+  // csdn:"https://www.linhaojun.top",
+  // zhihu:"https://www.linhaojun.top",
+  // juejin:"https://www.linhaojun.top",

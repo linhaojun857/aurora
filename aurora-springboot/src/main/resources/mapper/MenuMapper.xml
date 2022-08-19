@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aurora.mapper.MenuMapper">
+    <select id="listMenusByUserInfoId" resultType="com.aurora.entity.Menu">
+        SELECT DISTINCT m.id,
+                        name,
+                        path,
+                        component,
+                        icon,
+                        is_hidden,
+                        parent_id,
+                        order_num
+        FROM t_user_role ur
+                 JOIN t_role_menu rm ON ur.role_id = rm.role_id
+                 JOIN `t_menu` m ON rm.menu_id = m.id
+        WHERE user_id = #{userInfoId}
+    </select>
+</mapper>

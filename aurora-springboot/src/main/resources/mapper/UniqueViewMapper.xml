@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aurora.mapper.UniqueViewMapper">
+
+
+    <select id="listUniqueViews" resultType="com.aurora.dto.UniqueViewDTO">
+        SELECT DATE_FORMAT(create_time, "%Y-%m-%d") as `day`,
+               views_count
+        FROM `t_unique_view`
+        WHERE create_time &gt; #{startTime}
+          AND create_time &lt;= #{endTime}
+        ORDER BY create_time
+    </select>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aurora.mapper.JobMapper">
+    <select id="countJobs" resultType="java.lang.Integer">
+        select count(DISTINCT j.id)
+        from t_job j
+        <where>
+            <if test="jobSearchVO.jobName!=null">
+                and j.job_name like concat('%',#{jobSearchVO.jobName},'%')
+            </if>
+            <if test="jobSearchVO.jobGroup!=null">
+                and j.job_group = #{jobSearchVO.jobGroup}
+            </if>
+            <if test="jobSearchVO.status!=null">
+                and j.status = #{jobSearchVO.status}
+            </if>
+        </where>
+    </select>
+    <select id="listJobs" resultType="com.aurora.dto.JobDTO">
+        select *
+        from t_job j
+        <where>
+            <if test="jobSearchVO.jobName!=null">
+                and j.job_name like concat('%',#{jobSearchVO.jobName},'%')
+            </if>
+            <if test="jobSearchVO.jobGroup!=null">
+                and j.job_group = #{jobSearchVO.jobGroup}
+            </if>
+            <if test="jobSearchVO.status!=null">
+                and j.status = #{jobSearchVO.status}
+            </if>
+        </where>
+        ORDER BY j.status DESC
+        LIMIT #{current},#{size}
+    </select>
+    <select id="listJobGroups" resultType="java.lang.String">
+        select DISTINCT job_group
+        from t_job
+    </select>
+</mapper>

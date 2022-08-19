@@ -1,0 +1,381 @@
+<template>
+  <div class="flex flex-col">
+    <div class="main-grid">
+      <div class="post-header">
+        <span class="post-labels">
+          <ob-skeleton v-if="loading" tag="b" height="20px" width="35px" />
+          <b v-else-if="!loading && article.categoryName">
+            <span>{{ article.categoryName }}</span>
+          </b>
+          <b v-else>{{ t('settings.default-category') }}</b>
+          <ul>
+            <ob-skeleton v-if="loading" :count="2" tag="li" height="16px" width="35px" class="mr-2" />
+            <template v-else-if="!loading && article.tags && article.tags.length > 0">
+              <li v-for="tag in article.tags" :key="tag.id">
+                <!-- @ts-ignore -->
+                <em class="opacity-50">#</em>
+                {{ tag.tagName }}
+              </li>
+            </template>
+            <template v-else>
+              <li>
+                <b class="opacity-50">#</b>
+                {{ t('settings.default-tag') }}
+              </li>
+            </template>
+          </ul>
+        </span>
+
+        <h1 v-if="article.articleTitle" class="post-title text-white">
+          {{ article.articleTitle }}
+        </h1>
+        <ob-skeleton
+          v-else
+          class="post-title text-white uppercase"
+          width="100%"
+          height="clamp(1.2rem, calc(1rem + 3.5vw), 4rem)" />
+
+        <div class="flex flex-row items-center justify-start mt-8 mb-4">
+          <div class="post-footer" v-if="article.author">
+            <img
+              class="hover:opacity-50 cursor-pointer"
+              v-lazy="article.author.avatar || ''"
+              alt="author avatar"
+              @click="handleAuthorClick(article.author.website)" />
+            <span class="text-white opacity-80">
+              <strong
+                class="text-white pr-1.5 hover:opacity-50 cursor-pointer"
+                @click="handleAuthorClick(article.author.website)">
+                {{ article.author.nickname }}
+              </strong>
+              <span class="opacity-70">
+                {{ t('settings.shared-on') }} {{ t(`settings.months[${new Date(article.createTime).getMonth()}]`) }}
+                {{ new Date(article.createTime).getDate() }}, {{ new Date(article.createTime).getFullYear() }}
+              </span>
+            </span>
+          </div>
+
+          <div class="post-footer" v-else>
+            <div class="flex flex-row items-center">
+              <ob-skeleton class="mr-2" height="28px" width="28px" :circle="true" />
+              <span class="text-ob-dim mt-1">
+                <ob-skeleton height="20px" width="150px" />
+              </span>
+            </div>
+          </div>
+
+          <div class="post-stats" v-if="wordNum !== '' && readTime !== ''">
+            <span>
+              <svg-icon icon-class="text-outline" style="stroke: white" />
+              <span class="pl-2 opacity-70">
+                {{ wordNum }}
+              </span>
+            </span>
+            <span>
+              <svg-icon icon-class="clock-outline" style="stroke: white" />
+              <span class="pl-2 opacity-70">
+                {{ readTime }}
+              </span>
+            </span>
+          </div>
+
+          <div v-else class="post-stats">
+            <span>
+              <svg-icon icon-class="clock" />
+              <span class="pl-2">
+                <ob-skeleton width="40px" height="16px" />
+              </span>
+            </span>
+            <span>
+              <svg-icon icon-class="text" />
+              <span class="pl-2">
+                <ob-skeleton width="40px" height="16px" />
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main-grid">
+      <div>
+        <template v-if="article.articleContent">
+          <div class="post-html" ref="articleRef" v-html="article.articleContent" />
+        </template>
+        <div v-else class="bg-ob-deep-800 px-14 py-16 rounded-2xl shadow-xl block min-h-screen">
+          <ob-skeleton tag="div" :count="1" height="36px" width="150px" class="mb-6" />
+          <br />
+          <ob-skeleton tag="div" :count="35" height="16px" width="100px" class="mr-2" />
+          <br />
+          <br />
+          <ob-skeleton tag="div" :count="25" height="16px" width="100px" class="mr-2" />
+        </div>
+        <div class="flex flex-col lg:flex-row justify-start items-end my-8 space-x-5">
+          <div class="w-full h-full self-stretch mr-0 lg:mr-4" v-if="article.preArticleCard">
+            <SubTitle title="settings.paginator.prev" icon="arrow-left-circle" />
+            <ArticleCard :data="article.preArticleCard" />
+          </div>
+          <div class="w-full h-full self-stretch mt-8 lg:mt-0" v-if="article.nextArticleCard">
+            <SubTitle title="settings.paginator.next" :side="!isMobile ? 'right' : 'left'" icon="arrow-right-circle" />
+            <ArticleCard :data="article.nextArticleCard" />
+          </div>
+        </div>
+        <Comment />
+      </div>
+      <div>
+        <Sidebar>
+          <Profile />
+          <Sticky :stickyTop="32" endingElId="footer" dynamicElClass="#sticky-sidebar">
+            <div id="sticky-sidebar">
+              <transition name="fade-slide-y" mode="out-in">
+                <div class="sidebar-box mb-4">
+                  <SubTitle :title="'titles.toc'" icon="toc" />
+                  <div id="toc1"></div>
+                </div>
+              </transition>
+              <Navigator />
+            </div>
+          </Sticky>
+        </Sidebar>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { Sidebar, Profile, Navigator } from '@/components/Sidebar'
+import {
+  computed,
+  defineComponent,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+  toRefs,
+  provide
+} from 'vue'
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { Comment } from '@/components/Comment'
+import { SubTitle } from '@/components/Title'
+import { ArticleCard } from '@/components/ArticleCard'
+import '@/styles/prism-aurora-future.css'
+import { useMetaStore } from '@/stores/meta'
+import { useCommonStore } from '@/stores/common'
+import { useCommentStore } from '@/stores/comment'
+import Sticky from '@/components/Sticky.vue'
+import Prism from 'prismjs'
+import tocbot from 'tocbot'
+import emitter from '@/utils/mitt'
+import { v3ImgPreviewFn } from 'v3-img-preview'
+import api from '@/api/api'
+
+export default defineComponent({
+  name: 'Article',
+  components: { Sidebar, Comment, SubTitle, ArticleCard, Profile, Sticky, Navigator },
+  setup() {
+    const metaStore = useMetaStore()
+    const commonStore = useCommonStore()
+    const commentStore = useCommentStore()
+    const route = useRoute()
+    const router = useRouter()
+    const { t } = useI18n()
+    const loading = ref(true)
+    const articleRef = ref()
+    const MarkdownIt = require('markdown-it')
+    const md = new MarkdownIt()
+    commentStore.type = 1
+
+    const reactiveData = reactive({
+      id: '' as any,
+      article: '' as any,
+      wordNum: '' as any,
+      readTime: '' as any,
+      comments: '' as any,
+      images: [] as any
+    })
+    const fetchData = async (id: any) => {
+      loading.value = true
+      window.scrollTo({
+        top: 0
+      })
+      fetchComments()
+      fetchArticle(id)
+    }
+    const initTocbot = () => {
+      let nodes = articleRef.value.children
+      if (nodes.length) {
+        for (let i = 0; i < nodes.length; i++) {
+          let node = nodes[i]
+          let reg = /^H[1-4]{1}$/
+          if (reg.exec(node.tagName)) {
+            node.id = i
+          }
+        }
+      }
+      tocbot.init({
+        tocSelector: '#toc1',
+        contentSelector: '.post-html',
+        headingSelector: 'h1, h2',
+        onClick: function (e) {
+          e.preventDefault()
+        }
+      })
+      const imgs = articleRef.value.getElementsByTagName('img')
+      for (var i = 0; i < imgs.length; i++) {
+        reactiveData.images.push(imgs[i].src)
+        imgs[i].addEventListener('click', function (e: any) {
+          handlePreview(e.target.currentSrc)
+        })
+      }
+    }
+    const handlePreview = (index: any) => {
+      v3ImgPreviewFn({ images: reactiveData.images, index: reactiveData.images.indexOf(index) })
+    }
+
+    const fetchArticle = async (id: any) => {
+      api.getArticeById(id).then(({ data }) => {
+        if (data.data === null) {
+          router.push({ path: '/出错啦' })
+          return
+        }
+        reactiveData.article = data.data
+        metaStore.setTitle(data.data.articleTitle)
+        commonStore.setHeaderImage(data.data.articleCover)
+        reactiveData.article.articleContent = md.render(reactiveData.article.articleContent)
+        loading.value = false
+        nextTick(() => {
+          reactiveData.wordNum = Math.round(deleteHTMLTag(reactiveData.article.articleContent).length / 100) / 10 + 'k'
+          reactiveData.readTime = Math.round(deleteHTMLTag(reactiveData.article.articleContent).length / 400) + 'mins'
+          Prism.highlightAll()
+          initTocbot()
+        })
+      })
+    }
+
+    const path = route.path
+    const arr = path.split('/')
+    const fetchComments = () => {
+      const params = {
+        type: 1,
+        topicId: arr[2]
+      }
+      api.getComments(params).then(({ data }) => {
+        reactiveData.comments = data.data
+      })
+    }
+
+    provide(
+      'comments',
+      computed(() => reactiveData.comments)
+    )
+    emitter.on('articleFetchComment', () => {
+      fetchComments()
+    })
+
+    const handleAuthorClick = (link: string) => {
+      if (link === '') link = window.location.href
+      window.location.href = link
+    }
+
+    onMounted(() => {
+      reactiveData.id = route.params.articleId
+      fetchData(route.params.articleId)
+    })
+    onBeforeRouteUpdate((to) => {
+      if (to.params.articleId != reactiveData.id) {
+        reactiveData.article = ''
+        reactiveData.readTime = ''
+        reactiveData.wordNum = ''
+        reactiveData.comments = ''
+        reactiveData.images = []
+        reactiveData.id = to.params.articleId
+        fetchData(reactiveData.id)
+      }
+    })
+    onBeforeUnmount(() => {
+      commonStore.resetHeaderImage()
+      reactiveData.article = ''
+      tocbot.destroy()
+    })
+
+    const deleteHTMLTag = (content: any) => {
+      return content
+        .replace(/<\/?[^>]*>/g, '')
+        .replace(/[|]*\n/, '')
+        .replace(/&npsp;/gi, '')
+    }
+
+    return {
+      articleRef,
+      ...toRefs(reactiveData),
+      isMobile: computed(() => commonStore.isMobile),
+      handleAuthorClick,
+      loading,
+      t
+    }
+  }
+})
+</script>
+<style lang="scss">
+#toc1 > ol {
+  list-style: none;
+  counter-reset: li;
+  padding-left: 1.5rem;
+
+  > li {
+    @apply text-ob-bright font-extrabold pb-1;
+    &.is-active-li {
+      @apply text-ob;
+    }
+  }
+
+  ol li {
+    @apply text-ob-normal font-normal mt-1.5 mb-1.5;
+    padding-left: 1.5rem;
+    &.is-active-li {
+      @apply text-ob;
+    }
+  }
+
+  ol,
+  ol ol {
+    position: relative;
+  }
+
+  > li::before,
+  ol > li::before,
+  ol ol > li::before,
+  ol ol ol > li::before,
+  ol ol ol ol > li::before {
+    content: '•';
+    color: var(--text-accent);
+    display: inline-block;
+    width: 1em;
+    margin-left: -1.15em;
+    padding: 0;
+    font-weight: bold;
+    text-shadow: 0 0 0.5em var(--accent-2);
+  }
+
+  > li::before {
+    @apply text-xl;
+  }
+
+  > li > ol::before,
+  > li > ol > li > ol::before {
+    content: '';
+    border-left: 1px solid var(--text-accent);
+    position: absolute;
+    opacity: 0.35;
+    left: -1em;
+    top: 0;
+    bottom: 0;
+  }
+
+  > li > ol::before {
+    left: -1.25em;
+    border-left: 2px solid var(--text-accent);
+  }
+}
+</style>

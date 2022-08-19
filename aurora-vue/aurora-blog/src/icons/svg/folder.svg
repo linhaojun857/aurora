@@ -1,0 +1,5 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="" xmlns="http://www.w3.org/2000/svg" data-reactroot="">
+<path fill="" d="M19 10H2L5 20H22L19 10Z" clip-rule="evenodd" fill-rule="evenodd" undefined="1"></path>
+<path fill="" d="M22 20V4H16L14 6H4V10H19L22 20Z" clip-rule="evenodd" fill-rule="evenodd" undefined="1"></path>
+<path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" stroke="#221b38" d="M2 10H19L22 20"></path>
+</svg>
