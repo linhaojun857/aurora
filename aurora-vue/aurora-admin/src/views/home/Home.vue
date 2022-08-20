@@ -319,7 +319,6 @@ export default {
         if (data.data.articleRankDTOs != null) {
           data.data.articleRankDTOs.forEach((item) => {
             this.ariticleRank.series[0].data.push(item.viewsCount)
-            console.log(item)
             this.ariticleRank.xAxis.data.push(item.articleTitle)
           })
         }
