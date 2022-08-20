@@ -10,9 +10,9 @@
 
 演示账号：test@163.com ,密码:123456 ,欢迎大家来到后台，如有不足，欢迎指正
 
-Github地址：[linhaojun857/aurora (github.com)](https://github.com/linhaojun857/aurora)
+Github地址：[linhaojun857/aurora-public: aurora博客系统 (github.com)](https://github.com/linhaojun857/aurora-public)
 
-Gitee地址：[花未眠/aurora (gitee.com)](https://gitee.com/linhaojun/aurora)
+Gitee地址：[aurora-public-github: aurora博客系统 (gitee.com)](https://gitee.com/linhaojun/aurora-public-github)
 
 ## 相关技术
 
