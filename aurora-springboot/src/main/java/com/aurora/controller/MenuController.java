@@ -1,5 +1,6 @@
 package com.aurora.controller;
 
+import com.aurora.annotation.OptLog;
 import com.aurora.dto.LabelOptionDTO;
 import com.aurora.dto.MenuDTO;
 import com.aurora.dto.UserMenuDTO;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.aurora.constant.OptTypeConst.*;
+
 @Api(tags = "菜单模块")
 @RestController
 public class MenuController {
@@ -29,6 +32,7 @@ public class MenuController {
         return Result.ok(menuService.listMenus(conditionVO));
     }
 
+    @OptLog(optType =SAVE_OR_UPDATE)
     @ApiOperation(value = "新增或修改菜单")
     @PostMapping("/admin/menus")
     public Result<?> saveOrUpdateMenu(@Valid @RequestBody MenuVO menuVO) {
@@ -36,6 +40,7 @@ public class MenuController {
         return Result.ok();
     }
 
+    @OptLog(optType = UPDATE)
     @ApiOperation(value = "修改目录是否隐藏")
     @PutMapping("/admin/menus/isHidden")
     public Result<?> updateMenuIsHidden(@RequestBody IsHiddenVO isHiddenVO) {
@@ -43,6 +48,7 @@ public class MenuController {
         return Result.ok();
     }
 
+    @OptLog(optType = DELETE)
     @ApiOperation(value = "删除菜单")
     @DeleteMapping("/admin/menus/{menuId}")
     public Result<?> deleteMenu(@PathVariable("menuId") Integer menuId) {

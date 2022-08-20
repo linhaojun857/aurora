@@ -1,5 +1,6 @@
 package com.aurora.controller;
 
+import com.aurora.annotation.OptLog;
 import com.aurora.dto.LabelOptionDTO;
 import com.aurora.dto.ResourceDTO;
 import com.aurora.service.ResourceService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.aurora.constant.OptTypeConst.*;
+
 @Api(tags = "资源模块")
 @RestController
 public class ResourceController {
@@ -27,6 +30,7 @@ public class ResourceController {
         return Result.ok(resourceService.listResources(conditionVO));
     }
 
+    @OptLog(optType = DELETE)
     @ApiOperation(value = "删除资源")
     @DeleteMapping("/admin/resources/{resourceId}")
     public Result<?> deleteResource(@PathVariable("resourceId") Integer resourceId) {
@@ -34,6 +38,7 @@ public class ResourceController {
         return Result.ok();
     }
 
+    @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation(value = "新增或修改资源")
     @PostMapping("/admin/resources")
     public Result<?> saveOrUpdateResource(@RequestBody @Valid ResourceVO resourceVO) {

@@ -57,7 +57,7 @@
             <result column="tag_name" property="tagName"/>
         </collection>
     </resultMap>
-    <select id="getTopArticle" resultMap="ArticleCardDTOResultMap">
+    <select id="listTopAndFeaturedArticles" resultMap="ArticleCardDTOResultMap">
         SELECT a.id            AS id,
                category_id,
                article_cover,
@@ -91,46 +91,9 @@
             LEFT JOIN t_category c ON a.category_id = c.id
             LEFT JOIN t_user_info u ON a.user_id = u.id
         where
-            a.is_top = 1
-          and a.is_delete = 0
+           a.is_delete = 0
           and a.status = 1
-    </select>
-    <select id="listFeaturedArticles" resultMap="ArticleCardDTOResultMap">
-        SELECT a.id            AS id,
-               category_id,
-               article_cover,
-               article_title,
-               article_content,
-               is_top,
-               is_featured,
-               a.create_time   AS create_time,
-               a.update_time   AS update_time,
-               u.nickname      AS author_nickname,
-               u.website       AS author_website,
-               u.avatar        AS author_avatar,
-               c.category_name AS category_name,
-               tag_name
-        FROM (SELECT id,
-                     user_id,
-                     category_id,
-                     article_cover,
-                     article_title,
-                     article_content,
-                     is_top,
-                     is_featured,
-                     is_delete,
-                     status,
-                     create_time,
-                     update_time
-              FROM t_article) a
-                 LEFT JOIN t_article_tag at
-        ON a.id = at.article_id
-            LEFT JOIN t_tag t ON t.id = at.tag_id
-            LEFT JOIN t_category c ON a.category_id = c.id
-            LEFT JOIN t_user_info u ON a.user_id = u.id
-        where is_featured = 1
-          and a.is_delete = 0
-          and a.status = 1
+        order by is_top desc, is_featured desc
     </select>
     <select id="listArticles" resultMap="ArticleCardDTOResultMap">
         SELECT a.id            AS id,

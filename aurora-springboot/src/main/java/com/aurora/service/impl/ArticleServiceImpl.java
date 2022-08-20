@@ -86,23 +86,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @SneakyThrows
     @Override
     public TopAndFeaturedArticlesDTO listTopAndFeaturedArticles() {
-        CompletableFuture<ArticleCardDTO> asyncTopArticle = CompletableFuture.supplyAsync(() -> articleMapper.getTopArticle());
-        CompletableFuture<List<ArticleCardDTO>> asyncFeaturedArticle = CompletableFuture.supplyAsync(() -> articleMapper.listFeaturedArticles());
-        ArticleCardDTO topArticle = asyncTopArticle.get();
-        List<ArticleCardDTO> featuredArticles = asyncFeaturedArticle.get();
-        for (int i = 0; i < featuredArticles.size(); i++) {
-            if (Objects.equals(featuredArticles.get(i).getId(), topArticle.getId())) {
-                featuredArticles.remove(i);
-                break;
-            }
+        List<ArticleCardDTO> articleCardDTOs = articleMapper.listTopAndFeaturedArticles();
+        if (articleCardDTOs.size() == 0) {
+            return new TopAndFeaturedArticlesDTO();
+        } else if (articleCardDTOs.size() > 3) {
+            articleCardDTOs = articleCardDTOs.subList(0, 3);
         }
-        if (featuredArticles.size() > 2) {
-            featuredArticles = featuredArticles.subList(0, 2);
-        }
-        MarkdownUtils.CutOutArticleContent(topArticle, 130);
-        MarkdownUtils.CutOutArticleContent(featuredArticles, 130);
-        return TopAndFeaturedArticlesDTO.builder().topArticle(topArticle)
-                .featuredArticles(featuredArticles).build();
+        MarkdownUtils.CutOutArticleContent(articleCardDTOs, 130);
+        TopAndFeaturedArticlesDTO topAndFeaturedArticlesDTO = new TopAndFeaturedArticlesDTO();
+        topAndFeaturedArticlesDTO.setTopArticle(articleCardDTOs.get(0));
+        articleCardDTOs.remove(0);
+        topAndFeaturedArticlesDTO.setFeaturedArticles(articleCardDTOs);
+        return topAndFeaturedArticlesDTO;
     }
 
     @SneakyThrows

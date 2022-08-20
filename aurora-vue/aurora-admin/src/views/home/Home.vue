@@ -199,7 +199,7 @@ export default {
         ]
       },
       category: {
-        color: ['#7EC0EE', '#FF9F7F', '#FFD700', '#C9C9C9', '#E066FF', '#C0FF3E'],
+        color: ['#7EC0EE', '#FF9F7F', '#FFD700', '#C9C9C9', '#E066FF', '#36dc59', '#C0FF3E'],
         legend: {
           data: [],
           bottom: 'bottom'
@@ -319,6 +319,7 @@ export default {
         if (data.data.articleRankDTOs != null) {
           data.data.articleRankDTOs.forEach((item) => {
             this.ariticleRank.series[0].data.push(item.viewsCount)
+            console.log(item)
             this.ariticleRank.xAxis.data.push(item.articleTitle)
           })
         }
