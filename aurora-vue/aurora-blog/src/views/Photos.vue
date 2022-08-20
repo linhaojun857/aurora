@@ -19,7 +19,7 @@
               :infinite-scroll-immediate-check="false"
               :infinite-scroll-disabled="noResult"
               infinite-scroll-watch-disabled="scrollDisabled"
-              :infinite-scroll-distance="20">
+              :infinite-scroll-distance="isMobile?0:30">
               <div class="photo-wrap">
                 <img
                   v-for="(item, index) of photos"
@@ -41,8 +41,9 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useCommonStore } from '@/stores/common'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { Sidebar, Profile } from '../components/Sidebar'
 import Breadcrumb from '@/components/Breadcrumb.vue'
@@ -55,6 +56,7 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
     const route = useRoute()
+    const commonStore = useCommonStore()
     const reactiveData = reactive({
       photoAlbumName: '' as any,
       noResult: false,
@@ -93,6 +95,7 @@ export default defineComponent({
       ...toRefs(reactiveData),
       handlePreview,
       loadDataFromServer,
+      isMobile:computed(()=>commonStore.isMobile),
       t
     }
   }
