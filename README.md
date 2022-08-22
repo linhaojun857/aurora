@@ -75,7 +75,10 @@ springboot + springsecurity + mysql + redis + mybatisplus + quartz + rabbitmq + 
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/articles/ed47edae605f74306f751c6fba9f14bd.png" alt="Buy Me A Coffee" width="150"> | <img src="https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/articles/da4c6d8c13f66a8dd6716ddb48d73299.jpg" alt="Buy Me A Coffee" width="150"> |
 
+## 交流群
 
+| ![image-20220822102226311](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/img/image-20220822102226311.png) |
+| ------------------------------------------------------------ |
 
 
 
