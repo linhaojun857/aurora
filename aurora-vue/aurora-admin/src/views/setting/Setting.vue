@@ -8,7 +8,7 @@
             class="avatar-uploader"
             action="/api/users/avatar"
             :show-file-list="false"
-            :headers="uploadHeaders"
+            :headers="headers"
             :on-success="updateAvatar">
             <img v-if="avatar" :src="avatar" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon" />
@@ -73,7 +73,7 @@ export default {
         confirmPassword: ''
       },
       activeName: 'info',
-      uploadHeaders: { token: sessionStorage.getItem('token') }
+      headers: { token: sessionStorage.getItem('token') }
     }
   },
   methods: {

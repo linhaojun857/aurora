@@ -202,9 +202,7 @@ export default {
         type: 1,
         status: 1
       },
-      headers: {
-        token: sessionStorage.getItem('token') === null ? '' : sessionStorage.getItem('token')
-      }
+      headers: { token: sessionStorage.getItem('token') }
     }
   },
   methods: {

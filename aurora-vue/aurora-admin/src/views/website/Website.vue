@@ -8,6 +8,7 @@
             <el-upload
               class="avatar-uploader"
               action="/api/admin/config/images"
+              :headers="headers"
               :show-file-list="false"
               :on-success="handleAuthorAvatarSuccess">
               <img v-if="websiteConfigForm.authorAvatar" :src="websiteConfigForm.authorAvatar" class="avatar" />
@@ -18,6 +19,7 @@
             <el-upload
               class="avatar-uploader"
               action="/api/admin/config/images"
+              :headers="headers"
               :show-file-list="false"
               :on-success="handleLogoSuccess">
               <img v-if="websiteConfigForm.logo" :src="websiteConfigForm.logo" class="avatar" />
@@ -120,6 +122,7 @@
                 <el-upload
                   class="avatar-uploader"
                   action="/api/admin/config/images"
+                  :headers="headers"
                   :show-file-list="false"
                   :on-success="handleUserAvatarSuccess">
                   <img v-if="websiteConfigForm.userAvatar" :src="websiteConfigForm.userAvatar" class="avatar" />
@@ -132,6 +135,7 @@
                 <el-upload
                   class="avatar-uploader"
                   action="/api/admin/config/images"
+                  :headers="headers"
                   :show-file-list="false"
                   :on-success="handleTouristAvatarSuccess">
                   <img v-if="websiteConfigForm.touristAvatar" :src="websiteConfigForm.touristAvatar" class="avatar" />
@@ -201,7 +205,8 @@ export default {
   data: function () {
     return {
       websiteConfigForm: {},
-      activeName: 'info'
+      activeName: 'info',
+      headers: { token: sessionStorage.getItem('token') }
     }
   },
   methods: {

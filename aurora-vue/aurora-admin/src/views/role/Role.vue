@@ -38,7 +38,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="isDisable" label="禁用" align="center" width="100">
+      <!-- <el-table-column prop="isDisable" label="禁用" align="center" width="100">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.isDisable"
@@ -48,7 +48,7 @@
             :inactive-value="0"
             @change="changeDisable(scope.row)" />
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="createTime" label="创建时间" width="150" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time" style="margin-right: 5px" />
