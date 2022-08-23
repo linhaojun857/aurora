@@ -107,6 +107,7 @@
             drag
             action="/api/admin/articles/images"
             multiple
+            :headers="headers"
             :before-upload="beforeUpload"
             :on-success="uploadCover">
             <i class="el-icon-upload" v-if="article.articleCover == ''" />
@@ -200,6 +201,9 @@ export default {
         isTop: 0,
         type: 1,
         status: 1
+      },
+      headers: {
+        token: sessionStorage.getItem('token') === null ? '' : sessionStorage.getItem('token')
       }
     }
   },
