@@ -36,7 +36,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
         String token = request.getHeader("token");
-        if (StringUtils.isEmpty(token)) {
+        if (StringUtils.isEmpty(token) || token.equals("null")) {
             filterChain.doFilter(request, response);
             return;
         }

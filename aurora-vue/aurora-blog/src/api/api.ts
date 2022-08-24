@@ -2,7 +2,7 @@ import axios from 'axios'
 import { app } from '@/main'
 
 axios.interceptors.request.use((config: any) => {
-  config.headers.token = sessionStorage.getItem('token') === null ? '' : sessionStorage.getItem('token')
+  config.headers.token = sessionStorage.getItem('token')
   return config
 })
 

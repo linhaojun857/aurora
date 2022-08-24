@@ -192,6 +192,7 @@ export default defineComponent({
     const logout = () => {
       api.logout().then(({ data }) => {
         userStore.userInfo = ''
+        userStore.token = ''
         sessionStorage.removeItem('token')
       })
     }

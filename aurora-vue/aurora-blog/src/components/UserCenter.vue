@@ -124,9 +124,6 @@ export default defineComponent({
         }
       })
     }
-    // const handleSuccess = (data: any) => {
-    //   userStore.userInfo.avatar = data.data
-    // }
     const handleSuccess = (data: any) => {
       data.response.json().then((data: any) => {
         if (data.flag) {

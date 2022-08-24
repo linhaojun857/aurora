@@ -13,7 +13,12 @@ public enum UploadModeEnum {
     /**
      * oss
      */
-    OSS("oss", "ossUploadStrategyImpl");
+    OSS("oss", "ossUploadStrategyImpl"),
+
+    /**
+     * miniio
+     */
+    MINIO("minio","minioUploadStrategyImpl");
 
     /**
      * 模式
