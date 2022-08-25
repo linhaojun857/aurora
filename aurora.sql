@@ -807,4 +807,22 @@ CREATE TABLE `t_website_config`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 INSERT INTO `t_website_config` VALUES (1, '{\"alipayQRCode\":\"https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/config/da4c6d8c13f66a8dd6716ddb48d73299.jpg\",\"author\":\"花未眠\",\"authorAvatar\":\"https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/config/52a81cd2772167b645569342e81ce312.jpg\",\"authorIntro\":\"一个疯狂的coder\",\"beianNumber\":\"苏ICP备2022012376号\",\"csdn\":\"\",\"englishName\":\"huaweimian\",\"gitee\":\"https://gitee.com/linhaojun\",\"github\":\"https://github.com/linhaojun857\",\"isCommentReview\":0,\"isEmailNotice\":1,\"isReward\":1,\"juejin\":\"\",\"logo\":\"https://img-blog.csdnimg.cn/20210313122054101.png\",\"multiLanguage\":1,\"name\":\"花未眠\",\"notice\":\"代码已经开源，如果你感觉还行就给一个star吧。。。\",\"qq\":\"\",\"qqLogin\":1,\"stackoverflow\":\"\",\"touristAvatar\":\"https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/config/2af2e2db20740e712f0a011a6f8c9af5.jpg\",\"twitter\":\"\",\"userAvatar\":\"https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/config/0af1901da1e64dfb99bb61db21e716c4.jpeg\",\"weChat\":\"\",\"websiteCreateTime\":\"2022-08-19\",\"weiXinQRCode\":\"https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/config/ed47edae605f74306f751c6fba9f14bd.png\",\"weibo\":\"\",\"zhihu\":\"\"}', '2022-07-24 12:05:33', '2022-08-20 12:48:28');
 
+-- ----------------------------
+-- Table structure for t_exception_log
+-- ----------------------------
+DROP TABLE IF EXISTS `t_exception_log`;
+CREATE TABLE `t_exception_log`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `opt_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '请求接口',
+  `opt_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '请求方式',
+  `request_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求方式',
+  `request_param` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求参数',
+  `opt_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作描述',
+  `exception_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '异常信息',
+  `ip_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ip',
+  `ip_source` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ip来源',
+  `create_time` datetime NOT NULL COMMENT '操作时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
 SET FOREIGN_KEY_CHECKS = 1;
