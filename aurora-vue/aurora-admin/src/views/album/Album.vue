@@ -71,7 +71,8 @@
           <el-upload
             class="upload-cover"
             drag
-            :show-file-list="false"
+            :headers="headers"
+            :show-file-list="true"
             :before-upload="beforeUpload"
             action="/api/admin/photos/albums/cover"
             multiple
@@ -127,7 +128,8 @@ export default {
       albums: [],
       current: 1,
       size: 8,
-      count: 0
+      count: 0,
+      headers: { token: sessionStorage.getItem('token') }
     }
   },
   methods: {

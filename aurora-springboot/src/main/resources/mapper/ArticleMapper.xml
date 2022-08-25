@@ -123,13 +123,13 @@
               FROM t_article
               where is_delete = 0
                 and status = 1
+              order by id desc
               LIMIT #{current} , #{size}) a
                  LEFT JOIN t_article_tag at
                            ON a.id = at.article_id
                  LEFT JOIN t_tag t ON t.id = at.tag_id
                  LEFT JOIN t_category c ON a.category_id = c.id
                  LEFT JOIN t_user_info u ON a.user_id = u.id
-        order by id desc
     </select>
     <select id="getArticlesByCategoryId" resultMap="ArticleCardDTOResultMap">
         SELECT a.id            AS id,
@@ -161,13 +161,13 @@
               WHERE category_id = #{categoryId}
                 and is_delete = 0
                 and status = 1
+              order by id desc
               LIMIT #{current} , #{size}) a
                  LEFT JOIN t_article_tag at
                            ON a.id = at.article_id
                  LEFT JOIN t_tag t ON t.id = at.tag_id
                  LEFT JOIN t_category c ON a.category_id = c.id
                  LEFT JOIN t_user_info u ON a.user_id = u.id
-        order by id desc
     </select>
     <select id="getArticleById" resultMap="ArticleDTOResultMap">
         SELECT a.id            AS id,

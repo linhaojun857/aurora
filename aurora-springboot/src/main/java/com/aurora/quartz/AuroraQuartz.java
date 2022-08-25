@@ -2,12 +2,14 @@ package com.aurora.quartz;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import com.alibaba.fastjson.JSON;
-import com.aurora.dto.ResourceDTO;
+import com.aurora.dto.ArticleSearchDTO;
 import com.aurora.dto.UserAreaDTO;
 import com.aurora.entity.*;
+import com.aurora.mapper.ElasticsearchMapper;
 import com.aurora.mapper.UniqueViewMapper;
 import com.aurora.mapper.UserAuthMapper;
 import com.aurora.service.*;
+import com.aurora.utils.BeanCopyUtils;
 import com.aurora.utils.IpUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +59,10 @@ public class AuroraQuartz {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private ElasticsearchMapper elasticsearchMapper;
+
 
     @Value("${website.url}")
     private String websiteUrl;
@@ -129,5 +135,16 @@ public class AuroraQuartz {
                     .build());
         }
         roleResourceService.saveBatch(roleResources);
+    }
+
+    /**
+     * 先删除全部数据，再重新导入数据
+     */
+    public void importDataIntoES() {
+        elasticsearchMapper.deleteAll();
+        List<Article> articles = articleService.list();
+        for (Article article : articles) {
+            elasticsearchMapper.save(BeanCopyUtils.copyObject(article, ArticleSearchDTO.class));
+        }
     }
 }

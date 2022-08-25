@@ -92,6 +92,7 @@
           list-type="picture-card"
           :file-list="uploads"
           multiple
+          :headers="headers"
           :before-upload="beforeUpload"
           :on-success="upload"
           :on-remove="handleRemove">
@@ -103,6 +104,7 @@
             drag
             action="/api/admin/photos/albums/cover"
             multiple
+            :headers="headers"
             :before-upload="beforeUpload"
             :on-success="upload"
             :show-file-list="false">
@@ -210,7 +212,8 @@ export default {
       albumId: null,
       current: 1,
       size: 18,
-      count: 0
+      count: 0,
+      headers: { token: sessionStorage.getItem('token') }
     }
   },
   methods: {
