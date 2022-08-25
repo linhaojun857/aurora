@@ -16,14 +16,11 @@ public class MinioUploadStrategyImpl extends AbstractUploadStrategyImpl {
     @Autowired
     private MinioProperties minioProperties;
 
-    @Autowired
-    private MinioClient minioClient;
-
     @Override
     public Boolean exists(String filePath) {
         boolean exist = true;
         try {
-            minioClient
+            getMinioClient()
                     .statObject(StatObjectArgs.builder().bucket(minioProperties.getBucketName()).object(filePath).build());
         } catch (Exception e) {
             exist = false;
@@ -34,7 +31,7 @@ public class MinioUploadStrategyImpl extends AbstractUploadStrategyImpl {
     @SneakyThrows
     @Override
     public void upload(String path, String fileName, InputStream inputStream) {
-        minioClient.putObject(
+        getMinioClient().putObject(
                 PutObjectArgs.builder().bucket(minioProperties.getBucketName()).object(path + fileName).stream(
                                 inputStream, inputStream.available(), -1)
                         .build());
@@ -43,6 +40,13 @@ public class MinioUploadStrategyImpl extends AbstractUploadStrategyImpl {
     @Override
     public String getFileAccessUrl(String filePath) {
         return minioProperties.getUrl() + filePath;
+    }
+
+    private MinioClient getMinioClient() {
+        return MinioClient.builder()
+                .endpoint(minioProperties.getEndpoint())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .build();
     }
 
 }

@@ -86,12 +86,11 @@
                      update_time
               FROM t_article) a
                  LEFT JOIN t_article_tag at
-        ON a.id = at.article_id
-            LEFT JOIN t_tag t ON t.id = at.tag_id
-            LEFT JOIN t_category c ON a.category_id = c.id
-            LEFT JOIN t_user_info u ON a.user_id = u.id
-        where
-           a.is_delete = 0
+                           ON a.id = at.article_id
+                 LEFT JOIN t_tag t ON t.id = at.tag_id
+                 LEFT JOIN t_category c ON a.category_id = c.id
+                 LEFT JOIN t_user_info u ON a.user_id = u.id
+        where a.is_delete = 0
           and a.status = 1
         order by is_top desc, is_featured desc
     </select>
@@ -124,13 +123,13 @@
               FROM t_article
               where is_delete = 0
                 and status = 1
-                  LIMIT #{current}
-                  , #{size}) a
+              LIMIT #{current} , #{size}) a
                  LEFT JOIN t_article_tag at
-        ON a.id = at.article_id
-            LEFT JOIN t_tag t ON t.id = at.tag_id
-            LEFT JOIN t_category c ON a.category_id = c.id
-            LEFT JOIN t_user_info u ON a.user_id = u.id
+                           ON a.id = at.article_id
+                 LEFT JOIN t_tag t ON t.id = at.tag_id
+                 LEFT JOIN t_category c ON a.category_id = c.id
+                 LEFT JOIN t_user_info u ON a.user_id = u.id
+        order by id desc
     </select>
     <select id="getArticlesByCategoryId" resultMap="ArticleCardDTOResultMap">
         SELECT a.id            AS id,
@@ -162,13 +161,13 @@
               WHERE category_id = #{categoryId}
                 and is_delete = 0
                 and status = 1
-                  LIMIT #{current}
-                  , #{size}) a
+              LIMIT #{current} , #{size}) a
                  LEFT JOIN t_article_tag at
-        ON a.id = at.article_id
-            LEFT JOIN t_tag t ON t.id = at.tag_id
-            LEFT JOIN t_category c ON a.category_id = c.id
-            LEFT JOIN t_user_info u ON a.user_id = u.id
+                           ON a.id = at.article_id
+                 LEFT JOIN t_tag t ON t.id = at.tag_id
+                 LEFT JOIN t_category c ON a.category_id = c.id
+                 LEFT JOIN t_user_info u ON a.user_id = u.id
+        order by id desc
     </select>
     <select id="getArticleById" resultMap="ArticleDTOResultMap">
         SELECT a.id            AS id,
@@ -205,10 +204,10 @@
                 and is_delete = 0
                 and status = 1) a
                  LEFT JOIN t_article_tag at
-        ON a.id = at.article_id
-            LEFT JOIN t_tag t ON t.id = at.tag_id
-            LEFT JOIN t_category c ON a.category_id = c.id
-            LEFT JOIN t_user_info u ON a.user_id = u.id
+                           ON a.id = at.article_id
+                 LEFT JOIN t_tag t ON t.id = at.tag_id
+                 LEFT JOIN t_category c ON a.category_id = c.id
+                 LEFT JOIN t_user_info u ON a.user_id = u.id
     </select>
     <select id="getPreArticleById" resultMap="ArticleCardDTOResultMap">
         SELECT a.id            AS id,
@@ -240,12 +239,13 @@
               WHERE id &lt; #{articleId}
                 and is_delete = 0
                 and status = 1
-              order by id desc limit 0, 1) a
+              order by id desc
+              limit 0, 1) a
                  LEFT JOIN t_article_tag at
-        ON a.id = at.article_id
-            LEFT JOIN t_tag t ON t.id = at.tag_id
-            LEFT JOIN t_category c ON a.category_id = c.id
-            LEFT JOIN t_user_info u ON a.user_id = u.id
+                           ON a.id = at.article_id
+                 LEFT JOIN t_tag t ON t.id = at.tag_id
+                 LEFT JOIN t_category c ON a.category_id = c.id
+                 LEFT JOIN t_user_info u ON a.user_id = u.id
     </select>
     <select id="getNextArticleById" resultMap="ArticleCardDTOResultMap">
         SELECT a.id            AS id,
@@ -277,12 +277,13 @@
               WHERE id &gt; #{articleId}
                 and is_delete = 0
                 and status = 1
-              order by id limit 0,1) a
+              order by id
+              limit 0,1) a
                  LEFT JOIN t_article_tag at
-        ON a.id = at.article_id
-            LEFT JOIN t_tag t ON t.id = at.tag_id
-            LEFT JOIN t_category c ON a.category_id = c.id
-            LEFT JOIN t_user_info u ON a.user_id = u.id
+                           ON a.id = at.article_id
+                 LEFT JOIN t_tag t ON t.id = at.tag_id
+                 LEFT JOIN t_category c ON a.category_id = c.id
+                 LEFT JOIN t_user_info u ON a.user_id = u.id
     </select>
     <select id="getFirstArticle" resultMap="ArticleCardDTOResultMap">
         SELECT a.id            AS id,
@@ -313,12 +314,13 @@
               FROM t_article
               WHERE is_delete = 0
                 and status = 1
-              order by id limit 0,1) a
+              order by id
+              limit 0,1) a
                  LEFT JOIN t_article_tag at
-        ON a.id = at.article_id
-            LEFT JOIN t_tag t ON t.id = at.tag_id
-            LEFT JOIN t_category c ON a.category_id = c.id
-            LEFT JOIN t_user_info u ON a.user_id = u.id
+                           ON a.id = at.article_id
+                 LEFT JOIN t_tag t ON t.id = at.tag_id
+                 LEFT JOIN t_category c ON a.category_id = c.id
+                 LEFT JOIN t_user_info u ON a.user_id = u.id
     </select>
     <select id="getLastArticle" resultMap="ArticleCardDTOResultMap">
         SELECT a.id            AS id,
@@ -349,12 +351,13 @@
               FROM t_article
               WHERE is_delete = 0
                 and status = 1
-              order by id desc limit 0,1) a
+              order by id desc
+              limit 0,1) a
                  LEFT JOIN t_article_tag at
-        ON a.id = at.article_id
-            LEFT JOIN t_tag t ON t.id = at.tag_id
-            LEFT JOIN t_category c ON a.category_id = c.id
-            LEFT JOIN t_user_info u ON a.user_id = u.id
+                           ON a.id = at.article_id
+                 LEFT JOIN t_tag t ON t.id = at.tag_id
+                 LEFT JOIN t_category c ON a.category_id = c.id
+                 LEFT JOIN t_user_info u ON a.user_id = u.id
     </select>
     <select id="listArticlesByTagId" resultMap="ArticleCardDTOResultMap">
         SELECT a.id            AS id,
@@ -373,14 +376,12 @@
                tag_name
         FROM t_article a
                  LEFT JOIN t_article_tag at
-        ON a.id = at.article_id
-            LEFT JOIN t_tag t ON t.id = at.tag_id
-            LEFT JOIN t_category c ON a.category_id = c.id
-            LEFT JOIN t_user_info u ON a.user_id = u.id
-        WHERE
-            at.tag_id = #{tagId}
-            LIMIT #{current}
-            , #{size}
+                           ON a.id = at.article_id
+                 LEFT JOIN t_tag t ON t.id = at.tag_id
+                 LEFT JOIN t_category c ON a.category_id = c.id
+                 LEFT JOIN t_user_info u ON a.user_id = u.id
+        WHERE at.tag_id = #{tagId}
+        LIMIT #{current} , #{size}
     </select>
     <select id="listArchives" resultType="com.aurora.dto.ArticleCardDTO">
         SELECT id,
@@ -388,7 +389,8 @@
                article_content,
                create_time
         FROM t_article
-        ORDER BY create_time DESC LIMIT #{current}, #{size}
+        ORDER BY create_time DESC
+        LIMIT #{current}, #{size}
     </select>
     <select id="countArticleAdmins" resultType="java.lang.Integer">
         SELECT
@@ -486,12 +488,9 @@
     </select>
     <select id="listArticleStatistics" resultType="com.aurora.dto.ArticleStatisticsDTO">
         SELECT DATE_FORMAT(create_time, "%Y-%m-%d") AS date,
-            COUNT( 1 ) AS count
-        FROM
-            t_article
-        GROUP BY
-            date
-        ORDER BY
-            date DESC
+               COUNT(1)                             AS count
+        FROM t_article
+        GROUP BY date
+        ORDER BY date DESC
     </select>
 </mapper>

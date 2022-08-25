@@ -1,8 +1,5 @@
 package com.aurora.handler;
 
-import com.aurora.entity.Error;
-import com.aurora.event.ErrorEvent;
-import com.aurora.utils.ErrorUtils;
 import com.aurora.vo.Result;
 import com.aurora.enums.StatusCodeEnum;
 import com.aurora.exception.BizException;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 
@@ -58,8 +54,6 @@ public class ControllerAdviceHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public Result<?> errorHandler(Exception e) {
-        Error error = Error.builder().localDateTime(LocalDateTime.now()).message(ErrorUtils.getTrace(e)).build();
-        applicationContext.publishEvent(new ErrorEvent(error));
         e.printStackTrace();
         return Result.fail(StatusCodeEnum.SYSTEM_ERROR.getCode(), StatusCodeEnum.SYSTEM_ERROR.getDesc());
     }

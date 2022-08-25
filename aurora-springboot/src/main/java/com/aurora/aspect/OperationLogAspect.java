@@ -3,7 +3,7 @@ package com.aurora.aspect;
 import com.alibaba.fastjson.JSON;
 import com.aurora.annotation.OptLog;
 import com.aurora.entity.OperationLog;
-import com.aurora.event.SysLogEvent;
+import com.aurora.event.OperationLogEvent;
 import com.aurora.utils.IpUtils;
 import com.aurora.utils.UserUtils;
 import io.swagger.annotations.Api;
@@ -29,7 +29,7 @@ import java.util.Objects;
  */
 @Aspect
 @Component
-public class OptLogAspect {
+public class OperationLogAspect {
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -38,7 +38,7 @@ public class OptLogAspect {
      * 设置操作日志切入点 记录操作日志 在注解的位置切入代码
      */
     @Pointcut("@annotation(com.aurora.annotation.OptLog)")
-    public void optLogPointCut() {
+    public void OperationLogPointCut() {
     }
 
 
@@ -48,7 +48,7 @@ public class OptLogAspect {
      * @param joinPoint 切入点
      * @param keys      返回结果
      */
-    @AfterReturning(value = "optLogPointCut()", returning = "keys")
+    @AfterReturning(value = "OperationLogPointCut()", returning = "keys")
     @SuppressWarnings("unchecked")
     public void saveOptLog(JoinPoint joinPoint, Object keys) {
         // 获取RequestAttributes
@@ -94,7 +94,7 @@ public class OptLogAspect {
         // 请求URL
         operationLog.setOptUrl(request.getRequestURI());
         // 事件发布
-        applicationContext.publishEvent(new SysLogEvent(operationLog));
+        applicationContext.publishEvent(new OperationLogEvent(operationLog));
     }
 
 }

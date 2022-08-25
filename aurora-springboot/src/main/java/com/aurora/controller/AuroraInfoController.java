@@ -87,5 +87,4 @@ public class AuroraInfoController {
         return Result.ok(uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.CONFIG.getPath()));
     }
 
-
 }

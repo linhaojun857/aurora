@@ -27,7 +27,7 @@ public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, Ope
                 .or()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), OperationLog::getOptDesc, conditionVO.getKeywords())
                 .orderByDesc(OperationLog::getId));
-        List<OperationLogDTO> operationLogDTOList = BeanCopyUtils.copyList(operationLogPage.getRecords(), OperationLogDTO.class);
-        return new PageResult<>(operationLogDTOList, (int) operationLogPage.getTotal());
+        List<OperationLogDTO> operationLogDTOs = BeanCopyUtils.copyList(operationLogPage.getRecords(), OperationLogDTO.class);
+        return new PageResult<>(operationLogDTOs, (int) operationLogPage.getTotal());
     }
 }
