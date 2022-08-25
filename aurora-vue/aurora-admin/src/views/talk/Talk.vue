@@ -11,6 +11,7 @@
           <el-upload
             action="/api/admin/talks/images"
             multiple
+            :headers="headers"
             :before-upload="beforeUpload"
             :on-success="upload"
             :show-file-list="false">
@@ -88,7 +89,8 @@ export default {
         { status: 1, desc: '公开' },
         { status: 2, desc: '私密' }
       ],
-      uploads: []
+      uploads: [],
+      headers: { token: sessionStorage.getItem('token') }
     }
   },
   methods: {
