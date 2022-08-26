@@ -79,7 +79,6 @@ export default defineComponent({
           articleStore.archives = data.data.records
           pagination.total = data.data.count
         })
-      commonStore.setHeaderImage(`${require('@/assets/default-cover.jpg')}`)
     }
 
     const pageChangeHanlder = (current: number) => {

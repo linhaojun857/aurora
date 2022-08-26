@@ -44,7 +44,6 @@ export default defineComponent({
       api.getAllTags().then(({ data }) => {
         tagStore.tags = data.data
       })
-      commonStore.setHeaderImage(`${require('@/assets/default-cover.jpg')}`)
     }
 
     onMounted(fetchData)
