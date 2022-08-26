@@ -46,8 +46,9 @@
         v-show="uploads.length > 0"
         action="/api/admin/talks/images"
         list-type="picture-card"
-        :file-list="uploads"
         multiple
+        :headers="headers"
+        :file-list="uploads"
         :before-upload="beforeUpload"
         :on-success="upload"
         :on-remove="handleRemove">
@@ -68,8 +69,8 @@ export default {
     if (this.$route.params.talkId) {
       this.axios.get('/api/admin/talks/' + this.$route.params.talkId).then(({ data }) => {
         this.talk = data.data
-        if (data.data.img) {
-          data.data.img.forEach((item) => {
+        if (data.data.imgs) {
+          data.data.imgs.forEach((item) => {
             this.uploads.push({ url: item })
           })
         }
