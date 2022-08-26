@@ -15,6 +15,7 @@ import com.aurora.vo.CommentVO;
 import com.aurora.vo.ConditionVO;
 import com.aurora.vo.PageResult;
 import com.aurora.vo.ReviewVO;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -79,10 +80,18 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public List<CommentDTO> listComments(CommentVO commentVO) {
-        List<CommentDTO> commentDTOs = commentMapper.listComments(commentVO);
+    public PageResult<CommentDTO> listComments(CommentVO commentVO) {
+        Integer commentCount = commentMapper.selectCount(new LambdaQueryWrapper<Comment>()
+                .eq(Objects.nonNull(commentVO.getTopicId()), Comment::getTopicId, commentVO.getTopicId())
+                .eq(Comment::getType, commentVO.getType())
+                .isNull(Comment::getParentId)
+                .eq(Comment::getIsReview, TRUE));
+        if (commentCount == 0) {
+            return new PageResult<>();
+        }
+        List<CommentDTO> commentDTOs = commentMapper.listComments(PageUtils.getLimitCurrent(), PageUtils.getSize(), commentVO);
         if (CollectionUtils.isEmpty(commentDTOs)) {
-            return commentDTOs;
+            return new PageResult<>();
         }
         List<Integer> commentIds = commentDTOs.stream()
                 .map(CommentDTO::getId)
@@ -93,7 +102,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         commentDTOs.forEach(item -> {
             item.setReplyDTOs(replyMap.get(item.getId()));
         });
-        return commentDTOs;
+        return new PageResult<>(commentDTOs, commentCount);
     }
 
     @Override
@@ -145,7 +154,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 emailDTO.setSubject("评论提醒");
                 // 获取评论路径
                 String url = websiteUrl + getCommentPath(comment.getType()) + id;
-                emailDTO.setContent("您收到了一条新的回复，请前往" + url + "\n页面查看");
+                emailDTO.setContent("您收到了一条新的回复，请前往" + url + "页面查看");
             } else {
                 // 管理员审核提醒
                 String adminEmail = userInfoMapper.selectById(BLOGGER_ID).getEmail();

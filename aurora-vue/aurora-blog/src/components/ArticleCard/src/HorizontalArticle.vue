@@ -94,7 +94,7 @@ export default defineComponent({
     const { t } = useI18n()
     const handleAuthorClick = (link: string) => {
       if (link === '') link = window.location.href
-      window.location.href = link
+      window.open(link)
     }
 
     return {

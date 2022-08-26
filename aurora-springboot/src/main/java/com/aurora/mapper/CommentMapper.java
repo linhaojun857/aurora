@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public interface CommentMapper extends BaseMapper<Comment> {
 
-    List<CommentDTO> listComments(@Param("commentVO") CommentVO commentVO);
+    List<CommentDTO> listComments(@Param("current") Long current, @Param("size") Long size, @Param("commentVO") CommentVO commentVO);
 
     List<ReplyDTO> listReplies(@Param("commentIds") List<Integer> commentIdList);
 

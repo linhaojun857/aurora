@@ -76,8 +76,14 @@ export default defineComponent({
     commentStore.type = 3
     const reactiveData = reactive({
       about: '' as any,
-      comments: '' as any,
+      comments: [] as any,
+      haveMore: false as any,
+      isReload: false as any,
       images: [] as any
+    })
+    const pageInfo = reactive({
+      current: 1,
+      size: 7
     })
 
     const initTocbot = () => {
@@ -127,23 +133,43 @@ export default defineComponent({
     const fetchComments = () => {
       const params = {
         type: 3,
-        topicId: null
+        topicId: null,
+        current: pageInfo.current,
+        size: pageInfo.size
       }
       api.getComments(params).then(({ data }) => {
-        reactiveData.comments = data.data
+        if (reactiveData.isReload) {
+          reactiveData.comments = data.data.records
+          reactiveData.isReload = false
+        } else {
+          reactiveData.comments.push(...data.data.records)
+        }
+        if (data.data.count <= reactiveData.comments.length) {
+          reactiveData.haveMore = false
+        } else {
+          reactiveData.haveMore = true
+        }
+        pageInfo.current++
       })
     }
-    fetchData()
+
+    onMounted(fetchData)
     provide(
       'comments',
       computed(() => reactiveData.comments)
     )
+    provide(
+      'haveMore',
+      computed(() => reactiveData.haveMore)
+    )
     emitter.on('aboutFetchComment', () => {
+      pageInfo.current = 1
+      reactiveData.isReload = true
       fetchComments()
     })
-
-    onMounted(fetchData)
-
+    emitter.on('aboutLoadMore', () => {
+      fetchComments()
+    })
     onBeforeUnmount(() => {
       commonStore.resetHeaderImage()
       tocbot.destroy()

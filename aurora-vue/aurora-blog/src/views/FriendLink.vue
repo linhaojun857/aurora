@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, provide, computed, toRefs } from 'vue'
+import { defineComponent, reactive, provide, computed, toRefs, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Sidebar, Profile } from '../components/Sidebar'
 import Breadcrumb from '@/components/Breadcrumb.vue'
@@ -63,7 +63,13 @@ export default defineComponent({
     commentStore.type = 4
     const reactiveData = reactive({
       links: '' as any,
-      comments: '' as any
+      comments: [] as any,
+      haveMore: false as any,
+      isReload: false as any
+    })
+    const pageInfo = reactive({
+      current: 1,
+      size: 7
     })
     const fetchData = () => {
       fetchLinks()
@@ -77,18 +83,40 @@ export default defineComponent({
     const fetchComments = () => {
       const params = {
         type: 4,
-        topicId: null
+        topicId: null,
+        current: pageInfo.current,
+        size: pageInfo.size
       }
       api.getComments(params).then(({ data }) => {
-        reactiveData.comments = data.data
+        if (reactiveData.isReload) {
+          reactiveData.comments = data.data.records
+          reactiveData.isReload = false
+        } else {
+          reactiveData.comments.push(...data.data.records)
+        }
+        if (data.data.count <= reactiveData.comments.length) {
+          reactiveData.haveMore = false
+        } else {
+          reactiveData.haveMore = true
+        }
+        pageInfo.current++
       })
     }
-    fetchData()
+    onMounted(fetchData)
     provide(
       'comments',
       computed(() => reactiveData.comments)
     )
+    provide(
+      'haveMore',
+      computed(() => reactiveData.haveMore)
+    )
     emitter.on('friendLinkFetchComment', () => {
+      pageInfo.current = 1
+      reactiveData.isReload = true
+      fetchComments()
+    })
+    emitter.on('friendLinkLoadMore', () => {
       fetchComments()
     })
     return {

@@ -23,6 +23,7 @@
         </where>
         ORDER BY
         c.id DESC
+        LIMIT #{current},#{size}
     </select>
     <select id="listReplies" resultType="com.aurora.dto.ReplyDTO">
         SELECT

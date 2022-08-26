@@ -143,17 +143,7 @@
 
 <script lang="ts">
 import { Sidebar, Profile, Navigator } from '@/components/Sidebar'
-import {
-  computed,
-  defineComponent,
-  nextTick,
-  onBeforeUnmount,
-  onMounted,
-  reactive,
-  ref,
-  toRefs,
-  provide
-} from 'vue'
+import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, reactive, ref, toRefs, provide } from 'vue'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { Comment } from '@/components/Comment'
@@ -191,8 +181,14 @@ export default defineComponent({
       article: '' as any,
       wordNum: '' as any,
       readTime: '' as any,
-      comments: '' as any,
+      comments: [] as any,
+      haveMore: false as any,
+      isReload: false as any,
       images: [] as any
+    })
+    const pageInfo = reactive({
+      current: 1,
+      size: 7
     })
     const fetchData = async (id: any) => {
       loading.value = true
@@ -258,10 +254,23 @@ export default defineComponent({
     const fetchComments = () => {
       const params = {
         type: 1,
-        topicId: arr[2]
+        topicId: arr[2],
+        current: pageInfo.current,
+        size: pageInfo.size
       }
       api.getComments(params).then(({ data }) => {
-        reactiveData.comments = data.data
+        if (reactiveData.isReload) {
+          reactiveData.comments = data.data.records
+          reactiveData.isReload = false
+        } else {
+          reactiveData.comments.push(...data.data.records)
+        }
+        if (data.data.count <= reactiveData.comments.length) {
+          reactiveData.haveMore = false
+        } else {
+          reactiveData.haveMore = true
+        }
+        pageInfo.current++
       })
     }
 
@@ -269,10 +278,18 @@ export default defineComponent({
       'comments',
       computed(() => reactiveData.comments)
     )
+    provide(
+      'haveMore',
+      computed(() => reactiveData.haveMore)
+    )
     emitter.on('articleFetchComment', () => {
+      pageInfo.current = 1
+      reactiveData.isReload = true
       fetchComments()
     })
-
+    emitter.on('articleLoadMore', () => {
+      fetchComments()
+    })
     const handleAuthorClick = (link: string) => {
       if (link === '') link = window.location.href
       window.location.href = link

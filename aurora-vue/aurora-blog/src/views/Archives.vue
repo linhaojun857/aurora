@@ -38,7 +38,7 @@
         </template>
       </ul>
       <Paginator
-        :pageSize="12"
+        :pageSize="pagination.size"
         :pageTotal="pagination.total"
         :page="pagination.current"
         @pageChange="pageChangeHanlder" />

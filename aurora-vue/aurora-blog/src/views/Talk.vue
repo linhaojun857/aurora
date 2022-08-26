@@ -70,8 +70,14 @@ export default defineComponent({
     const route = useRoute()
     const reactiveData = reactive({
       talk: '' as any,
-      comments: '' as any,
+      comments: [] as any,
+      haveMore: false as any,
+      isReload: false as any,
       images: [] as any
+    })
+    const pageInfo = reactive({
+      current: 1,
+      size: 7
     })
     const handlePreview = (index: any) => {
       v3ImgPreviewFn({ images: reactiveData.images, index: reactiveData.images.indexOf(index) })
@@ -95,17 +101,39 @@ export default defineComponent({
     const fetchComments = () => {
       const params = {
         type: 5,
-        topicId: arr[2]
+        topicId: arr[2],
+        current: pageInfo.current,
+        size: pageInfo.size
       }
       api.getComments(params).then(({ data }) => {
-        reactiveData.comments = data.data
+        if (reactiveData.isReload) {
+          reactiveData.comments = data.data.records
+          reactiveData.isReload = false
+        } else {
+          reactiveData.comments.push(...data.data.records)
+        }
+        if (data.data.count <= reactiveData.comments.length) {
+          reactiveData.haveMore = false
+        } else {
+          reactiveData.haveMore = true
+        }
+        pageInfo.current++
       })
     }
     provide(
       'comments',
       computed(() => reactiveData.comments)
     )
+    provide(
+      'haveMore',
+      computed(() => reactiveData.haveMore)
+    )
     emitter.on('talkFetchComment', () => {
+      pageInfo.current = 1
+      reactiveData.isReload = true
+      fetchComments()
+    })
+    emitter.on('talkLoadMore', () => {
       fetchComments()
     })
     const fetchData = () => {

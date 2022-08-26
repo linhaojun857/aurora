@@ -32,7 +32,7 @@ public class CommentController {
 
     @ApiOperation("获取评论")
     @GetMapping("/comments")
-    public Result<List<CommentDTO>> getComments(CommentVO commentVO) {
+    public Result<PageResult<CommentDTO>> getComments(CommentVO commentVO) {
         return Result.ok(commentService.listComments(commentVO));
     }
 

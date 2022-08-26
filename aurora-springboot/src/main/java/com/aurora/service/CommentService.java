@@ -15,7 +15,7 @@ public interface CommentService extends IService<Comment> {
 
     void saveComment(CommentVO commentVO);
 
-    List<CommentDTO> listComments(CommentVO commentVO);
+    PageResult<CommentDTO> listComments(CommentVO commentVO);
 
     List<CommentDTO> listTopSevenComments();
 

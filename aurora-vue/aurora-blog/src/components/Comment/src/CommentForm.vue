@@ -14,7 +14,7 @@
           @click="saveComment"
           id="submit-button"
           class="mt-5 w-32 text-white p-2 rounded-lg shadow-lg transition transform hover:scale-105 flex float-right">
-          <span class="text-center flex-grow commit">Add comment</span>
+          <span class="text-center flex-grow commit">Add Comment</span>
         </button>
       </div>
       <div class="w-full border-b-2 mt-6 wire"></div>
