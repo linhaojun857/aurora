@@ -5,6 +5,7 @@ function resolve(dir) {
 }
 module.exports = defineConfig({
   transpileDependencies: true,
+  productionSourceMap: false,
   devServer: {
     proxy: {
       '/api': {
