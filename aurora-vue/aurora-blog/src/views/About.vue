@@ -62,6 +62,7 @@ import '@/styles/prism-aurora-future.css'
 import api from '@/api/api'
 import emitter from '@/utils/mitt'
 import { v3ImgPreviewFn } from 'v3-img-preview'
+import markdownToHtml from '@/utils/markdown'
 
 export default defineComponent({
   name: 'About',
@@ -71,8 +72,6 @@ export default defineComponent({
     const commentStore = useCommentStore()
     const { t } = useI18n()
     const postRef = ref()
-    const MarkdownIt = require('markdown-it')
-    const md = new MarkdownIt()
     commentStore.type = 3
     const reactiveData = reactive({
       about: '' as any,
@@ -121,7 +120,7 @@ export default defineComponent({
     const fetchData = async () => {
       fetchComments()
       api.getAbout().then(({ data }) => {
-        data.data.content = md.render(data.data.content)
+        data.data.content = markdownToHtml(data.data.content)
         reactiveData.about = data.data.content
         nextTick(() => {
           Prism.highlightAll()

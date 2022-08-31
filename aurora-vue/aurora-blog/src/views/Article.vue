@@ -159,6 +159,7 @@ import tocbot from 'tocbot'
 import emitter from '@/utils/mitt'
 import { v3ImgPreviewFn } from 'v3-img-preview'
 import api from '@/api/api'
+import markdownToHtml from '@/utils/markdown'
 
 export default defineComponent({
   name: 'Article',
@@ -172,8 +173,6 @@ export default defineComponent({
     const { t } = useI18n()
     const loading = ref(true)
     const articleRef = ref()
-    const MarkdownIt = require('markdown-it')
-    const md = new MarkdownIt()
     commentStore.type = 1
 
     const reactiveData = reactive({
@@ -238,7 +237,7 @@ export default defineComponent({
         reactiveData.article = data.data
         metaStore.setTitle(data.data.articleTitle)
         commonStore.setHeaderImage(data.data.articleCover)
-        reactiveData.article.articleContent = md.render(reactiveData.article.articleContent)
+        reactiveData.article.articleContent = markdownToHtml(reactiveData.article.articleContent)
         loading.value = false
         nextTick(() => {
           reactiveData.wordNum = Math.round(deleteHTMLTag(reactiveData.article.articleContent).length / 100) / 10 + 'k'
