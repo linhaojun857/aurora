@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
@@ -33,7 +34,7 @@ public class ExceptionLogAspect {
     }
 
     @AfterThrowing(value = "exceptionLogPointcut()", throwing = "e")
-    public void logAfterThrowing(JoinPoint joinPoint, Exception e) {
+    public void saveExceptionLog(JoinPoint joinPoint, Exception e) {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = (HttpServletRequest) Objects.requireNonNull(requestAttributes).resolveReference(RequestAttributes.REFERENCE_REQUEST);
         ExceptionLog exceptionLog = new ExceptionLog();
@@ -50,7 +51,11 @@ public class ExceptionLogAspect {
         // 请求方式
         exceptionLog.setRequestMethod(Objects.requireNonNull(request).getMethod());
         // 请求参数
-        exceptionLog.setRequestParam(JSON.toJSONString(joinPoint.getArgs()));
+        if (joinPoint.getArgs()[0] instanceof MultipartFile) {
+            exceptionLog.setRequestParam("file");
+        } else {
+            exceptionLog.setRequestParam(JSON.toJSONString(joinPoint.getArgs()));
+        }
         // 请求方法描述
         exceptionLog.setOptDesc(Objects.requireNonNull(apiOperation).value());
         // 异常信息

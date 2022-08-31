@@ -34,6 +34,7 @@ export default defineComponent({
           api.qqLogin(params).then(({ data }) => {
             if (data.flag) {
               userStore.userInfo = data.data
+              userStore.token = data.data.token
               sessionStorage.setItem('token', data.data.token)
               proxy.$notify({
                 title: 'Success',

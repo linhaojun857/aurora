@@ -38,7 +38,7 @@ public class OperationLogAspect {
      * 设置操作日志切入点 记录操作日志 在注解的位置切入代码
      */
     @Pointcut("@annotation(com.aurora.annotation.OptLog)")
-    public void OperationLogPointCut() {
+    public void operationLogPointCut() {
     }
 
 
@@ -48,9 +48,9 @@ public class OperationLogAspect {
      * @param joinPoint 切入点
      * @param keys      返回结果
      */
-    @AfterReturning(value = "OperationLogPointCut()", returning = "keys")
+    @AfterReturning(value = "operationLogPointCut()", returning = "keys")
     @SuppressWarnings("unchecked")
-    public void saveOptLog(JoinPoint joinPoint, Object keys) {
+    public void saveOperationLog(JoinPoint joinPoint, Object keys) {
         // 获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         // 从获取RequestAttributes中获取HttpServletRequest的信息

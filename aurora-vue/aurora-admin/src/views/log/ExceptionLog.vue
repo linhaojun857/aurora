@@ -64,7 +64,7 @@
       :page-sizes="[10, 20]"
       layout="total, sizes, prev, pager, next, jumper" />
     <!-- 查看模态框 -->
-    <el-dialog :visible.sync="isCheck" append-to-body top="20px" width="80%">
+    <el-dialog :visible.sync="isCheck" append-to-body top="20px" width="80%" destroy-on-close>
       <div class="dialog-title-container" slot="title"><i class="el-icon-more" />详细信息</div>
       <el-form ref="form" :model="exceptionLog" label-width="100px" size="mini">
         <el-form-item label="操作接口：">
