@@ -1,5 +1,5 @@
 <template>
-  <li class="article-container">
+  <div class="article-container">
     <span v-if="article.isTop" class="article-tag">
       <b>
         <svg-icon icon-class="pin" />
@@ -77,7 +77,7 @@
         </div>
       </div>
     </div>
-  </li>
+  </div>
 </template>
 
 <script lang="ts">

@@ -128,7 +128,7 @@ export default defineComponent({
     const wrapperStyle = ref({ 'min-height': '100vh' })
 
     onMounted(() => {
-      appStore.initializeTheme('theme-light')
+      appStore.initializeTheme('theme-dark')
     })
     return {
       title: metaStore.title,

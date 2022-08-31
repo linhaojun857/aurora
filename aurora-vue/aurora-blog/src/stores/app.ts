@@ -30,7 +30,7 @@ export const useAppStore = defineStore('appStore', {
   state: () => {
     return {
       themeConfig: {
-        theme: 'theme-light',
+        theme: 'theme-dark',
         profile_shape: 'circle-avatar',
         feature: true,
         gradient: {

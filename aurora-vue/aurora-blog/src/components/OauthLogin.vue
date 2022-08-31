@@ -48,7 +48,11 @@ export default defineComponent({
               })
             }
           })
-          router.push({ path: userStore.currentUrl })
+          if (userStore.currentUrl === '') {
+            router.push({ path: '/' })
+          } else {
+            router.push({ path: userStore.currentUrl })
+          }
         })
       }
     }
