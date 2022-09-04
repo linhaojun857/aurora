@@ -154,7 +154,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 emailDTO.setSubject("评论提醒");
                 // 获取评论路径
                 String url = websiteUrl + getCommentPath(comment.getType()) + id;
-                emailDTO.setContent("您收到了一条新的回复，请前往" + url + "页面查看");
+                //emailDTO.setContent("您收到了一条新的回复，请前往" + url + "页面查看");
+                emailDTO.setContent("您收到了一条新的回复，请前往查阅:" + url);
             } else {
                 // 管理员审核提醒
                 String adminEmail = userInfoMapper.selectById(BLOGGER_ID).getEmail();
