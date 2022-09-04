@@ -102,6 +102,11 @@ export default defineComponent({
         pageInfo.current++
       })
     }
+    const fetchReplies = (index: any) => {
+      api.getRepliesByCommentId(reactiveData.comments[index].id).then(({data})=>{
+        reactiveData.comments[index].replyDTOs = data.data
+      })
+    }
     onMounted(fetchData)
     provide(
       'comments',
@@ -115,6 +120,9 @@ export default defineComponent({
       pageInfo.current = 1
       reactiveData.isReload = true
       fetchComments()
+    })
+    emitter.on('friendLinkFetchReplies', (index) => {
+      fetchReplies(index)
     })
     emitter.on('friendLinkLoadMore', () => {
       fetchComments()

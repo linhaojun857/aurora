@@ -52,6 +52,7 @@ export default defineComponent({
       commentContent: '' as any
     })
     const parentId = inject('parentId')
+    const index = inject('index')
     const saveReply = () => {
       if (userStore.userInfo === '') {
         proxy.$notify({
@@ -81,7 +82,7 @@ export default defineComponent({
       api.saveComment(params).then(({ data }) => {
         if (data.flag) {
           emit('changeShow')
-          fetchComments()
+          fetchReplies()
           let isCommentReview = appStore.websiteConfig.isCommentReview
           if (isCommentReview) {
             proxy.$notify({
@@ -108,22 +109,22 @@ export default defineComponent({
       reactiveData.commentContent = ''
     }
 
-    const fetchComments = async () => {
+    const fetchReplies = async () => {
       switch (commentStore.type) {
         case 1:
-          emitter.emit('articleFetchComment')
+          emitter.emit('articleFetchReplies',index)
           break
         case 2:
-          emitter.emit('messageFetchComment')
+          emitter.emit('messageFetchReplies',index)
           break
         case 3:
-          emitter.emit('aboutFetchComment')
+          emitter.emit('aboutFetchReplies',index)
           break
         case 4:
-          emitter.emit('friendLinkFetchComment')
+          emitter.emit('friendLinkFetchReplies',index)
           break
         case 5:
-          emitter.emit('talkFetchComment')
+          emitter.emit('talkFetchReplies',index)
       }
     }
 

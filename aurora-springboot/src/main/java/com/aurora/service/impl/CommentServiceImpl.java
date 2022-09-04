@@ -27,9 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -103,6 +101,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             item.setReplyDTOs(replyMap.get(item.getId()));
         });
         return new PageResult<>(commentDTOs, commentCount);
+    }
+
+    @Override
+    public List<ReplyDTO> listRepliesByCommentId(Integer commentId) {
+        return commentMapper.listReplies(Collections.singletonList(commentId));
     }
 
     @Override

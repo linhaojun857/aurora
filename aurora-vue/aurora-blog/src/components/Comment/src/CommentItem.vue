@@ -41,10 +41,11 @@ export default defineComponent({
     CommentReplyItem,
     CommentReplyForm
   },
-  props: ['comment'],
+  props: ['comment', 'index'],
   setup(props) {
     const comment: any = props.comment
     provide('parentId', comment.id)
+    provide('index', props.index)
     const formatTime = (time: any): any => {
       let date = new Date(time)
       let year = date.getFullYear()

@@ -2,6 +2,7 @@ package com.aurora.service;
 
 import com.aurora.dto.CommentAdminDTO;
 import com.aurora.dto.CommentDTO;
+import com.aurora.dto.ReplyDTO;
 import com.aurora.entity.Comment;
 import com.aurora.vo.CommentVO;
 import com.aurora.vo.ConditionVO;
@@ -16,6 +17,8 @@ public interface CommentService extends IService<Comment> {
     void saveComment(CommentVO commentVO);
 
     PageResult<CommentDTO> listComments(CommentVO commentVO);
+
+    List<ReplyDTO> listRepliesByCommentId(Integer commentId);
 
     List<CommentDTO> listTopSevenComments();
 

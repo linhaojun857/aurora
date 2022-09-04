@@ -273,6 +273,12 @@ export default defineComponent({
       })
     }
 
+    const fetchReplies = (index: any) => {
+      api.getRepliesByCommentId(reactiveData.comments[index].id).then(({data})=>{
+        reactiveData.comments[index].replyDTOs = data.data
+      })
+    }
+
     provide(
       'comments',
       computed(() => reactiveData.comments)
@@ -285,6 +291,9 @@ export default defineComponent({
       pageInfo.current = 1
       reactiveData.isReload = true
       fetchComments()
+    })
+    emitter.on('articleFetchReplies', (index) => {
+      fetchReplies(index)
     })
     emitter.on('articleLoadMore', () => {
       fetchComments()

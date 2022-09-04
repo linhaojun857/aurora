@@ -3,6 +3,7 @@ package com.aurora.controller;
 import com.aurora.annotation.OptLog;
 import com.aurora.dto.CommentAdminDTO;
 import com.aurora.dto.CommentDTO;
+import com.aurora.dto.ReplyDTO;
 import com.aurora.service.CommentService;
 import com.aurora.vo.*;
 import io.swagger.annotations.Api;
@@ -36,6 +37,12 @@ public class CommentController {
         return Result.ok(commentService.listComments(commentVO));
     }
 
+    @ApiOperation(value = "根据commentId获取回复")
+    @GetMapping("/comments/{commentId}/replies")
+    public Result<List<ReplyDTO>> listRepliesByCommentId(@PathVariable("commentId") Integer commentId) {
+        return Result.ok(commentService.listRepliesByCommentId(commentId));
+    }
+
     @ApiOperation("获取前七个评论")
     @GetMapping("/comments/topSeven")
     public Result<List<CommentDTO>> getTopSevenComments() {
@@ -63,6 +70,5 @@ public class CommentController {
         commentService.removeByIds(commentIdList);
         return Result.ok();
     }
-
 
 }

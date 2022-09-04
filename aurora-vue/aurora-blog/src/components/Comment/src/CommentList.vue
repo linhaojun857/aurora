@@ -1,6 +1,7 @@
 <template>
   <transition-group name="fade">
-    <CommentItem v-for="comment in comments" :key="comment.id" :comment="comment"> </CommentItem>
+    <CommentItem v-for="(comment, index) in comments" :key="comment.id" :comment="comment" :index="index">
+    </CommentItem>
   </transition-group>
   <button
     class="load-more-button mt-7 w-32 text-white p-2 rounded-lg shadow-lg transition transform hover:scale-105 flex mx-auto"

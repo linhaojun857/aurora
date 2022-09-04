@@ -128,5 +128,8 @@ export default {
   },
   logout: () => {
     return axios.post('/api/users/logout')
+  },
+  getRepliesByCommentId: (commentId: any) => {
+    return axios.get(`/api/comments/${commentId}/replies`)
   }
 }
