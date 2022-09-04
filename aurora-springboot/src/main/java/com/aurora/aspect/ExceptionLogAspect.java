@@ -51,10 +51,12 @@ public class ExceptionLogAspect {
         // 请求方式
         exceptionLog.setRequestMethod(Objects.requireNonNull(request).getMethod());
         // 请求参数
-        if (joinPoint.getArgs()[0] instanceof MultipartFile) {
-            exceptionLog.setRequestParam("file");
-        } else {
-            exceptionLog.setRequestParam(JSON.toJSONString(joinPoint.getArgs()));
+        if (joinPoint.getArgs().length > 0) {
+            if (joinPoint.getArgs()[0] instanceof MultipartFile) {
+                exceptionLog.setRequestParam("file");
+            } else {
+                exceptionLog.setRequestParam(JSON.toJSONString(joinPoint.getArgs()));
+            }
         }
         // 请求方法描述
         exceptionLog.setOptDesc(Objects.requireNonNull(apiOperation).value());
