@@ -24,41 +24,31 @@ Gitee地址：[aurora-public-github: aurora博客系统 (gitee.com)](https://git
 
 ### 后端
 
-springboot + springsecurity + mysql + redis + mybatisplus + quartz + rabbitmq + elasticsearch + docker + niginx 
-
-同时还集成了QQ登录
+springboot + springsecurity + mysql + redis + mybatisplus + quartz + rabbitmq + elasticsearch + minio + docker + niginx
 
 ## 前台截图
 
-### 白天模式
+![前台1](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/photos/7232dc518bfed9755c6266fdf5243e0d.png)
 
-![image-20220818130524626](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/img/image-20220818130524626.png)
+![前台2](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/photos/4d5d41fe49c2a42d6d756bde6a09d86c.png)
 
-![image-20220818130648471](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/img/image-20220818130648471.png)
+![前台3](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/photos/5e50616e20e1c9a9ea24bcb9cd25f428.png)
 
-![image-20220818130713357](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/img/image-20220818130713357.png)
+![前台4](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/photos/368d2b5787db9151286e079126e9f0bb.png)
 
-### 黑夜模式
-
-![image-20220818130746936](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/img/image-20220818130746936.png)
-
-![image-20220818130814688](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/img/image-20220818130814688.png)
-
-![image-20220818130848660](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/img/image-20220818130848660.png)
+![前台5](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/photos/a9db098405ead1bef9536a49187eef73.png)
 
 ## 后台截图
 
-![image-20220819205542197](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/img/image-20220819205542197.png)
+![后台1](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/photos/613edc1e2be6d21594add5a7549e1b16.png)
 
-![image-20220819205616481](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/img/image-20220819205616481.png)
+![后台2](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/photos/4b81eb41719d80c755e3ba39681aeff6.png)
 
-![image-20220819205644430](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/img/image-20220819205644430.png)
+![后台3](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/photos/d927b064ef199cabc9deb66b912d6e8d.png)
 
-![image-20220819205713553](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/img/image-20220819205713553.png)
+![后台4](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/photos/ea9a83ef3c79ca77587752205af0283a.png)
 
-![image-20220819224800049](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/img/image-20220819224800049.png)
-
-![image-20220819224818393](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/img/image-20220819224818393.png)
+![后台5](https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/photos/13ad9fc5299c095841101c9f24a06b9b.png)
 
 ## 将来的更新计划
 
