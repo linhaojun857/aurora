@@ -80,7 +80,6 @@ import { defineComponent, toRef, ref, reactive, toRefs, getCurrentInstance, comp
 import { useUserStore } from '@/stores/user'
 import AvatarCropper from 'vue-avatar-cropper'
 import api from '@/api/api'
-import { userInfo } from 'os'
 
 export default defineComponent({
   name: 'UserCenter',

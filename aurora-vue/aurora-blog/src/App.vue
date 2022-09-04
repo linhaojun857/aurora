@@ -107,22 +107,22 @@ export default defineComponent({
       return commonStore.isMobile
     })
 
-    const resizeHanler = () => {
+    const resizeHander = () => {
       const rect = document.body.getBoundingClientRect()
       const mobileState = rect.width - 1 < MOBILE_WITH
       if (isMobile.value !== mobileState) commonStore.changeMobileState(mobileState)
     }
 
     const initResizeEvent = () => {
-      resizeHanler()
-      window.addEventListener('resize', resizeHanler)
+      resizeHander()
+      window.addEventListener('resize', resizeHander)
     }
 
     onBeforeMount(initialApp)
 
     onUnmounted(() => {
       document.removeEventListener('copy', copyEventHandler)
-      window.removeEventListener('resize', resizeHanler)
+      window.removeEventListener('resize', resizeHander)
     })
 
     const wrapperStyle = ref({ 'min-height': '100vh' })
