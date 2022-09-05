@@ -99,7 +99,7 @@ export default defineComponent({
       tocbot.init({
         tocSelector: '#toc2',
         contentSelector: '.post-html',
-        headingSelector: 'h1, h2',
+        headingSelector: 'h1, h2, h3',
         onClick: function (e) {
           e.preventDefault()
         }
@@ -210,17 +210,24 @@ export default defineComponent({
   padding-left: 1.5rem;
 
   > li {
-    @apply text-ob-bright font-extrabold pb-1;
-    &.is-active-li {
+    @apply font-bold pb-1;
+    &.is-active-li .node-name--H1 {
       @apply text-ob;
     }
   }
 
   ol li {
-    @apply text-ob-normal font-normal mt-1.5 mb-1.5;
+    @apply font-semibold mt-1.5 mb-1.5;
     padding-left: 1.5rem;
-    &.is-active-li {
+    &.is-active-li .node-name--H2 {
       @apply text-ob;
+    }
+    ol li {
+      @apply font-medium mt-1.5 mb-1.5;
+      padding-left: 1.5rem;
+      &.is-active-li .node-name--H3 {
+        @apply text-ob;
+      }
     }
   }
 

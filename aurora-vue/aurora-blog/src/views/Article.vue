@@ -274,7 +274,7 @@ export default defineComponent({
     }
 
     const fetchReplies = (index: any) => {
-      api.getRepliesByCommentId(reactiveData.comments[index].id).then(({data})=>{
+      api.getRepliesByCommentId(reactiveData.comments[index].id).then(({ data }) => {
         reactiveData.comments[index].replyDTOs = data.data
       })
     }
@@ -350,7 +350,7 @@ export default defineComponent({
 
   > li {
     @apply font-bold pb-1;
-    &.is-active-li {
+    &.is-active-li .node-name--H1 {
       @apply text-ob;
     }
   }
@@ -358,13 +358,13 @@ export default defineComponent({
   ol li {
     @apply font-semibold mt-1.5 mb-1.5;
     padding-left: 1.5rem;
-    &.is-active-li {
+    &.is-active-li .node-name--H2 {
       @apply text-ob;
     }
     ol li {
       @apply font-medium mt-1.5 mb-1.5;
       padding-left: 1.5rem;
-      &.is-active-li {
+      &.is-active-li .node-name--H3 {
         @apply text-ob;
       }
     }
