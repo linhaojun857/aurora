@@ -20,11 +20,11 @@ Gitee地址：[aurora-public-github: aurora博客系统 (gitee.com)](https://git
 
 前台：vue3 + pinia + vue-router + axios
 
-后台：vue2 + vuex + vue-router + axios + element-ui 
+后台：vue2 + vuex + vue-router + axios
 
 ### 后端
 
-springboot + springsecurity + mysql + redis + mybatisplus + quartz + rabbitmq + elasticsearch + minio + docker + niginx
+springboot + springsecurity + mysql + redis + mybatisplus + quartz + rabbitmq + elasticsearch + minio
 
 ## 前台截图
 
@@ -54,10 +54,6 @@ springboot + springsecurity + mysql + redis + mybatisplus + quartz + rabbitmq + 
 
 1. 不断对此项目进行完善
 2. 推出不同的前端主题
-
-## 愿景
-
-希望大家可以从项目中得到成长和学习，同时也希望大家共同维护此项目。
 
 ## 赞助
 
