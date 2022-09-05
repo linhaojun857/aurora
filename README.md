@@ -18,13 +18,13 @@ Gitee地址：[aurora-public-github: aurora博客系统 (gitee.com)](https://git
 
 ### 前端
 
-前台：vue3
+前台：vue3 + pinia + vue-router + axios + tailwindcss + element-ui
 
-后台：vue2
+后台：vue2 + vuex + vue-router + axios + element-ui
 
 ### 后端
 
-springboot + springsecurity + mysql + redis + mybatisplus + quartz + rabbitmq + elasticsearch + minio
+springboot + springsecurity + mysql + redis + mybatisplus + quartz + rabbitmq + maxwell + elasticsearch + minio + docker + nginx
 
 ## 前台截图
 
