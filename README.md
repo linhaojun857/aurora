@@ -18,9 +18,9 @@ Gitee地址：[aurora-public-github: aurora博客系统 (gitee.com)](https://git
 
 ### 前端
 
-前台：vue3 + pinia + vue-router + axios
+前台：vue3
 
-后台：vue2 + vuex + vue-router + axios
+后台：vue2
 
 ### 后端
 
