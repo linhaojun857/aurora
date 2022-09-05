@@ -121,7 +121,7 @@ export default defineComponent({
       })
     }
     const fetchReplies = (index: any) => {
-      api.getRepliesByCommentId(reactiveData.comments[index].id).then(({data})=>{
+      api.getRepliesByCommentId(reactiveData.comments[index].id).then(({ data }) => {
         reactiveData.comments[index].replyDTOs = data.data
       })
     }
