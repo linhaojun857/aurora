@@ -350,7 +350,13 @@ export default defineComponent({
 
   > li {
     @apply font-bold pb-1;
-    &.is-active-li .node-name--H1 {
+    &.is-active-li > .node-name--H1 {
+      @apply text-ob;
+    }
+    &.is-active-li > .node-name--H2 {
+      @apply text-ob;
+    }
+    &.is-active-li > .node-name--H3 {
       @apply text-ob;
     }
   }
@@ -358,7 +364,10 @@ export default defineComponent({
   ol li {
     @apply font-semibold mt-1.5 mb-1.5;
     padding-left: 1.5rem;
-    &.is-active-li .node-name--H2 {
+    &.is-active-li > .node-name--H2 {
+      @apply text-ob;
+    }
+    &.is-active-li > .node-name--H3 {
       @apply text-ob;
     }
     ol li {
