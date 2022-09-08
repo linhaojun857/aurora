@@ -185,7 +185,7 @@ export default defineComponent({
 }
 .time {
   color: #999;
-  margin-top: 6px;
+  margin-top: 4px;
   font-size: 13px;
 }
 .talk-content {
