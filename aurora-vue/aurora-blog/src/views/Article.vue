@@ -343,6 +343,10 @@ export default defineComponent({
 })
 </script>
 <style lang="scss">
+.post-html {
+  word-wrap: break-word;
+  word-break: break-all;
+}
 #toc1 > ol {
   list-style: none;
   counter-reset: li;

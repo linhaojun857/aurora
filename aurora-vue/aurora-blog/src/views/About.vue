@@ -204,6 +204,10 @@ export default defineComponent({
     @apply text-white stroke-current flex flex-row items-center pr-4;
   }
 }
+.post-html {
+  word-wrap: break-word;
+  word-break: break-all;
+}
 #toc2 > ol {
   list-style: none;
   counter-reset: li;
