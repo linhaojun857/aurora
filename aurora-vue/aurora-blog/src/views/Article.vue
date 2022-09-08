@@ -109,7 +109,7 @@
           <br />
           <ob-skeleton tag="div" :count="25" height="16px" width="100px" class="mr-2" />
         </div>
-        <div class="flex flex-col lg:flex-row justify-start items-end my-8 space-x-5">
+        <div class="flex flex-col lg:flex-row justify-start items-end my-8 my-gap">
           <div class="w-full h-full self-stretch mr-0 lg:mr-4" v-if="article.preArticleCard">
             <SubTitle title="settings.paginator.prev" icon="arrow-left-circle" />
             <ArticleCard :data="article.preArticleCard" />
@@ -418,5 +418,10 @@ export default defineComponent({
     left: -1.25em;
     border-left: 2px solid var(--text-accent);
   }
+}
+</style>
+<style lang="scss" scoped>
+.my-gap {
+  gap: 1rem;
 }
 </style>

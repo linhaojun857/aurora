@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex space-x-5">
+    <div class="flex space-x-3 xl:space-x-5">
       <Avatar :url="reply.avatar" />
       <div class="reply bg-white flex flex-col p-3 rounded-md relative shadow-md">
         <p class="commentContent" v-html="commentContent.replaceAll('\n', '<br>')" />
@@ -14,6 +14,7 @@
     </div>
     <a href="" target="_blank"></a>
     <CommentReplyForm
+      class="mt-5"
       v-show="show"
       :replyUserId="reply.userId"
       :initialContent="replyContent"
@@ -23,7 +24,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import Avatar from './CommentAvatar.vue'
+import Avatar from '@/components/Avatar.vue'
 import CommentReplyForm from './CommentReplyForm.vue'
 
 export default defineComponent({

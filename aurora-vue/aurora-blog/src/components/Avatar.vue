@@ -1,20 +1,21 @@
 <template>
   <div class="flex-shrink-0">
-    <div class="rounded-full ring-gray-100 overflow-hidden shaodw-lg w-10">
-        <template v-if="url != null"> <img class="avatar-img" :src="url" alt="" /></template>
-        <template v-else><img class="avatar-img" :src="default" alt="" /></template>
+    <div class="rounded-full ring-gray-100 overflow-hidden shaodw-lg w-9 xl:w-10">
+      <template v-if="url != null"> <img class="avatar-img" :src="url" alt="" /></template>
+      <template v-else><img class="avatar-img" :src="default" alt="" /></template>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, toRefs } from 'vue'
 
 export default defineComponent({
-  props:["url"],
+  name: 'Avatar',
+  props: ['url'],
   setup(props) {
     return {
-      url:toRefs(props).url,
+      url: toRefs(props).url,
       default: 'https://linhaojunblog-resource.oss-cn-hangzhou.aliyuncs.com/config/52a81cd2772167b645569342e81ce312.jpg'
     }
   }

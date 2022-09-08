@@ -12,8 +12,7 @@
             v-for="item in talks"
             :key="item.id"
             @click="toTalk(item.id)">
-            <el-avatar v-if="!isMobile" :size="45" :src="item.avatar" />
-            <el-avatar v-else :size="40" :src="item.avatar" />
+            <Avatar :url="item.avatar"></Avatar>
             <div class="talk-info">
               <div class="user-nickname text-sm">
                 {{ item.nickname }}
@@ -65,6 +64,7 @@ import { useI18n } from 'vue-i18n'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import { Sidebar, Profile } from '../components/Sidebar'
 import Paginator from '@/components/Paginator.vue'
+import Avatar from '../components/Avatar.vue'
 import { v3ImgPreviewFn } from 'v3-img-preview'
 import { useRouter } from 'vue-router'
 import { useCommonStore } from '@/stores/common'
@@ -72,7 +72,7 @@ import api from '@/api/api'
 
 export default defineComponent({
   name: 'talkList',
-  components: { Breadcrumb, Sidebar, Profile, Paginator },
+  components: { Breadcrumb, Sidebar, Profile, Paginator, Avatar },
   setup() {
     const { t } = useI18n()
     const router = useRouter()

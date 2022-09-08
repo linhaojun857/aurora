@@ -8,7 +8,7 @@
         <div class="main-grid">
           <div class="relative space-y-5">
             <div class="bg-ob-deep-800 flex p-4 lg:p-8 rounded-2xl shadow-xl mb-8 lg:mb-0">
-              <el-avatar :size="45" :src="talk.avatar" />
+              <Avatar :url="talk.avatar"></Avatar>
               <div class="talk-info">
                 <div class="user-nickname text-sm">
                   {{ talk.nickname }}
@@ -54,6 +54,7 @@ import { useI18n } from 'vue-i18n'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import { Sidebar, Profile } from '../components/Sidebar'
 import { Comment } from '../components/Comment'
+import Avatar from '../components/Avatar.vue'
 import { useCommentStore } from '@/stores/comment'
 import { v3ImgPreviewFn } from 'v3-img-preview'
 import { useRoute } from 'vue-router'
@@ -62,7 +63,7 @@ import api from '@/api/api'
 
 export default defineComponent({
   name: 'talks',
-  components: { Breadcrumb, Sidebar, Profile, Comment },
+  components: { Breadcrumb, Sidebar, Profile, Comment, Avatar },
   setup() {
     const { t } = useI18n()
     const commentStore = useCommentStore()
@@ -145,6 +146,9 @@ export default defineComponent({
       fetchComments()
     })
     const fetchData = () => {
+      window.scrollTo({
+        top: 0
+      })
       fetchTalk()
       fetchComments()
     }

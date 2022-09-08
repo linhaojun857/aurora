@@ -1,6 +1,6 @@
 <template>
   <div class="mt-5 max-w-full">
-    <div class="flex space-x-5">
+    <div class="flex space-x-3 xl:space-x-5">
       <Avatar :url="comment.avatar" />
       <div class="max-w-full-calc space-y-5">
         <div class="bg-white text-primary p-4 rounded-md relative shadow-md reply" style="width: fit-content">
@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs, provide } from 'vue'
-import Avatar from './CommentAvatar.vue'
+import Avatar from '@/components/Avatar.vue'
 import CommentReplyItem from './CommentReplyItem.vue'
 import CommentReplyForm from './CommentReplyForm.vue'
 
@@ -53,7 +53,6 @@ export default defineComponent({
       let day = date.getDate()
       return year + '-' + month + '-' + day
     }
-    const replyContent = ref('')
     const reactiveData = reactive({
       replyContent: '' as any,
       time: formatTime(props.comment.createTime) as any,
@@ -65,8 +64,8 @@ export default defineComponent({
     }
 
     const clickOnReply = () => {
+      reactiveData.replyContent = 'add reply...'
       reactiveData.show = true
-      replyContent.value = ''
     }
     return {
       ...toRefs(reactiveData),
