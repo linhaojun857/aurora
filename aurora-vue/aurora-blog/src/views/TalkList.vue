@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
+import { defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import { Sidebar, Profile } from '../components/Sidebar'
@@ -67,7 +67,6 @@ import Paginator from '@/components/Paginator.vue'
 import Avatar from '../components/Avatar.vue'
 import { v3ImgPreviewFn } from 'v3-img-preview'
 import { useRouter } from 'vue-router'
-import { useCommonStore } from '@/stores/common'
 import api from '@/api/api'
 
 export default defineComponent({
@@ -76,7 +75,6 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
     const router = useRouter()
-    const commonStore = useCommonStore()
     const pagination = reactive({
       size: 7,
       total: 0,
@@ -135,7 +133,6 @@ export default defineComponent({
       pageChangeHanlder,
       handlePreview,
       toTalk,
-      isMobile: computed(() => commonStore.isMobile),
       t
     }
   }
