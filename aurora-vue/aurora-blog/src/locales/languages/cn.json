@@ -43,7 +43,7 @@
     "paginator": {
       "newer": "新的",
       "older": "以往",
-      "prev": "上一篇更回味",
+      "pre": "上一篇更回味",
       "next": "下一篇更精彩"
     },
     "more-tags": "查看更多",

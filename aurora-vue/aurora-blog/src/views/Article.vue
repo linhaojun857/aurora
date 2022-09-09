@@ -111,10 +111,10 @@
         </div>
         <div class="flex flex-col lg:flex-row justify-start items-end my-8 my-gap">
           <div class="w-full h-full self-stretch mr-0 lg:mr-4" v-if="article.preArticleCard">
-            <SubTitle title="settings.paginator.prev" icon="arrow-left-circle" />
+            <SubTitle title="settings.paginator.pre" icon="arrow-left-circle" />
             <ArticleCard :data="article.preArticleCard" />
           </div>
-          <div class="w-full h-full self-stretch mt-8 lg:mt-0" v-if="article.nextArticleCard">
+          <div class="w-full h-full self-stretch mt-0" v-if="article.nextArticleCard">
             <SubTitle title="settings.paginator.next" :side="!isMobile ? 'right' : 'left'" icon="arrow-right-circle" />
             <ArticleCard :data="article.nextArticleCard" />
           </div>

@@ -164,8 +164,10 @@ export default defineComponent({
 }
 .time {
   color: #999;
-  margin-top: 4px;
   font-size: 13px;
+  @media (min-width: 1280px) {
+    margin-top: 4px;
+  }
 }
 .talk-content {
   margin-top: 10px;
