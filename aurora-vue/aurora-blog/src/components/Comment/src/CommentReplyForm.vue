@@ -105,7 +105,6 @@ export default defineComponent({
           })
         }
       })
-      reactiveData.commentContent = ''
     }
 
     const fetchReplies = async () => {
