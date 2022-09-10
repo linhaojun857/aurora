@@ -32,7 +32,7 @@ public class AuroraInfoController {
     @Autowired
     private UploadStrategyContext uploadStrategyContext;
 
-
+    @ApiOperation(value = "上报访客信息")
     @PostMapping("/report")
     public Result<?> report() {
         auroraInfoService.report();
@@ -83,7 +83,6 @@ public class AuroraInfoController {
     @ApiImplicitParam(name = "file", value = "图片", required = true, dataType = "MultipartFile")
     @PostMapping("/admin/config/images")
     public Result<String> savePhotoAlbumCover(MultipartFile file) {
-        System.out.println("wokao");
         return Result.ok(uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.CONFIG.getPath()));
     }
 

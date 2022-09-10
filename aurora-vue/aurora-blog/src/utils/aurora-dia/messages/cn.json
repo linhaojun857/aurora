@@ -27,7 +27,7 @@
     "so": "Hello！来自 360搜索 的朋友<br>你是搜索 <span>「[PLACEHOLDER]」</span> 找到的我吗？",
     "google": "Hello！来自 谷歌搜索 的朋友<br>欢迎阅读<span>「[PLACEHOLDER]」</span>",
     "site": "Hello！来自 <span>[PLACEHOLDER]</span> 的朋友",
-    "other": "欢迎阅读 <span>[PLACEHOLDER]</span>"
+    "other": "欢迎来到<span>「[PLACEHOLDER]」</span>"
   },
   "mouseover": [
     {
@@ -40,19 +40,39 @@
     },
     {
       "selector": "[data-menu='Home']",
-      "text": ["点击前往首页，想回到上一页可以使用浏览器的后退功能哦。", "点它就可以回到首页啦！", "回首页看看吧。"]
+      "text": ["点它就可以回到首页啦！", "回首页看看吧。"]
     },
     {
-      "selector": "[data-menu='About']",
-      "text": ["你想知道我家主人是谁吗？", "这里有一些关于我家主人的秘密哦，要不要看看呢？", "发现主人出没地点！"]
+      "selector": "[data-menu='Talks']",
+      "text": ["这里有主人日常的说说哦!"]
     },
     {
       "selector": "[data-menu='Archives']",
       "text": ["这里存储了主人的所有作品哦！", "想看看主人的图书馆吗？"]
     },
     {
+      "selector": "[data-menu='About']",
+      "text": ["你想知道我家主人是谁吗？", "这里有一些关于我家主人的秘密哦，要不要看看呢？", "发现主人出没地点！"]
+    },
+    {
       "selector": "[data-menu='Tags']",
       "text": ["点击就可以看文章的标签啦！", "使用标签可以更好的分类你的文章哦～"]
+    },
+    {
+      "selector": "[data-menu='Message']",
+      "text": ["来这里给主人留言吧！"]
+    },
+    {
+      "selector": "[data-menu='Friends']",
+      "text": ["这里有主人的朋友们哦！"]
+    },
+    {
+      "selector": "[data-menu='Friends']",
+      "text": ["这里有主人的朋友们哦！"]
+    },
+    {
+      "selector": "[data-menu='PhotoAlbums']",
+      "text": ["这里有主人的日常照片哦！"]
     },
     {
       "selector": "[data-dia='language']",

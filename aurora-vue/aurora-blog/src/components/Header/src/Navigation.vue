@@ -43,22 +43,21 @@
           </DropdownMenu>
         </Dropdown>
       </li>
-      <template v-if="!isMobile">
-        <li
-          class="not-italic font-medium text-xs h-full relative flex flex-col items-center justify-center cursor-pointer text-center py-4 px-2">
-          <Dropdown hover class="nav-link text-sm block px-1.5 py-0.5 rounded-md relative uppercase">
-            <span class="relative z-50" v-if="$i18n.locale === 'cn'"> 相册 </span>
-            <span class="relative z-50" v-else-if="$i18n.locale === 'en'"> PhotoAlbums </span>
-            <DropdownMenu>
-              <template v-for="item in albums" :key="item.id">
-                <DropdownItem @click="pushPage(`/photos/${item.id}`)" :name="item.albumName">
-                  <span class="relative z-50">{{ item.albumName }}</span>
-                </DropdownItem>
-              </template>
-            </DropdownMenu>
-          </Dropdown>
-        </li>
-      </template>
+      <li
+        class="not-italic font-medium text-xs h-full relative flex flex-col items-center justify-center cursor-pointer text-center py-4 px-2"
+        data-menu="PhotoAlbums">
+        <Dropdown hover class="nav-link text-sm block px-1.5 py-0.5 rounded-md relative uppercase">
+          <span class="relative z-50" v-if="$i18n.locale === 'cn'"> 相册 </span>
+          <span class="relative z-50" v-else-if="$i18n.locale === 'en'"> PhotoAlbums </span>
+          <DropdownMenu>
+            <template v-for="item in albums" :key="item.id">
+              <DropdownItem @click="pushPage(`/photos/${item.id}`)" :name="item.albumName">
+                <span class="relative z-50">{{ item.albumName }}</span>
+              </DropdownItem>
+            </template>
+          </DropdownMenu>
+        </Dropdown>
+      </li>
     </ul>
   </nav>
 </template>
@@ -70,8 +69,6 @@ import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { Dropdown, DropdownMenu, DropdownItem } from '@/components/Dropdown'
 import { isExternal } from '@/utils/validate'
-import { usePhotoStore } from '@/stores/photo'
-import { useCommonStore } from '@/stores/common'
 import config from '@/config/config'
 import api from '@/api/api'
 
@@ -81,8 +78,6 @@ export default defineComponent({
   setup() {
     const { t, te } = useI18n()
     const router = useRouter()
-    const commonStore = useCommonStore()
-    const photoStore = usePhotoStore()
 
     const pushPage = (path: string): void => {
       if (!path) return
@@ -108,7 +103,6 @@ export default defineComponent({
     }
     return {
       ...toRefs(reactiveData),
-      isMobile: toRef(commonStore.$state, 'isMobile'),
       routes: config.routes,
       pushPage,
       openPhotoAlbum,

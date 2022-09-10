@@ -59,7 +59,11 @@ public class ExceptionLogAspect {
             }
         }
         // 请求方法描述
-        exceptionLog.setOptDesc(Objects.requireNonNull(apiOperation).value());
+        if (Objects.nonNull(apiOperation)) {
+            exceptionLog.setOptDesc(apiOperation.value());
+        } else {
+            exceptionLog.setOptDesc("");
+        }
         // 异常信息
         exceptionLog.setExceptionInfo(ErrorUtils.getTrace(e));
         // ip地址
