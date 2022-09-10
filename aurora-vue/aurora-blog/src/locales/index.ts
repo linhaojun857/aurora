@@ -1,4 +1,5 @@
 import { createI18n } from 'vue-i18n'
+import cookies from 'js-cookie'
 
 function loadLocaleMessages(): {
   [key: string]: { [key: string]: { [key: string]: string } }
@@ -18,7 +19,7 @@ function loadLocaleMessages(): {
 }
 
 export const i18n = createI18n({
-  locale: process.env.VUE_APP_I18N_LOCALE || 'en',
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+  locale: cookies.get('locale') ? String(cookies.get('locale')) : 'en',
+  fallbackLocale: cookies.get('locale') ? String(cookies.get('locale')) : 'en',
   messages: loadLocaleMessages()
 })

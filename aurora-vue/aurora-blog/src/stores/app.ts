@@ -1,20 +1,14 @@
 import { defineStore } from 'pinia'
 import { i18n } from '@/locales/index'
-import nProgress from 'nprogress' // progress bar
+import cookies from 'js-cookie'
+import nProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 nProgress.configure({
   showSpinner: false,
   trickleSpeed: 100,
   parent: '#loading-bar-wrapper'
-}) // NProgress Configuration
-
-//获取系统模式
-const getSystemMode = (): string => {
-  const matched = window.matchMedia('(prefers-color-scheme: dark)').matches
-  if (matched) return 'theme-dark'
-  else return 'theme-light'
-}
+})
 
 const setTheme = (theme: string) => {
   if (theme === 'theme-dark') {
@@ -30,7 +24,7 @@ export const useAppStore = defineStore('appStore', {
   state: () => {
     return {
       themeConfig: {
-        theme: 'theme-dark',
+        theme: cookies.get('theme') ? String(cookies.get('theme')) : 'theme-dark',
         profile_shape: 'circle-avatar',
         feature: true,
         gradient: {
@@ -56,41 +50,31 @@ export const useAppStore = defineStore('appStore', {
       tagCount: 0,
       NPTimeout: -1,
       loadingTimeout: -1,
-      aurora_bot_enable:true
+      aurora_bot_enable: true
     }
   },
   actions: {
     changeLocale(locale: string) {
-      // Cookies.set('locale', locale)
+      cookies.set('locale', locale, { expires: 7 })
       i18n.global.locale = locale
     },
     initializeTheme(mode: string) {
-      // if (!Cookies.get('theme') && isDarkMode !== 'auto') {
-      //   this.themeConfig.theme = isDarkMode ? 'theme-dark' : 'theme-light'
-      //   // Cookies.set('theme', this.themeConfig.theme)
-      //   setTheme(this.themeConfig.theme)
-      // }
       setTheme(mode)
     },
     toggleTheme(isDark?: boolean) {
       this.themeConfig.theme =
         isDark === true || this.themeConfig.theme === 'theme-light' ? 'theme-dark' : 'theme-light'
-      // Cookies.set('theme', this.theme)
+      cookies.set('theme', this.themeConfig.theme, { expires: 7 })
       setTheme(this.themeConfig.theme)
     },
-    /** Start the global loading status of the application */
     startLoading() {
       if (this.appLoading === true) return
       if (this.NPTimeout !== -1) clearTimeout(this.NPTimeout)
       if (this.loadingTimeout !== -1) clearTimeout(this.loadingTimeout)
-
       nProgress.start()
       this.appLoading = true
     },
-    /** Stops the global loading status of the application */
     endLoading() {
-      // Leaving the timeout, so the animation have enough time to display
-      // in a situation where data loads almost instantly.
       this.NPTimeout = <any>setTimeout(() => {
         nProgress.done()
       }, 100)

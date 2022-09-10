@@ -77,6 +77,7 @@ export default defineComponent({
       wrapperStyle.value = {
         'min-height': wrapperHeight + 'px'
       }
+      appStore.initializeTheme(appStore.themeConfig.theme)
     }
 
     const fetchWebsiteConfig = () => {
@@ -127,9 +128,6 @@ export default defineComponent({
 
     const wrapperStyle = ref({ 'min-height': '100vh' })
 
-    onMounted(() => {
-      appStore.initializeTheme('theme-dark')
-    })
     return {
       title: metaStore.title,
       theme: computed(() => appStore.themeConfig.theme),
