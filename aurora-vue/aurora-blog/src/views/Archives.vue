@@ -201,8 +201,14 @@ export default defineComponent({
 
 .timeline-content {
   padding-bottom: 40px;
-  p:last-child {
-    margin-bottom: 0;
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    word-break: break-all;
   }
 }
 
@@ -369,18 +375,6 @@ export default defineComponent({
     .period .timeline-title {
       left: auto;
     }
-  }
-}
-.timeline-content {
-  p {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    padding-bottom: 0 !important;
-    word-wrap: break-word;
-    word-break: break-all;
   }
 }
 </style>
