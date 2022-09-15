@@ -50,6 +50,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, reactive, toRefs, provide, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import { Sidebar, Profile } from '../components/Sidebar'
@@ -57,7 +58,6 @@ import { Comment } from '../components/Comment'
 import Avatar from '../components/Avatar.vue'
 import { useCommentStore } from '@/stores/comment'
 import { v3ImgPreviewFn } from 'v3-img-preview'
-import { useRoute } from 'vue-router'
 import emitter from '@/utils/mitt'
 import api from '@/api/api'
 
@@ -69,6 +69,7 @@ export default defineComponent({
     const commentStore = useCommentStore()
     commentStore.type = 5
     const route = useRoute()
+    const router = useRouter()
     const reactiveData = reactive({
       talk: '' as any,
       comments: [] as any,
@@ -91,6 +92,10 @@ export default defineComponent({
     }
     const fetchTalk = () => {
       api.getTalkById(route.params.talkId).then(({ data }) => {
+        if (data.data === null) {
+          router.push({ path: '/出错啦' })
+          return
+        }
         reactiveData.talk = data.data
         if (reactiveData.talk.imgs) {
           reactiveData.images.push(...reactiveData.talk.imgs)
