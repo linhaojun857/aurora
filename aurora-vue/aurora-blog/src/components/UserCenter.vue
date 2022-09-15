@@ -36,7 +36,9 @@
           <el-form-item label="订阅:">
             <el-switch
               v-model="userInfo.isSubscribe"
-              @click="changeSubscribe"
+              :loading="loading"
+              :before-change="beforeChange"
+              @change="changeSubscribe"
               active-color="#0fb6d6"
               :active-value="1"
               :inactive-value="0" />
@@ -91,7 +93,9 @@ export default defineComponent({
       message: '发送',
       emailDialogVisible: false,
       email: '' as any,
-      VerificationCode: '' as any
+      VerificationCode: '' as any,
+      loading: false,
+      switchState: false
     })
     let showCropper = ref(false)
     const handleClose = () => {
@@ -142,25 +146,27 @@ export default defineComponent({
       })
     }
     const changeSubscribe = () => {
-      let params = {
-        userId: userStore.userInfo.userInfoId,
-        isSubscribe: userStore.userInfo.isSubscribe
-      }
-      api.updateUserSubscribe(params).then(({ data }) => {
-        if (data.flag) {
-          proxy.$notify({
-            title: 'Success',
-            message: '修改成功',
-            type: 'success'
-          })
-        } else {
-          proxy.$notify({
-            title: 'Error',
-            message: data.message,
-            type: 'error'
-          })
+      if (reactiveData.switchState) {
+        let params = {
+          userId: userStore.userInfo.userInfoId,
+          isSubscribe: userStore.userInfo.isSubscribe
         }
-      })
+        api.updateUserSubscribe(params).then(({ data }) => {
+          if (data.flag) {
+            proxy.$notify({
+              title: 'Success',
+              message: '修改成功',
+              type: 'success'
+            })
+          } else {
+            proxy.$notify({
+              title: 'Error',
+              message: data.message,
+              type: 'error'
+            })
+          }
+        })
+      }
     }
     const commit = () => {
       let params = {
@@ -201,6 +207,24 @@ export default defineComponent({
         }
       })
     }
+    const beforeChange = () => {
+      reactiveData.switchState = true
+      reactiveData.loading = true
+      return new Promise((resolve, reject) => {
+        if (userStore.userInfo.email === '' || userStore.userInfo.email === null) {
+          reactiveData.loading = false
+          proxy.$notify({
+            title: 'Warning',
+            message: '邮箱未绑定,尽快绑定哦',
+            type: 'warning'
+          })
+          return reject(new Error('Error'))
+        } else {
+          reactiveData.loading = false
+          return resolve(true)
+        }
+      })
+    }
     return {
       userInfo: toRef(userStore.$state, 'userInfo'),
       ...toRefs(reactiveData),
@@ -213,6 +237,7 @@ export default defineComponent({
       handleSuccess,
       sendCode,
       commit,
+      beforeChange,
       options: computed(() => {
         return {
           method: 'POST',
