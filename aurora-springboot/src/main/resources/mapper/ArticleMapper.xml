@@ -58,19 +58,19 @@
         </collection>
     </resultMap>
     <select id="listTopAndFeaturedArticles" resultMap="ArticleCardDTOResultMap">
-        SELECT a.id            AS id,
+        SELECT a.id                            AS id,
                category_id,
                article_cover,
                article_title,
-               article_content,
+               SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
-               a.create_time   AS create_time,
-               a.update_time   AS update_time,
-               u.nickname      AS author_nickname,
-               u.website       AS author_website,
-               u.avatar        AS author_avatar,
-               c.category_name AS category_name,
+               a.create_time                   AS create_time,
+               a.update_time                   AS update_time,
+               u.nickname                      AS author_nickname,
+               u.website                       AS author_website,
+               u.avatar                        AS author_avatar,
+               c.category_name                 AS category_name,
                tag_name
         FROM (SELECT id,
                      user_id,
@@ -95,18 +95,18 @@
         order by is_top desc, is_featured desc
     </select>
     <select id="listArticles" resultMap="ArticleCardDTOResultMap">
-        SELECT a.id            AS id,
+        SELECT a.id                            AS id,
                article_cover,
                article_title,
-               article_content,
+               SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
-               a.create_time   AS create_time,
-               a.update_time   AS update_time,
-               u.nickname      AS author_nickname,
-               u.website       AS author_website,
-               u.avatar        AS author_avatar,
-               c.category_name AS category_name,
+               a.create_time                   AS create_time,
+               a.update_time                   AS update_time,
+               u.nickname                      AS author_nickname,
+               u.website                       AS author_website,
+               u.avatar                        AS author_avatar,
+               c.category_name                 AS category_name,
                tag_name
         FROM (SELECT id,
                      user_id,
@@ -132,18 +132,18 @@
                  LEFT JOIN t_user_info u ON a.user_id = u.id
     </select>
     <select id="getArticlesByCategoryId" resultMap="ArticleCardDTOResultMap">
-        SELECT a.id            AS id,
+        SELECT a.id                            AS id,
                article_cover,
                article_title,
-               article_content,
+               SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
-               a.create_time   AS create_time,
-               a.update_time   AS update_time,
-               u.nickname      AS author_nickname,
-               u.website       AS author_website,
-               u.avatar        AS author_avatar,
-               c.category_name AS category_name,
+               a.create_time                   AS create_time,
+               a.update_time                   AS update_time,
+               u.nickname                      AS author_nickname,
+               u.website                       AS author_website,
+               u.avatar                        AS author_avatar,
+               c.category_name                 AS category_name,
                tag_name
         FROM (SELECT id,
                      user_id,
@@ -210,18 +210,18 @@
                  LEFT JOIN t_user_info u ON a.user_id = u.id
     </select>
     <select id="getPreArticleById" resultMap="ArticleCardDTOResultMap">
-        SELECT a.id            AS id,
+        SELECT a.id                            AS id,
                article_cover,
                article_title,
-               article_content,
+               SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
-               a.create_time   AS create_time,
-               a.update_time   AS update_time,
-               u.nickname      AS author_nickname,
-               u.website       AS author_website,
-               u.avatar        AS author_avatar,
-               c.category_name AS category_name,
+               a.create_time                   AS create_time,
+               a.update_time                   AS update_time,
+               u.nickname                      AS author_nickname,
+               u.website                       AS author_website,
+               u.avatar                        AS author_avatar,
+               c.category_name                 AS category_name,
                tag_name
         FROM (SELECT id,
                      user_id,
@@ -248,18 +248,18 @@
                  LEFT JOIN t_user_info u ON a.user_id = u.id
     </select>
     <select id="getNextArticleById" resultMap="ArticleCardDTOResultMap">
-        SELECT a.id            AS id,
+        SELECT a.id                            AS id,
                article_cover,
                article_title,
-               article_content,
+               SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
-               a.create_time   AS create_time,
-               a.update_time   AS update_time,
-               u.nickname      AS author_nickname,
-               u.website       AS author_website,
-               u.avatar        AS author_avatar,
-               c.category_name AS category_name,
+               a.create_time                   AS create_time,
+               a.update_time                   AS update_time,
+               u.nickname                      AS author_nickname,
+               u.website                       AS author_website,
+               u.avatar                        AS author_avatar,
+               c.category_name                 AS category_name,
                tag_name
         FROM (SELECT id,
                      user_id,
@@ -286,18 +286,18 @@
                  LEFT JOIN t_user_info u ON a.user_id = u.id
     </select>
     <select id="getFirstArticle" resultMap="ArticleCardDTOResultMap">
-        SELECT a.id            AS id,
+        SELECT a.id                            AS id,
                article_cover,
                article_title,
-               article_content,
+               SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
-               a.create_time   AS create_time,
-               a.update_time   AS update_time,
-               u.nickname      AS author_nickname,
-               u.website       AS author_website,
-               u.avatar        AS author_avatar,
-               c.category_name AS category_name,
+               a.create_time                   AS create_time,
+               a.update_time                   AS update_time,
+               u.nickname                      AS author_nickname,
+               u.website                       AS author_website,
+               u.avatar                        AS author_avatar,
+               c.category_name                 AS category_name,
                tag_name
         FROM (SELECT id,
                      user_id,
@@ -323,18 +323,18 @@
                  LEFT JOIN t_user_info u ON a.user_id = u.id
     </select>
     <select id="getLastArticle" resultMap="ArticleCardDTOResultMap">
-        SELECT a.id            AS id,
+        SELECT a.id                            AS id,
                article_cover,
                article_title,
-               article_content,
+               SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
-               a.create_time   AS create_time,
-               a.update_time   AS update_time,
-               u.nickname      AS author_nickname,
-               u.website       AS author_website,
-               u.avatar        AS author_avatar,
-               c.category_name AS category_name,
+               a.create_time                   AS create_time,
+               a.update_time                   AS update_time,
+               u.nickname                      AS author_nickname,
+               u.website                       AS author_website,
+               u.avatar                        AS author_avatar,
+               c.category_name                 AS category_name,
                tag_name
         FROM (SELECT id,
                      user_id,
@@ -360,19 +360,19 @@
                  LEFT JOIN t_user_info u ON a.user_id = u.id
     </select>
     <select id="listArticlesByTagId" resultMap="ArticleCardDTOResultMap">
-        SELECT a.id            AS id,
+        SELECT a.id                            AS id,
                category_id,
                article_cover,
                article_title,
-               article_content,
+               SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
-               a.create_time   AS create_time,
-               a.update_time   AS update_time,
-               u.nickname      AS author_nickname,
-               u.website       AS author_website,
-               u.avatar        AS author_avatar,
-               c.category_name AS category_name,
+               a.create_time                   AS create_time,
+               a.update_time                   AS update_time,
+               u.nickname                      AS author_nickname,
+               u.website                       AS author_website,
+               u.avatar                        AS author_avatar,
+               c.category_name                 AS category_name,
                tag_name
         FROM t_article a
                  LEFT JOIN t_article_tag at
@@ -380,15 +380,17 @@
                  LEFT JOIN t_tag t ON t.id = at.tag_id
                  LEFT JOIN t_category c ON a.category_id = c.id
                  LEFT JOIN t_user_info u ON a.user_id = u.id
-        WHERE at.tag_id = #{tagId}
+        WHERE at.tag_id = #{tagId} and a.is_delete = 0 and status = 1
         LIMIT #{current} , #{size}
     </select>
     <select id="listArchives" resultType="com.aurora.dto.ArticleCardDTO">
         SELECT id,
                article_title,
-               article_content,
+               SUBSTR(article_content, 1, 500) AS article_content,
                create_time
         FROM t_article
+        WHERE is_delete = 0
+          and status = 1
         ORDER BY create_time DESC
         LIMIT #{current}, #{size}
     </select>

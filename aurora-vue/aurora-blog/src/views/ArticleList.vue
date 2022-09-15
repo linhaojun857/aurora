@@ -7,7 +7,7 @@
       <ul class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
         <template v-if="articles != ''">
           <li v-for="article in articles" :key="article.id">
-            <ArticleCard :data="article" />
+            <ArticleCard class="tag-article" :data="article" />
           </li>
         </template>
         <template v-else>
@@ -37,6 +37,7 @@ export default defineComponent({
   components: { Breadcrumb, ArticleCard, Paginator },
   setup() {
     const route = useRoute()
+    let md = require('markdown-it')()
     const pagination = reactive({
       size: 12,
       total: 0,
@@ -57,6 +58,13 @@ export default defineComponent({
           size: pagination.size
         })
         .then(({ data }) => {
+          data.data.records.forEach((item: any) => {
+            item.articleContent = md
+              .render(item.articleContent)
+              .replace(/<\/?[^>]*>/g, '')
+              .replace(/[|]*\n/, '')
+              .replace(/&npsp;/gi, '')
+          })
           reactiveData.articles = data.data.records
           pagination.total = data.data.count
         })
@@ -84,4 +92,20 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss">
+.tag-article {
+  .article-content {
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      padding-bottom: 0 !important;
+    }
+    .article-footer {
+      margin-top: 13px;
+    }
+  }
+}
+</style>

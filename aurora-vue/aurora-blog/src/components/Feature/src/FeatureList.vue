@@ -17,7 +17,7 @@
     <ul class="grid lg:grid-cols-2 gap-8">
       <template v-if="featuredArticles.length > 0">
         <li v-for="article in featuredArticles" :key="article.id">
-          <ArticleCard :data="article" />
+          <ArticleCard class="home-featured-article" :data="article" />
         </li>
       </template>
       <template v-else>
@@ -58,4 +58,20 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.home-featured-article {
+  .article-content {
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      padding-bottom: 0 !important;
+    }
+    .article-footer {
+      margin-top: 13px;
+    }
+  }
+}
+</style>

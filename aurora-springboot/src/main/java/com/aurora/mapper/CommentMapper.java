@@ -20,7 +20,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
 
     List<ReplyDTO> listReplies(@Param("commentIds") List<Integer> commentIdList);
 
-    List<CommentDTO> listTopSevenComments();
+    List<CommentDTO> listTopSixComments();
 
     Integer countComments(@Param("conditionVO") ConditionVO conditionVO);
 

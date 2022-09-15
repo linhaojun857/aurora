@@ -51,7 +51,7 @@ export default defineComponent({
       return year + '-' + month + '-' + day
     }
     const initRecentComment = () => {
-      api.getTopSevenComments().then(({ data }) => {
+      api.getTopSixComments().then(({ data }) => {
         if (data.data.length === 0) {
           commentStore.recentComment = []
         }

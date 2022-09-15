@@ -62,6 +62,7 @@ export default defineComponent({
     const commonStore = useCommonStore()
     const articleStore = useArticleStore()
     const { t } = useI18n()
+    let md = require('markdown-it')()
     const pagination = reactive({
       current: 1,
       total: 0,
@@ -76,6 +77,16 @@ export default defineComponent({
           size: pagination.size
         })
         .then(({ data }) => {
+          data.data.records.forEach((item: any) => {
+            console.log(item.articles)
+            item.articles.forEach((article: any) => {
+              article.articleContent = md
+                .render(article.articleContent)
+                .replace(/<\/?[^>]*>/g, '')
+                .replace(/[|]*\n/, '')
+                .replace(/&npsp;/gi, '')
+            })
+          })
           articleStore.archives = data.data.records
           pagination.total = data.data.count
         })
@@ -358,6 +369,18 @@ export default defineComponent({
     .period .timeline-title {
       left: auto;
     }
+  }
+}
+.timeline-content {
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    padding-bottom: 0 !important;
+    word-wrap: break-word;
+    word-break: break-all;
   }
 }
 </style>

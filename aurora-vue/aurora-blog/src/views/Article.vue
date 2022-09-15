@@ -112,11 +112,11 @@
         <div class="flex flex-col lg:flex-row justify-start items-end my-8 my-gap">
           <div class="w-full h-full self-stretch mr-0 lg:mr-4" v-if="article.preArticleCard">
             <SubTitle title="settings.paginator.pre" icon="arrow-left-circle" />
-            <ArticleCard :data="article.preArticleCard" />
+            <ArticleCard class="pre-and-next-article" :data="article.preArticleCard" />
           </div>
           <div class="w-full h-full self-stretch mt-0" v-if="article.nextArticleCard">
             <SubTitle title="settings.paginator.next" :side="!isMobile ? 'right' : 'left'" icon="arrow-right-circle" />
-            <ArticleCard :data="article.nextArticleCard" />
+            <ArticleCard class="pre-and-next-article" :data="article.nextArticleCard" />
           </div>
         </div>
         <Comment />
@@ -174,6 +174,7 @@ export default defineComponent({
     const loading = ref(true)
     const articleRef = ref()
     commentStore.type = 1
+    let md = require('markdown-it')()
 
     const reactiveData = reactive({
       id: '' as any,
@@ -234,14 +235,24 @@ export default defineComponent({
           router.push({ path: '/出错啦' })
           return
         }
-        reactiveData.article = data.data
         metaStore.setTitle(data.data.articleTitle)
         commonStore.setHeaderImage(data.data.articleCover)
-        reactiveData.article.articleContent = markdownToHtml(reactiveData.article.articleContent)
+        data.data.articleContent = markdownToHtml(data.data.articleContent)
+        data.data.preArticleCard.articleContent = md
+          .render(data.data.preArticleCard.articleContent)
+          .replace(/<\/?[^>]*>/g, '')
+          .replace(/[|]*\n/, '')
+          .replace(/&npsp;/gi, '')
+        data.data.nextArticleCard.articleContent = md
+          .render(data.data.nextArticleCard.articleContent)
+          .replace(/<\/?[^>]*>/g, '')
+          .replace(/[|]*\n/, '')
+          .replace(/&npsp;/gi, '')
+        reactiveData.article = data.data
+        reactiveData.wordNum = Math.round(deleteHTMLTag(reactiveData.article.articleContent).length / 100) / 10 + 'k'
+        reactiveData.readTime = Math.round(deleteHTMLTag(reactiveData.article.articleContent).length / 400) + 'mins'
         loading.value = false
         nextTick(() => {
-          reactiveData.wordNum = Math.round(deleteHTMLTag(reactiveData.article.articleContent).length / 100) / 10 + 'k'
-          reactiveData.readTime = Math.round(deleteHTMLTag(reactiveData.article.articleContent).length / 400) + 'mins'
           Prism.highlightAll()
           initTocbot()
         })
@@ -421,6 +432,21 @@ export default defineComponent({
   > li > ol::before {
     left: -1.25em;
     border-left: 2px solid var(--text-accent);
+  }
+}
+.pre-and-next-article {
+  .article-content {
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      padding-bottom: 0 !important;
+    }
+    .article-footer {
+      margin-top: 13px;
+    }
   }
 }
 </style>

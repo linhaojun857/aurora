@@ -45,10 +45,10 @@ public class CommentController {
         return Result.ok(commentService.listRepliesByCommentId(commentId));
     }
 
-    @ApiOperation("获取前七个评论")
-    @GetMapping("/comments/topSeven")
-    public Result<List<CommentDTO>> getTopSevenComments() {
-        return Result.ok(commentService.listTopSevenComments());
+    @ApiOperation("获取前六个评论")
+    @GetMapping("/comments/topSix")
+    public Result<List<CommentDTO>> listTopSixComments() {
+        return Result.ok(commentService.listTopSixComments());
     }
 
     @ApiOperation(value = "查询后台评论")

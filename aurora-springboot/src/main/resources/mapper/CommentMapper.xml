@@ -59,7 +59,7 @@
         order by c.create_time desc
         ) t
     </select>
-    <select id="listTopSevenComments" resultType="com.aurora.dto.CommentDTO">
+    <select id="listTopSixComments" resultType="com.aurora.dto.CommentDTO">
         SELECT u.nickname,
                u.avatar,
                u.website,
@@ -70,7 +70,7 @@
         FROM t_comment c
                  JOIN t_user_info u ON c.user_id = u.id
         where c.is_review = 1
-        ORDER BY c.id DESC LIMIT 0 , 7
+        ORDER BY c.id DESC LIMIT 0 , 6
     </select>
     <select id="countComments" resultType="java.lang.Integer">
         SELECT

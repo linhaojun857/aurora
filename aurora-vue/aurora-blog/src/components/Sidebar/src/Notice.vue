@@ -2,7 +2,7 @@
   <div class="sidebar-box">
     <SubTitle :title="'titles.notice'" icon="notice" />
     <div class="mx-auto">
-      <span class="text-sm font-semibold text-right"> {{ notice }}</span>
+      <span class="text-sm font-semibold text-right notice"> {{ notice }}</span>
     </div>
   </div>
 </template>
@@ -26,4 +26,9 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.notice {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+</style>

@@ -3,8 +3,11 @@ package com.aurora.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.aurora.dto.*;
 import com.aurora.entity.Comment;
+import com.aurora.enums.CommentTypeEnum;
+import com.aurora.exception.BizException;
 import com.aurora.mapper.ArticleMapper;
 import com.aurora.mapper.CommentMapper;
+import com.aurora.mapper.TalkMapper;
 import com.aurora.mapper.UserInfoMapper;
 import com.aurora.service.AuroraInfoService;
 import com.aurora.service.CommentService;
@@ -27,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -49,6 +53,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private ArticleMapper articleMapper;
 
     @Autowired
+    private TalkMapper talkMapper;
+
+    @Autowired
     private UserInfoMapper userInfoMapper;
 
     @Autowired
@@ -57,8 +64,21 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    private static final List<Integer> types = new ArrayList<>();
+
+    @PostConstruct
+    public void init() {
+        CommentTypeEnum[] values = CommentTypeEnum.values();
+        for (CommentTypeEnum value : values) {
+            types.add(value.getType());
+        }
+    }
+
     @Override
     public void saveComment(CommentVO commentVO) {
+        if (!types.contains(commentVO.getType())) {
+            throw new BizException("评论类型不存在！");
+        }
         WebsiteConfigDTO websiteConfig = auroraInfoService.getWebsiteConfig();
         Integer isCommentReview = websiteConfig.getIsCommentReview();
         commentVO.setCommentContent(HTMLUtils.filter(commentVO.getCommentContent()));
@@ -109,8 +129,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public List<CommentDTO> listTopSevenComments() {
-        return commentMapper.listTopSevenComments();
+    public List<CommentDTO> listTopSixComments() {
+        return commentMapper.listTopSixComments();
     }
 
     @SneakyThrows
@@ -143,6 +163,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                     userId = articleMapper.selectById(comment.getTopicId()).getUserId();
                     break;
                 case TALK:
+                    userId = talkMapper.selectById(comment.getTopicId()).getUserId();
                 default:
                     break;
             }

@@ -36,7 +36,7 @@
           <el-form-item label="订阅:">
             <el-switch
               v-model="userInfo.isSubscribe"
-              @change="changeSubscribe"
+              @click="changeSubscribe"
               active-color="#0fb6d6"
               :active-value="1"
               :inactive-value="0" />

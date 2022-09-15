@@ -20,7 +20,7 @@ public interface CommentService extends IService<Comment> {
 
     List<ReplyDTO> listRepliesByCommentId(Integer commentId);
 
-    List<CommentDTO> listTopSevenComments();
+    List<CommentDTO> listTopSixComments();
 
     PageResult<CommentAdminDTO> listCommentsAdmin(ConditionVO conditionVO);
 

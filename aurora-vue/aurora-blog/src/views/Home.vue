@@ -40,11 +40,10 @@
         </span>
 
         <ul class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          <template v-if="articles.length === 0">
-          </template>
+          <template v-if="articles.length === 0"> </template>
           <template v-else>
             <li v-for="article in articles" :key="article.id">
-              <ArticleCard :data="article" />
+              <ArticleCard class="home-article" :data="article" />
             </li>
           </template>
         </ul>
@@ -60,7 +59,7 @@
           <Profile />
           <RecentComment v-if="true" />
           <TagBox />
-          <Notice/>
+          <Notice />
           <WebsiteInfo />
         </Sidebar>
       </div>
@@ -96,7 +95,7 @@ export default defineComponent({
     TagBox,
     Notice,
     WebsiteInfo
-},
+  },
   setup() {
     useMetaStore().setTitle('home')
     const appStore = useAppStore()
@@ -119,6 +118,7 @@ export default defineComponent({
       current: 1
     })
     let nowCategoryId = 0
+    let md = require('markdown-it')()
 
     const fetchData = () => {
       fetchTopAndFeatured()
@@ -130,6 +130,18 @@ export default defineComponent({
 
     const fetchTopAndFeatured = async () => {
       api.getTopAndFeaturedArticles().then(({ data }) => {
+        data.data.topArticle.articleContent = md
+          .render(data.data.topArticle.articleContent)
+          .replace(/<\/?[^>]*>/g, '')
+          .replace(/[|]*\n/, '')
+          .replace(/&npsp;/gi, '')
+        data.data.featuredArticles.forEach((item: any) => {
+          item.articleContent = md
+            .render(item.articleContent)
+            .replace(/<\/?[^>]*>/g, '')
+            .replace(/[|]*\n/, '')
+            .replace(/&npsp;/gi, '')
+        })
         articleStore.topArticle = data.data.topArticle
         articleStore.featuredArticles = data.data.featuredArticles
       })
@@ -151,6 +163,13 @@ export default defineComponent({
         })
         .then(({ data }) => {
           if (data.flag) {
+            data.data.records.forEach((item: any) => {
+              item.articleContent = md
+                .render(item.articleContent)
+                .replace(/<\/?[^>]*>/g, '')
+                .replace(/[|]*\n/, '')
+                .replace(/&npsp;/gi, '')
+            })
             articleStore.articles = data.data.records
             pagination.total = data.data.count
           }
@@ -185,6 +204,13 @@ export default defineComponent({
           categoryId: categoryId
         })
         .then(({ data }) => {
+          data.data.records.forEach((item: any) => {
+              item.articleContent = md
+                .render(item.articleContent)
+                .replace(/<\/?[^>]*>/g, '')
+                .replace(/[|]*\n/, '')
+                .replace(/&npsp;/gi, '')
+            })
           articleStore.articles = data.data.records
           pagination.total = data.data.count
         })
@@ -231,4 +257,20 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss">
+.home-article {
+  .article-content {
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      padding-bottom: 0 !important;
+    }
+    .article-footer {
+      margin-top: 13px;
+    }
+  }
+}
+</style>

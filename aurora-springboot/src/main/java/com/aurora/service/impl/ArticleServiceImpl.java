@@ -1,8 +1,6 @@
 package com.aurora.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.aurora.config.RabbitMQConfig;
-import com.aurora.constant.MQPrefixConst;
 import com.aurora.dto.*;
 import com.aurora.entity.Article;
 import com.aurora.entity.ArticleTag;
@@ -22,7 +20,6 @@ import com.aurora.service.TagService;
 import com.aurora.strategy.context.SearchStrategyContext;
 import com.aurora.strategy.context.UploadStrategyContext;
 import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.MarkdownUtils;
 import com.aurora.utils.PageUtils;
 import com.aurora.utils.UserUtils;
 import com.aurora.vo.*;
@@ -35,12 +32,8 @@ import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -92,7 +85,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         } else if (articleCardDTOs.size() > 3) {
             articleCardDTOs = articleCardDTOs.subList(0, 3);
         }
-        MarkdownUtils.CutOutArticleContent(articleCardDTOs, 130);
         TopAndFeaturedArticlesDTO topAndFeaturedArticlesDTO = new TopAndFeaturedArticlesDTO();
         topAndFeaturedArticlesDTO.setTopArticle(articleCardDTOs.get(0));
         articleCardDTOs.remove(0);
@@ -108,7 +100,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .eq(Article::getStatus, 1);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.selectCount(queryWrapper));
         List<ArticleCardDTO> articles = articleMapper.listArticles(PageUtils.getLimitCurrent(), PageUtils.getSize());
-        MarkdownUtils.CutOutArticleContent(articles, 90);
         return new PageResult<>(articles, asyncCount.get());
     }
 
@@ -118,7 +109,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>().eq(Article::getCategoryId, categoryId);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.selectCount(queryWrapper));
         List<ArticleCardDTO> articles = articleMapper.getArticlesByCategoryId(PageUtils.getLimitCurrent(), PageUtils.getSize(), categoryId);
-        MarkdownUtils.CutOutArticleContent(articles, 90);
         return new PageResult<>(articles, asyncCount.get());
     }
 
@@ -132,7 +122,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             if (Objects.isNull(preArticle)) {
                 preArticle = articleMapper.getLastArticle();
             }
-            MarkdownUtils.CutOutArticleContent(preArticle, 130);
             return preArticle;
         });
         CompletableFuture<ArticleCardDTO> asyncNextArticle = CompletableFuture.supplyAsync(() -> {
@@ -140,7 +129,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             if (Objects.isNull(nextArticle)) {
                 nextArticle = articleMapper.getFirstArticle();
             }
-            MarkdownUtils.CutOutArticleContent(nextArticle, 130);
             return nextArticle;
         });
         ArticleDTO article = asyncArticle.get();
@@ -162,7 +150,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<ArticleTag>().eq(ArticleTag::getTagId, tagId);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleTagMapper.selectCount(queryWrapper));
         List<ArticleCardDTO> articles = articleMapper.listArticlesByTagId(PageUtils.getLimitCurrent(), PageUtils.getSize(), tagId);
-        MarkdownUtils.CutOutArticleContent(articles, 130);
         return new PageResult<>(articles, asyncCount.get());
     }
 
@@ -172,7 +159,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>().eq(Article::getIsDelete, 0).eq(Article::getStatus, 1);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.selectCount(queryWrapper));
         List<ArticleCardDTO> articles = articleMapper.listArchives(PageUtils.getLimitCurrent(), PageUtils.getSize());
-        MarkdownUtils.CutOutArticleContent(articles, 90);
         HashMap<String, List<ArticleCardDTO>> map = new HashMap<>();
         for (ArticleCardDTO article : articles) {
             LocalDateTime createTime = article.getCreateTime();

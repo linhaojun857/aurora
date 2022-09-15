@@ -6,7 +6,12 @@
                c.category_name,
                COUNT(a.id) AS article_count
         FROM t_category c
-                 LEFT JOIN t_article a ON c.id = a.category_id
+                 LEFT JOIN (
+            SELECT *
+            FROM t_article
+            WHERE is_delete = 0
+              and status = 1
+        ) a ON c.id = a.category_id
         GROUP BY c.id
     </select>
     <select id="listCategoriesAdmin" resultType="com.aurora.dto.CategoryAdminDTO">

@@ -4,31 +4,31 @@
     <select id="listTags" resultType="com.aurora.dto.TagDTO">
         SELECT t.id,
                tag_name,
-               COUNT(at.article_id) AS count
-        FROM
-            t_tag t
-            LEFT JOIN t_article_tag at
-        ON t.id = at.tag_id
-        GROUP BY
-            t.id
+               COUNT(aat.article_id) AS count
+        FROM t_tag t
+                 LEFT JOIN (
+            SELECT a.id      AS article_id,
+                   at.tag_id AS tag_id
+            FROM t_article_tag at
+                     LEFT JOIN t_article a ON at.article_id = a.id
+            WHERE a.is_delete = 0
+              AND a.STATUS = 1
+        ) aat ON t.id = aat.tag_id
+        GROUP BY t.id
     </select>
     <select id="listTopTenTags" resultType="com.aurora.dto.TagDTO">
         SELECT t.id,
                tag_name,
                COUNT(at.article_id) AS count
-        FROM
-            t_tag t
-            LEFT JOIN t_article_tag at
-        ON t.id = at.tag_id
-        GROUP BY
-            t.id
-            LIMIT 0, 10
+        FROM t_tag t
+                 LEFT JOIN t_article_tag at ON t.id = at.tag_id
+        GROUP BY t.id
+        LIMIT 0, 10
     </select>
     <select id="listTagNamesByArticleId" resultType="java.lang.String">
         SELECT tag_name
         FROM t_tag t
-                 JOIN t_article_tag at
-        ON t.id = at.tag_id
+                 JOIN t_article_tag at ON t.id = at.tag_id
         WHERE article_id = #{articleId}
     </select>
     <select id="listTagsAdmin" resultType="com.aurora.dto.TagAdminDTO">

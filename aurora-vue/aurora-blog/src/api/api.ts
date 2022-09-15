@@ -65,8 +65,8 @@ export default {
   getComments: (params: any) => {
     return axios.get('/api/comments', { params: params })
   },
-  getTopSevenComments: () => {
-    return axios.get('/api/comments/topSeven')
+  getTopSixComments: () => {
+    return axios.get('/api/comments/topSix')
   },
   getAbout: () => {
     return axios.get('/api/about')
