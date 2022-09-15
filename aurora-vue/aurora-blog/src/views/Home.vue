@@ -266,7 +266,6 @@ export default defineComponent({
       display: -webkit-box;
       -webkit-line-clamp: 5;
       -webkit-box-orient: vertical;
-      padding-bottom: 0 !important;
     }
     .article-footer {
       margin-top: 13px;

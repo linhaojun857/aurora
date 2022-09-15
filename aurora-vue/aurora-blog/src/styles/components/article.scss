@@ -67,7 +67,7 @@
       @apply text-ob-bright text-2xl font-extrabold mb-6 lg:mt-4 lg:mb-5;
     }
     p {
-      @apply text-sm lg:text-base pb-4 mb-2 lg:pb-6 lg:mb-2;
+      @apply text-sm lg:text-base mb-2;
       word-wrap: break-word;
       word-break: break-all;
     }
@@ -120,7 +120,7 @@
       @apply text-ob-bright text-2xl lg:text-4xl font-extrabold mb-6 lg:mt-4 lg:mb-8;
     }
     p {
-      @apply text-base lg:text-lg pb-4 mb-2 lg:pb-6 lg:mb-2;
+      @apply text-base lg:text-lg mb-2;
       word-wrap: break-word;
       word-break: break-all;
     }
@@ -226,7 +226,6 @@
     margin-left: 2rem;
   }
 
-
   /* bullet lists */
   ul,
   ul ul,
@@ -326,11 +325,7 @@
     left: 0px;
     height: 2px;
     width: 76%;
-    background: linear-gradient(
-      90deg,
-      var(--text-accent),
-      var(--background-secondary) 76.05%
-    );
+    background: linear-gradient(90deg, var(--text-accent), var(--background-secondary) 76.05%);
   }
 
   .custom-quote::after,
@@ -341,11 +336,7 @@
     left: 0px;
     height: 2px;
     width: 45%;
-    background: linear-gradient(
-      90deg,
-      var(--text-accent),
-      var(--background-primary) 45%
-    );
+    background: linear-gradient(90deg, var(--text-accent), var(--background-primary) 45%);
   }
 
   .custom-quote-svg,
@@ -383,19 +374,11 @@
   }
 
   .custom-quote.tip::before {
-    background: linear-gradient(
-      90deg,
-      var(--custom-quote-tip),
-      var(--background-primary)
-    );
+    background: linear-gradient(90deg, var(--custom-quote-tip), var(--background-primary));
   }
 
   .custom-quote.tip::after {
-    background: linear-gradient(
-      90deg,
-      var(--custom-quote-tip),
-      var(--background-primary)
-    );
+    background: linear-gradient(90deg, var(--custom-quote-tip), var(--background-primary));
   }
 
   .custom-quote.warning .custom-quote-svg {
@@ -410,19 +393,11 @@
   }
 
   .custom-quote.warning::before {
-    background: linear-gradient(
-      90deg,
-      var(--custom-quote-warning),
-      var(--background-primary)
-    );
+    background: linear-gradient(90deg, var(--custom-quote-warning), var(--background-primary));
   }
 
   .custom-quote.warning::after {
-    background: linear-gradient(
-      90deg,
-      var(--custom-quote-warning),
-      var(--background-primary)
-    );
+    background: linear-gradient(90deg, var(--custom-quote-warning), var(--background-primary));
   }
 
   .custom-quote.danger .custom-quote-svg {
@@ -437,19 +412,11 @@
   }
 
   .custom-quote.danger::before {
-    background: linear-gradient(
-      90deg,
-      var(--custom-quote-danger),
-      var(--background-primary)
-    );
+    background: linear-gradient(90deg, var(--custom-quote-danger), var(--background-primary));
   }
 
   .custom-quote.danger::after {
-    background: linear-gradient(
-      90deg,
-      var(--custom-quote-danger),
-      var(--background-primary)
-    );
+    background: linear-gradient(90deg, var(--custom-quote-danger), var(--background-primary));
   }
 
   .custom-details {
@@ -471,11 +438,7 @@
       -ms-user-select: none; /* Internet Explorer/Edge */
       user-select: none; /* Non-prefixed version, currently */
       padding: 0.5rem 1.2rem;
-      background: linear-gradient(
-        135deg,
-        var(--bg-accent-55),
-        transparent 46.07%
-      );
+      background: linear-gradient(135deg, var(--bg-accent-55), transparent 46.07%);
       opacity: 1;
       &:hover {
         opacity: 0.6;
@@ -529,21 +492,15 @@
   }
 
   a {
-    text-shadow: -1px -1px 2px var(--background-primary),
-      -1px 1px 2px var(--background-primary),
-      1px -1px 2px var(--background-primary),
-      1px 1px 2px var(--background-primary);
+    text-shadow: -1px -1px 2px var(--background-primary), -1px 1px 2px var(--background-primary),
+      1px -1px 2px var(--background-primary), 1px 1px 2px var(--background-primary);
     -webkit-text-fill-color: var(--text-bright);
     background-position: 0 100%;
     background-repeat: repeat-x;
     background-size: 5px 5px;
     text-decoration: none;
     transition: all 350ms ease;
-    background-image: linear-gradient(
-      to bottom,
-      var(--bg-sub-accent-55) 0%,
-      var(--bg-sub-accent-55) 100%
-    );
+    background-image: linear-gradient(to bottom, var(--bg-sub-accent-55) 0%, var(--bg-sub-accent-55) 100%);
   }
 
   a strong {
@@ -555,10 +512,8 @@
   }
 
   a:hover {
-    text-shadow: -1px -1px 2px var(--background-modifier-border),
-      -1px 1px 2px var(--background-modifier-border),
-      1px -1px 2px var(--background-modifier-border),
-      1px 1px 2px var(--background-modifier-border);
+    text-shadow: -1px -1px 2px var(--background-modifier-border), -1px 1px 2px var(--background-modifier-border),
+      1px -1px 2px var(--background-modifier-border), 1px 1px 2px var(--background-modifier-border);
     -webkit-text-fill-color: var(--text-bright);
     background-size: 4px 50px;
   }
