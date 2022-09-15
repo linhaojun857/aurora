@@ -67,7 +67,7 @@
       @apply text-ob-bright text-2xl font-extrabold mb-6 lg:mt-4 lg:mb-5;
     }
     p {
-      @apply text-sm lg:text-base mb-2;
+      @apply text-base mb-2;
       word-wrap: break-word;
       word-break: break-all;
     }
@@ -108,10 +108,10 @@
   .feature-content {
     @apply flex flex-col relative px-6 pb-6 lg:p-12 z-40 row-span-2 lg:row-auto;
     b {
-      @apply text-ob uppercase;
+      @apply text-ob text-xs lg:text-base uppercase;
     }
     ul {
-      @apply inline-flex pl-4;
+      @apply inline-flex pl-4 text-xs lg:text-base;
       li {
         @apply mr-3;
       }
