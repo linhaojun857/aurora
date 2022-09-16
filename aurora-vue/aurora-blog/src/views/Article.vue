@@ -110,13 +110,13 @@
           <ob-skeleton tag="div" :count="25" height="16px" width="100px" class="mr-2" />
         </div>
         <div class="flex flex-col lg:flex-row justify-start items-end my-8 my-gap">
-          <div class="w-full h-full self-stretch mr-0 lg:mr-4" v-if="article.preArticleCard">
+          <div class="w-full h-full self-stretch mr-0 lg:mr-4" v-if="preArticleCard">
             <SubTitle title="settings.paginator.pre" icon="arrow-left-circle" />
-            <ArticleCard class="pre-and-next-article" :data="article.preArticleCard" />
+            <ArticleCard class="pre-and-next-article" :data="preArticleCard" />
           </div>
-          <div class="w-full h-full self-stretch mt-0" v-if="article.nextArticleCard">
+          <div class="w-full h-full self-stretch mt-0" v-if="nextArticleCard">
             <SubTitle title="settings.paginator.next" :side="!isMobile ? 'right' : 'left'" icon="arrow-right-circle" />
-            <ArticleCard class="pre-and-next-article" :data="article.nextArticleCard" />
+            <ArticleCard class="pre-and-next-article" :data="nextArticleCard" />
           </div>
         </div>
         <Comment />
@@ -184,7 +184,9 @@ export default defineComponent({
       comments: [] as any,
       haveMore: false as any,
       isReload: false as any,
-      images: [] as any
+      images: [] as any,
+      preArticleCard: '' as any,
+      nextArticleCard: '' as any
     })
     const pageInfo = reactive({
       current: 1,
@@ -237,24 +239,38 @@ export default defineComponent({
         }
         metaStore.setTitle(data.data.articleTitle)
         commonStore.setHeaderImage(data.data.articleCover)
-        data.data.articleContent = markdownToHtml(data.data.articleContent)
-        data.data.preArticleCard.articleContent = md
-          .render(data.data.preArticleCard.articleContent)
-          .replace(/<\/?[^>]*>/g, '')
-          .replace(/[|]*\n/, '')
-          .replace(/&npsp;/gi, '')
-        data.data.nextArticleCard.articleContent = md
-          .render(data.data.nextArticleCard.articleContent)
-          .replace(/<\/?[^>]*>/g, '')
-          .replace(/[|]*\n/, '')
-          .replace(/&npsp;/gi, '')
-        reactiveData.article = data.data
-        reactiveData.wordNum = Math.round(deleteHTMLTag(reactiveData.article.articleContent).length / 100) / 10 + 'k'
-        reactiveData.readTime = Math.round(deleteHTMLTag(reactiveData.article.articleContent).length / 400) + 'mins'
-        loading.value = false
-        nextTick(() => {
-          Prism.highlightAll()
-          initTocbot()
+        new Promise((resolve) => {
+          data.data.articleContent = markdownToHtml(data.data.articleContent)
+          resolve(data.data)
+        }).then((article: any) => {
+          reactiveData.article = article
+          reactiveData.wordNum = Math.round(deleteHTMLTag(article.articleContent).length / 100) / 10 + 'k'
+          reactiveData.readTime = Math.round(deleteHTMLTag(article.articleContent).length / 400) + 'mins'
+          loading.value = false
+          nextTick(() => {
+            Prism.highlightAll()
+            initTocbot()
+          })
+        })
+        new Promise((resolve) => {
+          data.data.preArticleCard.articleContent = md
+            .render(data.data.preArticleCard.articleContent)
+            .replace(/<\/?[^>]*>/g, '')
+            .replace(/[|]*\n/, '')
+            .replace(/&npsp;/gi, '')
+          resolve(data.data.preArticleCard)
+        }).then((preArticleCard: any) => {
+          reactiveData.preArticleCard = preArticleCard
+        })
+        new Promise((resolve) => {
+          data.data.nextArticleCard.articleContent = md
+            .render(data.data.nextArticleCard.articleContent)
+            .replace(/<\/?[^>]*>/g, '')
+            .replace(/[|]*\n/, '')
+            .replace(/&npsp;/gi, '')
+          resolve(data.data.nextArticleCard)
+        }).then((nextArticleCard) => {
+          reactiveData.nextArticleCard = nextArticleCard
         })
       })
     }
@@ -325,6 +341,8 @@ export default defineComponent({
         reactiveData.wordNum = ''
         reactiveData.comments = ''
         reactiveData.images = []
+        reactiveData.preArticleCard = ''
+        reactiveData.nextArticleCard = ''
         reactiveData.id = to.params.articleId
         fetchData(reactiveData.id)
       }
