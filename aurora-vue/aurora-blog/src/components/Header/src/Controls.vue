@@ -44,7 +44,7 @@
         <el-input v-model="loginInfo.username" placeholder="邮箱" />
       </el-form-item>
       <el-form-item model="userInfo" type="password" class="mt-8">
-        <el-input v-model="loginInfo.password" type="password" placeholder="密码" />
+        <el-input v-model="loginInfo.password" type="password" show-password placeholder="密码" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="login" size="large" class="mx-auto mt-3">登录</el-button>
@@ -64,14 +64,14 @@
         <el-input v-model="loginInfo.username" placeholder="邮箱" />
       </el-form-item>
       <el-form-item model="userInfo" class="mt-8">
-        <el-input v-model="loginInfo.code" type="password" placeholder="验证码">
+        <el-input v-model="loginInfo.code" placeholder="验证码">
           <template #append>
             <span class="text" @click="sendCode">发送</span>
           </template>
         </el-input>
       </el-form-item>
       <el-form-item model="userInfo" type="password" class="mt-8">
-        <el-input v-model="loginInfo.password" type="password" placeholder="密码" />
+        <el-input v-model="loginInfo.password" type="password" show-password placeholder="密码" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="register" size="large" class="mx-auto mt-3">注册</el-button>
@@ -85,17 +85,17 @@
         <el-input v-model="loginInfo.username" placeholder="邮箱" />
       </el-form-item>
       <el-form-item model="userInfo" class="mt-8">
-        <el-input v-model="loginInfo.password" type="password" placeholder="验证码">
+        <el-input v-model="loginInfo.code" placeholder="验证码">
           <template #append>
-            <span class="text" @click="">发送</span>
+            <span class="text" @click="sendCode">发送</span>
           </template>
         </el-input>
       </el-form-item>
       <el-form-item model="userInfo" type="password" class="mt-8">
-        <el-input v-model="loginInfo.password" type="password" placeholder="新密码" />
+        <el-input v-model="loginInfo.password" type="password" show-password placeholder="新密码" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="" size="large" class="mx-auto mt-3">确定</el-button>
+        <el-button type="primary" @click="updatePassword" size="large" class="mx-auto mt-3">确定</el-button>
       </el-form-item>
       <span class="text" @click="returnLoginDialog">返回登录</span>
     </el-form>
@@ -281,6 +281,25 @@ export default defineComponent({
         )
       }
     }
+    const updatePassword = () => {
+      api.updatePassword(loginInfo).then(({ data }) => {
+        if (data.flag) {
+          proxy.$notify({
+            title: 'Success',
+            message: '修改成功',
+            type: 'success'
+          })
+          reactiveDate.forgetPasswordDialogVisible = false
+          reactiveDate.loginDialogVisible = true
+        } else {
+          proxy.$notify({
+            title: 'Error',
+            message: data.message,
+            type: 'error'
+          })
+        }
+      })
+    }
 
     return {
       handleOpenModel,
@@ -298,6 +317,7 @@ export default defineComponent({
       returnLoginDialog,
       sendCode,
       register,
+      updatePassword,
       openForgetPasswordDialog,
       multiLanguage: computed(() => {
         let websiteConfig: any = appStore.websiteConfig

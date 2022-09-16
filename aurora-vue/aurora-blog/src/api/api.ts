@@ -131,5 +131,8 @@ export default {
   },
   getRepliesByCommentId: (commentId: any) => {
     return axios.get(`/api/comments/${commentId}/replies`)
+  },
+  updatePassword:(params:any)=>{
+    return axios.put('/api/users/password',params)
   }
 }
