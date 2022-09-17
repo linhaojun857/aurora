@@ -14,9 +14,9 @@ import com.aurora.mapper.UserInfoMapper;
 import com.aurora.mapper.UserRoleMapper;
 import com.aurora.service.AuroraInfoService;
 import com.aurora.service.RedisService;
+import com.aurora.service.TokenService;
 import com.aurora.service.UserAuthService;
 import com.aurora.strategy.context.SocialLoginStrategyContext;
-import com.aurora.utils.JwtUtils;
 import com.aurora.utils.PageUtils;
 import com.aurora.utils.UserUtils;
 import com.aurora.vo.*;
@@ -31,9 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-
-import javax.servlet.http.HttpServletRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +64,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     private AuroraInfoService auroraInfoService;
 
     @Autowired
-    private HttpServletRequest request;
+    private TokenService tokenService;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -171,11 +168,11 @@ public class UserAuthServiceImpl implements UserAuthService {
     public void updateAdminPassword(PasswordVO passwordVO) {
         // 查询旧密码是否正确
         UserAuth user = userAuthMapper.selectOne(new LambdaQueryWrapper<UserAuth>()
-                .eq(UserAuth::getId, UserUtils.getLoginUser().getId()));
+                .eq(UserAuth::getId, UserUtils.getUserDetailsDTO().getId()));
         // 正确则修改密码，错误则提示不正确
         if (Objects.nonNull(user) && BCrypt.checkpw(passwordVO.getOldPassword(), user.getPassword())) {
             UserAuth userAuth = UserAuth.builder()
-                    .id(UserUtils.getLoginUser().getId())
+                    .id(UserUtils.getUserDetailsDTO().getId())
                     .password(BCrypt.hashpw(passwordVO.getNewPassword(), BCrypt.gensalt()))
                     .build();
             userAuthMapper.updateById(userAuth);
@@ -199,16 +196,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     @SneakyThrows
     @Override
     public UserLogoutStatusDTO logout() {
-        String token = request.getHeader("token");
-        if (StringUtils.isEmpty(token)) {
-            throw new BizException("用户未登录");
-        }
-        UserDetailDTO user = UserUtils.getLoginUser();
-        String userId = user.getId().toString();
-        // 将token加入黑名单列表
-        redisService.sAddExpire(TOKEN_BLACKLIST, JwtUtils.JWT_TTL, token);
-        // 删除redis中登录的用户信息
-        redisService.hDel("login_user", userId);
+        tokenService.delLoginUser(UserUtils.getUserDetailsDTO().getId());
         return new UserLogoutStatusDTO("注销成功");
     }
 

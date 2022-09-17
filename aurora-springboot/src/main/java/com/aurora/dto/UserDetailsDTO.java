@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDetailDTO implements UserDetails {
+public class UserDetailsDTO implements UserDetails {
 
     /**
      * 用户账号id
@@ -62,7 +62,7 @@ public class UserDetailDTO implements UserDetails {
     /**
      * 用户角色
      */
-    private List<String> roleList;
+    private List<String> roles;
 
     /**
      * 用户昵称
@@ -115,6 +115,13 @@ public class UserDetailDTO implements UserDetails {
     private String os;
 
     /**
+     * 过期时间
+     */
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime expireTime;
+
+    /**
      * 最后登录时间
      */
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -125,7 +132,7 @@ public class UserDetailDTO implements UserDetails {
     @Override
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roleList.stream()
+        return roles.stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
     }

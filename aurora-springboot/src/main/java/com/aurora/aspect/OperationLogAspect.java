@@ -84,9 +84,9 @@ public class OperationLogAspect {
         // 返回结果
         operationLog.setResponseData(JSON.toJSONString(keys));
         // 请求用户ID
-        operationLog.setUserId(UserUtils.getLoginUser().getId());
+        operationLog.setUserId(UserUtils.getUserDetailsDTO().getId());
         // 请求用户
-        operationLog.setNickname(UserUtils.getLoginUser().getNickname());
+        operationLog.setNickname(UserUtils.getUserDetailsDTO().getNickname());
         // 请求IP
         String ipAddress = IpUtils.getIpAddress(request);
         operationLog.setIpAddress(ipAddress);

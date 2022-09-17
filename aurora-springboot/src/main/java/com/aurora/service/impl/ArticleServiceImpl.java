@@ -217,7 +217,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (Objects.nonNull(category)) {
             article.setCategoryId(category.getId());
         }
-        article.setUserId(UserUtils.getLoginUser().getUserInfoId());
+        article.setUserId(UserUtils.getUserDetailsDTO().getUserInfoId());
         this.saveOrUpdate(article);
         // 保存文章标签
         saveArticleTag(articleVO, article.getId());

@@ -1,14 +1,17 @@
 package com.aurora.service.impl;
 
-import com.aurora.dto.UserDetailDTO;
+import com.aurora.dto.UserDetailsDTO;
 import com.aurora.dto.UserInfoDTO;
 import com.aurora.dto.UserOnlineDTO;
+import com.aurora.entity.UserAuth;
 import com.aurora.entity.UserInfo;
 import com.aurora.entity.UserRole;
 import com.aurora.enums.FilePathEnum;
 import com.aurora.exception.BizException;
+import com.aurora.mapper.UserAuthMapper;
 import com.aurora.mapper.UserInfoMapper;
 import com.aurora.service.RedisService;
+import com.aurora.service.TokenService;
 import com.aurora.service.UserInfoService;
 import com.aurora.service.UserRoleService;
 import com.aurora.strategy.context.UploadStrategyContext;
@@ -38,6 +41,12 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     private UserInfoMapper userInfoMapper;
 
     @Autowired
+    private UserAuthMapper userAuthMapper;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
     private RedisService redisService;
 
     @Autowired
@@ -52,7 +61,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     public void updateUserInfo(UserInfoVO userInfoVO) {
         // 封装用户信息
         UserInfo userInfo = UserInfo.builder()
-                .id(UserUtils.getLoginUser().getUserInfoId())
+                .id(UserUtils.getUserDetailsDTO().getUserInfoId())
                 .nickname(userInfoVO.getNickname())
                 .intro(userInfoVO.getIntro())
                 .website(userInfoVO.getWebsite())
@@ -66,7 +75,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         String avatar = uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.AVATAR.getPath());
         // 更新用户信息
         UserInfo userInfo = UserInfo.builder()
-                .id(UserUtils.getLoginUser().getUserInfoId())
+                .id(UserUtils.getUserDetailsDTO().getUserInfoId())
                 .avatar(avatar)
                 .build();
         userInfoMapper.updateById(userInfo);
@@ -83,7 +92,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             throw new BizException("验证码错误！");
         }
         UserInfo userInfo = UserInfo.builder()
-                .id(UserUtils.getLoginUser().getUserInfoId())
+                .id(UserUtils.getUserDetailsDTO().getUserInfoId())
                 .email(emailVO.getEmail())
                 .build();
         userInfoMapper.updateById(userInfo);
@@ -139,11 +148,11 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     public PageResult<UserOnlineDTO> listOnlineUsers(ConditionVO conditionVO) {
         Map<String, Object> userMaps = redisService.hGetAll("login_user");
         Collection<Object> values = userMaps.values();
-        ArrayList<UserDetailDTO> userDetailDTOs = new ArrayList<>();
+        ArrayList<UserDetailsDTO> userDetailsDTOs = new ArrayList<>();
         for (Object value : values) {
-            userDetailDTOs.add((UserDetailDTO) value);
+            userDetailsDTOs.add((UserDetailsDTO) value);
         }
-        List<UserOnlineDTO> userOnlineDTOs = BeanCopyUtils.copyList(userDetailDTOs, UserOnlineDTO.class);
+        List<UserOnlineDTO> userOnlineDTOs = BeanCopyUtils.copyList(userDetailsDTOs, UserOnlineDTO.class);
         List<UserOnlineDTO> onlineUsers = userOnlineDTOs.stream()
                 .filter(item -> StringUtils.isBlank(conditionVO.getKeywords()) || item.getNickname().contains(conditionVO.getKeywords()))
                 .sorted(Comparator.comparing(UserOnlineDTO::getLastLoginTime).reversed())
@@ -157,7 +166,8 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     @Override
     public void removeOnlineUser(Integer userInfoId) {
-        redisService.hDel("login_user", String.valueOf(userInfoId));
+        Integer userId = userAuthMapper.selectOne(new LambdaQueryWrapper<UserAuth>().eq(UserAuth::getUserInfoId, userInfoId)).getId();
+        tokenService.delLoginUser(userId);
     }
 
     @Override
