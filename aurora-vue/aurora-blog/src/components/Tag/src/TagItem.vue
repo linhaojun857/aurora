@@ -2,7 +2,7 @@
   <div class="flex flex-row items-center hover:opacity-50 mr-2 mb-2 cursor-pointer transition-all">
     <router-link
       class="bg-ob-deep-900 text-center px-3 py-1 rounded-tl-md rounded-bl-md text-sm"
-      :to="{path:'/article-list/'+id,query:{tagName:name}}"
+      :to="{ path: '/article-list/' + id, query: { tagName: name } }"
       :style="stylingTag()">
       <em class="opacity-50">#</em>
       {{ name }}

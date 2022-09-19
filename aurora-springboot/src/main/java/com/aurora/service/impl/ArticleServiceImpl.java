@@ -8,6 +8,7 @@ import com.aurora.entity.Category;
 import com.aurora.entity.Tag;
 import com.aurora.enums.FileExtEnum;
 import com.aurora.enums.FilePathEnum;
+import com.aurora.enums.StatusCodeEnum;
 import com.aurora.exception.BizException;
 import com.aurora.mapper.ArticleMapper;
 import com.aurora.mapper.ArticleTagMapper;
@@ -42,6 +43,7 @@ import java.util.stream.Collectors;
 import static com.aurora.constant.MQPrefixConst.SUBSCRIBE_EXCHANGE;
 import static com.aurora.constant.RedisPrefixConst.*;
 import static com.aurora.enums.ArticleStatusEnum.*;
+import static com.aurora.enums.StatusCodeEnum.ARTICLE_ACCESS_FAIL;
 
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
@@ -115,6 +117,21 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @SneakyThrows
     @Override
     public ArticleDTO getArticleById(Integer articleId) {
+        Article articleForCheck = articleMapper.selectOne(new LambdaQueryWrapper<Article>().eq(Article::getId, articleId));
+        if (Objects.isNull(articleForCheck)) {
+            return null;
+        }
+        if (articleForCheck.getStatus().equals(2)) {
+            Boolean isAccess;
+            try {
+                isAccess = redisService.sIsMember(USER_ARTICLE_ACCESS + ":" + UserUtils.getUserDetailsDTO().getId(), articleId);
+            } catch (Exception exception) {
+                throw new BizException(ARTICLE_ACCESS_FAIL);
+            }
+            if (isAccess.equals(false)) {
+                throw new BizException(ARTICLE_ACCESS_FAIL);
+            }
+        }
         updateArticleViewsCount(articleId);
         CompletableFuture<ArticleDTO> asyncArticle = CompletableFuture.supplyAsync(() -> articleMapper.getArticleById(articleId));
         CompletableFuture<ArticleCardDTO> asyncPreArticle = CompletableFuture.supplyAsync(() -> {
@@ -142,6 +159,19 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         article.setPreArticleCard(asyncPreArticle.get());
         article.setNextArticleCard(asyncNextArticle.get());
         return article;
+    }
+
+    @Override
+    public void accessArticle(ArticlePasswordVO articlePasswordVO) {
+        Article article = articleMapper.selectOne(new LambdaQueryWrapper<Article>().eq(Article::getId, articlePasswordVO.getArticleId()));
+        if (Objects.isNull(article)) {
+            throw new BizException("文章不存在");
+        }
+        if (article.getPassword().equals(articlePasswordVO.getArticlePassword())) {
+            redisService.sAdd(USER_ARTICLE_ACCESS + ":" + UserUtils.getUserDetailsDTO().getId(), articlePasswordVO.getArticleId());
+        } else {
+            throw new BizException("密码错误");
+        }
     }
 
     @SneakyThrows

@@ -57,4 +57,8 @@ public class RedisPrefixConst {
      */
     public static final String LOGIN_USER = "login_user";
 
+    /**
+     * 文章授权访问名单
+     */
+    public static final String USER_ARTICLE_ACCESS = "article_access";
 }

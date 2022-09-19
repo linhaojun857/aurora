@@ -24,6 +24,7 @@ public class ArticleCardDTO {
     private UserInfo author;
     private String categoryName;
     private List<Tag> tags;
+    private Integer status;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

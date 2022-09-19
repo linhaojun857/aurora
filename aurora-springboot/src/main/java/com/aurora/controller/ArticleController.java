@@ -57,6 +57,13 @@ public class ArticleController {
         return Result.ok(articleService.getArticleById(articleId));
     }
 
+    @ApiOperation("校验文章访问密码")
+    @PostMapping("/articles/access")
+    public Result<?> accessArticle(@Valid @RequestBody ArticlePasswordVO articlePasswordVO) {
+        articleService.accessArticle(articlePasswordVO);
+        return Result.ok();
+    }
+
     @ApiOperation("根据标签id获取文章")
     @GetMapping("/articles/tagId")
     public Result<PageResult<ArticleCardDTO>> listArticlesByTagId(@RequestParam Integer tagId) {
@@ -139,5 +146,5 @@ public class ArticleController {
     public Result<List<ArticleSearchDTO>> listArticlesBySearch(ConditionVO condition) {
         return Result.ok(articleService.listArticlesBySearch(condition));
     }
-    
+
 }

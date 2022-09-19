@@ -30,6 +30,7 @@ public class Article {
     private Integer isDelete;
     private Integer status;
     private Integer type;
+    private String password;
     private String originalUrl;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

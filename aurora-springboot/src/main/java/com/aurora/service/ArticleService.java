@@ -19,6 +19,8 @@ public interface ArticleService extends IService<Article> {
 
     ArticleDTO getArticleById(Integer articleId);
 
+    void accessArticle(ArticlePasswordVO articlePasswordVO);
+
     PageResult<ArticleCardDTO> listArticlesByTagId(Integer tagId);
 
     PageResult<ArchiveDTO> listArchives();

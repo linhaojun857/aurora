@@ -134,5 +134,8 @@ export default {
   },
   updatePassword: (params: any) => {
     return axios.put('/api/users/password', params)
+  },
+  accessArticle:(params:any)=>{
+    return axios.post('/api/articles/access',params)
   }
 }

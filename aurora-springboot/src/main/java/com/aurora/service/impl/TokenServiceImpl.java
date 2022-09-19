@@ -58,6 +58,7 @@ public class TokenServiceImpl implements TokenService {
         redisService.hSet(LOGIN_USER, userId, userDetailsDTO, expireTime);
     }
 
+    @Override
     public void renewToken(UserDetailsDTO userDetailsDTO) {
         LocalDateTime expireTime = userDetailsDTO.getExpireTime();
         LocalDateTime currentTime = LocalDateTime.now();
