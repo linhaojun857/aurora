@@ -13,7 +13,7 @@ public interface TokenService {
 
     void refreshToken(UserDetailsDTO userDetailsDTO);
 
-    void contractToken(UserDetailsDTO userDetailsDTO);
+    void renewToken(UserDetailsDTO userDetailsDTO);
 
     Claims parseToken(String token);
 

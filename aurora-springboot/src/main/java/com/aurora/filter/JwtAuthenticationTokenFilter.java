@@ -31,7 +31,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
         UserDetailsDTO userDetailsDTO = tokenService.getUserDetailDTO(request);
         if (Objects.nonNull(userDetailsDTO) && Objects.isNull(UserUtils.getAuthentication())) {
-            tokenService.contractToken(userDetailsDTO);
+            tokenService.renewToken(userDetailsDTO);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetailsDTO, null, userDetailsDTO.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }

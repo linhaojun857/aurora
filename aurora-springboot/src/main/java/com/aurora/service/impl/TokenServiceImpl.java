@@ -52,13 +52,13 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void refreshToken(UserDetailsDTO userDetailsDTO) {
-        userDetailsDTO.setExpireTime(userDetailsDTO.getLastLoginTime().plusSeconds(expireTime));
+        LocalDateTime currentTime = LocalDateTime.now();
+        userDetailsDTO.setExpireTime(currentTime.plusSeconds(expireTime));
         String userId = userDetailsDTO.getId().toString();
         redisService.hSet(LOGIN_USER, userId, userDetailsDTO, expireTime);
     }
 
-    @Override
-    public void contractToken(UserDetailsDTO userDetailsDTO) {
+    public void renewToken(UserDetailsDTO userDetailsDTO) {
         LocalDateTime expireTime = userDetailsDTO.getExpireTime();
         LocalDateTime currentTime = LocalDateTime.now();
         if (Duration.between(currentTime, expireTime).toMinutes() <= TWENTY_MINUTES) {
