@@ -28,4 +28,5 @@ public class ArticleAdminViewDTO {
     private Integer status;
     private Integer type;
     private String originalUrl;
+    private String password;
 }
