@@ -39,7 +39,7 @@
     </span>
   </div>
   <el-dialog v-model="loginDialogVisible" width="30%" :fullscreen="isMobile">
-    <el-form>
+    <el-form @keyup.enter.native="login">
       <el-form-item model="userInfo" class="mt-5">
         <el-input v-model="loginInfo.username" placeholder="邮箱" />
       </el-form-item>
@@ -101,9 +101,9 @@
     </el-form>
   </el-dialog>
   <el-dialog v-model="articlePasswordDialogVisible" width="30%" :fullscreen="isMobile">
-    <el-form>
+    <el-form @submit.native.prevent @keyup.enter.native="accessArticle">
       <el-form-item model="userInfo" class="mt-5">
-        <el-input v-model="articlePassword" placeholder="文章受密码保护,请输入密码" />
+        <el-input id="article-password-input" v-model="articlePassword" placeholder="文章受密码保护,请输入密码" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="accessArticle" size="large" class="mx-auto mt-3">校验密码</el-button>
@@ -116,7 +116,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRef, toRefs, reactive, getCurrentInstance } from 'vue'
+import { computed, defineComponent, toRef, toRefs, reactive, getCurrentInstance, nextTick } from 'vue'
 import { Dropdown, DropdownMenu, DropdownItem } from '@/components/Dropdown'
 import { useAppStore } from '@/stores/app'
 import { useCommonStore } from '@/stores/common'
@@ -209,6 +209,7 @@ export default defineComponent({
         if (data.flag) {
           userStore.userInfo = ''
           userStore.token = ''
+          userStore.accessArticles = []
           sessionStorage.removeItem('token')
           proxy.$notify({
             title: 'Success',
@@ -232,6 +233,7 @@ export default defineComponent({
       reactiveDate.loginDialogVisible = true
     }
     const openRegisterDialog = () => {
+      loginInfo.code = ''
       reactiveDate.loginDialogVisible = false
       reactiveDate.registerDialogVisible = true
     }
@@ -242,6 +244,7 @@ export default defineComponent({
       reactiveDate.loginDialogVisible = true
     }
     const openForgetPasswordDialog = () => {
+      loginInfo.code = ''
       reactiveDate.loginDialogVisible = false
       reactiveDate.forgetPasswordDialogVisible = true
     }
@@ -331,7 +334,11 @@ export default defineComponent({
 
     emitter.on('changeArticlePasswordDialogVisible', (articleId: any) => {
       reactiveDate.articlePasswordDialogVisible = true
+      reactiveDate.articlePassword = ''
       reactiveDate.articleId = articleId
+      nextTick(() => {
+        document.getElementById('article-password-input')?.focus()
+      })
     })
 
     const accessArticle = () => {

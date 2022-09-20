@@ -39,15 +39,14 @@
             <ob-skeleton v-else :count="2" tag="li" height="16px" width="35px" />
           </ul>
         </span>
-
-        <router-link v-if="article.articleTitle" :to="'/articles/' + article.id">
-          <h1 data-dia="article-link">{{ article.articleTitle }}</h1>
-        </router-link>
+        <h1 class="article-title" v-if="article.articleTitle" @click="toArticle" data-dia="article-link">
+          <a>
+            {{ article.articleTitle }}
+          </a>
+        </h1>
         <ob-skeleton v-else tag="h1" height="3rem" />
-
         <p v-if="article.articleContent">{{ article.articleContent }}</p>
         <ob-skeleton v-else tag="p" :count="3" height="20px" />
-
         <div class="article-footer" v-if="article">
           <div class="flex flex-row items-center">
             <img
@@ -66,7 +65,6 @@
             </span>
           </div>
         </div>
-
         <div class="article-footer" v-else>
           <div class="flex flex-row items-center mt-6">
             <ob-skeleton class="mr-2" height="28px" width="28px" :circle="true" />
@@ -81,20 +79,51 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRef } from 'vue'
+import { computed, defineComponent, toRef, getCurrentInstance } from 'vue'
 import { useAppStore } from '@/stores/app'
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
 import { useArticleStore } from '@/stores/article'
 import { useI18n } from 'vue-i18n'
+import emitter from '@/utils/mitt'
 
 export default defineComponent({
   name: 'HorizontalArticle',
   setup() {
+    const proxy: any = getCurrentInstance()?.appContext.config.globalProperties
     const appStore = useAppStore()
     const articleStore = useArticleStore()
+    const userStore = useUserStore()
+    const router = useRouter()
     const { t } = useI18n()
     const handleAuthorClick = (link: string) => {
       if (link === '') link = window.location.href
       window.open(link)
+    }
+
+    const toArticle = () => {
+      if (articleStore.topArticle == '') {
+        return
+      }
+      let isAccess = false
+      userStore.accessArticles.forEach((item: any) => {
+        if (item == articleStore.topArticle.id) {
+          isAccess = true
+        }
+      })
+      if (articleStore.topArticle.status == 2 && isAccess == false) {
+        if (userStore.userInfo === '') {
+          proxy.$notify({
+            title: 'Warning',
+            message: '该文章受密码保护,请登录后访问',
+            type: 'warning'
+          })
+        } else {
+          emitter.emit('changeArticlePasswordDialogVisible', articleStore.topArticle.id)
+        }
+      } else {
+        router.push({ path: '/articles/' + articleStore.topArticle.id })
+      }
     }
 
     return {
@@ -103,8 +132,14 @@ export default defineComponent({
       }),
       article: toRef(articleStore.$state, 'topArticle'),
       handleAuthorClick,
+      toArticle,
       t
     }
   }
 })
 </script>
+<style lang="scss" scoped>
+.article-title:hover {
+  cursor: default;
+}
+</style>

@@ -24,7 +24,6 @@
             {{ article.categoryName }}
           </b>
           <ob-skeleton v-else tag="b" height="20px" width="35px" />
-
           <ul v-if="article.tags && article.tags.length > 0">
             <li v-for="tag in article.tags" :key="tag.id">
               <em># {{ tag.tagName }}</em>
@@ -39,15 +38,12 @@
             <ob-skeleton v-if="!article.tags" :count="2" tag="li" height="16px" width="35px" />
           </ul>
         </span>
-
         <h1 class="article-title" v-if="article.articleTitle" @click="toArticle" data-dia="article-link">
           <a>{{ article.articleTitle }}</a>
         </h1>
         <ob-skeleton v-else tag="h1" height="3rem" />
-
         <p v-if="article.articleContent">{{ article.articleContent }}</p>
         <ob-skeleton v-else tag="p" :count="4" height="16px" />
-
         <div class="article-footer" v-if="article.author && article.createTime">
           <div class="flex flex-row items-center">
             <img
@@ -66,7 +62,6 @@
             </span>
           </div>
         </div>
-
         <div class="article-footer" v-else>
           <div class="flex flex-row items-center mt-6">
             <ob-skeleton class="mr-2" height="28px" width="28px" :circle="true" />
