@@ -15,9 +15,9 @@ public enum ArticleStatusEnum {
      */
     PUBLIC(1, "公开"),
     /**
-     * 私密
+     * 密码
      */
-    SECRET(2, "私密"),
+    SECRET(2, "密码"),
     /**
      * 草稿
      */

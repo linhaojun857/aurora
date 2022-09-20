@@ -4,6 +4,7 @@ package com.aurora.vo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
@@ -86,4 +87,10 @@ public class ArticleVO {
      */
     @ApiModelProperty(name = "originalUrl", value = "原文链接", dataType = "String")
     private String originalUrl;
+
+    /**
+     * 文章访问密码
+     */
+    @ApiModelProperty(name = "password", value = "文章访问密码", dataType = "String")
+    private String password;
 }

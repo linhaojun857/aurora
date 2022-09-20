@@ -24,7 +24,6 @@
             {{ article.categoryName }}
           </b>
           <ob-skeleton v-else tag="b" height="20px" width="35px" />
-
           <ul>
             <template v-if="article.tags && article.tags.length > 0">
               <li v-for="tag in article.tags" :key="tag.id">
@@ -41,7 +40,8 @@
         </span>
         <h1 class="article-title" v-if="article.articleTitle" @click="toArticle" data-dia="article-link">
           <a>
-            {{ article.articleTitle }}
+            <span>{{ article.articleTitle }}</span>
+            <svg-icon v-if="article.status == 2" icon-class="lock" class="lock-svg" />
           </a>
         </h1>
         <ob-skeleton v-else tag="h1" height="3rem" />

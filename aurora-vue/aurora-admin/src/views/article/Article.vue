@@ -134,8 +134,11 @@
         <el-form-item label="发布形式">
           <el-radio-group v-model="article.status">
             <el-radio :label="1">公开</el-radio>
-            <el-radio :label="2">私密</el-radio>
+            <el-radio :label="2">密码</el-radio>
           </el-radio-group>
+        </el-form-item>
+        <el-form-item label="访问密码" v-if="article.status == 2">
+          <el-input v-model="article.password" placeholder="请填写文章访问密码" />
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -197,7 +200,6 @@ export default {
         articleCover: '',
         categoryName: null,
         tagNames: [],
-        originalUrl: '',
         isTop: 0,
         type: 1,
         status: 1

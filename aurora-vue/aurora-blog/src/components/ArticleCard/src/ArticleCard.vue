@@ -39,7 +39,10 @@
           </ul>
         </span>
         <h1 class="article-title" v-if="article.articleTitle" @click="toArticle" data-dia="article-link">
-          <a>{{ article.articleTitle }}</a>
+          <a>
+            <span> {{ article.articleTitle }}</span>
+            <svg-icon v-if="article.status == 2" icon-class="lock" class="lock-svg" />
+          </a>
         </h1>
         <ob-skeleton v-else tag="h1" height="3rem" />
         <p v-if="article.articleContent">{{ article.articleContent }}</p>
