@@ -8,7 +8,7 @@ import com.github.houbb.sensitive.word.bs.SensitiveWordBs;
  */
 public class HTMLUtils {
 
-    private static final SensitiveWordBs WORD_BS = SensitiveWordBs.newInstance()
+    private static final SensitiveWordBs sensitiveWordBs = SensitiveWordBs.newInstance()
             .ignoreCase(true)
             .ignoreWidth(true)
             .ignoreNumStyle(true)
@@ -23,12 +23,13 @@ public class HTMLUtils {
 
     /**
      * 删除标签
+     *
      * @param source 需要进行剔除HTML的文本
      * @return 过滤后的内容
      */
     public static String filter(String source) {
         // 敏感词过滤
-//        source = WORD_BS.replace(source);
+        source = sensitiveWordBs.replace(source);
         // 保留图片标签
         source = source.replaceAll("(?!<(img).*?>)<.*?>", "")
                 .replaceAll("(onload(.*?)=)", "")
@@ -38,6 +39,7 @@ public class HTMLUtils {
 
     /**
      * 删除标签
+     *
      * @param source 文本
      * @return 过滤后的文本
      */
