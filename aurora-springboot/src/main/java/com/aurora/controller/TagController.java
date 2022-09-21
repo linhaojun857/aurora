@@ -2,13 +2,13 @@ package com.aurora.controller;
 
 
 import com.aurora.annotation.OptLog;
-import com.aurora.dto.TagAdminDTO;
-import com.aurora.dto.TagDTO;
+import com.aurora.model.dto.TagAdminDTO;
+import com.aurora.model.dto.TagDTO;
 import com.aurora.service.TagService;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.PageResult;
-import com.aurora.vo.Result;
-import com.aurora.vo.TagVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.PageResult;
+import com.aurora.model.vo.Result;
+import com.aurora.model.vo.TagVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

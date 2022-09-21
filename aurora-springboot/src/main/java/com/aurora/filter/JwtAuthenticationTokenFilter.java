@@ -1,7 +1,7 @@
 package com.aurora.filter;
 
 
-import com.aurora.dto.UserDetailsDTO;
+import com.aurora.model.dto.UserDetailsDTO;
 import com.aurora.service.TokenService;
 import com.aurora.utils.UserUtils;
 import lombok.SneakyThrows;

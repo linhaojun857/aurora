@@ -1,7 +1,7 @@
 package com.aurora.service.impl;
 
-import com.aurora.dto.PhotoAlbumAdminDTO;
-import com.aurora.dto.PhotoAlbumDTO;
+import com.aurora.model.dto.PhotoAlbumAdminDTO;
+import com.aurora.model.dto.PhotoAlbumDTO;
 import com.aurora.entity.Photo;
 import com.aurora.entity.PhotoAlbum;
 import com.aurora.exception.BizException;
@@ -10,9 +10,9 @@ import com.aurora.mapper.PhotoMapper;
 import com.aurora.service.PhotoAlbumService;
 import com.aurora.utils.BeanCopyUtils;
 import com.aurora.utils.PageUtils;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.PageResult;
-import com.aurora.vo.PhotoAlbumVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.PageResult;
+import com.aurora.model.vo.PhotoAlbumVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

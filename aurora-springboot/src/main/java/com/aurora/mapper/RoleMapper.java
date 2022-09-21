@@ -1,9 +1,9 @@
 package com.aurora.mapper;
 
-import com.aurora.dto.ResourceRoleDTO;
-import com.aurora.dto.RoleDTO;
+import com.aurora.model.dto.ResourceRoleDTO;
+import com.aurora.model.dto.RoleDTO;
 import com.aurora.entity.Role;
-import com.aurora.vo.ConditionVO;
+import com.aurora.model.vo.ConditionVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

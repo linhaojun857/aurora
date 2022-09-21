@@ -1,12 +1,12 @@
 package com.aurora.service;
 
-import com.aurora.dto.LabelOptionDTO;
-import com.aurora.dto.MenuDTO;
-import com.aurora.dto.UserMenuDTO;
+import com.aurora.model.dto.LabelOptionDTO;
+import com.aurora.model.dto.MenuDTO;
+import com.aurora.model.dto.UserMenuDTO;
 import com.aurora.entity.Menu;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.IsHiddenVO;
-import com.aurora.vo.MenuVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.IsHiddenVO;
+import com.aurora.model.vo.MenuVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.aurora.service.impl;
 
-import com.aurora.dto.UserDetailsDTO;
-import com.aurora.dto.UserInfoDTO;
-import com.aurora.dto.UserOnlineDTO;
+import com.aurora.model.dto.UserDetailsDTO;
+import com.aurora.model.dto.UserInfoDTO;
+import com.aurora.model.dto.UserOnlineDTO;
 import com.aurora.entity.UserAuth;
 import com.aurora.entity.UserInfo;
 import com.aurora.entity.UserRole;
@@ -17,7 +17,7 @@ import com.aurora.service.UserRoleService;
 import com.aurora.strategy.context.UploadStrategyContext;
 import com.aurora.utils.BeanCopyUtils;
 import com.aurora.utils.UserUtils;
-import com.aurora.vo.*;
+import com.aurora.model.vo.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;

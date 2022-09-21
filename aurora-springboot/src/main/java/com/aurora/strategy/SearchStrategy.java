@@ -1,6 +1,6 @@
 package com.aurora.strategy;
 
-import com.aurora.dto.ArticleSearchDTO;
+import com.aurora.model.dto.ArticleSearchDTO;
 
 import java.util.List;
 

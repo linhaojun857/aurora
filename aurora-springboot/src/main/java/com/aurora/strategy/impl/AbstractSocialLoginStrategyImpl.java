@@ -1,9 +1,9 @@
 package com.aurora.strategy.impl;
 
-import com.aurora.dto.SocialTokenDTO;
-import com.aurora.dto.SocialUserInfoDTO;
-import com.aurora.dto.UserDetailsDTO;
-import com.aurora.dto.UserInfoDTO;
+import com.aurora.model.dto.SocialTokenDTO;
+import com.aurora.model.dto.SocialUserInfoDTO;
+import com.aurora.model.dto.UserDetailsDTO;
+import com.aurora.model.dto.UserInfoDTO;
 import com.aurora.entity.UserAuth;
 import com.aurora.entity.UserInfo;
 import com.aurora.entity.UserRole;

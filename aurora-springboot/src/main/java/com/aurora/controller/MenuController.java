@@ -1,14 +1,14 @@
 package com.aurora.controller;
 
 import com.aurora.annotation.OptLog;
-import com.aurora.dto.LabelOptionDTO;
-import com.aurora.dto.MenuDTO;
-import com.aurora.dto.UserMenuDTO;
+import com.aurora.model.dto.LabelOptionDTO;
+import com.aurora.model.dto.MenuDTO;
+import com.aurora.model.dto.UserMenuDTO;
 import com.aurora.service.MenuService;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.IsHiddenVO;
-import com.aurora.vo.MenuVO;
-import com.aurora.vo.Result;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.IsHiddenVO;
+import com.aurora.model.vo.MenuVO;
+import com.aurora.model.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

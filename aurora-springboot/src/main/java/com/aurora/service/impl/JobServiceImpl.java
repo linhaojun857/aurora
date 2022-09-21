@@ -1,7 +1,7 @@
 package com.aurora.service.impl;
 
 import com.aurora.constant.ScheduleConst;
-import com.aurora.dto.JobDTO;
+import com.aurora.model.dto.JobDTO;
 import com.aurora.entity.Job;
 import com.aurora.mapper.JobMapper;
 import com.aurora.service.JobService;
@@ -9,12 +9,11 @@ import com.aurora.utils.BeanCopyUtils;
 import com.aurora.utils.CronUtils;
 import com.aurora.utils.PageUtils;
 import com.aurora.utils.ScheduleUtils;
-import com.aurora.vo.*;
+import com.aurora.model.vo.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.SneakyThrows;
-import org.quartz.JobDataMap;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;

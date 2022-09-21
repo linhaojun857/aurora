@@ -2,11 +2,11 @@ package com.aurora.controller;
 
 import com.aurora.annotation.AccessLimit;
 import com.aurora.annotation.OptLog;
-import com.aurora.dto.CommentAdminDTO;
-import com.aurora.dto.CommentDTO;
-import com.aurora.dto.ReplyDTO;
+import com.aurora.model.dto.CommentAdminDTO;
+import com.aurora.model.dto.CommentDTO;
+import com.aurora.model.dto.ReplyDTO;
 import com.aurora.service.CommentService;
-import com.aurora.vo.*;
+import com.aurora.model.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

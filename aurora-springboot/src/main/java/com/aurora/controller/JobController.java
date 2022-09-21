@@ -1,9 +1,9 @@
 package com.aurora.controller;
 
 import com.aurora.annotation.OptLog;
-import com.aurora.dto.JobDTO;
+import com.aurora.model.dto.JobDTO;
 import com.aurora.service.JobService;
-import com.aurora.vo.*;
+import com.aurora.model.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

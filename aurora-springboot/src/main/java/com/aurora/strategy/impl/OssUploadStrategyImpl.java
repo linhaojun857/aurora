@@ -2,7 +2,7 @@ package com.aurora.strategy.impl;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
-import com.aurora.config.OssConfigProperties;
+import com.aurora.config.properties.OssConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

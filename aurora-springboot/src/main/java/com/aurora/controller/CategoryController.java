@@ -1,14 +1,14 @@
 package com.aurora.controller;
 
 import com.aurora.annotation.OptLog;
-import com.aurora.dto.CategoryAdminDTO;
-import com.aurora.dto.CategoryDTO;
-import com.aurora.dto.CategoryOptionDTO;
+import com.aurora.model.dto.CategoryAdminDTO;
+import com.aurora.model.dto.CategoryDTO;
+import com.aurora.model.dto.CategoryOptionDTO;
 import com.aurora.service.CategoryService;
-import com.aurora.vo.CategoryVO;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.PageResult;
-import com.aurora.vo.Result;
+import com.aurora.model.vo.CategoryVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.PageResult;
+import com.aurora.model.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

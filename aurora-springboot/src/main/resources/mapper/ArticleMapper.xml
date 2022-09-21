@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aurora.mapper.ArticleMapper">
-    <resultMap id="ArticleCardDTOResultMap" type="com.aurora.dto.ArticleCardDTO">
+    <resultMap id="ArticleCardDTOResultMap" type="com.aurora.model.dto.ArticleCardDTO">
         <id property="id" column="id"/>
         <result property="articleCover" column="article_cover"/>
         <result property="articleTitle" column="article_title"/>
@@ -21,7 +21,7 @@
             <result property="tagName" column="tag_name"/>
         </collection>
     </resultMap>
-    <resultMap id="ArticleDTOResultMap" type="com.aurora.dto.ArticleDTO">
+    <resultMap id="ArticleDTOResultMap" type="com.aurora.model.dto.ArticleDTO">
         <id property="id" column="id"/>
         <result property="articleCover" column="article_cover"/>
         <result property="articleTitle" column="article_title"/>
@@ -42,7 +42,7 @@
             <result property="tagName" column="tag_name"/>
         </collection>
     </resultMap>
-    <resultMap id="articleAdminResultMap" type="com.aurora.dto.ArticleAdminDTO">
+    <resultMap id="articleAdminResultMap" type="com.aurora.model.dto.ArticleAdminDTO">
         <id property="id" column="id"/>
         <result property="articleCover" column="article_cover"/>
         <result property="articleTitle" column="article_title"/>
@@ -53,7 +53,7 @@
         <result property="type" column="type"/>
         <result property="createTime" column="create_time"/>
         <result property="categoryName" column="category_name"/>
-        <collection property="tagDTOs" ofType="com.aurora.dto.TagDTO">
+        <collection property="tagDTOs" ofType="com.aurora.model.dto.TagDTO">
             <id column="tag_id" property="id"/>
             <result column="tag_name" property="tagName"/>
         </collection>
@@ -394,7 +394,7 @@
           and status in (1, 2)
         LIMIT #{current} , #{size}
     </select>
-    <select id="listArchives" resultType="com.aurora.dto.ArticleCardDTO">
+    <select id="listArchives" resultType="com.aurora.model.dto.ArticleCardDTO">
         SELECT id,
                article_title,
                SUBSTR(article_content, 1, 500) AS article_content,
@@ -499,7 +499,7 @@
         is_featured DESC,
         a.id DESC
     </select>
-    <select id="listArticleStatistics" resultType="com.aurora.dto.ArticleStatisticsDTO">
+    <select id="listArticleStatistics" resultType="com.aurora.model.dto.ArticleStatisticsDTO">
         SELECT DATE_FORMAT(create_time, "%Y-%m-%d") AS date,
                COUNT(1)                             AS count
         FROM t_article

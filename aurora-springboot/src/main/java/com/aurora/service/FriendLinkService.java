@@ -1,11 +1,11 @@
 package com.aurora.service;
 
-import com.aurora.dto.FriendLinkAdminDTO;
-import com.aurora.dto.FriendLinkDTO;
+import com.aurora.model.dto.FriendLinkAdminDTO;
+import com.aurora.model.dto.FriendLinkDTO;
 import com.aurora.entity.FriendLink;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.FriendLinkVO;
-import com.aurora.vo.PageResult;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.FriendLinkVO;
+import com.aurora.model.vo.PageResult;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

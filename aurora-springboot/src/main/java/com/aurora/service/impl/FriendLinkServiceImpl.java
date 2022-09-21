@@ -1,15 +1,15 @@
 package com.aurora.service.impl;
 
-import com.aurora.dto.FriendLinkAdminDTO;
-import com.aurora.dto.FriendLinkDTO;
+import com.aurora.model.dto.FriendLinkAdminDTO;
+import com.aurora.model.dto.FriendLinkDTO;
 import com.aurora.entity.FriendLink;
 import com.aurora.mapper.FriendLinkMapper;
 import com.aurora.service.FriendLinkService;
 import com.aurora.utils.BeanCopyUtils;
 import com.aurora.utils.PageUtils;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.FriendLinkVO;
-import com.aurora.vo.PageResult;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.FriendLinkVO;
+import com.aurora.model.vo.PageResult;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

@@ -1,15 +1,15 @@
 package com.aurora.controller;
 
 import com.aurora.annotation.OptLog;
-import com.aurora.dto.PhotoAlbumAdminDTO;
-import com.aurora.dto.PhotoAlbumDTO;
+import com.aurora.model.dto.PhotoAlbumAdminDTO;
+import com.aurora.model.dto.PhotoAlbumDTO;
 import com.aurora.enums.FilePathEnum;
 import com.aurora.service.PhotoAlbumService;
 import com.aurora.strategy.context.UploadStrategyContext;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.PageResult;
-import com.aurora.vo.PhotoAlbumVO;
-import com.aurora.vo.Result;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.PageResult;
+import com.aurora.model.vo.PhotoAlbumVO;
+import com.aurora.model.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

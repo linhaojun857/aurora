@@ -3,7 +3,7 @@
 <mapper namespace="com.aurora.mapper.UniqueViewMapper">
 
 
-    <select id="listUniqueViews" resultType="com.aurora.dto.UniqueViewDTO">
+    <select id="listUniqueViews" resultType="com.aurora.model.dto.UniqueViewDTO">
         SELECT DATE_FORMAT(create_time, "%Y-%m-%d") as `day`,
                views_count
         FROM `t_unique_view`

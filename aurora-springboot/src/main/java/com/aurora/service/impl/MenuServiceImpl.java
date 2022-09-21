@@ -1,8 +1,8 @@
 package com.aurora.service.impl;
 
-import com.aurora.dto.LabelOptionDTO;
-import com.aurora.dto.MenuDTO;
-import com.aurora.dto.UserMenuDTO;
+import com.aurora.model.dto.LabelOptionDTO;
+import com.aurora.model.dto.MenuDTO;
+import com.aurora.model.dto.UserMenuDTO;
 import com.aurora.entity.Menu;
 import com.aurora.entity.RoleMenu;
 import com.aurora.exception.BizException;
@@ -11,9 +11,9 @@ import com.aurora.mapper.RoleMenuMapper;
 import com.aurora.service.MenuService;
 import com.aurora.utils.BeanCopyUtils;
 import com.aurora.utils.UserUtils;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.IsHiddenVO;
-import com.aurora.vo.MenuVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.IsHiddenVO;
+import com.aurora.model.vo.MenuVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

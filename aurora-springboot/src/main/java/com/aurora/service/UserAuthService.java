@@ -1,10 +1,10 @@
 package com.aurora.service;
 
-import com.aurora.dto.UserAdminDTO;
-import com.aurora.dto.UserAreaDTO;
-import com.aurora.dto.UserInfoDTO;
-import com.aurora.dto.UserLogoutStatusDTO;
-import com.aurora.vo.*;
+import com.aurora.model.dto.UserAdminDTO;
+import com.aurora.model.dto.UserAreaDTO;
+import com.aurora.model.dto.UserInfoDTO;
+import com.aurora.model.dto.UserLogoutStatusDTO;
+import com.aurora.model.vo.*;
 
 import java.util.List;
 

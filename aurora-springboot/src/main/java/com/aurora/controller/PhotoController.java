@@ -1,10 +1,10 @@
 package com.aurora.controller;
 
 import com.aurora.annotation.OptLog;
-import com.aurora.dto.PhotoAdminDTO;
-import com.aurora.dto.PhotoDTO;
+import com.aurora.model.dto.PhotoAdminDTO;
+import com.aurora.model.dto.PhotoDTO;
 import com.aurora.service.PhotoService;
-import com.aurora.vo.*;
+import com.aurora.model.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

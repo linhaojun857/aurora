@@ -1,6 +1,6 @@
 package com.aurora.service;
 
-import com.aurora.dto.UserDetailsDTO;
+import com.aurora.model.dto.UserDetailsDTO;
 import io.jsonwebtoken.Claims;
 
 import javax.servlet.http.HttpServletRequest;

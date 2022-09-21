@@ -2,12 +2,12 @@ package com.aurora.controller;
 
 
 import com.aurora.annotation.AccessLimit;
-import com.aurora.dto.UserAdminDTO;
-import com.aurora.dto.UserAreaDTO;
-import com.aurora.dto.UserInfoDTO;
-import com.aurora.dto.UserLogoutStatusDTO;
+import com.aurora.model.dto.UserAdminDTO;
+import com.aurora.model.dto.UserAreaDTO;
+import com.aurora.model.dto.UserInfoDTO;
+import com.aurora.model.dto.UserLogoutStatusDTO;
 import com.aurora.service.UserAuthService;
-import com.aurora.vo.*;
+import com.aurora.model.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

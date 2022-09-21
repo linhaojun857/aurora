@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aurora.mapper.CategoryMapper">
-    <select id="listCategories" resultType="com.aurora.dto.CategoryDTO">
+    <select id="listCategories" resultType="com.aurora.model.dto.CategoryDTO">
         SELECT c.id,
                c.category_name,
                COUNT(a.id) AS article_count
@@ -14,7 +14,7 @@
         ) a ON c.id = a.category_id
         GROUP BY c.id
     </select>
-    <select id="listCategoriesAdmin" resultType="com.aurora.dto.CategoryAdminDTO">
+    <select id="listCategoriesAdmin" resultType="com.aurora.model.dto.CategoryAdminDTO">
         SELECT
         c.id,
         c.category_name,

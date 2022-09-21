@@ -1,7 +1,7 @@
 package com.aurora.service.impl;
 
 
-import com.aurora.dto.UserDetailsDTO;
+import com.aurora.model.dto.UserDetailsDTO;
 import com.aurora.entity.UserAuth;
 import com.aurora.entity.UserInfo;
 import com.aurora.exception.BizException;

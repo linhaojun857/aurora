@@ -2,7 +2,7 @@ package com.aurora.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.aurora.constant.CommonConst;
-import com.aurora.dto.*;
+import com.aurora.model.dto.*;
 import com.aurora.entity.UserAuth;
 import com.aurora.entity.UserInfo;
 import com.aurora.entity.UserRole;
@@ -19,7 +19,7 @@ import com.aurora.service.UserAuthService;
 import com.aurora.strategy.context.SocialLoginStrategyContext;
 import com.aurora.utils.PageUtils;
 import com.aurora.utils.UserUtils;
-import com.aurora.vo.*;
+import com.aurora.model.vo.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;

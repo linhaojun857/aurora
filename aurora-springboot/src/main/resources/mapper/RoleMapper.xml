@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aurora.mapper.RoleMapper">
 
-    <resultMap id="roleMap" type="com.aurora.dto.RoleDTO">
+    <resultMap id="roleMap" type="com.aurora.model.dto.RoleDTO">
         <id property="id" column="id"/>
         <result property="roleName" column="role_name"/>
         <result property="createTime" column="create_time"/>
@@ -18,7 +18,7 @@
             </constructor>
         </collection>
     </resultMap>
-    <resultMap id="resourceRoleResultMap" type="com.aurora.dto.ResourceRoleDTO">
+    <resultMap id="resourceRoleResultMap" type="com.aurora.model.dto.ResourceRoleDTO">
         <id property="id" column="id"/>
         <result property="url" column="url"/>
         <result property="requestMethod" column="request_method"/>

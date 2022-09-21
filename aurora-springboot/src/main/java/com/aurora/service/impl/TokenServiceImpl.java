@@ -1,6 +1,6 @@
 package com.aurora.service.impl;
 
-import com.aurora.dto.UserDetailsDTO;
+import com.aurora.model.dto.UserDetailsDTO;
 import com.aurora.service.RedisService;
 import com.aurora.service.TokenService;
 import io.jsonwebtoken.Claims;

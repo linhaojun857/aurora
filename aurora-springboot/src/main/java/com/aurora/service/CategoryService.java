@@ -1,12 +1,12 @@
 package com.aurora.service;
 
-import com.aurora.dto.CategoryAdminDTO;
-import com.aurora.dto.CategoryDTO;
-import com.aurora.dto.CategoryOptionDTO;
+import com.aurora.model.dto.CategoryAdminDTO;
+import com.aurora.model.dto.CategoryDTO;
+import com.aurora.model.dto.CategoryOptionDTO;
 import com.aurora.entity.Category;
-import com.aurora.vo.CategoryVO;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.PageResult;
+import com.aurora.model.vo.CategoryVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.PageResult;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

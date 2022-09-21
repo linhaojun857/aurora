@@ -1,9 +1,9 @@
 package com.aurora.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.aurora.dto.CommentCountDTO;
-import com.aurora.dto.TalkAdminDTO;
-import com.aurora.dto.TalkDTO;
+import com.aurora.model.dto.CommentCountDTO;
+import com.aurora.model.dto.TalkAdminDTO;
+import com.aurora.model.dto.TalkDTO;
 import com.aurora.entity.Talk;
 import com.aurora.exception.BizException;
 import com.aurora.mapper.CommentMapper;
@@ -14,9 +14,9 @@ import com.aurora.utils.BeanCopyUtils;
 import com.aurora.utils.CommonUtils;
 import com.aurora.utils.PageUtils;
 import com.aurora.utils.UserUtils;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.PageResult;
-import com.aurora.vo.TalkVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.PageResult;
+import com.aurora.model.vo.TalkVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

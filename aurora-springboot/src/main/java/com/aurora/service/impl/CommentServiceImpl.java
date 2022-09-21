@@ -1,7 +1,7 @@
 package com.aurora.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.aurora.dto.*;
+import com.aurora.model.dto.*;
 import com.aurora.entity.Article;
 import com.aurora.entity.Comment;
 import com.aurora.entity.Talk;
@@ -17,10 +17,10 @@ import com.aurora.service.CommentService;
 import com.aurora.utils.HTMLUtils;
 import com.aurora.utils.PageUtils;
 import com.aurora.utils.UserUtils;
-import com.aurora.vo.CommentVO;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.PageResult;
-import com.aurora.vo.ReviewVO;
+import com.aurora.model.vo.CommentVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.PageResult;
+import com.aurora.model.vo.ReviewVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
