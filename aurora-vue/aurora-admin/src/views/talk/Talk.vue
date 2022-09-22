@@ -131,6 +131,8 @@ export default {
           img.push(item.url)
         })
         this.talk.images = JSON.stringify(img)
+      }else{
+        this.talk.images = null
       }
       this.axios.post('/api/admin/talks', this.talk).then(({ data }) => {
         if (data.flag) {
