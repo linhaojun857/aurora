@@ -84,7 +84,7 @@ export default {
         content: '',
         isTop: 0,
         status: 1,
-        images: null
+        images: ''
       },
       statuses: [
         { status: 1, desc: '公开' },
@@ -131,13 +131,14 @@ export default {
           img.push(item.url)
         })
         this.talk.images = JSON.stringify(img)
-      }else{
-        this.talk.images = null
+      } else {
+        this.talk.images = ''
       }
       this.axios.post('/api/admin/talks', this.talk).then(({ data }) => {
         if (data.flag) {
           this.$refs.editor.clear()
           this.uploads = []
+          this.$router.push({ path: '/talk-list' })
           this.$notify.success({
             title: '成功',
             message: data.message
@@ -166,7 +167,7 @@ export default {
 </script>
 
 <style scoped>
-.tupian{
+.tupian {
   margin-left: 3px;
 }
 .talk-container {
