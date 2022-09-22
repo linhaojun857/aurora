@@ -23,10 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.aurora.constant.CommonConst.UNKNOWN;
@@ -90,7 +87,7 @@ public class AuroraQuartz {
         Map<String, Long> userAreaMap = userAuthMapper.selectList(new LambdaQueryWrapper<UserAuth>().select(UserAuth::getIpSource))
                 .stream()
                 .map(item -> {
-                    if (StringUtils.isNotBlank(item.getIpSource())) {
+                    if (Objects.nonNull(item) && StringUtils.isNotBlank(item.getIpSource())) {
                         return IpUtils.getIpProvince(item.getIpSource());
                     }
                     return UNKNOWN;
