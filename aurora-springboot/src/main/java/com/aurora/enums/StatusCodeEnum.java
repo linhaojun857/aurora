@@ -43,13 +43,13 @@ public enum StatusCodeEnum {
      */
     USERNAME_NOT_EXIST(52002, "用户名不存在"),
     /**
+     * 文章密码认证未通过
+     */
+    ARTICLE_ACCESS_FAIL(52003, "文章密码认证未通过"),
+    /**
      * qq登录错误
      */
-    QQ_LOGIN_ERROR(53001, "qq登录错误"),
-    /**
-     * 微博登录错误
-     */
-    WEIBO_LOGIN_ERROR(53002, "微博登录错误");
+    QQ_LOGIN_ERROR(53001, "qq登录错误");
 
     /**
      * 状态码

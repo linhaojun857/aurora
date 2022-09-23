@@ -2,7 +2,6 @@ package com.aurora.consumer;
 
 
 import com.alibaba.fastjson.JSON;
-import com.aurora.dto.EmailDTO;
 import com.aurora.entity.Article;
 import com.aurora.entity.UserInfo;
 import com.aurora.service.ArticleService;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.aurora.constant.CommonConst.TRUE;
 import static com.aurora.constant.MQPrefixConst.SUBSCRIBE_QUEUE;

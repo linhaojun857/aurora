@@ -1,8 +1,8 @@
 package com.aurora.service.impl;
 
 
-import com.aurora.dto.TagAdminDTO;
-import com.aurora.dto.TagDTO;
+import com.aurora.model.dto.TagAdminDTO;
+import com.aurora.model.dto.TagDTO;
 import com.aurora.entity.ArticleTag;
 import com.aurora.entity.Tag;
 import com.aurora.exception.BizException;
@@ -11,9 +11,9 @@ import com.aurora.mapper.TagMapper;
 import com.aurora.service.TagService;
 import com.aurora.utils.BeanCopyUtils;
 import com.aurora.utils.PageUtils;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.PageResult;
-import com.aurora.vo.TagVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.PageResult;
+import com.aurora.model.vo.TagVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {

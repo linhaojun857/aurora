@@ -1,13 +1,13 @@
 package com.aurora.service.impl;
 
-import com.aurora.dto.JobLogDTO;
+import com.aurora.model.dto.JobLogDTO;
 import com.aurora.entity.JobLog;
 import com.aurora.mapper.JobLogMapper;
 import com.aurora.service.JobLogService;
 import com.aurora.utils.BeanCopyUtils;
 import com.aurora.utils.PageUtils;
-import com.aurora.vo.JobLogSearchVO;
-import com.aurora.vo.PageResult;
+import com.aurora.model.vo.JobLogSearchVO;
+import com.aurora.model.vo.PageResult;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 public class JobLogServiceImpl extends ServiceImpl<JobLogMapper, JobLog> implements JobLogService {

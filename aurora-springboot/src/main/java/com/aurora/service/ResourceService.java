@@ -1,10 +1,10 @@
 package com.aurora.service;
 
-import com.aurora.dto.LabelOptionDTO;
-import com.aurora.dto.ResourceDTO;
+import com.aurora.model.dto.LabelOptionDTO;
+import com.aurora.model.dto.ResourceDTO;
 import com.aurora.entity.Resource;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.ResourceVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.ResourceVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

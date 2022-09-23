@@ -1,11 +1,11 @@
 package com.aurora.service;
 
-import com.aurora.dto.AboutDTO;
-import com.aurora.dto.AuroraAdminInfoDTO;
-import com.aurora.dto.AuroraHomeInfoDTO;
-import com.aurora.dto.WebsiteConfigDTO;
-import com.aurora.vo.AboutVO;
-import com.aurora.vo.WebsiteConfigVO;
+import com.aurora.model.dto.AboutDTO;
+import com.aurora.model.dto.AuroraAdminInfoDTO;
+import com.aurora.model.dto.AuroraHomeInfoDTO;
+import com.aurora.model.dto.WebsiteConfigDTO;
+import com.aurora.model.vo.AboutVO;
+import com.aurora.model.vo.WebsiteConfigVO;
 
 public interface AuroraInfoService {
 

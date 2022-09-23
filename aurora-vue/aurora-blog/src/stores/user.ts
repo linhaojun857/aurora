@@ -6,7 +6,8 @@ export const useUserStore = defineStore('userStore', {
       currentUrl: '' as any,
       userVisible: false,
       userInfo: '' as any,
-      token: '' as any
+      token: '' as any,
+      accessArticles: [] as any
     }
   },
   actions: {},

@@ -1,6 +1,6 @@
 package com.aurora.handler;
 
-import com.aurora.vo.Result;
+import com.aurora.model.vo.Result;
 import com.aurora.enums.StatusCodeEnum;
 import com.aurora.exception.BizException;
 import lombok.extern.log4j.Log4j2;

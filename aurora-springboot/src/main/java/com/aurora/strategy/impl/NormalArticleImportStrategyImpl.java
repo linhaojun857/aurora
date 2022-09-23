@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.aurora.exception.BizException;
 import com.aurora.service.ArticleService;
 import com.aurora.strategy.ArticleImportStrategy;
-import com.aurora.vo.ArticleVO;
+import com.aurora.model.vo.ArticleVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

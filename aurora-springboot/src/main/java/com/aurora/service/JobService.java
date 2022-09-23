@@ -1,8 +1,8 @@
 package com.aurora.service;
 
-import com.aurora.dto.JobDTO;
+import com.aurora.model.dto.JobDTO;
 import com.aurora.entity.Job;
-import com.aurora.vo.*;
+import com.aurora.model.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

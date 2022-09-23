@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aurora.mapper.TalkMapper">
 
-    <select id="listTalks" resultType="com.aurora.dto.TalkDTO">
+    <select id="listTalks" resultType="com.aurora.model.dto.TalkDTO">
         SELECT t.id,
                nickname,
                avatar,
@@ -17,7 +17,7 @@
                  t.id DESC
             LIMIT #{current}, #{size}
     </select>
-    <select id="getTalkById" resultType="com.aurora.dto.TalkDTO">
+    <select id="getTalkById" resultType="com.aurora.model.dto.TalkDTO">
         SELECT t.id,
                nickname,
                avatar,
@@ -29,7 +29,7 @@
         WHERE t.id = #{talkId}
           AND t.status = 1
     </select>
-    <select id="listTalksAdmin" resultType="com.aurora.dto.TalkAdminDTO">
+    <select id="listTalksAdmin" resultType="com.aurora.model.dto.TalkAdminDTO">
         SELECT
         t.id,
         nickname,
@@ -52,7 +52,7 @@
         t.id DESC
         LIMIT #{current},#{size}
     </select>
-    <select id="getTalkByIdAdmin" resultType="com.aurora.dto.TalkAdminDTO">
+    <select id="getTalkByIdAdmin" resultType="com.aurora.model.dto.TalkAdminDTO">
         SELECT t.id,
                nickname,
                avatar,

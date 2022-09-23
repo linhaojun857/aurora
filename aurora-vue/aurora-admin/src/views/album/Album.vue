@@ -72,7 +72,6 @@
             class="upload-cover"
             drag
             :headers="headers"
-            :show-file-list="true"
             :before-upload="beforeUpload"
             action="/api/admin/photos/albums/cover"
             multiple
@@ -208,7 +207,6 @@ export default {
         if (file.size / 1024 < this.config.UPLOAD_SIZE) {
           resolve(file)
         }
-        // 压缩到200KB,这里的200就是要压缩的大小,可自定义
         imageConversion.compressAccurately(file, this.config.UPLOAD_SIZE).then((res) => {
           resolve(res)
         })

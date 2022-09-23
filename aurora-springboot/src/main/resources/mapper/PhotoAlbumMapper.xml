@@ -3,7 +3,7 @@
 <mapper namespace="com.aurora.mapper.PhotoAlbumMapper">
 
 
-    <select id="listPhotoAlbumsAdmin" resultType="com.aurora.dto.PhotoAlbumAdminDTO">
+    <select id="listPhotoAlbumsAdmin" resultType="com.aurora.model.dto.PhotoAlbumAdminDTO">
         SELECT
         pa.id,
         album_name,

@@ -24,7 +24,6 @@
             {{ article.categoryName }}
           </b>
           <ob-skeleton v-else tag="b" height="20px" width="35px" />
-
           <ul v-if="article.tags && article.tags.length > 0">
             <li v-for="tag in article.tags" :key="tag.id">
               <em># {{ tag.tagName }}</em>
@@ -39,15 +38,15 @@
             <ob-skeleton v-if="!article.tags" :count="2" tag="li" height="16px" width="35px" />
           </ul>
         </span>
-
-        <router-link v-if="article.articleTitle" :to="'/articles/' + article.id">
-          <h1 data-dia="article-link">{{ article.articleTitle }}</h1>
-        </router-link>
+        <h1 class="article-title" v-if="article.articleTitle" @click="toArticle" data-dia="article-link">
+          <a>
+            <span> {{ article.articleTitle }}</span>
+            <svg-icon v-if="article.status == 2" icon-class="lock" class="lock-svg" />
+          </a>
+        </h1>
         <ob-skeleton v-else tag="h1" height="3rem" />
-
         <p v-if="article.articleContent">{{ article.articleContent }}</p>
         <ob-skeleton v-else tag="p" :count="4" height="16px" />
-
         <div class="article-footer" v-if="article.author && article.createTime">
           <div class="flex flex-row items-center">
             <img
@@ -66,7 +65,6 @@
             </span>
           </div>
         </div>
-
         <div class="article-footer" v-else>
           <div class="flex flex-row items-center mt-6">
             <ob-skeleton class="mr-2" height="28px" width="28px" :circle="true" />
@@ -81,20 +79,48 @@
 </template>
 
 <script lang="ts">
+import { computed, defineComponent, toRefs, getCurrentInstance } from 'vue'
 import { useAppStore } from '@/stores/app'
-import { computed, defineComponent, toRefs } from 'vue'
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import emitter from '@/utils/mitt'
 
 export default defineComponent({
   name: 'ArticleCard',
   props: ['data'],
   setup(props) {
+    const proxy: any = getCurrentInstance()?.appContext.config.globalProperties
     const appStore = useAppStore()
+    const userStore = useUserStore()
+    const router = useRouter()
     const { t } = useI18n()
 
     const handleAuthorClick = (link: string) => {
       if (link === '') link = window.location.href
       window.open(link)
+    }
+
+    const toArticle = () => {
+      let isAccess = false
+      userStore.accessArticles.forEach((item: any) => {
+        if (item == props.data.id) {
+          isAccess = true
+        }
+      })
+      if (props.data.status === 2 && isAccess == false) {
+        if (userStore.userInfo === '') {
+          proxy.$notify({
+            title: 'Warning',
+            message: '该文章受密码保护,请登录后访问',
+            type: 'warning'
+          })
+        } else {
+          emitter.emit('changeArticlePasswordDialogVisible', props.data.id)
+        }
+      } else {
+        router.push({ path: '/articles/' + props.data.id })
+      }
     }
 
     return {
@@ -103,6 +129,7 @@ export default defineComponent({
       }),
       article: toRefs(props).data,
       handleAuthorClick,
+      toArticle,
       t
     }
   }
@@ -110,9 +137,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.feature-sign {
-  width: calc(100% - 0.5rem);
-  height: calc(100% - 0.5rem);
-  margin: 0.25rem;
+.article-title:hover {
+  cursor: default;
 }
 </style>

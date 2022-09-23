@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aurora.mapper.ArticleMapper">
-    <resultMap id="ArticleCardDTOResultMap" type="com.aurora.dto.ArticleCardDTO">
+    <resultMap id="ArticleCardDTOResultMap" type="com.aurora.model.dto.ArticleCardDTO">
         <id property="id" column="id"/>
         <result property="articleCover" column="article_cover"/>
         <result property="articleTitle" column="article_title"/>
         <result property="articleContent" column="article_content"/>
         <result property="isTop" column="is_top"/>
         <result property="isFeatured" column="is_featured"/>
+        <result property="status" column="status"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
         <result property="categoryName" column="category_name"/>
@@ -20,7 +21,7 @@
             <result property="tagName" column="tag_name"/>
         </collection>
     </resultMap>
-    <resultMap id="ArticleDTOResultMap" type="com.aurora.dto.ArticleDTO">
+    <resultMap id="ArticleDTOResultMap" type="com.aurora.model.dto.ArticleDTO">
         <id property="id" column="id"/>
         <result property="articleCover" column="article_cover"/>
         <result property="articleTitle" column="article_title"/>
@@ -41,7 +42,7 @@
             <result property="tagName" column="tag_name"/>
         </collection>
     </resultMap>
-    <resultMap id="articleAdminResultMap" type="com.aurora.dto.ArticleAdminDTO">
+    <resultMap id="articleAdminResultMap" type="com.aurora.model.dto.ArticleAdminDTO">
         <id property="id" column="id"/>
         <result property="articleCover" column="article_cover"/>
         <result property="articleTitle" column="article_title"/>
@@ -52,7 +53,7 @@
         <result property="type" column="type"/>
         <result property="createTime" column="create_time"/>
         <result property="categoryName" column="category_name"/>
-        <collection property="tagDTOs" ofType="com.aurora.dto.TagDTO">
+        <collection property="tagDTOs" ofType="com.aurora.model.dto.TagDTO">
             <id column="tag_id" property="id"/>
             <result column="tag_name" property="tagName"/>
         </collection>
@@ -65,6 +66,7 @@
                SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
+               status,
                a.create_time                   AS create_time,
                a.update_time                   AS update_time,
                u.nickname                      AS author_nickname,
@@ -91,7 +93,7 @@
                  LEFT JOIN t_category c ON a.category_id = c.id
                  LEFT JOIN t_user_info u ON a.user_id = u.id
         where a.is_delete = 0
-          and a.status = 1
+          and a.status in (1, 2)
         order by is_top desc, is_featured desc
     </select>
     <select id="listArticles" resultMap="ArticleCardDTOResultMap">
@@ -101,6 +103,7 @@
                SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
+               status,
                a.create_time                   AS create_time,
                a.update_time                   AS update_time,
                u.nickname                      AS author_nickname,
@@ -122,7 +125,7 @@
                      update_time
               FROM t_article
               where is_delete = 0
-                and status = 1
+                and status in (1, 2)
               order by id desc
               LIMIT #{current} , #{size}) a
                  LEFT JOIN t_article_tag at
@@ -138,6 +141,7 @@
                SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
+               status,
                a.create_time                   AS create_time,
                a.update_time                   AS update_time,
                u.nickname                      AS author_nickname,
@@ -160,7 +164,7 @@
               FROM t_article
               WHERE category_id = #{categoryId}
                 and is_delete = 0
-                and status = 1
+                and status in (1, 2)
               order by id desc
               LIMIT #{current} , #{size}) a
                  LEFT JOIN t_article_tag at
@@ -202,7 +206,7 @@
               FROM t_article
               WHERE id = #{articleId}
                 and is_delete = 0
-                and status = 1) a
+                and status in (1, 2)) a
                  LEFT JOIN t_article_tag at
                            ON a.id = at.article_id
                  LEFT JOIN t_tag t ON t.id = at.tag_id
@@ -216,6 +220,7 @@
                SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
+               status,
                a.create_time                   AS create_time,
                a.update_time                   AS update_time,
                u.nickname                      AS author_nickname,
@@ -238,7 +243,7 @@
               FROM t_article
               WHERE id &lt; #{articleId}
                 and is_delete = 0
-                and status = 1
+                and status in (1, 2)
               order by id desc
               limit 0, 1) a
                  LEFT JOIN t_article_tag at
@@ -254,6 +259,7 @@
                SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
+               status,
                a.create_time                   AS create_time,
                a.update_time                   AS update_time,
                u.nickname                      AS author_nickname,
@@ -276,7 +282,7 @@
               FROM t_article
               WHERE id &gt; #{articleId}
                 and is_delete = 0
-                and status = 1
+                and status in (1, 2)
               order by id
               limit 0,1) a
                  LEFT JOIN t_article_tag at
@@ -292,6 +298,7 @@
                SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
+               status,
                a.create_time                   AS create_time,
                a.update_time                   AS update_time,
                u.nickname                      AS author_nickname,
@@ -313,7 +320,7 @@
                      update_time
               FROM t_article
               WHERE is_delete = 0
-                and status = 1
+                and status in (1, 2)
               order by id
               limit 0,1) a
                  LEFT JOIN t_article_tag at
@@ -329,6 +336,7 @@
                SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
+               status,
                a.create_time                   AS create_time,
                a.update_time                   AS update_time,
                u.nickname                      AS author_nickname,
@@ -350,7 +358,7 @@
                      update_time
               FROM t_article
               WHERE is_delete = 0
-                and status = 1
+                and status in (1, 2)
               order by id desc
               limit 0,1) a
                  LEFT JOIN t_article_tag at
@@ -367,6 +375,7 @@
                SUBSTR(article_content, 1, 500) AS article_content,
                is_top,
                is_featured,
+               status,
                a.create_time                   AS create_time,
                a.update_time                   AS update_time,
                u.nickname                      AS author_nickname,
@@ -380,10 +389,12 @@
                  LEFT JOIN t_tag t ON t.id = at.tag_id
                  LEFT JOIN t_category c ON a.category_id = c.id
                  LEFT JOIN t_user_info u ON a.user_id = u.id
-        WHERE at.tag_id = #{tagId} and a.is_delete = 0 and status = 1
+        WHERE at.tag_id = #{tagId}
+          and a.is_delete = 0
+          and status in (1, 2)
         LIMIT #{current} , #{size}
     </select>
-    <select id="listArchives" resultType="com.aurora.dto.ArticleCardDTO">
+    <select id="listArchives" resultType="com.aurora.model.dto.ArticleCardDTO">
         SELECT id,
                article_title,
                SUBSTR(article_content, 1, 500) AS article_content,
@@ -488,7 +499,7 @@
         is_featured DESC,
         a.id DESC
     </select>
-    <select id="listArticleStatistics" resultType="com.aurora.dto.ArticleStatisticsDTO">
+    <select id="listArticleStatistics" resultType="com.aurora.model.dto.ArticleStatisticsDTO">
         SELECT DATE_FORMAT(create_time, "%Y-%m-%d") AS date,
                COUNT(1)                             AS count
         FROM t_article

@@ -1,13 +1,13 @@
 package com.aurora.controller;
 
 import com.aurora.annotation.OptLog;
-import com.aurora.dto.FriendLinkAdminDTO;
-import com.aurora.dto.FriendLinkDTO;
+import com.aurora.model.dto.FriendLinkAdminDTO;
+import com.aurora.model.dto.FriendLinkDTO;
 import com.aurora.service.FriendLinkService;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.FriendLinkVO;
-import com.aurora.vo.PageResult;
-import com.aurora.vo.Result;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.FriendLinkVO;
+import com.aurora.model.vo.PageResult;
+import com.aurora.model.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

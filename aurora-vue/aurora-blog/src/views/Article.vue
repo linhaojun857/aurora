@@ -143,7 +143,18 @@
 
 <script lang="ts">
 import { Sidebar, Profile, Navigator } from '@/components/Sidebar'
-import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, reactive, ref, toRefs, provide } from 'vue'
+import {
+  computed,
+  defineComponent,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+  toRefs,
+  provide,
+  getCurrentInstance
+} from 'vue'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { Comment } from '@/components/Comment'
@@ -165,6 +176,7 @@ export default defineComponent({
   name: 'Article',
   components: { Sidebar, Comment, SubTitle, ArticleCard, Profile, Sticky, Navigator },
   setup() {
+    const proxy: any = getCurrentInstance()?.appContext.config.globalProperties
     const metaStore = useMetaStore()
     const commonStore = useCommonStore()
     const commentStore = useCommentStore()
@@ -233,6 +245,15 @@ export default defineComponent({
 
     const fetchArticle = async (id: any) => {
       api.getArticeById(id).then(({ data }) => {
+        if (data.code === 52003) {
+          proxy.$notify({
+            title: 'Error',
+            message: '文章密码认证未通过',
+            type: 'error'
+          })
+          router.push({ path: '/出错啦' })
+          return
+        }
         if (data.data === null) {
           router.push({ path: '/出错啦' })
           return

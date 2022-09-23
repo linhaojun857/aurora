@@ -1,12 +1,12 @@
 package com.aurora.mapper;
 
-import com.aurora.dto.CommentAdminDTO;
-import com.aurora.dto.CommentCountDTO;
-import com.aurora.dto.CommentDTO;
-import com.aurora.dto.ReplyDTO;
+import com.aurora.model.dto.CommentAdminDTO;
+import com.aurora.model.dto.CommentCountDTO;
+import com.aurora.model.dto.CommentDTO;
+import com.aurora.model.dto.ReplyDTO;
 import com.aurora.entity.Comment;
-import com.aurora.vo.CommentVO;
-import com.aurora.vo.ConditionVO;
+import com.aurora.model.vo.CommentVO;
+import com.aurora.model.vo.ConditionVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

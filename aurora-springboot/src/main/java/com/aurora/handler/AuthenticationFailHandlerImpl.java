@@ -1,7 +1,7 @@
 package com.aurora.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.aurora.vo.Result;
+import com.aurora.model.vo.Result;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;

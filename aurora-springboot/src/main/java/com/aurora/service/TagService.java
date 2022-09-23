@@ -1,11 +1,11 @@
 package com.aurora.service;
 
-import com.aurora.dto.TagAdminDTO;
-import com.aurora.dto.TagDTO;
+import com.aurora.model.dto.TagAdminDTO;
+import com.aurora.model.dto.TagDTO;
 import com.aurora.entity.Tag;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.PageResult;
-import com.aurora.vo.TagVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.PageResult;
+import com.aurora.model.vo.TagVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

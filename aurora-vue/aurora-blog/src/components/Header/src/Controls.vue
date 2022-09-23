@@ -39,7 +39,7 @@
     </span>
   </div>
   <el-dialog v-model="loginDialogVisible" width="30%" :fullscreen="isMobile">
-    <el-form>
+    <el-form @keyup.enter.native="login">
       <el-form-item model="userInfo" class="mt-5">
         <el-input v-model="loginInfo.username" placeholder="邮箱" />
       </el-form-item>
@@ -100,24 +100,35 @@
       <span class="text" @click="returnLoginDialog">返回登录</span>
     </el-form>
   </el-dialog>
+  <el-dialog v-model="articlePasswordDialogVisible" width="30%" :fullscreen="isMobile">
+    <el-form @submit.native.prevent @keyup.enter.native="accessArticle">
+      <el-form-item model="userInfo" class="mt-5">
+        <el-input id="article-password-input" v-model="articlePassword" placeholder="文章受密码保护,请输入密码" />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="accessArticle" size="large" class="mx-auto mt-3">校验密码</el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
   <teleport to="body">
     <SearchModel />
   </teleport>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRef, toRefs, reactive, getCurrentInstance } from 'vue'
+import { computed, defineComponent, toRef, toRefs, reactive, getCurrentInstance, nextTick } from 'vue'
 import { Dropdown, DropdownMenu, DropdownItem } from '@/components/Dropdown'
 import { useAppStore } from '@/stores/app'
 import { useCommonStore } from '@/stores/common'
 import { useUserStore } from '@/stores/user'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import ThemeToggle from '@/components/ToggleSwitch/ThemeToggle.vue'
 import api from '@/api/api'
 import SearchModel from '@/components/SearchModel.vue'
 import { useSearchStore } from '@/stores/search'
 import config from '@/config/config'
 import { useI18n } from 'vue-i18n'
+import emitter from '@/utils/mitt'
 
 export default defineComponent({
   name: 'Controls',
@@ -136,6 +147,7 @@ export default defineComponent({
     const userStore = useUserStore()
     const searchStore = useSearchStore()
     const route = useRoute()
+    const router = useRouter()
     const loginInfo = reactive({
       username: '' as any,
       password: '' as any,
@@ -144,7 +156,10 @@ export default defineComponent({
     const reactiveDate = reactive({
       loginDialogVisible: false,
       registerDialogVisible: false,
-      forgetPasswordDialogVisible: false
+      forgetPasswordDialogVisible: false,
+      articlePasswordDialogVisible: false,
+      articlePassword: '',
+      articleId: ''
     })
 
     const handleClick = (name: string): void => {
@@ -191,9 +206,23 @@ export default defineComponent({
 
     const logout = () => {
       api.logout().then(({ data }) => {
-        userStore.userInfo = ''
-        userStore.token = ''
-        sessionStorage.removeItem('token')
+        if (data.flag) {
+          userStore.userInfo = ''
+          userStore.token = ''
+          userStore.accessArticles = []
+          sessionStorage.removeItem('token')
+          proxy.$notify({
+            title: 'Success',
+            message: '登出成功',
+            type: 'success'
+          })
+        } else {
+          proxy.$notify({
+            title: 'Error',
+            message: data.message,
+            type: 'error'
+          })
+        }
       })
     }
 
@@ -204,6 +233,7 @@ export default defineComponent({
       reactiveDate.loginDialogVisible = true
     }
     const openRegisterDialog = () => {
+      loginInfo.code = ''
       reactiveDate.loginDialogVisible = false
       reactiveDate.registerDialogVisible = true
     }
@@ -214,6 +244,7 @@ export default defineComponent({
       reactiveDate.loginDialogVisible = true
     }
     const openForgetPasswordDialog = () => {
+      loginInfo.code = ''
       reactiveDate.loginDialogVisible = false
       reactiveDate.forgetPasswordDialogVisible = true
     }
@@ -301,6 +332,44 @@ export default defineComponent({
       })
     }
 
+    emitter.on('changeArticlePasswordDialogVisible', (articleId: any) => {
+      reactiveDate.articlePasswordDialogVisible = true
+      reactiveDate.articlePassword = ''
+      reactiveDate.articleId = articleId
+      nextTick(() => {
+        document.getElementById('article-password-input')?.focus()
+      })
+    })
+
+    const accessArticle = () => {
+      if (reactiveDate.articlePassword.trim().length == 0) {
+        proxy.$notify({
+          title: 'Warning',
+          message: '密码不能为空',
+          type: 'warning'
+        })
+        return
+      }
+      api
+        .accessArticle({
+          articleId: reactiveDate.articleId,
+          articlePassword: reactiveDate.articlePassword
+        })
+        .then(({ data }) => {
+          if (data.flag) {
+            reactiveDate.articlePasswordDialogVisible = false
+            userStore.accessArticles.push(reactiveDate.articleId)
+            router.push({ path: '/articles/' + reactiveDate.articleId })
+          } else {
+            proxy.$notify({
+              title: 'Error',
+              message: data.message,
+              type: 'error'
+            })
+          }
+        })
+    }
+
     return {
       handleOpenModel,
       loginInfo,
@@ -319,6 +388,7 @@ export default defineComponent({
       register,
       updatePassword,
       openForgetPasswordDialog,
+      accessArticle,
       multiLanguage: computed(() => {
         let websiteConfig: any = appStore.websiteConfig
         return websiteConfig.multiLanguage

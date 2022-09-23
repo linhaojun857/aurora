@@ -1,6 +1,6 @@
 package com.aurora.strategy.context;
 
-import com.aurora.dto.ArticleSearchDTO;
+import com.aurora.model.dto.ArticleSearchDTO;
 import com.aurora.strategy.SearchStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

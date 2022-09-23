@@ -7,6 +7,7 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class AccessDecisionManagerImpl implements AccessDecisionManager {
                 return;
             }
         }
-        throw new AccessDeniedException("没有操作权限");
+        throw new AccessDeniedException("权限不足");
     }
 
     @Override

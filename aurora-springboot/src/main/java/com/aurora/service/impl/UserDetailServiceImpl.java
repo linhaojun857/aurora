@@ -1,7 +1,7 @@
 package com.aurora.service.impl;
 
 
-import com.aurora.dto.UserDetailDTO;
+import com.aurora.model.dto.UserDetailsDTO;
 import com.aurora.entity.UserAuth;
 import com.aurora.entity.UserInfo;
 import com.aurora.exception.BizException;
@@ -55,24 +55,24 @@ public class UserDetailServiceImpl implements UserDetailsService {
         return convertUserDetail(userAuth, request);
     }
 
-    public UserDetailDTO convertUserDetail(UserAuth user, HttpServletRequest request) {
+    public UserDetailsDTO convertUserDetail(UserAuth user, HttpServletRequest request) {
         // 查询账号信息
         UserInfo userInfo = userInfoMapper.selectById(user.getUserInfoId());
         // 查询账号角色
-        List<String> roleList = roleMapper.listRolesByUserInfoId(userInfo.getId());
+        List<String> roles = roleMapper.listRolesByUserInfoId(userInfo.getId());
         // 获取设备信息
         String ipAddress = IpUtils.getIpAddress(request);
         String ipSource = IpUtils.getIpSource(ipAddress);
         UserAgent userAgent = IpUtils.getUserAgent(request);
         // 封装权限集合
-        return UserDetailDTO.builder()
+        return UserDetailsDTO.builder()
                 .id(user.getId())
                 .loginType(user.getLoginType())
                 .userInfoId(userInfo.getId())
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .email(userInfo.getEmail())
-                .roleList(roleList)
+                .roles(roles)
                 .nickname(userInfo.getNickname())
                 .avatar(userInfo.getAvatar())
                 .intro(userInfo.getIntro())

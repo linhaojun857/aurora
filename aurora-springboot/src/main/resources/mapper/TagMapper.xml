@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aurora.mapper.TagMapper">
-    <select id="listTags" resultType="com.aurora.dto.TagDTO">
+    <select id="listTags" resultType="com.aurora.model.dto.TagDTO">
         SELECT t.id,
                tag_name,
                COUNT(aat.article_id) AS count
@@ -16,7 +16,7 @@
         ) aat ON t.id = aat.tag_id
         GROUP BY t.id
     </select>
-    <select id="listTopTenTags" resultType="com.aurora.dto.TagDTO">
+    <select id="listTopTenTags" resultType="com.aurora.model.dto.TagDTO">
         SELECT t.id,
                tag_name,
                COUNT(at.article_id) AS count
@@ -31,7 +31,7 @@
                  JOIN t_article_tag at ON t.id = at.tag_id
         WHERE article_id = #{articleId}
     </select>
-    <select id="listTagsAdmin" resultType="com.aurora.dto.TagAdminDTO">
+    <select id="listTagsAdmin" resultType="com.aurora.model.dto.TagAdminDTO">
         SELECT
         t.id,
         tag_name,

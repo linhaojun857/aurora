@@ -2,15 +2,14 @@ package com.aurora.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.aurora.constant.CommonConst;
-import com.aurora.dto.UserDetailDTO;
-import com.aurora.dto.UserInfoDTO;
+import com.aurora.model.dto.UserDetailsDTO;
+import com.aurora.model.dto.UserInfoDTO;
 import com.aurora.entity.UserAuth;
 import com.aurora.mapper.UserAuthMapper;
-import com.aurora.service.RedisService;
+import com.aurora.service.TokenService;
 import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.JwtUtils;
 import com.aurora.utils.UserUtils;
-import com.aurora.vo.Result;
+import com.aurora.model.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
@@ -31,17 +30,15 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     private UserAuthMapper userAuthMapper;
 
     @Autowired
-    private RedisService redisService;
+    private TokenService tokenService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        UserInfoDTO userLoginDTO = BeanCopyUtils.copyObject(UserUtils.getLoginUser(), UserInfoDTO.class);
+        UserInfoDTO userLoginDTO = BeanCopyUtils.copyObject(UserUtils.getUserDetailsDTO(), UserInfoDTO.class);
         if (Objects.nonNull(authentication)) {
-            UserDetailDTO user = (UserDetailDTO) authentication.getPrincipal();
-            String id = user.getId().toString();
-            String jwt = JwtUtils.createJWT(id);
-            redisService.hSet("login_user", id, user);
-            userLoginDTO.setToken(jwt);
+            UserDetailsDTO userDetailsDTO = (UserDetailsDTO) authentication.getPrincipal();
+            String token = tokenService.createToken(userDetailsDTO);
+            userLoginDTO.setToken(token);
         }
         response.setContentType(CommonConst.APPLICATION_JSON);
         response.getWriter().write(JSON.toJSONString(Result.ok(userLoginDTO)));
@@ -51,10 +48,10 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     @Async
     public void updateUserInfo() {
         UserAuth userAuth = UserAuth.builder()
-                .id(UserUtils.getLoginUser().getId())
-                .ipAddress(UserUtils.getLoginUser().getIpAddress())
-                .ipSource(UserUtils.getLoginUser().getIpSource())
-                .lastLoginTime(UserUtils.getLoginUser().getLastLoginTime())
+                .id(UserUtils.getUserDetailsDTO().getId())
+                .ipAddress(UserUtils.getUserDetailsDTO().getIpAddress())
+                .ipSource(UserUtils.getUserDetailsDTO().getIpSource())
+                .lastLoginTime(UserUtils.getUserDetailsDTO().getLastLoginTime())
                 .build();
         userAuthMapper.updateById(userAuth);
     }

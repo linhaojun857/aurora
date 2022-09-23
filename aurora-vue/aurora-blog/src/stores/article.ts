@@ -5,11 +5,9 @@ export const useArticleStore = defineStore('articleStore', {
     return {
       topArticle: '' as any,
       featuredArticles: [] as any,
-      articles: '' as any,
-      categories: '' as any,
-      archives: '' as any,
-      articlesByTag: '' as any,
-      readingArticle: '' as any
+      articles: [] as any,
+      categories: [] as any,
+      archives: [] as any
     }
   },
   actions: {}

@@ -1,10 +1,10 @@
 package com.aurora.service;
 
 
-import com.aurora.dto.JobLogDTO;
+import com.aurora.model.dto.JobLogDTO;
 import com.aurora.entity.JobLog;
-import com.aurora.vo.JobLogSearchVO;
-import com.aurora.vo.PageResult;
+import com.aurora.model.vo.JobLogSearchVO;
+import com.aurora.model.vo.PageResult;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.aurora.strategy;
 
 
-import com.aurora.dto.UserInfoDTO;
+import com.aurora.model.dto.UserInfoDTO;
 
 /**
  * @author 花未眠

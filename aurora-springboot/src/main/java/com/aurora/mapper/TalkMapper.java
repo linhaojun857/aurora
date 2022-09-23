@@ -1,9 +1,9 @@
 package com.aurora.mapper;
 
-import com.aurora.dto.TalkAdminDTO;
-import com.aurora.dto.TalkDTO;
+import com.aurora.model.dto.TalkAdminDTO;
+import com.aurora.model.dto.TalkDTO;
 import com.aurora.entity.Talk;
-import com.aurora.vo.ConditionVO;
+import com.aurora.model.vo.ConditionVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

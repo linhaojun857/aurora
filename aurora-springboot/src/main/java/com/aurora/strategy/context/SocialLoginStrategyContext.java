@@ -1,7 +1,7 @@
 package com.aurora.strategy.context;
 
 
-import com.aurora.dto.UserInfoDTO;
+import com.aurora.model.dto.UserInfoDTO;
 import com.aurora.enums.LoginTypeEnum;
 import com.aurora.strategy.SocialLoginStrategy;
 import org.springframework.beans.factory.annotation.Autowired;

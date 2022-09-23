@@ -1,11 +1,11 @@
 package com.aurora.service;
 
-import com.aurora.dto.TalkAdminDTO;
-import com.aurora.dto.TalkDTO;
+import com.aurora.model.dto.TalkAdminDTO;
+import com.aurora.model.dto.TalkDTO;
 import com.aurora.entity.Talk;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.PageResult;
-import com.aurora.vo.TalkVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.PageResult;
+import com.aurora.model.vo.TalkVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

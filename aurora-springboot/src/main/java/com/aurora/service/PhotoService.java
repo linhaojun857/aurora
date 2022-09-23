@@ -1,10 +1,10 @@
 package com.aurora.service;
 
-import com.aurora.dto.PhotoAdminDTO;
-import com.aurora.dto.PhotoAlbumAdminDTO;
-import com.aurora.dto.PhotoDTO;
+import com.aurora.model.dto.PhotoAdminDTO;
+import com.aurora.model.dto.PhotoAlbumAdminDTO;
+import com.aurora.model.dto.PhotoDTO;
 import com.aurora.entity.Photo;
-import com.aurora.vo.*;
+import com.aurora.model.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

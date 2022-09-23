@@ -1,12 +1,12 @@
 package com.aurora.controller;
 
 import com.aurora.annotation.OptLog;
-import com.aurora.dto.*;
+import com.aurora.model.dto.*;
 import com.aurora.enums.FilePathEnum;
 import com.aurora.service.ArticleService;
 import com.aurora.strategy.context.ArticleImportStrategyContext;
 import com.aurora.strategy.context.UploadStrategyContext;
-import com.aurora.vo.*;
+import com.aurora.model.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -55,6 +55,13 @@ public class ArticleController {
     @GetMapping("/articles/{id}")
     public Result<ArticleDTO> getArticleById(@PathVariable("id") Integer articleId) {
         return Result.ok(articleService.getArticleById(articleId));
+    }
+
+    @ApiOperation("校验文章访问密码")
+    @PostMapping("/articles/access")
+    public Result<?> accessArticle(@Valid @RequestBody ArticlePasswordVO articlePasswordVO) {
+        articleService.accessArticle(articlePasswordVO);
+        return Result.ok();
     }
 
     @ApiOperation("根据标签id获取文章")
@@ -139,5 +146,5 @@ public class ArticleController {
     public Result<List<ArticleSearchDTO>> listArticlesBySearch(ConditionVO condition) {
         return Result.ok(articleService.listArticlesBySearch(condition));
     }
-    
+
 }

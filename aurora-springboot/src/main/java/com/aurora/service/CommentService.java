@@ -1,13 +1,13 @@
 package com.aurora.service;
 
-import com.aurora.dto.CommentAdminDTO;
-import com.aurora.dto.CommentDTO;
-import com.aurora.dto.ReplyDTO;
+import com.aurora.model.dto.CommentAdminDTO;
+import com.aurora.model.dto.CommentDTO;
+import com.aurora.model.dto.ReplyDTO;
 import com.aurora.entity.Comment;
-import com.aurora.vo.CommentVO;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.PageResult;
-import com.aurora.vo.ReviewVO;
+import com.aurora.model.vo.CommentVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.PageResult;
+import com.aurora.model.vo.ReviewVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

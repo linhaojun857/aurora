@@ -1,10 +1,9 @@
 package com.aurora.service;
 
-import com.aurora.dto.*;
+import com.aurora.model.dto.*;
 import com.aurora.entity.Article;
-import com.aurora.vo.*;
+import com.aurora.model.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,6 +17,8 @@ public interface ArticleService extends IService<Article> {
     PageResult<ArticleCardDTO> listArticlesByCategoryId(Integer categoryId);
 
     ArticleDTO getArticleById(Integer articleId);
+
+    void accessArticle(ArticlePasswordVO articlePasswordVO);
 
     PageResult<ArticleCardDTO> listArticlesByTagId(Integer tagId);
 

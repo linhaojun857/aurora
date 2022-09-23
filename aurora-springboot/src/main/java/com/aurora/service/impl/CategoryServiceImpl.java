@@ -1,20 +1,19 @@
 package com.aurora.service.impl;
 
-import com.aurora.dto.CategoryAdminDTO;
-import com.aurora.dto.CategoryDTO;
-import com.aurora.dto.CategoryOptionDTO;
+import com.aurora.model.dto.CategoryAdminDTO;
+import com.aurora.model.dto.CategoryDTO;
+import com.aurora.model.dto.CategoryOptionDTO;
 import com.aurora.entity.Article;
 import com.aurora.entity.Category;
 import com.aurora.exception.BizException;
 import com.aurora.mapper.ArticleMapper;
 import com.aurora.mapper.CategoryMapper;
-import com.aurora.service.ArticleService;
 import com.aurora.service.CategoryService;
 import com.aurora.utils.BeanCopyUtils;
 import com.aurora.utils.PageUtils;
-import com.aurora.vo.CategoryVO;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.PageResult;
+import com.aurora.model.vo.CategoryVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.PageResult;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -23,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {

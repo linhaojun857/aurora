@@ -1,6 +1,6 @@
 package com.aurora.strategy.impl;
 
-import com.aurora.config.MinioProperties;
+import com.aurora.config.properties.MinioProperties;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.StatObjectArgs;

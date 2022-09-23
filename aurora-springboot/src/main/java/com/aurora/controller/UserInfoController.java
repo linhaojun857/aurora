@@ -1,10 +1,10 @@
 package com.aurora.controller;
 
 import com.aurora.annotation.OptLog;
-import com.aurora.dto.UserInfoDTO;
-import com.aurora.dto.UserOnlineDTO;
+import com.aurora.model.dto.UserInfoDTO;
+import com.aurora.model.dto.UserOnlineDTO;
 import com.aurora.service.UserInfoService;
-import com.aurora.vo.*;
+import com.aurora.model.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

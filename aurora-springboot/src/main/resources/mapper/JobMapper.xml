@@ -16,7 +16,7 @@
             </if>
         </where>
     </select>
-    <select id="listJobs" resultType="com.aurora.dto.JobDTO">
+    <select id="listJobs" resultType="com.aurora.model.dto.JobDTO">
         select *
         from t_job j
         <where>

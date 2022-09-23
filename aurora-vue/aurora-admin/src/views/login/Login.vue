@@ -86,7 +86,7 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
-  background: url(https://aurora-static.oss-cn-hangzhou.aliyuncs.com/static/login.png) center center / cover no-repeat;
+  background: url(https://static.linhaojun.top/photos/765664a8a75211296a9cd89671d6d660.png) center center / cover no-repeat;
 }
 .login-card {
   position: absolute;

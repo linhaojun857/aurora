@@ -1,8 +1,11 @@
 package com.aurora.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.aurora.dto.*;
+import com.aurora.model.dto.*;
+import com.aurora.entity.Article;
 import com.aurora.entity.Comment;
+import com.aurora.entity.Talk;
+import com.aurora.entity.UserInfo;
 import com.aurora.enums.CommentTypeEnum;
 import com.aurora.exception.BizException;
 import com.aurora.mapper.ArticleMapper;
@@ -14,10 +17,10 @@ import com.aurora.service.CommentService;
 import com.aurora.utils.HTMLUtils;
 import com.aurora.utils.PageUtils;
 import com.aurora.utils.UserUtils;
-import com.aurora.vo.CommentVO;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.PageResult;
-import com.aurora.vo.ReviewVO;
+import com.aurora.model.vo.CommentVO;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.PageResult;
+import com.aurora.model.vo.ReviewVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -37,8 +40,7 @@ import java.util.stream.Collectors;
 
 import static com.aurora.constant.CommonConst.*;
 import static com.aurora.constant.MQPrefixConst.EMAIL_EXCHANGE;
-import static com.aurora.enums.CommentTypeEnum.getCommentEnum;
-import static com.aurora.enums.CommentTypeEnum.getCommentPath;
+import static com.aurora.enums.CommentTypeEnum.*;
 
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
@@ -76,14 +78,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Override
     public void saveComment(CommentVO commentVO) {
-        if (!types.contains(commentVO.getType())) {
-            throw new BizException("评论类型不存在！");
-        }
+        checkCommentVO(commentVO);
         WebsiteConfigDTO websiteConfig = auroraInfoService.getWebsiteConfig();
         Integer isCommentReview = websiteConfig.getIsCommentReview();
         commentVO.setCommentContent(HTMLUtils.filter(commentVO.getCommentContent()));
         Comment comment = Comment.builder()
-                .userId(UserUtils.getLoginUser().getUserInfoId())
+                .userId(UserUtils.getUserDetailsDTO().getUserInfoId())
                 .replyUserId(commentVO.getReplyUserId())
                 .topicId(commentVO.getTopicId())
                 .commentContent(commentVO.getCommentContent())
@@ -149,6 +149,70 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                         .build())
                 .collect(Collectors.toList());
         this.updateBatchById(comments);
+    }
+
+    public void checkCommentVO(CommentVO commentVO) {
+        // 校验评论类型是否存在
+        if (!types.contains(commentVO.getType())) {
+            throw new BizException("参数校验异常");
+        }
+        // 类型为文章和说说时，类型id不能为空，且判断文章或说说是否存在
+        if (Objects.requireNonNull(getCommentEnum(commentVO.getType())) == ARTICLE || Objects.requireNonNull(getCommentEnum(commentVO.getType())) == TALK) {
+            // 类型id为空则报异常
+            if (Objects.isNull(commentVO.getTopicId())) {
+                throw new BizException("参数校验异常");
+            } else {
+                // 类型id不为空判断文章是否存在
+                if (Objects.requireNonNull(getCommentEnum(commentVO.getType())) == ARTICLE) {
+                    Article article = articleMapper.selectOne(new LambdaQueryWrapper<Article>().select(Article::getId, Article::getUserId).eq(Article::getId, commentVO.getTopicId()));
+                    if (Objects.isNull(article)) {
+                        throw new BizException("参数校验异常");
+                    }
+                }
+                // 类型id不为空判断说说是否存在
+                if (Objects.requireNonNull(getCommentEnum(commentVO.getType())) == TALK) {
+                    Talk talk = talkMapper.selectOne(new LambdaQueryWrapper<Talk>().select(Talk::getId, Talk::getUserId).eq(Talk::getId, commentVO.getTopicId()));
+                    if (Objects.isNull(talk)) {
+                        throw new BizException("参数校验异常");
+                    }
+                }
+            }
+        }
+        // 类型为友链,about,留言时，topicId必须为空
+        if (Objects.requireNonNull(getCommentEnum(commentVO.getType())) == LINK
+                || Objects.requireNonNull(getCommentEnum(commentVO.getType())) == ABOUT
+                || Objects.requireNonNull(getCommentEnum(commentVO.getType())) == MESSAGE) {
+            if (Objects.nonNull(commentVO.getTopicId())) {
+                throw new BizException("参数校验异常");
+            }
+        }
+        // 父评论时 replyUserId 为空
+        if (Objects.isNull(commentVO.getParentId())) {
+            if (Objects.nonNull(commentVO.getReplyUserId())) {
+                throw new BizException("参数校验异常");
+            }
+        }
+        // 子评论时
+        if (Objects.nonNull(commentVO.getParentId())) {
+            Comment parentComment = commentMapper.selectOne(new LambdaQueryWrapper<Comment>().select(Comment::getId, Comment::getParentId, Comment::getType).eq(Comment::getId, commentVO.getParentId()));
+            if (Objects.isNull(parentComment)) {
+                throw new BizException("参数校验异常");
+            }
+            if (Objects.nonNull(parentComment.getParentId())) {
+                throw new BizException("参数校验异常");
+            }
+            if (!commentVO.getType().equals(parentComment.getType())) {
+                throw new BizException("参数校验异常");
+            }
+            if (Objects.isNull(commentVO.getReplyUserId())) {
+                throw new BizException("参数校验异常");
+            } else {
+                UserInfo existUser = userInfoMapper.selectOne(new LambdaQueryWrapper<UserInfo>().select(UserInfo::getId).eq(UserInfo::getId, commentVO.getReplyUserId()));
+                if (Objects.isNull(existUser)) {
+                    throw new BizException("参数校验异常");
+                }
+            }
+        }
     }
 
     public void notice(Comment comment) {

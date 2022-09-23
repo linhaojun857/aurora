@@ -1,16 +1,16 @@
 package com.aurora.strategy.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.aurora.config.QQConfigProperties;
+import com.aurora.config.properties.QQConfigProperties;
 import com.aurora.constant.SocialLoginConst;
-import com.aurora.dto.QQTokenDTO;
-import com.aurora.dto.QQUserInfoDTO;
-import com.aurora.dto.SocialTokenDTO;
-import com.aurora.dto.SocialUserInfoDTO;
+import com.aurora.model.dto.QQTokenDTO;
+import com.aurora.model.dto.QQUserInfoDTO;
+import com.aurora.model.dto.SocialTokenDTO;
+import com.aurora.model.dto.SocialUserInfoDTO;
 import com.aurora.enums.LoginTypeEnum;
 import com.aurora.exception.BizException;
 import com.aurora.utils.CommonUtils;
-import com.aurora.vo.QQLoginVO;
+import com.aurora.model.vo.QQLoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

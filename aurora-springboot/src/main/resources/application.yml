@@ -94,11 +94,11 @@ upload:
     accessKeySecret: OSS配置accessKeySecret
     bucketName: OSS配置bucketName
   minio:
+    url: http://minio的ip:9000/
     endpoint: http://minio的ip:9000
     accesskey: 用户名
     secretKey: 密码
     bucketName: 桶的名称
-    url: http://minio的ip:9000/
 
 website:
   url: https://前台域名

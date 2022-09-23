@@ -1,7 +1,7 @@
 package com.aurora.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.aurora.dto.*;
+import com.aurora.model.dto.*;
 import com.aurora.entity.*;
 import com.aurora.mapper.*;
 import com.aurora.service.AuroraInfoService;
@@ -9,8 +9,8 @@ import com.aurora.service.RedisService;
 import com.aurora.service.UniqueViewService;
 import com.aurora.utils.BeanCopyUtils;
 import com.aurora.utils.IpUtils;
-import com.aurora.vo.AboutVO;
-import com.aurora.vo.WebsiteConfigVO;
+import com.aurora.model.vo.AboutVO;
+import com.aurora.model.vo.WebsiteConfigVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;

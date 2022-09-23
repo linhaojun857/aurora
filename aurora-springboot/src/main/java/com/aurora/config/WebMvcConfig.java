@@ -1,9 +1,9 @@
 package com.aurora.config;
 
 
-import com.aurora.handler.PageableHandlerInterceptor;
-import com.aurora.handler.WebSecurityHandler;
-import org.springframework.context.annotation.Bean;
+import com.aurora.interceptor.PaginationInterceptor;
+import com.aurora.interceptor.AccessLimitInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -16,10 +16,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Bean
-    public WebSecurityHandler getWebSecurityHandler() {
-        return new WebSecurityHandler();
-    }
+    @Autowired
+    private PaginationInterceptor paginationInterceptor;
+
+    @Autowired
+    private AccessLimitInterceptor accessLimitInterceptor;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -32,8 +33,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new PageableHandlerInterceptor());
-        registry.addInterceptor(getWebSecurityHandler());
+        registry.addInterceptor(paginationInterceptor);
+        registry.addInterceptor(accessLimitInterceptor);
     }
 
 }

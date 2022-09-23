@@ -1,12 +1,12 @@
 package com.aurora.controller;
 
 import com.aurora.annotation.OptLog;
-import com.aurora.dto.LabelOptionDTO;
-import com.aurora.dto.ResourceDTO;
+import com.aurora.model.dto.LabelOptionDTO;
+import com.aurora.model.dto.ResourceDTO;
 import com.aurora.service.ResourceService;
-import com.aurora.vo.ConditionVO;
-import com.aurora.vo.ResourceVO;
-import com.aurora.vo.Result;
+import com.aurora.model.vo.ConditionVO;
+import com.aurora.model.vo.ResourceVO;
+import com.aurora.model.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

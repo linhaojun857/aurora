@@ -104,4 +104,9 @@ public class CommonConst {
      */
     public static final Integer DEFAULT_ABOUT_ID = 1;
 
+    /**
+     * 20分钟
+     */
+    public final static Integer TWENTY_MINUTES = 20;
+
 }

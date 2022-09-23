@@ -1,6 +1,6 @@
 package com.aurora.strategy.impl;
 
-import com.aurora.dto.ArticleSearchDTO;
+import com.aurora.model.dto.ArticleSearchDTO;
 import com.aurora.strategy.SearchStrategy;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
