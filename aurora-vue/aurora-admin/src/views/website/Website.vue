@@ -1,6 +1,6 @@
 <template>
   <el-card class="main-card">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName">
       <!-- 修改信息 -->
       <el-tab-pane label="网站信息" name="info">
         <el-form label-width="100px" :model="websiteConfigForm" label-position="left">
@@ -10,6 +10,7 @@
               action="/api/admin/config/images"
               :headers="headers"
               :show-file-list="false"
+              :before-upload="beforeUpload"
               :on-success="handleAuthorAvatarSuccess">
               <img v-if="websiteConfigForm.authorAvatar" :src="websiteConfigForm.authorAvatar" class="avatar" />
               <i v-else class="el-icon-plus avatar-uploader-icon" />
@@ -21,6 +22,7 @@
               action="/api/admin/config/images"
               :headers="headers"
               :show-file-list="false"
+              :before-upload="beforeUpload"
               :on-success="handleLogoSuccess">
               <img v-if="websiteConfigForm.logo" :src="websiteConfigForm.logo" class="avatar" />
               <i v-else class="el-icon-plus avatar-uploader-icon" />
@@ -124,6 +126,7 @@
                   action="/api/admin/config/images"
                   :headers="headers"
                   :show-file-list="false"
+                  :before-upload="beforeUpload"
                   :on-success="handleUserAvatarSuccess">
                   <img v-if="websiteConfigForm.userAvatar" :src="websiteConfigForm.userAvatar" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon" />
@@ -137,6 +140,7 @@
                   action="/api/admin/config/images"
                   :headers="headers"
                   :show-file-list="false"
+                  :before-upload="beforeUpload"
                   :on-success="handleTouristAvatarSuccess">
                   <img v-if="websiteConfigForm.touristAvatar" :src="websiteConfigForm.touristAvatar" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon" />
@@ -168,7 +172,9 @@
                 <el-upload
                   class="avatar-uploader"
                   action="/api/admin/config/images"
+                  :headers="headers"
                   :show-file-list="false"
+                  :before-upload="beforeUpload"
                   :on-success="handleWeiXinSuccess">
                   <img v-if="websiteConfigForm.weiXinQRCode" :src="websiteConfigForm.weiXinQRCode" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon" />
@@ -180,7 +186,9 @@
                 <el-upload
                   class="avatar-uploader"
                   action="/api/admin/config/images"
+                  :headers="headers"
                   :show-file-list="false"
+                  :before-upload="beforeUpload"
                   :on-success="handleAlipaySuccess">
                   <img v-if="websiteConfigForm.alipayQRCode" :src="websiteConfigForm.alipayQRCode" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon" />
@@ -198,6 +206,8 @@
 </template>
 
 <script>
+import * as imageConversion from 'image-conversion'
+
 export default {
   created() {
     this.getWebsiteConfig()
@@ -215,7 +225,6 @@ export default {
         this.websiteConfigForm = data.data
       })
     },
-    handleClick(tab) {},
     handleAuthorAvatarSuccess(response) {
       this.websiteConfigForm.authorAvatar = response.data
     },
@@ -233,6 +242,16 @@ export default {
     },
     handleAlipaySuccess(response) {
       this.websiteConfigForm.alipayQRCode = response.data
+    },
+    beforeUpload(file) {
+      return new Promise((resolve) => {
+        if (file.size / 1024 < this.config.UPLOAD_SIZE) {
+          resolve(file)
+        }
+        imageConversion.compressAccurately(file, this.config.UPLOAD_SIZE).then((res) => {
+          resolve(res)
+        })
+      })
     },
     updateWebsiteConfig() {
       this.axios.put('/api/admin/website/config', this.websiteConfigForm).then(({ data }) => {
