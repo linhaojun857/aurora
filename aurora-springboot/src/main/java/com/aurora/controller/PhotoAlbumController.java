@@ -21,8 +21,7 @@ import javax.validation.Valid;
 
 import java.util.List;
 
-import static com.aurora.constant.OptTypeConst.DELETE;
-import static com.aurora.constant.OptTypeConst.SAVE_OR_UPDATE;
+import static com.aurora.constant.OptTypeConst.*;
 
 /**
  * @author 花未眠
@@ -38,9 +37,10 @@ public class PhotoAlbumController {
     private PhotoAlbumService photoAlbumService;
 
 
+    @OptLog(optType = UPLOAD)
     @ApiOperation(value = "上传相册封面")
     @ApiImplicitParam(name = "file", value = "相册封面", required = true, dataType = "MultipartFile")
-    @PostMapping("/admin/photos/albums/cover")
+    @PostMapping("/admin/photos/albums/upload")
     public Result<String> savePhotoAlbumCover(MultipartFile file) {
         return Result.ok(uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.PHOTO.getPath()));
     }

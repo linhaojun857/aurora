@@ -2,6 +2,7 @@ package com.aurora.controller;
 
 
 import com.aurora.annotation.AccessLimit;
+import com.aurora.annotation.OptLog;
 import com.aurora.model.dto.UserAdminDTO;
 import com.aurora.model.dto.UserAreaDTO;
 import com.aurora.model.dto.UserInfoDTO;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.aurora.constant.OptTypeConst.SAVE;
+import static com.aurora.constant.OptTypeConst.UPDATE;
 
 @Api(tags = "用户账号模块")
 @RestController
@@ -52,6 +56,7 @@ public class UserAuthController {
         return Result.ok();
     }
 
+    @OptLog(optType = UPDATE)
     @ApiOperation(value = "修改密码")
     @PutMapping("/users/password")
     public Result<?> updatePassword(@Valid @RequestBody UserVO user) {
@@ -59,6 +64,7 @@ public class UserAuthController {
         return Result.ok();
     }
 
+    @OptLog(optType = UPDATE)
     @ApiOperation(value = "修改管理员密码")
     @PutMapping("/admin/users/password")
     public Result<?> updateAdminPassword(@Valid @RequestBody PasswordVO passwordVO) {

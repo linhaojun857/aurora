@@ -18,6 +18,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
@@ -80,7 +81,13 @@ public class OperationLogAspect {
         // 请求方法
         operationLog.setOptMethod(methodName);
         // 请求参数
-        operationLog.setRequestParam(JSON.toJSONString(joinPoint.getArgs()));
+        if (joinPoint.getArgs().length > 0) {
+            if (joinPoint.getArgs()[0] instanceof MultipartFile) {
+                operationLog.setRequestParam("file");
+            } else {
+                operationLog.setRequestParam(JSON.toJSONString(joinPoint.getArgs()));
+            }
+        }
         // 返回结果
         operationLog.setResponseData(JSON.toJSONString(keys));
         // 请求用户ID

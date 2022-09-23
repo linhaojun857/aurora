@@ -1,5 +1,6 @@
 package com.aurora.controller;
 
+import com.aurora.annotation.OptLog;
 import com.aurora.model.dto.ExceptionLogDTO;
 import com.aurora.service.ExceptionLogService;
 import com.aurora.model.vo.ConditionVO;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.aurora.constant.OptTypeConst.DELETE;
+
 @Api(tags = "异常日志模块")
 @RestController
 public class ExceptionLogController {
@@ -28,6 +31,7 @@ public class ExceptionLogController {
         return Result.ok(exceptionLogService.listExceptionLogs(conditionVO));
     }
 
+    @OptLog(optType = DELETE)
     @ApiOperation(value = "删除异常日志")
     @DeleteMapping("/admin/exception/logs")
     public Result<?> deleteExceptionLogs(@RequestBody List<Integer> exceptionLogIds) {

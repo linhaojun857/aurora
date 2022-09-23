@@ -129,8 +129,8 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void deletePhotos(List<Integer> photoIdList) {
-        photoMapper.deleteBatchIds(photoIdList);
+    public void deletePhotos(List<Integer> photoIds) {
+        photoMapper.deleteBatchIds(photoIds);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.aurora.controller;
 
+import com.aurora.annotation.OptLog;
 import com.aurora.model.dto.OperationLogDTO;
 import com.aurora.service.OperationLogService;
 import com.aurora.model.vo.ConditionVO;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.aurora.constant.OptTypeConst.DELETE;
+
 @Api(tags = "操作日志模块")
 @RestController
 public class OperationLogController {
@@ -28,6 +31,7 @@ public class OperationLogController {
         return Result.ok(operationLogService.listOperationLogs(conditionVO));
     }
 
+    @OptLog(optType = DELETE)
     @ApiOperation(value = "删除操作日志")
     @DeleteMapping("/admin/operation/logs")
     public Result<?> deleteOperationLogs(@RequestBody List<Integer> operationLogIds) {

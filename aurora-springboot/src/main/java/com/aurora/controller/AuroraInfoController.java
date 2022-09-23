@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 
 import static com.aurora.constant.OptTypeConst.UPDATE;
+import static com.aurora.constant.OptTypeConst.UPLOAD;
 
 @Api(tags = "aurora信息")
 @RestController
@@ -79,6 +80,7 @@ public class AuroraInfoController {
         return Result.ok();
     }
 
+    @OptLog(optType = UPLOAD)
     @ApiOperation(value = "上传博客配置图片")
     @ApiImplicitParam(name = "file", value = "图片", required = true, dataType = "MultipartFile")
     @PostMapping("/admin/config/images")

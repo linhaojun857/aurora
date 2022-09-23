@@ -102,7 +102,7 @@
           <el-upload
             v-show="uploads.length == 0"
             drag
-            action="/api/admin/photos/albums/cover"
+            action="/api/admin/photos/upload"
             multiple
             :headers="headers"
             :before-upload="beforeUpload"

@@ -1,5 +1,6 @@
 package com.aurora.controller;
 
+import com.aurora.annotation.OptLog;
 import com.aurora.model.dto.TalkAdminDTO;
 import com.aurora.model.dto.TalkDTO;
 import com.aurora.enums.FilePathEnum;
@@ -18,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.aurora.constant.OptTypeConst.*;
 
 @Api(tags = "说说模块")
 @RestController
@@ -42,6 +45,7 @@ public class TalkController {
         return Result.ok(talkService.getTalkById(talkId));
     }
 
+    @OptLog(optType = UPLOAD)
     @ApiOperation(value = "上传说说图片")
     @ApiImplicitParam(name = "file", value = "说说图片", required = true, dataType = "MultipartFile")
     @PostMapping("/admin/talks/images")
@@ -49,6 +53,7 @@ public class TalkController {
         return Result.ok(uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.TALK.getPath()));
     }
 
+    @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation(value = "保存或修改说说")
     @PostMapping("/admin/talks")
     public Result<?> saveOrUpdateTalk(@Valid @RequestBody TalkVO talkVO) {
@@ -56,6 +61,7 @@ public class TalkController {
         return Result.ok();
     }
 
+    @OptLog(optType = DELETE)
     @ApiOperation(value = "删除说说")
     @DeleteMapping("/admin/talks")
     public Result<?> deleteTalks(@RequestBody List<Integer> talkIds) {

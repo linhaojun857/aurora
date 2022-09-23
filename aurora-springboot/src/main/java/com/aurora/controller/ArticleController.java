@@ -113,6 +113,7 @@ public class ArticleController {
         return Result.ok();
     }
 
+    @OptLog(optType = UPLOAD)
     @ApiOperation("上传文章图片")
     @ApiImplicitParam(name = "file", value = "文章图片", required = true, dataType = "MultipartFile")
     @PostMapping("/admin/articles/images")
@@ -127,6 +128,7 @@ public class ArticleController {
         return Result.ok(articleService.getArticleByIdAdmin(articleId));
     }
 
+    @OptLog(optType = UPLOAD)
     @ApiOperation(value = "导入文章")
     @PostMapping("/admin/articles/import")
     public Result<?> importArticles(MultipartFile file, @RequestParam(required = false) String type) {
@@ -134,6 +136,7 @@ public class ArticleController {
         return Result.ok();
     }
 
+    @OptLog(optType = EXPORT)
     @ApiOperation(value = "导出文章")
     @ApiImplicitParam(name = "articleIdList", value = "文章id", required = true, dataType = "List<Integer>")
     @PostMapping("/admin/articles/export")

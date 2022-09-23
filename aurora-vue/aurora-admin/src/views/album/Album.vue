@@ -73,7 +73,7 @@
             drag
             :headers="headers"
             :before-upload="beforeUpload"
-            action="/api/admin/photos/albums/cover"
+            action="/api/admin/photos/albums/upload"
             multiple
             :on-success="uploadCover">
             <i class="el-icon-upload" v-if="albumForum.albumCover == ''" />

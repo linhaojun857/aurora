@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
+import static com.aurora.constant.OptTypeConst.DELETE;
 import static com.aurora.constant.OptTypeConst.UPDATE;
 
 @Api(tags = "用户信息模块")
@@ -23,6 +24,7 @@ public class UserInfoController {
     @Autowired
     private UserInfoService userInfoService;
 
+    @OptLog(optType = UPDATE)
     @ApiOperation("更新用户信息")
     @PutMapping("/users/info")
     public Result<?> updateUserInfo(@Valid @RequestBody UserInfoVO userInfoVO) {
@@ -30,6 +32,7 @@ public class UserInfoController {
         return Result.ok();
     }
 
+    @OptLog(optType = UPDATE)
     @ApiOperation("更新用户头像")
     @ApiImplicitParam(name = "file", value = "用户头像", required = true, dataType = "MultipartFile")
     @PostMapping("/users/avatar")
@@ -37,6 +40,7 @@ public class UserInfoController {
         return Result.ok(userInfoService.updateUserAvatar(file));
     }
 
+    @OptLog(optType = UPDATE)
     @ApiOperation("绑定用户邮箱")
     @PutMapping("/users/email")
     public Result<?> saveUserEmail(@Valid @RequestBody EmailVO emailVO) {
@@ -44,6 +48,7 @@ public class UserInfoController {
         return Result.ok();
     }
 
+    @OptLog(optType = UPDATE)
     @ApiOperation("修改用户的订阅状态")
     @PutMapping("/users/subscribe")
     public Result<?> updateUserSubscribe(@RequestBody SubscribeVO subscribeVO) {
@@ -73,6 +78,7 @@ public class UserInfoController {
         return Result.ok(userInfoService.listOnlineUsers(conditionVO));
     }
 
+    @OptLog(optType = DELETE)
     @ApiOperation(value = "下线用户")
     @DeleteMapping("/admin/users/{userInfoId}/online")
     public Result<?> removeOnlineUser(@PathVariable("userInfoId") Integer userInfoId) {
