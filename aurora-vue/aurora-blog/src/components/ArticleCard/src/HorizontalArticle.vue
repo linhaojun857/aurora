@@ -51,7 +51,7 @@
           <div class="flex flex-row items-center">
             <img
               class="hover:opacity-50 cursor-pointer"
-              v-lazy="article.author.avatar"
+              :src="article.author.avatar"
               alt=""
               @click="handleAuthorClick(article.author.website)" />
             <span class="text-ob-dim">
