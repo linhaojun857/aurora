@@ -4,16 +4,14 @@ import com.aurora.constant.ScheduleConst;
 import com.aurora.entity.Job;
 import com.aurora.entity.JobLog;
 import com.aurora.mapper.JobLogMapper;
+import com.aurora.utils.ExceptionUtils;
 import com.aurora.utils.SpringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Date;
 
 import static com.aurora.constant.CommonConst.ONE;
@@ -41,7 +39,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
             doExecute(context, job);
             after(context, job, null);
         } catch (Exception e) {
-            log.error("任务执行异常  - ：", e);
+            log.error("任务执行异常:", e);
             after(context, job, e);
         }
     }
@@ -76,11 +74,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
         jobLog.setJobMessage(jobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
         if (e != null) {
             jobLog.setStatus(ZERO);
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw, true));
-            String str = sw.toString();
-            String errorMsg = StringUtils.substring(str, 0, 2000);
-            jobLog.setExceptionInfo(errorMsg);
+            jobLog.setExceptionInfo(ExceptionUtils.getTrace(e));
         } else {
             jobLog.setStatus(ONE);
         }
