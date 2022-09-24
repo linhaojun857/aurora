@@ -3,7 +3,7 @@ package com.aurora.aspect;
 import com.alibaba.fastjson.JSON;
 import com.aurora.entity.ExceptionLog;
 import com.aurora.event.ExceptionLogEvent;
-import com.aurora.utils.ErrorUtils;
+import com.aurora.utils.ExceptionUtils;
 import com.aurora.utils.IpUtils;
 import io.swagger.annotations.ApiOperation;
 import org.aspectj.lang.JoinPoint;
@@ -65,7 +65,7 @@ public class ExceptionLogAspect {
             exceptionLog.setOptDesc("");
         }
         // 异常信息
-        exceptionLog.setExceptionInfo(ErrorUtils.getTrace(e));
+        exceptionLog.setExceptionInfo(ExceptionUtils.getTrace(e));
         // ip地址
         String ipAddress = IpUtils.getIpAddress(request);
         exceptionLog.setIpAddress(ipAddress);

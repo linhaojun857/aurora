@@ -178,7 +178,7 @@ export default {
       })
     },
     check(exceptionLog) {
-      this.exceptionLog = JSON.parse(JSON.stringify(exceptionLog))
+      this.exceptionLog = exceptionLog
       this.exceptionInfo = '\n' + this.exceptionLog.exceptionInfo
       this.isCheck = true
       this.$nextTick(() => {

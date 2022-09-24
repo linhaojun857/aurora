@@ -109,7 +109,12 @@
       :total="count"
       :page-sizes="[10, 20]"
       layout="total, sizes, prev, pager, next, jumper" />
-    <el-dialog title="调度日志详细" :visible.sync="open" width="700px" append-to-body>
+    <el-dialog
+      title="调度日志详细"
+      :visible.sync="open"
+      :width="jobLog.status == 1 ? '700px' : '80%'"
+      append-to-body
+      destroy-on-close>
       <el-form ref="form" :model="jobLog" label-width="100px" size="mini">
         <el-row>
           <el-col :span="12">
@@ -133,7 +138,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="异常信息：" v-if="jobLog.status === 0">{{ jobLog.exceptionInfo }}</el-form-item>
+            <div>
+              <pre>
+			            <code class="language-java">{{ jobLog.exceptionInfo }}</code>
+		           </pre>
+            </div>
           </el-col>
         </el-row>
       </el-form>
@@ -162,7 +171,7 @@ export default {
       size: 10,
       count: 0,
       open: false,
-      jobId:0,
+      jobId: 0,
       jobLog: {},
       searchParams: {},
       jobGroups: [],
@@ -186,7 +195,7 @@ export default {
     listJobLogs() {
       if (this.jobId === 0) {
         this.searchParams.jobId = null
-      }else{
+      } else {
         this.searchParams.jobId = this.jobId
       }
       this.searchParams.current = this.current
@@ -247,7 +256,11 @@ export default {
     },
     changeOpen(jobLog) {
       this.jobLog = jobLog
+      this.jobLog.exceptionInfo = '\n' + this.jobLog.exceptionInfo
       this.open = true
+      this.$nextTick(() => {
+        Prism.highlightAll()
+      })
     }
   }
 }
