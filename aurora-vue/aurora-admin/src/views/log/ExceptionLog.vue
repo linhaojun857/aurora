@@ -83,8 +83,8 @@
         </el-form-item>
         <div>
           <pre>
-			      <code class="language-java">{{ exceptionInfo }}</code>
-		      </pre>
+	    <code class="language-java">{{ exceptionInfo }}</code>
+	  </pre>
         </div>
       </el-form>
     </el-dialog>
