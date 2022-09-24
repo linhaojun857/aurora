@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="
+    border-radius: 10px 10px 10px 10px;
+    font-size: 13px;
+    color: #555555;
+    width: 666px;
+    margin: 50px auto;
+    border: 1px solid #eee;
+    max-width: 100%;
+    background: #ffffff repeating-linear-gradient(-45deg,#fff,#fff 1.125rem,transparent 1.125rem,transparent 2.25rem);
+    box-shadow: 0 1px 5px rgb(0 0 0 / 15%);">
+    <div style="
+    background:#49BDAD;
+    color:#ffffff;
+    border-radius: 10px 10px 0 0;
+    background-image: -moz-linear-gradient(0deg, rgb(67, 198, 184), rgb(255, 209, 244));
+    background-image: -webkit-linear-gradient(0deg, rgb(67, 198, 184), rgb(255, 209, 244));
+    height: 66px;">
+        <p style="font-size:15px;
+        word-break:break-all;
+        padding: 23px 32px;
+        margin:0;
+        background-color: hsla(0,0%,100%,.4);
+        border-radius: 10px 10px 0 0;">
+            您在<a style="text-decoration:none;
+            color: #ffffff;" href="https://www.ttkwsd.top/" target="_blank">花未眠的个人博客</a>上的留言有新回复啦！
+        </p>
+    </div>
+    <div style="margin:20px auto;width:90%">
+        <p>时间：<span th:text="${time}"></span></p>
+        <p><strong th:text="${toUser}"></strong> 同学，您曾在<a th:text="|《${title}》|" style="text-decoration: none;
+        color:#12addb"></a>上发表评论：</p>
+        <div style="background: #f5f5f5;
+        margin:20px 0;
+        padding:15px;
+        border-radius:5px;
+        font-size:14px;">
+            <p th:utext="${parentComment}"></p>
+        </div>
+        <p><strong th:text="${fromUser}"></strong> 给您的回复如下：</p>
+        <div style="background: #f5f5f5;
+        margin:20px 0;
+        padding:15px;
+        border-radius:5px;
+        font-size:14px;">
+            <p th:utext="${replyComment}"></p>
+        </div>
+        <p>
+            您可以点击<a style="text-decoration:none;
+            color:#12addb" target="_blank" th:href="@{${url}}">查看回复的完整內容</a>
+            ，欢迎再次光临<a style="text-decoration:none;
+            color:#12addb" href="https://www.linhaojun.top/" target="_blank">花未眠的个人博客</a>。
+        </p>
+        <div style="color: #8c8c8c; font-size: 10px;width: 100%;text-align: center;word-wrap: break-word;">
+            <p style="padding: 20px">不管当下的境遇如何，提瓦特大陆的星空永远会有你的位置。——《原神》</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

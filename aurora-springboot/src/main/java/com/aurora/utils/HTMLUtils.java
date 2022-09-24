@@ -29,7 +29,7 @@ public class HTMLUtils {
      */
     public static String filter(String source) {
         // 敏感词过滤
-        source = sensitiveWordBs.replace(source);
+//        source = sensitiveWordBs.replace(source);
         // 保留图片标签
         source = source.replaceAll("(?!<(img).*?>)<.*?>", "")
                 .replaceAll("(onload(.*?)=)", "")
