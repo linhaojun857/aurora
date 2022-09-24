@@ -12,7 +12,7 @@
 
 Github地址：[linhaojun857/aurora-public: aurora博客系统 (github.com)](https://github.com/linhaojun857/aurora-public)
 
-Gitee地址：[aurora-public-github: aurora博客系统 (gitee.com)](https://gitee.com/linhaojun/aurora-public-github)
+Gitee地址：[aurora-public-github: aurora博客系统 (gitee.com)](https://gitee.com/linhaojun/aurora-public-github) (readme图片展示不了)
 
 ## 相关技术
 
