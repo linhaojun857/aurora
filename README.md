@@ -63,7 +63,7 @@ springboot + springsecurity + mysql + redis + mybatisplus + quartz + rabbitmq + 
 
 ## 鸣谢
 
-感谢[网盾星球-SCDN (netdun.net)](https://cdn.netdun.net/)提供的CDN支持
+感谢[网盾星球-SCDN](https://cdn.netdun.net/)提供的CDN支持
 
 ## 交流群
 
