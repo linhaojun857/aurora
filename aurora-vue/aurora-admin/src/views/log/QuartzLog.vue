@@ -137,7 +137,7 @@
               <div v-else-if="jobLog.status === 0">失败</div>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <el-col v-if="jobLog.status == 0" :span="24">
             <div>
               <pre>
 			            <code class="language-java">{{ jobLog.exceptionInfo }}</code>
