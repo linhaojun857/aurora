@@ -61,6 +61,10 @@ springboot + springsecurity + mysql + redis + mybatisplus + quartz + rabbitmq + 
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://github.com/linhaojun857/readme-images/blob/master/ed47edae605f74306f751c6fba9f14bd.png" alt="Buy Me A Coffee" width="150"> | <img src="https://github.com/linhaojun857/readme-images/blob/master/da4c6d8c13f66a8dd6716ddb48d73299.jpg" alt="Buy Me A Coffee" width="150"> |
 
+## 鸣谢
+
+感谢[网盾星球-SCDN (netdun.net)](https://cdn.netdun.net/)提供的CDN支持
+
 ## 交流群
 
 | ![Communication group](https://github.com/linhaojun857/readme-images/blob/master/6c149c9bd586ee0cb9d3d41df605e40f.png) |
