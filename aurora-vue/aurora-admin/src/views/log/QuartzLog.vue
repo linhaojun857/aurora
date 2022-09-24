@@ -140,8 +140,8 @@
           <el-col v-if="jobLog.status == 0" :span="24">
             <div>
               <pre>
-			            <code class="language-java">{{ jobLog.exceptionInfo }}</code>
-		           </pre>
+		<code class="language-java">{{ jobLog.exceptionInfo }}</code>
+	      </pre>
             </div>
           </el-col>
         </el-row>
