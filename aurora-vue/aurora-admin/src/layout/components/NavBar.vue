@@ -8,7 +8,7 @@
       </div>
       <!-- 面包屑导航 -->
       <el-breadcrumb>
-        <el-breadcrumb-item v-for="item of breadcrumbList" :key="item.path">
+        <el-breadcrumb-item v-for="item of breadcrumbs" :key="item.path">
           <span v-if="item.redirect">{{ item.name }}</span>
           <router-link v-else :to="item.path">{{ item.name }}</router-link>
         </el-breadcrumb-item>
@@ -55,7 +55,7 @@ export default {
     if (first && first.name !== '首页') {
       matched = [{ path: '/', name: '首页' }].concat(matched)
     }
-    this.breadcrumbList = matched
+    this.breadcrumbs = matched
     //保存当前页标签
     this.$store.commit('saveTab', this.$route)
   },
@@ -63,7 +63,7 @@ export default {
     return {
       isSearch: false,
       fullscreen: false,
-      breadcrumbList: []
+      breadcrumbs: []
     }
   },
   methods: {

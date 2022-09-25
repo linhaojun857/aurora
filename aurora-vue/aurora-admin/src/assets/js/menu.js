@@ -26,7 +26,6 @@ export function generaMenu() {
       // 添加侧边栏菜单
       store.commit('saveUserMenus', userMenus)
       // 添加菜单到路由
-      // router.addRoutes(userMenus)
       userMenus.forEach((item) => {
         router.addRoute(item)
       })
