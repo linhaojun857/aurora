@@ -50,11 +50,6 @@ springboot + springsecurity + mysql + redis + mybatisplus + quartz + rabbitmq + 
 
 ![后台5](https://github.com/linhaojun857/readme-images/blob/master/13ad9fc5299c095841101c9f24a06b9b.png)
 
-## 将来的更新计划
-
-1. 不断对此项目进行完善
-2. 推出不同的前端主题
-
 ## 赞助
 
 |                       Wechat 微信支付                        |                      Alipay 支付宝支付                       |
