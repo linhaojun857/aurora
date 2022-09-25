@@ -8,7 +8,7 @@
       background-color="#304156"
       text-color="#BFCBD9"
       active-text-color="#409EFF">
-      <template v-for="route of this.$store.state.userMenuList">
+      <template v-for="route of this.$store.state.userMenus">
         <!-- 二级菜单 -->
         <template v-if="route.name && route.children && !route.hidden">
           <el-submenu :key="route.path" :index="route.path">

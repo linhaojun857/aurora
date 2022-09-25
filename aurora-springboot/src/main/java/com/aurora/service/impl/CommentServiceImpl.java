@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -92,8 +93,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 .isReview(isCommentReview == TRUE ? FALSE : TRUE)
                 .build();
         commentMapper.insert(comment);
+        String fromNickname = UserUtils.getUserDetailsDTO().getNickname();
         if (websiteConfig.getIsEmailNotice().equals(TRUE)) {
-            CompletableFuture.runAsync(() -> notice(comment));
+            CompletableFuture.runAsync(() -> notice(comment, fromNickname));
         }
     }
 
@@ -215,10 +217,19 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }
     }
 
-    public void notice(Comment comment) {
+    private void notice(Comment comment, String fromNickname) {
+        // 评论自己不发邮件提醒
+        if (comment.getUserId().equals(comment.getReplyUserId())) {
+            return;
+        }
+        // 博主自己发评论不发邮件提醒
+        if (comment.getUserId().equals(BLOGGER_ID) && Objects.isNull(comment.getParentId())) {
+            return;
+        }
         // 查询回复用户邮箱号
+        String title;
         Integer userId = BLOGGER_ID;
-        String id = Objects.nonNull(comment.getTopicId()) ? comment.getTopicId().toString() : "";
+        String topicId = Objects.nonNull(comment.getTopicId()) ? comment.getTopicId().toString() : "";
         if (Objects.nonNull(comment.getReplyUserId())) {
             userId = comment.getReplyUserId();
         } else {
@@ -232,26 +243,54 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                     break;
             }
         }
-        String email = userInfoMapper.selectById(userId).getEmail();
-        if (StringUtils.isNotBlank(email)) {
-            // 发送消息
-            EmailDTO emailDTO = new EmailDTO();
-            if (comment.getIsReview().equals(TRUE)) {
-                // 评论提醒
-                emailDTO.setEmail(email);
-                emailDTO.setSubject("评论提醒");
-                // 获取评论路径
-                String url = websiteUrl + getCommentPath(comment.getType()) + id;
-                emailDTO.setContent("您收到了一条新的回复，请前往" + url + "页面查看");
-            } else {
-                // 管理员审核提醒
-                String adminEmail = userInfoMapper.selectById(BLOGGER_ID).getEmail();
-                emailDTO.setEmail(adminEmail);
-                emailDTO.setSubject("审核提醒");
-                emailDTO.setContent("您收到了一条新的回复，请前往后台管理页面审核");
-            }
-            System.out.println(emailDTO);
+        if (Objects.requireNonNull(getCommentEnum(comment.getType())).equals(ARTICLE)) {
+            title = articleMapper.selectById(comment.getTopicId()).getArticleTitle();
+        } else {
+            title = Objects.requireNonNull(getCommentEnum(comment.getType())).getDesc();
+        }
+        UserInfo user = userInfoMapper.selectById(userId);
+        if (StringUtils.isNotBlank(user.getEmail())) {
+            EmailDTO emailDTO = getEmailDTO(comment, user, fromNickname, topicId, title, userId);
             rabbitTemplate.convertAndSend(EMAIL_EXCHANGE, "*", new Message(JSON.toJSONBytes(emailDTO), new MessageProperties()));
         }
+    }
+
+    private EmailDTO getEmailDTO(Comment comment, UserInfo user, String fromNickname, String topicId, String title, Integer userId) {
+        EmailDTO emailDTO = new EmailDTO();
+        if (comment.getIsReview().equals(TRUE)) {
+            Map<String, Object> map = new HashMap<>();
+            String url = websiteUrl + getCommentPath(comment.getType()) + topicId;
+            if (Objects.isNull(comment.getParentId())) {
+                emailDTO.setEmail(user.getEmail());
+                emailDTO.setSubject("评论提醒");
+                emailDTO.setTemplate("owner.html");
+                String createTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(comment.getCreateTime());
+                map.put("time", createTime);
+                map.put("url", url);
+                map.put("title", title);
+                map.put("nickname", fromNickname);
+                map.put("content", comment.getCommentContent());
+            } else {
+                Comment parentComment = commentMapper.selectOne(new LambdaQueryWrapper<Comment>().select(Comment::getCommentContent, Comment::getCreateTime).eq(Comment::getId, comment.getParentId()));
+                emailDTO.setEmail(user.getEmail());
+                emailDTO.setSubject("评论提醒");
+                emailDTO.setTemplate("user.html");
+                map.put("url", url);
+                map.put("title", title);
+                String createTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(parentComment.getCreateTime());
+                map.put("time", createTime);
+                map.put("toUser", user.getNickname());
+                map.put("fromUser", fromNickname);
+                map.put("parentComment", parentComment.getCommentContent());
+                map.put("replyComment", comment.getCommentContent());
+            }
+            emailDTO.setCommentMap(map);
+        } else {
+            String adminEmail = userInfoMapper.selectById(BLOGGER_ID).getEmail();
+            emailDTO.setEmail(adminEmail);
+            emailDTO.setSubject("审核提醒");
+            emailDTO.setContent("您收到了一条新的回复，请前往后台管理页面审核");
+        }
+        return emailDTO;
     }
 }

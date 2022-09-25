@@ -12,9 +12,9 @@ import lombok.Getter;
 public enum CommentTypeEnum {
 
     /**
-     * 文章评论
+     * 文章
      */
-    ARTICLE(1, "文章评论", "/articles/"),
+    ARTICLE(1, "文章", "/articles/"),
 
     /**
      * 留言
@@ -27,14 +27,14 @@ public enum CommentTypeEnum {
     ABOUT(3, "关于我", "/about/"),
 
     /**
-     * 友链评论
+     * 友链
      */
-    LINK(4, "友链评论", "/friends/"),
+    LINK(4, "友链", "/friends/"),
 
     /**
-     * 说说评论
+     * 说说
      */
-    TALK(5, "说说评论", "/talks/");
+    TALK(5, "说说", "/talks/");
 
     /**
      * 状态

@@ -75,7 +75,7 @@ public class EsSearchStrategyImpl implements SearchStrategy {
         HighlightBuilder.Field contentField = new HighlightBuilder.Field("articleContent");
         contentField.preTags(PRE_TAG);
         contentField.postTags(POST_TAG);
-        contentField.fragmentSize(80);
+        contentField.fragmentSize(50);
         nativeSearchQueryBuilder.withHighlightFields(titleField, contentField);
         // 搜索
         try {

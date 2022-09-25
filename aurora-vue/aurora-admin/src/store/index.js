@@ -9,7 +9,7 @@ export default new Vuex.Store({
     collapse: false,
     tabList: [{ name: '首页', path: '/' }],
     userInfo: null,
-    userMenuList: []
+    userMenus: []
   },
   mutations: {
     saveTab(state, tab) {
@@ -31,13 +31,13 @@ export default new Vuex.Store({
       sessionStorage.setItem('token', user.token)
       state.userInfo = user
     },
-    saveUserMenus(state, userMenuList) {
-      state.userMenuList = userMenuList
+    saveUserMenus(state, userMenus) {
+      state.userMenus = userMenus
     },
     logout(state) {
       state.userInfo = null
       sessionStorage.removeItem('token')
-      state.userMenuList = []
+      state.userMenus = []
     },
     updateAvatar(state, avatar) {
       state.userInfo.avatar = avatar

@@ -29,13 +29,11 @@ public class CommonConst {
     /**
      * 高亮标签
      */
-//    public static final String PRE_TAG = "<span style='color:#f47466'>";
     public static final String PRE_TAG = "<mark>";
 
     /**
      * 高亮标签
      */
-//    public static final String POST_TAG = "</span>";
     public static final String POST_TAG = "</mark>";
 
     /**
@@ -64,24 +62,9 @@ public class CommonConst {
     public static final String DEFAULT_NICKNAME = "用户";
 
     /**
-     * 浏览文章集合
-     */
-    public static String ARTICLE_SET = "articleSet";
-
-    /**
      * 前端组件名
      */
     public static String COMPONENT = "Layout";
-
-    /**
-     * 省
-     */
-    public static final String PROVINCE = "省";
-
-    /**
-     * 市
-     */
-    public static final String CITY = "市";
 
     /**
      * 未知的
@@ -108,5 +91,20 @@ public class CommonConst {
      * 20分钟
      */
     public final static Integer TWENTY_MINUTES = 20;
+
+    /**
+     * 验证码
+     */
+    public static final String CAPTCHA = "验证码";
+
+    /**
+     * 审核提醒
+     */
+    public static final String CHECK_REMIND = "审核提醒";
+
+    /**
+     * 评论提醒
+     */
+    public static final String COMMENT_REMIND = "评论提醒";
 
 }
