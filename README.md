@@ -8,7 +8,7 @@
 
 **后台链接：**[admin.linhaojun.top](https://admin.linhaojun.top)
 
-演示账号：test@163.com ,密码:123456 ,欢迎大家来到后台，如有不足，欢迎指正
+演示账号：test@163.com ,密码:123456
 
 ## 相关技术
 
