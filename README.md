@@ -28,7 +28,7 @@ springboot + springsecurity + mysql + redis + mybatisplus + quartz + rabbitmq + 
 
 ## 交流群
 
-| <img src="https://github.com/linhaojun857/readme-images/blob/master/6c149c9bd586ee0cb9d3d41df605e40f.png" alt="Communication group" width="200"> |
+| <img src="https://github.com/linhaojun857/readme-images/blob/master/6c149c9bd586ee0cb9d3d41df605e40f.png" alt="Communication group" width="230"> |
 | ------------------------------------------------------------ |
 
 
