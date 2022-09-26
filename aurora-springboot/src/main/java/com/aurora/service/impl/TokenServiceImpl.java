@@ -16,20 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.Optional;
 import java.util.UUID;
 
-import static com.aurora.constant.CommonConst.TWENTY_MINUTES;
-import static com.aurora.constant.RedisPrefixConst.LOGIN_USER;
+import static com.aurora.constant.AuthConstant.*;
+import static com.aurora.constant.RedisPrefixConstant.LOGIN_USER;
 
 
 @Service
 public class TokenServiceImpl implements TokenService {
-
-    private final static String header = "token";
-
-    private final static String secret = "huaweimian";
-
-    private final static Integer expireTime = 7 * 24 * 60 * 60;
 
     @Autowired
     private RedisService redisService;
@@ -53,9 +48,9 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public void refreshToken(UserDetailsDTO userDetailsDTO) {
         LocalDateTime currentTime = LocalDateTime.now();
-        userDetailsDTO.setExpireTime(currentTime.plusSeconds(expireTime));
+        userDetailsDTO.setExpireTime(currentTime.plusSeconds(EXPIRE_TIME));
         String userId = userDetailsDTO.getId().toString();
-        redisService.hSet(LOGIN_USER, userId, userDetailsDTO, expireTime);
+        redisService.hSet(LOGIN_USER, userId, userDetailsDTO, EXPIRE_TIME);
     }
 
     @Override
@@ -75,7 +70,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public UserDetailsDTO getUserDetailDTO(HttpServletRequest request) {
-        String token = request.getHeader(TokenServiceImpl.header);
+        String token = request.getHeader(TOKEN_HEADER).replaceFirst(TOKEN_PREFIX, "");
         if (StringUtils.hasText(token) && !token.equals("null")) {
             Claims claims = parseToken(token);
             String userId = claims.getSubject();
@@ -94,7 +89,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     public SecretKey generalKey() {
-        byte[] encodedKey = Base64.getDecoder().decode(secret);
+        byte[] encodedKey = Base64.getDecoder().decode(SECRET);
         return new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
     }
 

@@ -39,8 +39,8 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import static com.aurora.constant.MQPrefixConst.SUBSCRIBE_EXCHANGE;
-import static com.aurora.constant.RedisPrefixConst.*;
+import static com.aurora.constant.MQPrefixConstant.SUBSCRIBE_EXCHANGE;
+import static com.aurora.constant.RedisPrefixConstant.*;
 import static com.aurora.enums.ArticleStatusEnum.*;
 import static com.aurora.enums.StatusCodeEnum.ARTICLE_ACCESS_FAIL;
 

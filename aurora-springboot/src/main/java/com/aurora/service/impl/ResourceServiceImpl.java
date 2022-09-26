@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.aurora.constant.CommonConst.FALSE;
+import static com.aurora.constant.CommonConstant.FALSE;
 
 @Service
 public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> implements ResourceService {

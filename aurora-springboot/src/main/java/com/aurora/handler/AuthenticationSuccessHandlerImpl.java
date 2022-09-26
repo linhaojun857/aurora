@@ -1,7 +1,7 @@
 package com.aurora.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.aurora.constant.CommonConst;
+import com.aurora.constant.CommonConstant;
 import com.aurora.model.dto.UserDetailsDTO;
 import com.aurora.model.dto.UserInfoDTO;
 import com.aurora.entity.UserAuth;
@@ -40,7 +40,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
             String token = tokenService.createToken(userDetailsDTO);
             userLoginDTO.setToken(token);
         }
-        response.setContentType(CommonConst.APPLICATION_JSON);
+        response.setContentType(CommonConstant.APPLICATION_JSON);
         response.getWriter().write(JSON.toJSONString(Result.ok(userLoginDTO)));
         updateUserInfo();
     }

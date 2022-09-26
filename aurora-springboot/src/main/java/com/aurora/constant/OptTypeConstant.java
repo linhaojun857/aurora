@@ -4,7 +4,7 @@ package com.aurora.constant;
  * @author 花未眠
  * 操作日志类型常量
  */
-public class OptTypeConst {
+public class OptTypeConstant {
 
     /**
      * 新增操作

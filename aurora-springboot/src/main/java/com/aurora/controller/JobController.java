@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.aurora.constant.OptTypeConst.*;
+import static com.aurora.constant.OptTypeConstant.*;
 
 @Api(tags = "定时任务模块")
 @RestController

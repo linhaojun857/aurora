@@ -73,7 +73,7 @@ export default {
         confirmPassword: ''
       },
       activeName: 'info',
-      headers: { token: sessionStorage.getItem('token') }
+      headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') }
     }
   },
   methods: {

@@ -41,8 +41,8 @@ public class ExceptionLogAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
-        // 请求url
-        exceptionLog.setOptUrl(Objects.requireNonNull(request).getRequestURI());
+        // 请求uri
+        exceptionLog.setOptUri(Objects.requireNonNull(request).getRequestURI());
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = method.getName();
         methodName = className + "." + methodName;

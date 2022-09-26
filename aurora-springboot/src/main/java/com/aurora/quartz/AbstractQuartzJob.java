@@ -1,6 +1,6 @@
 package com.aurora.quartz;
 
-import com.aurora.constant.ScheduleConst;
+import com.aurora.constant.ScheduleConstant;
 import com.aurora.entity.Job;
 import com.aurora.entity.JobLog;
 import com.aurora.mapper.JobLogMapper;
@@ -14,8 +14,8 @@ import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
-import static com.aurora.constant.CommonConst.ONE;
-import static com.aurora.constant.CommonConst.ZERO;
+import static com.aurora.constant.CommonConstant.ONE;
+import static com.aurora.constant.CommonConstant.ZERO;
 
 
 /**
@@ -33,7 +33,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         Job job = new Job();
-        BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConst.TASK_PROPERTIES), job);
+        BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConstant.TASK_PROPERTIES), job);
         try {
             before(context, job);
             doExecute(context, job);

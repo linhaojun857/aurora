@@ -4,7 +4,7 @@ package com.aurora.constant;
  * @author 花未眠
  * redis常量
  */
-public class RedisPrefixConst {
+public class RedisPrefixConstant {
 
     /**
      * 验证码过期时间

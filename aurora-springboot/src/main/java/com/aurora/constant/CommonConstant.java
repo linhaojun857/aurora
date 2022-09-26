@@ -5,7 +5,7 @@ package com.aurora.constant;
  * @author 花未眠
  * 公共常量
  */
-public class CommonConst {
+public class CommonConstant {
 
     /**
      * 1
@@ -86,11 +86,6 @@ public class CommonConst {
      * 默认about的id
      */
     public static final Integer DEFAULT_ABOUT_ID = 1;
-
-    /**
-     * 20分钟
-     */
-    public final static Integer TWENTY_MINUTES = 20;
 
     /**
      * 验证码

@@ -204,7 +204,7 @@ export default {
         type: 1,
         status: 1
       },
-      headers: { token: sessionStorage.getItem('token') }
+      headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') }
     }
   },
   methods: {

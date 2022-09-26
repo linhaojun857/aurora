@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.aurora.constant.CommonConst.FALSE;
+import static com.aurora.constant.CommonConstant.FALSE;
 import static com.aurora.enums.PhotoAlbumStatusEnum.PUBLIC;
 
 @Service

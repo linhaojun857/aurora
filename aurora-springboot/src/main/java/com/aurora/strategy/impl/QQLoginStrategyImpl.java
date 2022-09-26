@@ -2,7 +2,7 @@ package com.aurora.strategy.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.aurora.config.properties.QQConfigProperties;
-import com.aurora.constant.SocialLoginConst;
+import com.aurora.constant.SocialLoginConstant;
 import com.aurora.model.dto.QQTokenDTO;
 import com.aurora.model.dto.QQUserInfoDTO;
 import com.aurora.model.dto.SocialTokenDTO;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.aurora.constant.SocialLoginConst.*;
+import static com.aurora.constant.SocialLoginConstant.*;
 import static com.aurora.enums.StatusCodeEnum.QQ_LOGIN_ERROR;
 
 
@@ -73,7 +73,7 @@ public class QQLoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
     private void checkQQToken(QQLoginVO qqLoginVO) {
         // 根据token获取qq openId信息
         Map<String, String> qqData = new HashMap<>(1);
-        qqData.put(SocialLoginConst.ACCESS_TOKEN, qqLoginVO.getAccessToken());
+        qqData.put(SocialLoginConstant.ACCESS_TOKEN, qqLoginVO.getAccessToken());
         try {
             String result = restTemplate.getForObject(qqConfigProperties.getCheckTokenUrl(), String.class, qqData);
             QQTokenDTO qqTokenDTO = JSON.parseObject(CommonUtils.getBracketsContent(Objects.requireNonNull(result)), QQTokenDTO.class);

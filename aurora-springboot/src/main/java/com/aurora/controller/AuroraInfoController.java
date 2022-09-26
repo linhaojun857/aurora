@@ -20,8 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
-import static com.aurora.constant.OptTypeConst.UPDATE;
-import static com.aurora.constant.OptTypeConst.UPLOAD;
+import static com.aurora.constant.OptTypeConstant.UPDATE;
+import static com.aurora.constant.OptTypeConstant.UPLOAD;
 
 @Api(tags = "aurora信息")
 @RestController

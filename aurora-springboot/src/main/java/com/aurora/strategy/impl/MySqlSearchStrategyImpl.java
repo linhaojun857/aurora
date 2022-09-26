@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.aurora.constant.CommonConst.*;
+import static com.aurora.constant.CommonConstant.*;
 import static com.aurora.enums.ArticleStatusEnum.PUBLIC;
 
 

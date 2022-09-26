@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.aurora.constant.OptTypeConst.*;
+import static com.aurora.constant.OptTypeConstant.*;
 
 
 /**

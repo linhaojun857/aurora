@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ExceptionLogDTO {
     private Integer id;
-    private String optUrl;
+    private String optUri;
     private String optMethod;
     private String requestMethod;
     private String requestParam;

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.aurora.constant.OptTypeConst.DELETE;
+import static com.aurora.constant.OptTypeConstant.DELETE;
 
 @Api(tags = "异常日志模块")
 @RestController

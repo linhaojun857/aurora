@@ -7,7 +7,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static com.aurora.constant.MQPrefixConst.*;
+import static com.aurora.constant.MQPrefixConstant.*;
 
 /**
  * @author 花未眠

@@ -25,7 +25,7 @@
     </div>
     <el-table @selection-change="selectionChange" v-loading="loading" :data="logs">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column prop="optUrl" label="请求接口" align="center" width="160" />
+      <el-table-column prop="optUri" label="请求接口" align="center" width="160" />
       <el-table-column prop="optDesc" label="操作描述" align="center" width="150" />
       <el-table-column prop="requetMethod" label="请求方式" align="center" width="150">
         <template slot-scope="scope" v-if="scope.row.requestMethod">
@@ -68,7 +68,7 @@
       <div class="dialog-title-container" slot="title"><i class="el-icon-more" />详细信息</div>
       <el-form ref="form" :model="exceptionLog" label-width="100px" size="mini">
         <el-form-item label="操作接口：">
-          {{ exceptionLog.optUrl }}
+          {{ exceptionLog.optUri }}
         </el-form-item>
         <el-form-item label="操作方法：">
           {{ exceptionLog.optMethod }}
@@ -110,7 +110,7 @@ export default {
       logs: [],
       logIds: [],
       isDelete: false,
-      loading: false,
+      loading: true,
       keywords: '',
       current: 1,
       size: 10,

@@ -4,7 +4,8 @@ package com.aurora.constant;
  * @author 花未眠
  * 任务调度通用常量
  */
-public class ScheduleConst {
+public class ScheduleConstant {
+
     public static final String TASK_CLASS_NAME = "TASK_CLASS_NAME";
 
     /**
@@ -44,7 +45,7 @@ public class ScheduleConst {
 
         private final Integer value;
 
-        private Status(Integer value) {
+        Status(Integer value) {
             this.value = value;
         }
 

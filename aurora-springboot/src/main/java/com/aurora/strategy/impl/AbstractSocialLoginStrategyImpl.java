@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static com.aurora.constant.CommonConst.TRUE;
+import static com.aurora.constant.CommonConstant.TRUE;
 
 
 /**

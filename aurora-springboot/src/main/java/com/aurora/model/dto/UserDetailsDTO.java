@@ -1,6 +1,6 @@
 package com.aurora.model.dto;
 
-import com.aurora.constant.CommonConst;
+import com.aurora.constant.CommonConstant;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -156,7 +156,7 @@ public class UserDetailsDTO implements UserDetails {
     @Override
     @Transient
     public boolean isAccountNonLocked() {
-        return this.isDisable.equals(CommonConst.FALSE);
+        return this.isDisable.equals(CommonConstant.FALSE);
     }
 
     @Override

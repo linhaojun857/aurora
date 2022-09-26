@@ -213,7 +213,7 @@ export default {
       current: 1,
       size: 18,
       count: 0,
-      headers: { token: sessionStorage.getItem('token') }
+      headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') }
     }
   },
   methods: {

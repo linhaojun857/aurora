@@ -24,8 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 
-import static com.aurora.constant.CommonConst.FALSE;
-import static com.aurora.constant.CommonConst.TRUE;
+import static com.aurora.constant.CommonConstant.FALSE;
+import static com.aurora.constant.CommonConstant.TRUE;
 import static com.aurora.enums.PhotoAlbumStatusEnum.PUBLIC;
 
 @Service

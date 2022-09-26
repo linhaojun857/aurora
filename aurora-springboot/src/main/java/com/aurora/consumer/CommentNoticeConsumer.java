@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
-import static com.aurora.constant.CommonConst.*;
-import static com.aurora.constant.MQPrefixConst.EMAIL_QUEUE;
+import static com.aurora.constant.CommonConstant.*;
+import static com.aurora.constant.MQPrefixConstant.EMAIL_QUEUE;
 
 /**
  * @author 花未眠
