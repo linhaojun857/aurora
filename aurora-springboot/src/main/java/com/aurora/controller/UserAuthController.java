@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.aurora.constant.OptTypeConst.SAVE;
-import static com.aurora.constant.OptTypeConst.UPDATE;
+import static com.aurora.constant.OptTypeConstant.UPDATE;
 
 @Api(tags = "用户账号模块")
 @RestController

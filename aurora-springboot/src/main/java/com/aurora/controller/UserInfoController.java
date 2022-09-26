@@ -14,8 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
-import static com.aurora.constant.OptTypeConst.DELETE;
-import static com.aurora.constant.OptTypeConst.UPDATE;
+import static com.aurora.constant.OptTypeConstant.DELETE;
+import static com.aurora.constant.OptTypeConstant.UPDATE;
 
 @Api(tags = "用户信息模块")
 @RestController

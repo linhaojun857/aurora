@@ -25,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.aurora.constant.CommonConst.COMPONENT;
-import static com.aurora.constant.CommonConst.TRUE;
+import static com.aurora.constant.CommonConstant.COMPONENT;
+import static com.aurora.constant.CommonConstant.TRUE;
 
 @Service
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {

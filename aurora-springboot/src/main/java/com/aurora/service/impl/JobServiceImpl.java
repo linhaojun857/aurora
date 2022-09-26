@@ -1,6 +1,6 @@
 package com.aurora.service.impl;
 
-import com.aurora.constant.ScheduleConst;
+import com.aurora.constant.ScheduleConstant;
 import com.aurora.model.dto.JobDTO;
 import com.aurora.entity.Job;
 import com.aurora.mapper.JobMapper;
@@ -114,9 +114,9 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         updateWrapper.eq(Job::getId, jobStatusVO.getId()).set(Job::getStatus, status);
         int row = jobMapper.update(null, updateWrapper);
         if (row > 0) {
-            if (ScheduleConst.Status.NORMAL.getValue().equals(status)) {
+            if (ScheduleConstant.Status.NORMAL.getValue().equals(status)) {
                 scheduler.resumeJob(ScheduleUtils.getJobKey(jobId, jobGroup));
-            } else if (ScheduleConst.Status.PAUSE.getValue().equals(status)) {
+            } else if (ScheduleConstant.Status.PAUSE.getValue().equals(status)) {
                 scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
             }
         }

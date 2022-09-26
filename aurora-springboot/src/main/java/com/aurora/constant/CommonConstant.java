@@ -5,7 +5,7 @@ package com.aurora.constant;
  * @author 花未眠
  * 公共常量
  */
-public class CommonConst {
+public class CommonConstant {
 
     /**
      * 1

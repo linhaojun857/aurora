@@ -1,7 +1,7 @@
 package com.aurora.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.aurora.constant.CommonConst;
+import com.aurora.constant.CommonConstant;
 import com.aurora.model.dto.*;
 import com.aurora.entity.UserAuth;
 import com.aurora.entity.UserInfo;
@@ -38,8 +38,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.aurora.constant.MQPrefixConst.EMAIL_EXCHANGE;
-import static com.aurora.constant.RedisPrefixConst.*;
+import static com.aurora.constant.MQPrefixConstant.EMAIL_EXCHANGE;
+import static com.aurora.constant.RedisPrefixConstant.*;
 import static com.aurora.enums.UserAreaTypeEnum.getUserAreaType;
 import static com.aurora.utils.CommonUtils.checkEmail;
 import static com.aurora.utils.CommonUtils.getRandomCode;
@@ -132,7 +132,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         // 新增用户信息
         UserInfo userInfo = UserInfo.builder()
                 .email(userVO.getUsername())
-                .nickname(CommonConst.DEFAULT_NICKNAME + IdWorker.getId())
+                .nickname(CommonConstant.DEFAULT_NICKNAME + IdWorker.getId())
                 .avatar(auroraInfoService.getWebsiteConfig().getUserAvatar())
                 .build();
         userInfoMapper.insert(userInfo);

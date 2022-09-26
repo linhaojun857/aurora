@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-import static com.aurora.constant.CommonConst.APPLICATION_JSON;
+import static com.aurora.constant.CommonConstant.APPLICATION_JSON;
 
 
 /**

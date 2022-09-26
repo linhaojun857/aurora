@@ -1,6 +1,6 @@
 package com.aurora.utils;
 
-import com.aurora.constant.ScheduleConst;
+import com.aurora.constant.ScheduleConstant;
 import com.aurora.entity.Job;
 import com.aurora.exception.TaskException;
 import com.aurora.quartz.QuartzDisallowConcurrentExecution;
@@ -27,14 +27,14 @@ public class ScheduleUtils {
      * 构建任务触发对象
      */
     public static TriggerKey getTriggerKey(Integer jobId, String jobGroup) {
-        return TriggerKey.triggerKey(ScheduleConst.TASK_CLASS_NAME + jobId, jobGroup);
+        return TriggerKey.triggerKey(ScheduleConstant.TASK_CLASS_NAME + jobId, jobGroup);
     }
 
     /**
      * 构建任务键对象
      */
     public static JobKey getJobKey(Integer jobId, String jobGroup) {
-        return JobKey.jobKey(ScheduleConst.TASK_CLASS_NAME + jobId, jobGroup);
+        return JobKey.jobKey(ScheduleConstant.TASK_CLASS_NAME + jobId, jobGroup);
     }
 
     /**
@@ -56,7 +56,7 @@ public class ScheduleUtils {
                 .withSchedule(cronScheduleBuilder).build();
 
         // 放入参数，运行时的方法可以获取
-        jobDetail.getJobDataMap().put(ScheduleConst.TASK_PROPERTIES, job);
+        jobDetail.getJobDataMap().put(ScheduleConstant.TASK_PROPERTIES, job);
 
         // 判断是否存在
         if (scheduler.checkExists(getJobKey(jobId, jobGroup))) {
@@ -67,7 +67,7 @@ public class ScheduleUtils {
         scheduler.scheduleJob(jobDetail, trigger);
 
         // 暂停任务
-        if (job.getStatus().equals(ScheduleConst.Status.PAUSE.getValue())) {
+        if (job.getStatus().equals(ScheduleConstant.Status.PAUSE.getValue())) {
             scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
         }
     }
@@ -78,13 +78,13 @@ public class ScheduleUtils {
     public static CronScheduleBuilder handleCronScheduleMisfirePolicy(Job job, CronScheduleBuilder cb)
             throws TaskException {
         switch (job.getMisfirePolicy()) {
-            case ScheduleConst.MISFIRE_DEFAULT:
+            case ScheduleConstant.MISFIRE_DEFAULT:
                 return cb;
-            case ScheduleConst.MISFIRE_IGNORE_MISFIRES:
+            case ScheduleConstant.MISFIRE_IGNORE_MISFIRES:
                 return cb.withMisfireHandlingInstructionIgnoreMisfires();
-            case ScheduleConst.MISFIRE_FIRE_AND_PROCEED:
+            case ScheduleConstant.MISFIRE_FIRE_AND_PROCEED:
                 return cb.withMisfireHandlingInstructionFireAndProceed();
-            case ScheduleConst.MISFIRE_DO_NOTHING:
+            case ScheduleConstant.MISFIRE_DO_NOTHING:
                 return cb.withMisfireHandlingInstructionDoNothing();
             default:
                 throw new TaskException("The task misfire policy '" + job.getMisfirePolicy()

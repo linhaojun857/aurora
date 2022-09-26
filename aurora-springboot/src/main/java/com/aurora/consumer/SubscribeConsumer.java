@@ -18,8 +18,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.aurora.constant.CommonConst.TRUE;
-import static com.aurora.constant.MQPrefixConst.SUBSCRIBE_QUEUE;
+import static com.aurora.constant.CommonConstant.TRUE;
+import static com.aurora.constant.MQPrefixConstant.SUBSCRIBE_QUEUE;
 
 @Component
 @RabbitListener(queues = SUBSCRIBE_QUEUE)

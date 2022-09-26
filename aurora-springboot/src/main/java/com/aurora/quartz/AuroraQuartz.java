@@ -26,8 +26,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.aurora.constant.CommonConst.UNKNOWN;
-import static com.aurora.constant.RedisPrefixConst.*;
+import static com.aurora.constant.CommonConstant.UNKNOWN;
+import static com.aurora.constant.RedisPrefixConstant.*;
 
 @Slf4j
 @Component("auroraQuartz")

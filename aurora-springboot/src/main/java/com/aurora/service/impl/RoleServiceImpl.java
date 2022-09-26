@@ -1,6 +1,6 @@
 package com.aurora.service.impl;
 
-import com.aurora.constant.CommonConst;
+import com.aurora.constant.CommonConstant;
 import com.aurora.model.dto.RoleDTO;
 import com.aurora.model.dto.UserRoleDTO;
 import com.aurora.entity.Role;
@@ -80,7 +80,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         Role role = Role.builder()
                 .id(roleVO.getId())
                 .roleName(roleVO.getRoleName())
-                .isDisable(CommonConst.FALSE)
+                .isDisable(CommonConstant.FALSE)
                 .build();
         this.saveOrUpdate(role);
         // 更新角色资源关系

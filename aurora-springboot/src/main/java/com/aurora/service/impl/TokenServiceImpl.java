@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.UUID;
 
-import static com.aurora.constant.CommonConst.TWENTY_MINUTES;
-import static com.aurora.constant.RedisPrefixConst.LOGIN_USER;
+import static com.aurora.constant.CommonConstant.TWENTY_MINUTES;
+import static com.aurora.constant.RedisPrefixConstant.LOGIN_USER;
 
 
 @Service

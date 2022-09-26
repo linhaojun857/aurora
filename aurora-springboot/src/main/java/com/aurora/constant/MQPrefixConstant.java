@@ -4,7 +4,7 @@ package com.aurora.constant;
  * @author 花未眠
  * mq常量
  */
-public class MQPrefixConst {
+public class MQPrefixConstant {
 
     /**
      * maxwell队列

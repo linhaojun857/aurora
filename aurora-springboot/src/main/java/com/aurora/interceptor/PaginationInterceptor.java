@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.aurora.constant.CommonConst.*;
+import static com.aurora.constant.CommonConstant.*;
 
 /**
  * @author 花未眠
