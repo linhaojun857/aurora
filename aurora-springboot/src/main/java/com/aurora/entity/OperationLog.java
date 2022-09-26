@@ -33,7 +33,7 @@ public class OperationLog {
     /**
      * 操作路径
      */
-    private String optUrl;
+    private String optUri;
 
     /**
      * 操作类型

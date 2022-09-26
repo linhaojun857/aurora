@@ -98,8 +98,8 @@ public class OperationLogAspect {
         String ipAddress = IpUtils.getIpAddress(request);
         operationLog.setIpAddress(ipAddress);
         operationLog.setIpSource(IpUtils.getIpSource(ipAddress));
-        // 请求URL
-        operationLog.setOptUrl(request.getRequestURI());
+        // 请求uri
+        operationLog.setOptUri(request.getRequestURI());
         // 事件发布
         applicationContext.publishEvent(new OperationLogEvent(operationLog));
     }

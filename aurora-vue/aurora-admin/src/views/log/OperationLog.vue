@@ -78,7 +78,7 @@
           {{ optLog.optModule }}
         </el-form-item>
         <el-form-item label="请求地址：">
-          {{ optLog.optUrl }}
+          {{ optLog.optUri }}
         </el-form-item>
         <el-form-item label="请求方式：">
           <el-tag :type="tagType(optLog.requestMethod)">

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class ExceptionLog {
     @TableId(type = IdType.AUTO)
     private Integer id;
-    private String optUrl;
+    private String optUri;
     private String optMethod;
     private String requestMethod;
     private String requestParam;
