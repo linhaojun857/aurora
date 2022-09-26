@@ -88,7 +88,7 @@
       <div class="upload-container">
         <el-upload
           v-show="uploads.length > 0"
-          action="/api/admin/photos/albums/cover"
+          action="/api/admin/photos/upload"
           list-type="picture-card"
           :file-list="uploads"
           multiple
