@@ -2,32 +2,29 @@ import axios from 'axios'
 import { app } from '@/main'
 
 axios.interceptors.request.use((config: any) => {
-  config.headers.token = sessionStorage.getItem('token')
+  config.headers['Authorization'] = 'Bearer ' + sessionStorage.getItem('token')
   return config
 })
 
-axios.interceptors.response.use(
-  (response) => {
-    switch (response.data.code) {
-      case 50000:
-        app.config.globalProperties.$notify({
-          title: 'Error',
-          message: '系统异常,请联系管理员',
-          type: 'error'
-        })
-        break
-      case 40001:
-        app.config.globalProperties.$notify({
-          title: 'Error',
-          message: '用户未登录',
-          type: 'error'
-        })
-        break
-    }
-    return response
-  },
-  (error) => {}
-)
+axios.interceptors.response.use((response) => {
+  switch (response.data.code) {
+    case 50000:
+      app.config.globalProperties.$notify({
+        title: 'Error',
+        message: '系统异常,请联系管理员',
+        type: 'error'
+      })
+      break
+    case 40001:
+      app.config.globalProperties.$notify({
+        title: 'Error',
+        message: '用户未登录',
+        type: 'error'
+      })
+      break
+  }
+  return response
+})
 export default {
   getTopAndFeaturedArticles: () => {
     return axios.get('/api/articles/topAndFeatured')
@@ -135,7 +132,7 @@ export default {
   updatePassword: (params: any) => {
     return axios.put('/api/users/password', params)
   },
-  accessArticle:(params:any)=>{
-    return axios.post('/api/articles/access',params)
+  accessArticle: (params: any) => {
+    return axios.post('/api/articles/access', params)
   }
 }

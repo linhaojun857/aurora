@@ -88,11 +88,6 @@ public class CommonConstant {
     public static final Integer DEFAULT_ABOUT_ID = 1;
 
     /**
-     * 20分钟
-     */
-    public final static Integer TWENTY_MINUTES = 20;
-
-    /**
      * 验证码
      */
     public static final String CAPTCHA = "验证码";

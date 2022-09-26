@@ -242,7 +242,7 @@ export default defineComponent({
         return {
           method: 'POST',
           headers: {
-            token: userStore.token
+            Authorization: 'Bearer ' + userStore.token
           }
         }
       })

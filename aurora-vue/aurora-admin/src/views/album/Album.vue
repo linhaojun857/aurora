@@ -128,7 +128,7 @@ export default {
       current: 1,
       size: 8,
       count: 0,
-      headers: { token: sessionStorage.getItem('token') }
+      headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') }
     }
   },
   methods: {
