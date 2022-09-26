@@ -110,7 +110,7 @@ export default {
       logs: [],
       logIds: [],
       isDelete: false,
-      loading: false,
+      loading: true,
       keywords: '',
       current: 1,
       size: 10,
