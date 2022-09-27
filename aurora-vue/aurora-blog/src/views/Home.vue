@@ -135,6 +135,8 @@ export default defineComponent({
       articleOffset.value = articleListEl && articleListEl instanceof HTMLElement ? articleListEl.offsetTop + 120 : 0
     }
 
+    onMounted(fetchData)
+
     const fetchTopAndFeatured = () => {
       api.getTopAndFeaturedArticles().then(({ data }) => {
         data.data.topArticle.articleContent = md
@@ -151,13 +153,6 @@ export default defineComponent({
         })
         articleStore.topArticle = data.data.topArticle
         articleStore.featuredArticles = data.data.featuredArticles
-      })
-    }
-
-    const fetchCategories = () => {
-      categoryStore.categories = []
-      api.getAllCategories().then(({ data }) => {
-        categoryStore.categories.push(...data.data)
       })
     }
 
@@ -184,25 +179,6 @@ export default defineComponent({
         })
     }
 
-    onMounted(fetchData)
-
-    const expandHandler = () => {
-      expanderClass.value.expanded = !expanderClass.value.expanded
-      tabClass.value['expanded-tab'] = !tabClass.value['expanded-tab']
-    }
-
-    const handleTabChange = (categoryId: any) => {
-      pagination.current = 1
-      activeTab.value = categoryId
-      backToPageTop()
-      if (categoryId !== 0) {
-        nowCategoryId = categoryId
-        fetchArticlesByCategoryId(categoryId)
-      } else {
-        nowCategoryId = categoryId
-        fetchArticles()
-      }
-    }
     const fetchArticlesByCategoryId = (categoryId: any) => {
       reactiveData.haveArticles = false
       api
@@ -224,6 +200,32 @@ export default defineComponent({
           reactiveData.haveArticles = true
         })
     }
+
+    const fetchCategories = () => {
+      categoryStore.categories = []
+      api.getAllCategories().then(({ data }) => {
+        categoryStore.categories.push(...data.data)
+      })
+    }
+
+    const expandHandler = () => {
+      expanderClass.value.expanded = !expanderClass.value.expanded
+      tabClass.value['expanded-tab'] = !tabClass.value['expanded-tab']
+    }
+
+    const handleTabChange = (categoryId: any) => {
+      pagination.current = 1
+      activeTab.value = categoryId
+      backToPageTop()
+      if (categoryId !== 0) {
+        nowCategoryId = categoryId
+        fetchArticlesByCategoryId(categoryId)
+      } else {
+        nowCategoryId = categoryId
+        fetchArticles()
+      }
+    }
+
     const backToPageTop = () => {
       window.scrollTo({
         top: articleOffset.value
