@@ -49,7 +49,7 @@
 <script lang="ts">
 import { useArticleStore } from '@/stores/article'
 import { useCommonStore } from '@/stores/common'
-import { defineComponent, onBeforeMount, onUnmounted, reactive, toRef } from 'vue'
+import { defineComponent, onMounted, onUnmounted, reactive, toRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Paginator from '@/components/Paginator.vue'
@@ -69,7 +69,15 @@ export default defineComponent({
       size: 12
     })
 
-    const fetchData = () => {
+    onMounted(() => {
+      fetchArchives()
+    })
+
+    onUnmounted(() => {
+      commonStore.resetHeaderImage()
+    })
+
+    const fetchArchives = () => {
       articleStore.archives = ''
       api
         .getAllArchives({
@@ -98,13 +106,8 @@ export default defineComponent({
         top: 0,
         behavior: 'smooth'
       })
-      fetchData()
+      fetchArchives()
     }
-
-    onBeforeMount(fetchData)
-    onUnmounted(() => {
-      commonStore.resetHeaderImage()
-    })
 
     return {
       pageChangeHanlder,
@@ -136,8 +139,6 @@ export default defineComponent({
   }
 }
 
-/*----- TIMELINE ITEM -----*/
-
 .timeline-item {
   padding-left: 40px;
   position: relative;
@@ -145,8 +146,6 @@ export default defineComponent({
     padding-bottom: 0;
   }
 }
-
-/*----- TIMELINE INFO -----*/
 
 .timeline-info {
   color: var(--text-accent);
@@ -157,7 +156,6 @@ export default defineComponent({
   text-transform: uppercase;
   white-space: nowrap;
 }
-/*----- TIMELINE MARKER -----*/
 
 .timeline-marker {
   position: absolute;
@@ -197,8 +195,6 @@ export default defineComponent({
   border: 3px solid var(--text-accent);
 }
 
-/*----- TIMELINE CONTENT -----*/
-
 .timeline-content {
   padding-bottom: 40px;
   p {
@@ -222,8 +218,6 @@ export default defineComponent({
     left: 0;
   }
 }
-
-/*----- TIMELINE PERIOD -----*/
 
 .period {
   padding: 0;
@@ -261,10 +255,6 @@ export default defineComponent({
   }
 }
 
-/*----------------------------------------------
-    MOD: TIMELINE SPLIT
-----------------------------------------------*/
-
 .timeline-split {
   @media (min-width: 768px) {
     .timeline {
@@ -296,10 +286,6 @@ export default defineComponent({
     }
   }
 }
-
-/*----------------------------------------------
-  MOD: TIMELINE CENTERED
-----------------------------------------------*/
 
 .timeline-centered {
   @extend .timeline-split;
