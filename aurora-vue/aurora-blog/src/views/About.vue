@@ -85,6 +85,42 @@ export default defineComponent({
       size: 7
     })
 
+    const fetchData = async () => {
+      fetchComments()
+      fetchAbout()
+    }
+
+    onMounted(fetchData)
+
+    onBeforeUnmount(() => {
+      commonStore.resetHeaderImage()
+      tocbot.destroy()
+    })
+
+    provide(
+      'comments',
+      computed(() => reactiveData.comments)
+    )
+    provide(
+      'haveMore',
+      computed(() => reactiveData.haveMore)
+    )
+    emitter.on('aboutFetchComment', () => {
+      pageInfo.current = 1
+      reactiveData.isReload = true
+      fetchComments()
+    })
+    emitter.on('aboutFetchReplies', (index) => {
+      fetchReplies(index)
+    })
+    emitter.on('aboutLoadMore', () => {
+      fetchComments()
+    })
+
+    const handlePreview = (index: any) => {
+      v3ImgPreviewFn({ images: reactiveData.images, index: reactiveData.images.indexOf(index) })
+    }
+
     const initTocbot = () => {
       let nodes = postRef.value.children
       if (nodes.length) {
@@ -113,12 +149,7 @@ export default defineComponent({
       }
     }
 
-    const handlePreview = (index: any) => {
-      v3ImgPreviewFn({ images: reactiveData.images, index: reactiveData.images.indexOf(index) })
-    }
-
-    const fetchData = async () => {
-      fetchComments()
+    const fetchAbout = () => {
       api.getAbout().then(({ data }) => {
         data.data.content = markdownToHtml(data.data.content)
         reactiveData.about = data.data.content
@@ -157,31 +188,6 @@ export default defineComponent({
         reactiveData.comments[index].replyDTOs = data.data
       })
     }
-
-    onMounted(fetchData)
-    provide(
-      'comments',
-      computed(() => reactiveData.comments)
-    )
-    provide(
-      'haveMore',
-      computed(() => reactiveData.haveMore)
-    )
-    emitter.on('aboutFetchComment', () => {
-      pageInfo.current = 1
-      reactiveData.isReload = true
-      fetchComments()
-    })
-    emitter.on('aboutFetchReplies', (index) => {
-      fetchReplies(index)
-    })
-    emitter.on('aboutLoadMore', () => {
-      fetchComments()
-    })
-    onBeforeUnmount(() => {
-      commonStore.resetHeaderImage()
-      tocbot.destroy()
-    })
 
     return {
       postRef,
