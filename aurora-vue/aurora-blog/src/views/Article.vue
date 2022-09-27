@@ -185,33 +185,84 @@ export default defineComponent({
     const { t } = useI18n()
     const loading = ref(true)
     const articleRef = ref()
-    commentStore.type = 1
     let md = require('markdown-it')()
-
     const reactiveData = reactive({
       id: '' as any,
       article: '' as any,
       wordNum: '' as any,
       readTime: '' as any,
       comments: [] as any,
-      haveMore: false as any,
-      isReload: false as any,
       images: [] as any,
       preArticleCard: '' as any,
-      nextArticleCard: '' as any
+      nextArticleCard: '' as any,
+      haveMore: false as any,
+      isReload: false as any
     })
     const pageInfo = reactive({
       current: 1,
       size: 7
     })
-    const fetchData = async (id: any) => {
-      loading.value = true
-      window.scrollTo({
-        top: 0
-      })
+    commentStore.type = 1
+
+    onMounted(() => {
+      reactiveData.id = route.params.articleId
+      toTop()
+      fetchArticle()
       fetchComments()
-      fetchArticle(id)
+    })
+
+    onBeforeUnmount(() => {
+      commonStore.resetHeaderImage()
+      reactiveData.article = ''
+      tocbot.destroy()
+    })
+
+    onBeforeRouteUpdate((to) => {
+      if (to.params.articleId != reactiveData.id) {
+        reactiveData.article = ''
+        reactiveData.readTime = ''
+        reactiveData.wordNum = ''
+        reactiveData.comments = []
+        reactiveData.images = []
+        reactiveData.preArticleCard = ''
+        reactiveData.nextArticleCard = ''
+        reactiveData.id = to.params.articleId
+        pageInfo.current = 1
+        reactiveData.isReload = true
+        toTop()
+        fetchArticle()
+        fetchComments()
+      }
+    })
+
+    provide(
+      'comments',
+      computed(() => reactiveData.comments)
+    )
+
+    provide(
+      'haveMore',
+      computed(() => reactiveData.haveMore)
+    )
+
+    emitter.on('articleFetchComment', () => {
+      pageInfo.current = 1
+      reactiveData.isReload = true
+      fetchComments()
+    })
+
+    emitter.on('articleFetchReplies', (index) => {
+      fetchReplies(index)
+    })
+
+    emitter.on('articleLoadMore', () => {
+      fetchComments()
+    })
+
+    const handlePreview = (index: any) => {
+      v3ImgPreviewFn({ images: reactiveData.images, index: reactiveData.images.indexOf(index) })
     }
+
     const initTocbot = () => {
       let nodes = articleRef.value.children
       if (nodes.length) {
@@ -239,12 +290,10 @@ export default defineComponent({
         })
       }
     }
-    const handlePreview = (index: any) => {
-      v3ImgPreviewFn({ images: reactiveData.images, index: reactiveData.images.indexOf(index) })
-    }
 
-    const fetchArticle = async (id: any) => {
-      api.getArticeById(id).then(({ data }) => {
+    const fetchArticle = () => {
+      loading.value = true
+      api.getArticeById(reactiveData.id).then(({ data }) => {
         if (data.code === 52003) {
           proxy.$notify({
             title: 'Error',
@@ -296,12 +345,10 @@ export default defineComponent({
       })
     }
 
-    const path = route.path
-    const arr = path.split('/')
     const fetchComments = () => {
       const params = {
         type: 1,
-        topicId: arr[2],
+        topicId: reactiveData.id,
         current: pageInfo.current,
         size: pageInfo.size
       }
@@ -327,52 +374,16 @@ export default defineComponent({
       })
     }
 
-    provide(
-      'comments',
-      computed(() => reactiveData.comments)
-    )
-    provide(
-      'haveMore',
-      computed(() => reactiveData.haveMore)
-    )
-    emitter.on('articleFetchComment', () => {
-      pageInfo.current = 1
-      reactiveData.isReload = true
-      fetchComments()
-    })
-    emitter.on('articleFetchReplies', (index) => {
-      fetchReplies(index)
-    })
-    emitter.on('articleLoadMore', () => {
-      fetchComments()
-    })
     const handleAuthorClick = (link: string) => {
       if (link === '') link = window.location.href
       window.location.href = link
     }
 
-    onMounted(() => {
-      reactiveData.id = route.params.articleId
-      fetchData(route.params.articleId)
-    })
-    onBeforeRouteUpdate((to) => {
-      if (to.params.articleId != reactiveData.id) {
-        reactiveData.article = ''
-        reactiveData.readTime = ''
-        reactiveData.wordNum = ''
-        reactiveData.comments = ''
-        reactiveData.images = []
-        reactiveData.preArticleCard = ''
-        reactiveData.nextArticleCard = ''
-        reactiveData.id = to.params.articleId
-        fetchData(reactiveData.id)
-      }
-    })
-    onBeforeUnmount(() => {
-      commonStore.resetHeaderImage()
-      reactiveData.article = ''
-      tocbot.destroy()
-    })
+    const toTop = () => {
+      window.scrollTo({
+        top: 0
+      })
+    }
 
     const deleteHTMLTag = (content: any) => {
       return content

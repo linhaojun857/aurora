@@ -72,7 +72,6 @@ export default defineComponent({
     const commentStore = useCommentStore()
     const { t } = useI18n()
     const postRef = ref()
-    commentStore.type = 3
     const reactiveData = reactive({
       about: '' as any,
       comments: [] as any,
@@ -84,6 +83,7 @@ export default defineComponent({
       current: 1,
       size: 7
     })
+    commentStore.type = 3
 
     onMounted(() => {
       fetchComments()
@@ -99,18 +99,22 @@ export default defineComponent({
       'comments',
       computed(() => reactiveData.comments)
     )
+
     provide(
       'haveMore',
       computed(() => reactiveData.haveMore)
     )
+
     emitter.on('aboutFetchComment', () => {
       pageInfo.current = 1
       reactiveData.isReload = true
       fetchComments()
     })
+
     emitter.on('aboutFetchReplies', (index) => {
       fetchReplies(index)
     })
+
     emitter.on('aboutLoadMore', () => {
       fetchComments()
     })
