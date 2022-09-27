@@ -19,7 +19,7 @@
               :infinite-scroll-immediate-check="false"
               :infinite-scroll-disabled="noResult"
               infinite-scroll-watch-disabled="scrollDisabled"
-              :infinite-scroll-distance="isMobile?0:30">
+              :infinite-scroll-distance="isMobile ? 0 : 30">
               <div class="photo-wrap">
                 <img
                   v-for="(item, index) of photos"
@@ -95,7 +95,7 @@ export default defineComponent({
       ...toRefs(reactiveData),
       handlePreview,
       loadDataFromServer,
-      isMobile:computed(()=>commonStore.isMobile),
+      isMobile: computed(() => commonStore.isMobile),
       t
     }
   }

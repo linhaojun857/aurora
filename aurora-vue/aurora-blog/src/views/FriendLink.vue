@@ -60,7 +60,6 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
     const commentStore = useCommentStore()
-    commentStore.type = 4
     const reactiveData = reactive({
       links: '' as any,
       comments: [] as any,
@@ -71,10 +70,30 @@ export default defineComponent({
       current: 1,
       size: 7
     })
-    const fetchData = () => {
+    commentStore.type = 4
+    onMounted(() => {
       fetchLinks()
       fetchComments()
-    }
+    })
+    provide(
+      'comments',
+      computed(() => reactiveData.comments)
+    )
+    provide(
+      'haveMore',
+      computed(() => reactiveData.haveMore)
+    )
+    emitter.on('friendLinkFetchComment', () => {
+      pageInfo.current = 1
+      reactiveData.isReload = true
+      fetchComments()
+    })
+    emitter.on('friendLinkFetchReplies', (index) => {
+      fetchReplies(index)
+    })
+    emitter.on('friendLinkLoadMore', () => {
+      fetchComments()
+    })
     const fetchLinks = () => {
       api.getFriendLink().then(({ data }) => {
         reactiveData.links = data.data
@@ -107,26 +126,6 @@ export default defineComponent({
         reactiveData.comments[index].replyDTOs = data.data
       })
     }
-    onMounted(fetchData)
-    provide(
-      'comments',
-      computed(() => reactiveData.comments)
-    )
-    provide(
-      'haveMore',
-      computed(() => reactiveData.haveMore)
-    )
-    emitter.on('friendLinkFetchComment', () => {
-      pageInfo.current = 1
-      reactiveData.isReload = true
-      fetchComments()
-    })
-    emitter.on('friendLinkFetchReplies', (index) => {
-      fetchReplies(index)
-    })
-    emitter.on('friendLinkLoadMore', () => {
-      fetchComments()
-    })
     return {
       ...toRefs(reactiveData),
       t

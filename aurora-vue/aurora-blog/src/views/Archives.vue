@@ -68,15 +68,13 @@ export default defineComponent({
       total: 0,
       size: 12
     })
-
     onMounted(() => {
+      toPageTop()
       fetchArchives()
     })
-
     onUnmounted(() => {
       commonStore.resetHeaderImage()
     })
-
     const fetchArchives = () => {
       articleStore.archives = ''
       api
@@ -99,16 +97,16 @@ export default defineComponent({
           pagination.total = data.data.count
         })
     }
-
     const pageChangeHanlder = (current: number) => {
       pagination.current = current
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })
+      toPageTop()
       fetchArchives()
     }
-
+    const toPageTop = () => {
+      window.scrollTo({
+        top: 0
+      })
+    }
     return {
       pageChangeHanlder,
       pagination,

@@ -43,14 +43,15 @@ export default defineComponent({
       total: 0,
       current: 1
     })
-
     const reactiveData = reactive({
       articles: '' as any,
       tagName: '' as any
     })
-
-    const fetchData = () => {
+    onMounted(() => {
       reactiveData.tagName = route.query.tagName
+      fetchArticles()
+    })
+    const fetchArticles = () => {
       api
         .getArticlesByTagId({
           tagId: route.params.tagId,
@@ -69,21 +70,17 @@ export default defineComponent({
           pagination.total = data.data.count
         })
     }
-    onMounted(fetchData)
-
     const backToPageTop = () => {
       window.scrollTo({
         top: 0
       })
     }
-
     const pageChangeHanlder = (current: number) => {
       reactiveData.articles = ''
-      backToPageTop()
       pagination.current = current
-      fetchData()
+      backToPageTop()
+      fetchArticles()
     }
-
     return {
       pagination,
       pageChangeHanlder,

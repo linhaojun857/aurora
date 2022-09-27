@@ -84,45 +84,36 @@ export default defineComponent({
       size: 7
     })
     commentStore.type = 3
-
     onMounted(() => {
       fetchComments()
       fetchAbout()
     })
-
     onBeforeUnmount(() => {
       commonStore.resetHeaderImage()
       tocbot.destroy()
     })
-
     provide(
       'comments',
       computed(() => reactiveData.comments)
     )
-
     provide(
       'haveMore',
       computed(() => reactiveData.haveMore)
     )
-
     emitter.on('aboutFetchComment', () => {
       pageInfo.current = 1
       reactiveData.isReload = true
       fetchComments()
     })
-
     emitter.on('aboutFetchReplies', (index) => {
       fetchReplies(index)
     })
-
     emitter.on('aboutLoadMore', () => {
       fetchComments()
     })
-
     const handlePreview = (index: any) => {
       v3ImgPreviewFn({ images: reactiveData.images, index: reactiveData.images.indexOf(index) })
     }
-
     const initTocbot = () => {
       let nodes = postRef.value.children
       if (nodes.length) {
@@ -161,7 +152,6 @@ export default defineComponent({
         })
       })
     }
-
     const fetchComments = () => {
       const params = {
         type: 3,
@@ -184,13 +174,11 @@ export default defineComponent({
         pageInfo.current++
       })
     }
-
     const fetchReplies = (index: any) => {
       api.getRepliesByCommentId(reactiveData.comments[index].id).then(({ data }) => {
         reactiveData.comments[index].replyDTOs = data.data
       })
     }
-
     return {
       postRef,
       ...toRefs(reactiveData),

@@ -84,6 +84,9 @@ export default defineComponent({
       images: [] as any,
       talks: '' as any
     })
+    onMounted(() => {
+      fetchTalks()
+    })
     const handlePreview = (index: any) => {
       v3ImgPreviewFn({ images: reactiveData.images, index: reactiveData.images.indexOf(index) })
     }
@@ -102,26 +105,22 @@ export default defineComponent({
         })
       })
     }
-    const fetchData = () => {
-      fetchTalks()
-    }
-    onMounted(fetchData)
     const formatTime = (data: any): string => {
       let hours = new Date(data).getHours()
       let minutes = new Date(data).getMinutes()
       let seconds = new Date(data).getSeconds()
       return hours + ':' + minutes + ':' + seconds
     }
-    const backToPageTop = () => {
+    const toPageTop = () => {
       window.scrollTo({
         top: 0
       })
     }
     const pageChangeHanlder = (current: number) => {
       reactiveData.talks = ''
-      backToPageTop()
+      toPageTop()
       pagination.current = current
-      fetchData()
+      fetchTalks()
     }
     const toTalk = (id: any) => {
       router.push({ path: '/talks/' + id })
