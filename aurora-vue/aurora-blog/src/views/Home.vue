@@ -127,15 +127,13 @@ export default defineComponent({
     let nowCategoryId = 0
     let md = require('markdown-it')()
 
-    const fetchData = () => {
+    onMounted(() => {
       fetchTopAndFeatured()
       fetchCategories()
       fetchArticles()
       const articleListEl = document.getElementById('article-list')
       articleOffset.value = articleListEl && articleListEl instanceof HTMLElement ? articleListEl.offsetTop + 120 : 0
-    }
-
-    onMounted(fetchData)
+    })
 
     const fetchTopAndFeatured = () => {
       api.getTopAndFeaturedArticles().then(({ data }) => {

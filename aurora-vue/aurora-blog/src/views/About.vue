@@ -85,12 +85,10 @@ export default defineComponent({
       size: 7
     })
 
-    const fetchData = async () => {
+    onMounted(() => {
       fetchComments()
       fetchAbout()
-    }
-
-    onMounted(fetchData)
+    })
 
     onBeforeUnmount(() => {
       commonStore.resetHeaderImage()
