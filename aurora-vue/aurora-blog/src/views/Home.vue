@@ -40,7 +40,11 @@
         </span>
 
         <ul class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          <template v-if="articles.length === 0"> </template>
+          <template v-if="haveArticles === false">
+            <li v-for="n in 12" :key="n">
+              <ArticleCard :data="{}" />
+            </li>
+          </template>
           <template v-else>
             <li v-for="article in articles" :key="article.id">
               <ArticleCard class="home-article" :data="article" />
@@ -112,6 +116,9 @@ export default defineComponent({
     })
     const activeTab = ref('')
     const articleOffset = ref(0)
+    const reactiveData = reactive({
+      haveArticles: false
+    })
     const pagination = reactive({
       size: 12,
       total: 0,
@@ -128,7 +135,7 @@ export default defineComponent({
       articleOffset.value = articleListEl && articleListEl instanceof HTMLElement ? articleListEl.offsetTop + 120 : 0
     }
 
-    const fetchTopAndFeatured = async () => {
+    const fetchTopAndFeatured = () => {
       api.getTopAndFeaturedArticles().then(({ data }) => {
         data.data.topArticle.articleContent = md
           .render(data.data.topArticle.articleContent)
@@ -147,15 +154,15 @@ export default defineComponent({
       })
     }
 
-    const fetchCategories = async () => {
+    const fetchCategories = () => {
       categoryStore.categories = []
       api.getAllCategories().then(({ data }) => {
         categoryStore.categories.push(...data.data)
       })
     }
 
-    const fetchArticles = async () => {
-      articleStore.articles = ''
+    const fetchArticles = () => {
+      reactiveData.haveArticles = false
       api
         .getArticles({
           current: pagination.current,
@@ -172,6 +179,7 @@ export default defineComponent({
             })
             articleStore.articles = data.data.records
             pagination.total = data.data.count
+            reactiveData.haveArticles = true
           }
         })
     }
@@ -183,7 +191,7 @@ export default defineComponent({
       tabClass.value['expanded-tab'] = !tabClass.value['expanded-tab']
     }
 
-    const handleTabChange = async (categoryId: any) => {
+    const handleTabChange = (categoryId: any) => {
       pagination.current = 1
       activeTab.value = categoryId
       backToPageTop()
@@ -195,8 +203,8 @@ export default defineComponent({
         fetchArticles()
       }
     }
-    const fetchArticlesByCategoryId = async (categoryId: any) => {
-      articleStore.articles = ''
+    const fetchArticlesByCategoryId = (categoryId: any) => {
+      reactiveData.haveArticles = false
       api
         .getArticlesByCategoryId({
           current: pagination.current,
@@ -205,14 +213,15 @@ export default defineComponent({
         })
         .then(({ data }) => {
           data.data.records.forEach((item: any) => {
-              item.articleContent = md
-                .render(item.articleContent)
-                .replace(/<\/?[^>]*>/g, '')
-                .replace(/[|]*\n/, '')
-                .replace(/&npsp;/gi, '')
-            })
+            item.articleContent = md
+              .render(item.articleContent)
+              .replace(/<\/?[^>]*>/g, '')
+              .replace(/[|]*\n/, '')
+              .replace(/&npsp;/gi, '')
+          })
           articleStore.articles = data.data.records
           pagination.total = data.data.count
+          reactiveData.haveArticles = true
         })
     }
     const backToPageTop = () => {
@@ -226,7 +235,7 @@ export default defineComponent({
       return {}
     }
 
-    const pageChangeHanlder = async (current: number) => {
+    const pageChangeHanlder = (current: number) => {
       pagination.current = current
       backToPageTop()
       if (nowCategoryId === 0) {
@@ -237,6 +246,7 @@ export default defineComponent({
     }
 
     return {
+      ...toRefs(reactiveData),
       ...toRefs(articleStore.$state),
       categories: toRef(categoryStore.$state, 'categories'),
       gradientText: computed(() => appStore.themeConfig.background_gradient_style),
