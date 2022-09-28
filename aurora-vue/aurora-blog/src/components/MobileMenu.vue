@@ -117,14 +117,15 @@ export default defineComponent({
       routes: '' as any,
       albums: [] as any
     })
-
-    const fetchData = () => {
+    onMounted(() => {
       reactiveData.routes = config.routes
+      fetchAblums()
+    })
+    const fetchAblums = () => {
       api.getAlbums().then(({ data }) => {
         reactiveData.albums = data.data
       })
     }
-
     const pushPage = (path: string): void => {
       console.log(path)
       if (!path) return
@@ -138,9 +139,6 @@ export default defineComponent({
         })
       }
     }
-
-    onMounted(fetchData)
-
     return {
       ...toRefs(reactiveData),
       themeConfig: computed(() => appStore.themeConfig),

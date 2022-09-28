@@ -23,9 +23,7 @@ export default defineComponent({
   },
   setup(props) {
     const isExternalClass = computed(() => isExternalIcon(props.iconClass))
-
     const iconName = computed(() => `#icon-${props.iconClass}`)
-
     const svgClass = computed(() => {
       if (props.className) {
         return 'svg-icon ' + props.className
@@ -33,14 +31,12 @@ export default defineComponent({
         return 'svg-icon'
       }
     })
-
     const styleExternalIcon = computed(() => {
       return {
         mask: `url(${props.iconClass}) no-repeat 50% 50%`,
         '-webkit-mask': `url(${props.iconClass}) no-repeat 50% 50%`
       }
     })
-
     return {
       isExternalClass,
       iconName,

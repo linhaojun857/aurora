@@ -18,7 +18,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue'
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import { SubTitle } from '@/components/Title'
 import { useAppStore } from '@/stores/app'
 import { useI18n } from 'vue-i18n'
@@ -32,6 +32,13 @@ export default defineComponent({
     const websiteCreateTime = ref('')
     const viewCount = ref(0)
     let timer: any
+    onMounted(() => {
+      runTime()
+      timer = setInterval(runTime, 1000)
+    })
+    onUnmounted(() => {
+      clearInterval(timer)
+    })
     const runTime = () => {
       let timeold = new Date().getTime() - new Date(appStore.websiteConfig.websiteCreateTime).getTime()
       let msPerDay = 24 * 60 * 60 * 1000
@@ -45,13 +52,6 @@ export default defineComponent({
       websiteCreateTime.value = str
       viewCount.value = appStore.viewCount
     }
-    onBeforeMount(() => {
-      runTime()
-      timer = setInterval(runTime, 1000)
-    })
-    onBeforeUnmount(() => {
-      clearInterval(timer)
-    })
     return {
       websiteCreateTime,
       viewCount,

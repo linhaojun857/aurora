@@ -27,9 +27,7 @@ export const app = createApp(App)
   .use(i18n)
   .use(VueClickAway)
   .use(infiniteScroll)
-  .use(v3ImgPreview, {
-    /* 全局配置 */
-  })
+  .use(v3ImgPreview, {})
   .use(lazyPlugin, {
     loading: require('@/assets/default-cover.jpg'),
     error: require('@/assets/default-cover.jpg')

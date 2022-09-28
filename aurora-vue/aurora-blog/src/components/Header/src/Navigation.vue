@@ -78,7 +78,6 @@ export default defineComponent({
   setup() {
     const { t, te } = useI18n()
     const router = useRouter()
-
     const pushPage = (path: string): void => {
       if (!path) return
       if (isExternal(path)) {
@@ -97,7 +96,6 @@ export default defineComponent({
         reactiveData.albums = data.data
       })
     })
-
     const openPhotoAlbum = (id: any): void => {
       router.push('/photos/' + id)
     }

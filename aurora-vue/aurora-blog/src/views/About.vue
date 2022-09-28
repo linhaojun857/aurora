@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onBeforeUnmount, toRefs, ref, reactive, nextTick, provide, computed } from 'vue'
+import { defineComponent, onMounted, onUnmounted, toRefs, ref, reactive, nextTick, provide, computed } from 'vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import { useI18n } from 'vue-i18n'
 import { Sidebar, Profile, Navigator } from '@/components/Sidebar'
@@ -88,7 +88,7 @@ export default defineComponent({
       fetchComments()
       fetchAbout()
     })
-    onBeforeUnmount(() => {
+    onUnmounted(() => {
       commonStore.resetHeaderImage()
       tocbot.destroy()
     })

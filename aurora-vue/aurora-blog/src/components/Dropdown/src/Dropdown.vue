@@ -5,7 +5,7 @@
     @mouseover="hoverHandler"
     @mouseleave="leaveHandler"
     v-click-away="onClickAway">
-    <slot/>
+    <slot />
   </div>
 </template>
 
@@ -28,47 +28,37 @@ export default defineComponent({
     const mouseHover = toRefs(props).hover
     const dropdownStore = useDropdownStore()
     const eventId = ref(0)
-
+    let sharedState: { active: boolean } = reactive({
+      active: false
+    })
+    provide('sharedState', sharedState)
     watch(
       () => dropdownStore.commandName,
       (newName, oldName) => {
         const name = newName ? newName : oldName
-        // Uid is used to prevent event being emitted
-        // to all dropdown @command handler.
         if (eventId.value === dropdownStore.uid) emit('command', name)
       }
     )
-
-    let sharedState: { active: boolean } = reactive({
-      active: false
-    })
-
     const toggle = () => {
       if (!sharedState.active) eventId.value = dropdownStore.setUid()
       if (!mouseHover.value) sharedState.active = !sharedState.active
     }
-
     const onClickAway = () => {
       if (!mouseHover.value && !commonStore.isMobile) {
         sharedState.active = false
         eventId.value = 0
       }
     }
-
     const hoverHandler = () => {
       if (!sharedState.active) eventId.value = dropdownStore.setUid()
       if (mouseHover.value) sharedState.active = true
     }
-
     const leaveHandler = () => {
       if (mouseHover.value) {
         sharedState.active = false
         eventId.value = 0
       }
     }
-
-    provide('sharedState', sharedState)
-
     return { toggle, onClickAway, hoverHandler, leaveHandler }
   }
 })

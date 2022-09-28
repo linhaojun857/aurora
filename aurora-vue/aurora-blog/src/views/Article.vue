@@ -147,7 +147,7 @@ import {
   computed,
   defineComponent,
   nextTick,
-  onBeforeUnmount,
+  onUnmounted,
   onMounted,
   reactive,
   ref,
@@ -209,7 +209,7 @@ export default defineComponent({
       fetchArticle()
       fetchComments()
     })
-    onBeforeUnmount(() => {
+    onUnmounted(() => {
       commonStore.resetHeaderImage()
       reactiveData.article = ''
       tocbot.destroy()

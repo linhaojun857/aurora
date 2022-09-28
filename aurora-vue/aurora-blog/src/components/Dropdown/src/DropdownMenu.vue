@@ -27,7 +27,6 @@ export default defineComponent({
   setup() {
     const sharedState = inject('sharedState', { active: false })
     const active = computed(() => sharedState.active)
-
     return {
       active
     }

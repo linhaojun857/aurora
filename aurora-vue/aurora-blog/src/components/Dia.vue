@@ -29,7 +29,9 @@ export default defineComponent({
     const diaStore = useDiaStore()
     const appStore = useAppStore()
     const showDia = ref(false)
-
+    onMounted(() => {
+      initializeBot()
+    })
     const initializeBot = () => {
       if (!appStore.aurora_bot_enable) return
       diaStore.initializeBot({
@@ -40,10 +42,6 @@ export default defineComponent({
         showDia.value = true
       }, 1000)
     }
-    onMounted(() => {
-      initializeBot()
-    })
-
     return {
       cssVariables: computed(() => {
         return `

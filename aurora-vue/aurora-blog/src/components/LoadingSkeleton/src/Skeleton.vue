@@ -8,7 +8,6 @@ const isEmptyVNode = (children: any) => {
   console.log('firstNode', firstNode)
   let str = firstNode.text
   if (str) {
-    // remove all line-break and space character
     str = str.replace(/(\n|\r\n|\s)/g, '')
   }
   return typeof firstNode.tag === 'undefined' && !str
@@ -43,7 +42,6 @@ export default defineComponent({
     const themeStyle = inject('_themeStyle', SkeletonStyle)
     const theme = inject('_skeletonTheme', { loading: false })
     let isLoading = toRefs(props).loading
-
     return {
       themeStyle,
       theme,
@@ -58,17 +56,7 @@ export default defineComponent({
     }
   },
   render() {
-    const {
-      width,
-      height,
-      duration,
-      prefix,
-      circle,
-      count,
-      tag,
-      isLoading,
-      slots
-    } = this
+    const { width, height, duration, prefix, circle, count, tag, isLoading, slots } = this
 
     const propClasses = this.class ? this.class.split(' ') : []
     const classes = [...[`${prefix}-skeleton`], ...propClasses]

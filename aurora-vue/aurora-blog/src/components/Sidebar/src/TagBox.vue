@@ -39,15 +39,14 @@ export default defineComponent({
   setup() {
     const tagStore = useTagStore()
     const { t } = useI18n()
-
-    const fetchData = async () => {
+    onMounted(() => {
+      fetchTopTenTags()
+    })
+    const fetchTopTenTags = () => {
       api.getTopTenTags().then(({ data }) => {
         tagStore.homeTags = data.data
       })
     }
-
-    onMounted(fetchData)
-
     return {
       tags: toRef(tagStore.$state, 'homeTags'),
       t

@@ -6,8 +6,7 @@
       :style="{
         transform: toggleStyle.transform,
         backgroundColor: toggleStyle.background
-      }"
-    >
+      }">
       <slot />
     </div>
   </div>
@@ -22,30 +21,25 @@ export default defineComponent({
   emits: ['changeStatus'],
   setup(props, { emit }) {
     let { status } = toRefs(props)
-
     onMounted(() => {
       changeTransform()
     })
-
     let toggleStyle = reactive({
       transform: '',
       background: '#6e40c9'
     })
     let toggleStatus = status.value
-
     const changeStatus = () => {
       toggleStatus = !toggleStatus
       changeTransform()
       emit('changeStatus', toggleStatus)
     }
-
     const changeTransform = () => {
       const transform = toggleStatus ? '18px' : '0'
       toggleStyle.transform = `translateX(${transform})`
       const backgroundColor = toggleStatus ? '#6e40c9' : '#100E16'
       toggleStyle.background = backgroundColor
     }
-
     return {
       toggleStyle,
       changeStatus

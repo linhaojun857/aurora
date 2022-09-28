@@ -95,12 +95,10 @@ export default defineComponent({
     const userStore = useUserStore()
     const router = useRouter()
     const { t } = useI18n()
-
     const handleAuthorClick = (link: string) => {
       if (link === '') link = window.location.href
       window.open(link)
     }
-
     const toArticle = () => {
       let isAccess = false
       userStore.accessArticles.forEach((item: any) => {
@@ -122,7 +120,6 @@ export default defineComponent({
         router.push({ path: '/articles/' + props.data.id })
       }
     }
-
     return {
       gradientBackground: computed(() => {
         return { background: appStore.themeConfig.header_gradient_css }

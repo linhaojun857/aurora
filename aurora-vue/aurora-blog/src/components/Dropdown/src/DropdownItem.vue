@@ -17,11 +17,9 @@ export default defineComponent({
   },
   setup(props) {
     const dropdownStore = useDropdownStore()
-
     const handleClick = () => {
       dropdownStore.setCommand(String(props.name))
     }
-
     return { handleClick }
   }
 })

@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, toRef } from 'vue'
+import { defineComponent, onMounted, toRef } from 'vue'
 import { SubTitle } from '@/components/Title'
 import { useCommentStore } from '@/stores/comment'
 import { useI18n } from 'vue-i18n'
@@ -43,13 +43,9 @@ export default defineComponent({
   setup() {
     const commentStore = useCommentStore()
     const { t } = useI18n()
-    const formatTime = (time: any): any => {
-      let date = new Date(time)
-      let year = date.getFullYear()
-      let month = date.getMonth() + 1
-      let day = date.getDate()
-      return year + '-' + month + '-' + day
-    }
+    onMounted(() => {
+      initRecentComment()
+    })
     const initRecentComment = () => {
       api.getTopSixComments().then(({ data }) => {
         if (data.data.length === 0) {
@@ -61,9 +57,13 @@ export default defineComponent({
         commentStore.recentComment = data.data
       })
     }
-
-    onBeforeMount(initRecentComment)
-
+    const formatTime = (time: any): any => {
+      let date = new Date(time)
+      let year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let day = date.getDate()
+      return year + '-' + month + '-' + day
+    }
     return {
       comments: toRef(commentStore.$state, 'recentComment'),
       t

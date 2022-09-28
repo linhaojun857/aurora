@@ -23,7 +23,6 @@ export default defineComponent({
   props: ['id', 'name', 'count', 'size'],
   setup(props) {
     const tagSize = toRefs(props).size
-
     const stylingTag = () => {
       if (tagSize.value === 'xs') {
         return {
@@ -31,35 +30,30 @@ export default defineComponent({
           lineHeight: '1rem'
         }
       }
-
       if (tagSize.value === 'sm') {
         return {
           fontSize: '0.875rem',
           lineHeight: '1.25rem'
         }
       }
-
       if (tagSize.value === 'lg') {
         return {
           fontSize: '1.125rem',
           lineHeight: '1.75rem'
         }
       }
-
       if (tagSize.value === 'xl') {
         return {
           fontSize: '1.25rem',
           lineHeight: '1.75rem'
         }
       }
-
       if (tagSize.value === '2xl') {
         return {
           fontSize: '1.5rem',
           lineHeight: '2rem'
         }
       }
-
       return {
         fontSize: '1rem',
         lineHeight: '1.5rem'
