@@ -74,33 +74,24 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(
   (response) => {
     switch (response.data.code) {
-      case 50000:
-        app.config.globalProperties.$notify({
-          title: 'Error',
-          message: '系统异常,请联系管理员',
-          type: 'error'
-        })
-        break
       case 40001:
-        app.config.globalProperties.$notify({
-          title: 'Error',
-          message: '用户未登录',
-          type: 'error'
+        Vue.prototype.$message({
+          type: 'error',
+          message: response.data.message
+        })
+        router.push({ path: '/login' })
+        break
+      case 50000:
+        Vue.prototype.$message({
+          type: 'error',
+          message: response.data.message
         })
         break
     }
     return response
   },
   (error) => {
-    switch (error.response.data.code) {
-      case 40001:
-        app.config.globalProperties.$notify({
-          title: 'Error',
-          message: '用户未登录',
-          type: 'error'
-        })
-        break
-    }
+    return Promise.reject(error)
   }
 )
 

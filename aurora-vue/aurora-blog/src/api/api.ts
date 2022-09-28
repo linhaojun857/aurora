@@ -6,25 +6,30 @@ axios.interceptors.request.use((config: any) => {
   return config
 })
 
-axios.interceptors.response.use((response) => {
-  switch (response.data.code) {
-    case 50000:
-      app.config.globalProperties.$notify({
-        title: 'Error',
-        message: '系统异常,请联系管理员',
-        type: 'error'
-      })
-      break
-    case 40001:
-      app.config.globalProperties.$notify({
-        title: 'Error',
-        message: '用户未登录',
-        type: 'error'
-      })
-      break
+axios.interceptors.response.use(
+  (response) => {
+    switch (response.data.code) {
+      case 50000:
+        app.config.globalProperties.$notify({
+          title: 'Error',
+          message: '系统异常,请联系管理员',
+          type: 'error'
+        })
+        break
+      case 40001:
+        app.config.globalProperties.$notify({
+          title: 'Error',
+          message: '用户未登录',
+          type: 'error'
+        })
+        break
+    }
+    return response
+  },
+  (error) => {
+    return Promise.reject(error)
   }
-  return response
-})
+)
 export default {
   getTopAndFeaturedArticles: () => {
     return axios.get('/api/articles/topAndFeatured')
