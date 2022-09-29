@@ -15,7 +15,6 @@
         </span>
       </div>
     </transition>
-
     <div class="Ob-Navigator-ball" @click.stop.prevent="handleNavigatorToggle">
       <div :style="gradient">
         <transition name="fade-bounce-y" mode="out-in">
@@ -25,7 +24,6 @@
         </transition>
       </div>
     </div>
-
     <ul class="Ob-Navigator-submenu">
       <li id="Ob-Navigator-top" :style="gradient" @click.stop.prevent="handleBackToTop">
         <div>
@@ -82,24 +80,19 @@ export default defineComponent({
     const navigatorStore = useNavigatorStore()
     const searchStore = useSearchStore()
     const router = useRouter()
-
     const progress = ref(0)
     const scrolling = ref(false)
-
     let time = ref(0)
     let scrollingHandler: any
     let menuReopenHandler: any
     let needReopen = ref(false)
-
     const scrollHandler = () => {
       clearTimeout(scrollingHandler)
       clearTimeout(menuReopenHandler)
-
       scrolling.value = true
       scrollingHandler = setTimeout(() => {
         scrolling.value = false
       }, 700)
-
       if (needReopen.value || navigatorStore.openNavigator === true) {
         if (navigatorStore.openNavigator === true) navigatorStore.setOpenNavigator(false)
         needReopen.value = true
@@ -108,26 +101,21 @@ export default defineComponent({
           needReopen.value = false
         }, 700)
       }
-
       setTimeout(() => {
         progress.value = Number(
           ((window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100).toFixed(0)
         )
       }, 0)
     }
-
     const handleNavigatorToggle = () => {
       const timeNow = new Date().getTime()
       if (timeNow - time.value < 10) return
-
       time.value = timeNow
-
       if (navigatorStore.openNavigator === true && needReopen.value === true) needReopen.value = false
       setTimeout(() => {
         navigatorStore.toggleOpenNavigator()
       }, 10)
     }
-
     const handleBackToTop = () => {
       navigatorStore.setOpenNavigator(false)
       window.scrollTo({
@@ -135,29 +123,23 @@ export default defineComponent({
         behavior: 'smooth'
       })
     }
-
     const handleOpenMenu = () => {
       navigatorStore.toggleMobileMenu()
     }
-
     const handleGoHome = () => {
       navigatorStore.setOpenNavigator(false)
       router.push('/')
     }
-
     const handleSearch: any = (status: boolean) => {
       navigatorStore.setOpenNavigator(false)
       searchStore.setOpenModal(status)
     }
-
     onMounted(() => {
       document.addEventListener('scroll', scrollHandler)
     })
-
     onUnmounted(() => {
       document.removeEventListener('scroll', scrollHandler)
     })
-
     return {
       gradient: computed(() => {
         return { background: appStore.themeConfig.header_gradient_css }

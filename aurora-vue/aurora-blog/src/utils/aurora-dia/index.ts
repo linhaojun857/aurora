@@ -1,25 +1,12 @@
-/*
- * Aurora Customized live2d Widget
- *
- * @author Benny Guo <code.tridiamond@gmail.com>
- * @live2d by StevenJoeZhang <https://github.com/stevenjoezhang/live2d-widget>
- */
 interface AWFConfig {
   resourcePath: string
 }
-
-/**
- * Enable bot with Waifu live2D
- */
 export class AuroraWaifu {
   configs: AWFConfig = {
     resourcePath: '/'
   }
-
   constructor(options?: AWFConfig) {
     if (options?.resourcePath) this.configs.resourcePath = options.resourcePath
-
-    // Inject live2d.min.js then boot up the bot.
     Promise.all([this.injectResources('live2d.min.js')]).then(() => {
       new AuroraBotSoftware({
         apiPath: 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/',
@@ -29,7 +16,6 @@ export class AuroraWaifu {
       })
     })
   }
-
   async injectResources(url: string): Promise<any> {
     let tag = null
     return new Promise((resolve, reject) => {
@@ -41,15 +27,10 @@ export class AuroraWaifu {
     })
   }
 }
-
 export interface DiaConfig {
   locale: string
   tips?: { [key: string]: { selector: string; text: string | string[] } }
 }
-
-/**
- * Enable Aurora Droid.
- */
 export class AuroraDia {
   configs: DiaConfig = {
     locale: 'en',
@@ -57,7 +38,6 @@ export class AuroraDia {
   }
   software = new AuroraBotSoftware()
   eyesAnimationTimer: number | undefined = undefined
-
   installSoftware(configs: DiaConfig): void {
     if (configs) {
       this.configs.locale = configs.locale
@@ -70,12 +50,10 @@ export class AuroraDia {
       messageId: 'Aurora-Dia--tips'
     })
   }
-
   on(): void {
     this.software.load()
     this.activateMotion()
   }
-
   activateMotion(): void {
     const leftEye = document.getElementById('Aurora-Dia--left-eye')
     const rightEye = document.getElementById('Aurora-Dia--right-eye')
@@ -97,7 +75,6 @@ export class AuroraDia {
     }
   }
 }
-
 interface ABConfig {
   botScript?: { [key: string]: { selector: string; text: string | string[] } }
   apiPath?: string
@@ -106,17 +83,15 @@ interface ABConfig {
   messageId: string
   locale: string
 }
-
 type BotLocales = {
   [locale: string]: any
 }
-
 class AuroraBotSoftware {
   config: ABConfig = {
     botScript: {},
     containerId: '',
     messageId: '',
-    botId: 'Aurora-Did',
+    botId: 'Aurora-Dia',
     locale: 'en'
   }
   messageCacheKey = '__AURORA_BOT_MESSAGE__'
@@ -139,7 +114,6 @@ class AuroraBotSoftware {
       }
     }
   }
-
   load() {
     this.loadLocaleMessages()
     this.injectBotScripts()
@@ -165,7 +139,6 @@ class AuroraBotSoftware {
       this.showWelcomeMessage()
     }, 3000)
   }
-
   injectBotScripts() {
     let botScriptKeys: string[] = []
     const botScript = this.config.botScript
@@ -181,7 +154,6 @@ class AuroraBotSoftware {
       }
     }
   }
-
   registerEventListener() {
     const devtools = () => {
       console.log('opened devtools')
@@ -196,7 +168,6 @@ class AuroraBotSoftware {
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) this.showMessage(this.botTips.visibility_change, 6000, 9)
     })
-    // Mouseover tips
     if (this.botTips.mouseover && this.botTips.mouseover.length > 0) {
       document.addEventListener('mouseover', (event) => {
         for (const mouseoverEvents of this.botTips.mouseover) {
@@ -224,7 +195,6 @@ class AuroraBotSoftware {
         }
       })
     }
-    // onClick event
     if (this.botTips.click && this.botTips.click.length > 0) {
       document.addEventListener('click', (event) => {
         if (event.target && event.target instanceof HTMLElement)
@@ -241,7 +211,6 @@ class AuroraBotSoftware {
           }
       })
     }
-    // Events
     if (this.botTips.events && this.botTips.events.length > 0) {
       this.botTips.events.forEach((event: any) => {
         const now = new Date(),
@@ -260,11 +229,9 @@ class AuroraBotSoftware {
       })
     }
   }
-
   showWelcomeMessage() {
     let text
     if (location.pathname === '/') {
-      // Home page
       const now = new Date().getHours()
       if (now > 5 && now <= 7) text = this.botTips['5_7']
       else if (now > 7 && now <= 11) text = this.botTips['welcome']['7_11']
@@ -294,14 +261,11 @@ class AuroraBotSoftware {
     }
     this.showMessage(text, 7000, 8)
   }
-
   loadLocaleMessages() {
     const locales = require.context('./messages/', true, /[A-Za-z0-9-_,\s]+\.json$/i)
-
     const messages: {
       [key: string]: { [key: string]: { [key: string]: string } }
     } = {}
-
     locales.keys().forEach((key) => {
       const matched = key.match(/([A-Za-z0-9-_]+)\./i)
       if (matched && matched.length > 1) {
@@ -309,10 +273,8 @@ class AuroraBotSoftware {
         messages[locale] = locales(key)
       }
     })
-
     this.locales = messages
   }
-
   showMessage(text: string, timeout: number, priority: number) {
     const cacheMessage = sessionStorage.getItem(this.messageCacheKey) ?? ''
     if (!text || (cacheMessage !== '' && parseInt(cacheMessage) > priority)) return
@@ -320,21 +282,16 @@ class AuroraBotSoftware {
       clearTimeout(this.messageTimer)
       this.messageTimer = undefined
     }
-
     sessionStorage.setItem(this.messageCacheKey, String(priority))
-
     text = this.randomSelection(text)
-
     if (text === 'showQuote') {
       this.showQuote()
       return
     }
-
     const tipsContainerEl = document.getElementById(this.config.containerId)
     const tipsEl = document.getElementById(this.config.messageId)
     let diaEl = document.createElement('null')
     if (this.config.botId) diaEl = document.getElementById(this.config.botId) ?? document.createElement('null')
-
     if (tipsEl instanceof Element && tipsContainerEl instanceof Element) {
       tipsEl.innerHTML = text
       tipsContainerEl.classList.add('active')
@@ -346,11 +303,9 @@ class AuroraBotSoftware {
       }, timeout)
     }
   }
-
   randomSelection(obj: string[] | string) {
     return Array.isArray(obj) ? obj[Math.floor(Math.random() * obj.length)] : obj
   }
-
   showQuote() {
     if (this.config.locale === 'cn') {
       this.getHitokoto()
@@ -358,7 +313,6 @@ class AuroraBotSoftware {
       this.getTheySaidSo()
     }
   }
-
   getHitokoto() {
     fetch('https://v1.hitokoto.cn')
       .then((response) => response.json())
@@ -366,7 +320,6 @@ class AuroraBotSoftware {
         this.showMessage(result.hitokoto, 6000, 9)
       })
   }
-
   getTheySaidSo() {
     fetch('https://quotes.rest/qod?language=en')
       .then((response) => response.json())

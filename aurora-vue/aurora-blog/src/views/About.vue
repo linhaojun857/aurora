@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onBeforeUnmount, toRefs, ref, reactive, nextTick, provide, computed } from 'vue'
+import { defineComponent, onMounted, onUnmounted, toRefs, ref, reactive, nextTick, provide, computed } from 'vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import { useI18n } from 'vue-i18n'
 import { Sidebar, Profile, Navigator } from '@/components/Sidebar'
@@ -72,7 +72,6 @@ export default defineComponent({
     const commentStore = useCommentStore()
     const { t } = useI18n()
     const postRef = ref()
-    commentStore.type = 3
     const reactiveData = reactive({
       about: '' as any,
       comments: [] as any,
@@ -84,7 +83,37 @@ export default defineComponent({
       current: 1,
       size: 7
     })
-
+    commentStore.type = 3
+    onMounted(() => {
+      fetchComments()
+      fetchAbout()
+    })
+    onUnmounted(() => {
+      commonStore.resetHeaderImage()
+      tocbot.destroy()
+    })
+    provide(
+      'comments',
+      computed(() => reactiveData.comments)
+    )
+    provide(
+      'haveMore',
+      computed(() => reactiveData.haveMore)
+    )
+    emitter.on('aboutFetchComment', () => {
+      pageInfo.current = 1
+      reactiveData.isReload = true
+      fetchComments()
+    })
+    emitter.on('aboutFetchReplies', (index) => {
+      fetchReplies(index)
+    })
+    emitter.on('aboutLoadMore', () => {
+      fetchComments()
+    })
+    const handlePreview = (index: any) => {
+      v3ImgPreviewFn({ images: reactiveData.images, index: reactiveData.images.indexOf(index) })
+    }
     const initTocbot = () => {
       let nodes = postRef.value.children
       if (nodes.length) {
@@ -113,12 +142,7 @@ export default defineComponent({
       }
     }
 
-    const handlePreview = (index: any) => {
-      v3ImgPreviewFn({ images: reactiveData.images, index: reactiveData.images.indexOf(index) })
-    }
-
-    const fetchData = async () => {
-      fetchComments()
+    const fetchAbout = () => {
       api.getAbout().then(({ data }) => {
         data.data.content = markdownToHtml(data.data.content)
         reactiveData.about = data.data.content
@@ -128,7 +152,6 @@ export default defineComponent({
         })
       })
     }
-
     const fetchComments = () => {
       const params = {
         type: 3,
@@ -151,38 +174,11 @@ export default defineComponent({
         pageInfo.current++
       })
     }
-
     const fetchReplies = (index: any) => {
       api.getRepliesByCommentId(reactiveData.comments[index].id).then(({ data }) => {
         reactiveData.comments[index].replyDTOs = data.data
       })
     }
-
-    onMounted(fetchData)
-    provide(
-      'comments',
-      computed(() => reactiveData.comments)
-    )
-    provide(
-      'haveMore',
-      computed(() => reactiveData.haveMore)
-    )
-    emitter.on('aboutFetchComment', () => {
-      pageInfo.current = 1
-      reactiveData.isReload = true
-      fetchComments()
-    })
-    emitter.on('aboutFetchReplies', (index) => {
-      fetchReplies(index)
-    })
-    emitter.on('aboutLoadMore', () => {
-      fetchComments()
-    })
-    onBeforeUnmount(() => {
-      commonStore.resetHeaderImage()
-      tocbot.destroy()
-    })
-
     return {
       postRef,
       ...toRefs(reactiveData),

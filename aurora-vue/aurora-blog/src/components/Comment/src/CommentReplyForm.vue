@@ -7,7 +7,7 @@
         class="w-full shadow-md rounded-md p-4 focus:outline-none input"
         :placeholder="initialContent"
         cols="30"
-        rows="5"/>
+        rows="5" />
       <div class="justify-between" style="text-align: right">
         <button
           @click="saveReply"
@@ -106,30 +106,27 @@ export default defineComponent({
         }
       })
     }
-
     const fetchReplies = async () => {
       switch (commentStore.type) {
         case 1:
-          emitter.emit('articleFetchReplies',index)
+          emitter.emit('articleFetchReplies', index)
           break
         case 2:
-          emitter.emit('messageFetchReplies',index)
+          emitter.emit('messageFetchReplies', index)
           break
         case 3:
-          emitter.emit('aboutFetchReplies',index)
+          emitter.emit('aboutFetchReplies', index)
           break
         case 4:
-          emitter.emit('friendLinkFetchReplies',index)
+          emitter.emit('friendLinkFetchReplies', index)
           break
         case 5:
-          emitter.emit('talkFetchReplies',index)
+          emitter.emit('talkFetchReplies', index)
       }
     }
-
     const CancelReply = () => {
       emit('changeShow')
     }
-
     return {
       ...toRefs(reactiveData),
       avatar: computed(() => userStore.userInfo.avatar),

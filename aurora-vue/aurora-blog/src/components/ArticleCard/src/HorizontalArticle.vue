@@ -100,7 +100,6 @@ export default defineComponent({
       if (link === '') link = window.location.href
       window.open(link)
     }
-
     const toArticle = () => {
       if (articleStore.topArticle == '') {
         return
@@ -125,7 +124,6 @@ export default defineComponent({
         router.push({ path: '/articles/' + articleStore.topArticle.id })
       }
     }
-
     return {
       bannerHoverGradient: computed(() => {
         return { background: appStore.themeConfig.header_gradient_css }

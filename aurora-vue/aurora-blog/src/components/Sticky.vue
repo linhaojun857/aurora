@@ -21,7 +21,7 @@
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  name: 'ObSticky',
+  name: 'Sticky',
   props: {
     stickyTop: {
       type: Number,
@@ -57,7 +57,6 @@ export default defineComponent({
       newTop = ref(0),
       top = ref(0),
       isBottom = ref(false)
-
     return {
       active,
       position,
@@ -105,32 +104,17 @@ export default defineComponent({
       this.isSticky = false
     },
     handleScroll() {
-      /**
-       * setTimeout is added due to the warning of
-       * "This site appears to use a scroll-linked
-       * positioning effect. This may not work well
-       * with asynchronous panning; " (On FireFox)
-       */
       setTimeout(() => {
         const documentHeight = document.documentElement.scrollHeight
         const width = this.$el.getBoundingClientRect().width
         const height = this.$el.getBoundingClientRect().height
-
-        // Use `Dynamic Element Class` when your content will change
-        // which will affect the height of your fixed container
-        // this will update the height of your fixed container
         if (this.dynamicElClass !== '') {
           const dynamicEl = this.$el.querySelector(this.dynamicElClass)
           this.height = dynamicEl.getBoundingClientRect().height || height
         }
-
         const scrollTop = window.scrollY
         this.width = width || 'auto'
         const offsetTop = this.$el.getBoundingClientRect().top
-
-        // When the fixed container reaches the ending element container
-        // Fix position property will be turned off, and the fixed container
-        // will stop right before the ending element.
         const endingEl = this.endingElId !== '' ? document.getElementById(this.endingElId) : null
         const wrapperEl = document.getElementById('App-Wrapper')
         const endingElSpacing = parseInt(
@@ -159,7 +143,6 @@ export default defineComponent({
           }
           return
         }
-
         this.handleReset()
       }, 16)
     },

@@ -5,13 +5,13 @@
     </div>
     <div class="bg-ob-deep-800 px-14 py-16 rounded-2xl shadow-xl block min-h-screen">
       <ul class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
-        <template v-if="articles != ''">
+        <template v-if="haveArticles === true">
           <li v-for="article in articles" :key="article.id">
             <ArticleCard class="tag-article" :data="article" />
           </li>
         </template>
         <template v-else>
-          <li v-for="n in 3" :key="n">
+          <li v-for="n in 12" :key="n">
             <ArticleCard :data="{}" />
           </li>
         </template>
@@ -43,14 +43,17 @@ export default defineComponent({
       total: 0,
       current: 1
     })
-
     const reactiveData = reactive({
-      articles: '' as any,
-      tagName: '' as any
+      articles: [] as any,
+      tagName: '' as any,
+      haveArticles: false
     })
-
-    const fetchData = () => {
+    onMounted(() => {
       reactiveData.tagName = route.query.tagName
+      fetchArticles()
+    })
+    const fetchArticles = () => {
+      reactiveData.haveArticles = false
       api
         .getArticlesByTagId({
           tagId: route.params.tagId,
@@ -67,23 +70,20 @@ export default defineComponent({
           })
           reactiveData.articles = data.data.records
           pagination.total = data.data.count
+          reactiveData.haveArticles = true
         })
     }
-    onMounted(fetchData)
-
     const backToPageTop = () => {
       window.scrollTo({
         top: 0
       })
     }
-
     const pageChangeHanlder = (current: number) => {
-      reactiveData.articles = ''
-      backToPageTop()
+      reactiveData.articles = []
       pagination.current = current
-      fetchData()
+      backToPageTop()
+      fetchArticles()
     }
-
     return {
       pagination,
       pageChangeHanlder,

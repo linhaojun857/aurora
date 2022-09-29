@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { useCommonStore } from '@/stores/common'
 import { useMetaStore } from '@/stores/meta'
@@ -64,6 +64,14 @@ export default defineComponent({
     const loadingBarClass = ref({
       'nprogress-custom-parent': false
     })
+    const wrapperStyle = ref({ 'min-height': '100vh' })
+    onMounted(() => {
+      initialApp()
+    })
+    onUnmounted(() => {
+      document.removeEventListener('copy', copyEventHandler)
+      window.removeEventListener('resize', resizeHander)
+    })
     const initialApp = async () => {
       initResizeEvent()
       intialCopy()
@@ -79,7 +87,6 @@ export default defineComponent({
       }
       appStore.initializeTheme(appStore.themeConfig.theme)
     }
-
     const fetchWebsiteConfig = () => {
       api.getWebsiteConfig().then(({ data }) => {
         appStore.viewCount = data.data.viewCount
@@ -90,7 +97,6 @@ export default defineComponent({
         appStore.websiteConfig = data.data.websiteConfigDTO
       })
     }
-
     const copyEventHandler = (event: any) => {
       if (document.getSelection() instanceof Selection) {
         if (document.getSelection()?.toString() !== '' && event.clipboardData) {
@@ -99,35 +105,21 @@ export default defineComponent({
         }
       }
     }
-
     const intialCopy = () => {
       document.addEventListener('copy', copyEventHandler)
     }
-
     const isMobile = computed(() => {
       return commonStore.isMobile
     })
-
     const resizeHander = () => {
       const rect = document.body.getBoundingClientRect()
       const mobileState = rect.width - 1 < MOBILE_WITH
       if (isMobile.value !== mobileState) commonStore.changeMobileState(mobileState)
     }
-
     const initResizeEvent = () => {
       resizeHander()
       window.addEventListener('resize', resizeHander)
     }
-
-    onBeforeMount(initialApp)
-
-    onUnmounted(() => {
-      document.removeEventListener('copy', copyEventHandler)
-      window.removeEventListener('resize', resizeHander)
-    })
-
-    const wrapperStyle = ref({ 'min-height': '100vh' })
-
     return {
       title: metaStore.title,
       theme: computed(() => appStore.themeConfig.theme),

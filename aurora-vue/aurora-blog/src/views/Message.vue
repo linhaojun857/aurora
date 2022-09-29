@@ -35,7 +35,6 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
     const commentStore = useCommentStore()
-    commentStore.type = 2
     const reactiveData = reactive({
       comments: [] as any,
       haveMore: false as any,
@@ -45,9 +44,30 @@ export default defineComponent({
       current: 1,
       size: 7
     })
-    const fetchData = () => {
+    commentStore.type = 2
+    onMounted(() => {
       fetchComments()
-    }
+    })
+    provide(
+      'comments',
+      computed(() => reactiveData.comments)
+    )
+
+    provide(
+      'haveMore',
+      computed(() => reactiveData.haveMore)
+    )
+    emitter.on('messageFetchComment', () => {
+      pageInfo.current = 1
+      reactiveData.isReload = true
+      fetchComments()
+    })
+    emitter.on('messageFetchReplies', (index) => {
+      fetchReplies(index)
+    })
+    emitter.on('messageLoadMore', () => {
+      fetchComments()
+    })
     const fetchComments = () => {
       const params = {
         type: 2,
@@ -75,26 +95,6 @@ export default defineComponent({
         reactiveData.comments[index].replyDTOs = data.data
       })
     }
-    provide(
-      'comments',
-      computed(() => reactiveData.comments)
-    )
-    provide(
-      'haveMore',
-      computed(() => reactiveData.haveMore)
-    )
-    emitter.on('messageFetchComment', () => {
-      pageInfo.current = 1
-      reactiveData.isReload = true
-      fetchComments()
-    })
-    emitter.on('messageFetchReplies', (index) => {
-      fetchReplies(index)
-    })
-    emitter.on('messageLoadMore', () => {
-      fetchComments()
-    })
-    onMounted(fetchData)
     return {
       ...toRefs(reactiveData),
       t

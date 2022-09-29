@@ -43,11 +43,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const { t } = useI18n()
     const pagination = toRefs(props)
-
     const pages = computed(() => {
       return Math.ceil(pagination.pageTotal.value / pagination.pageSize.value)
     })
-
     const paginator = computed(() => {
       if (pages.value <= 3) {
         const pageNumbers = []
@@ -79,12 +77,10 @@ export default defineComponent({
         }
       }
     })
-
     const pageChangeEmitter = (page: number | string) => {
       if (page === '...') return
       emit('pageChange', page)
     }
-
     return {
       currentPage: computed(() => {
         return pagination.page.value

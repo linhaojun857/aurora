@@ -12,16 +12,23 @@
             FROM t_article_tag at
                      LEFT JOIN t_article a ON at.article_id = a.id
             WHERE a.is_delete = 0
-              AND a.STATUS = 1
+              AND a.STATUS in (1, 2)
         ) aat ON t.id = aat.tag_id
         GROUP BY t.id
     </select>
     <select id="listTopTenTags" resultType="com.aurora.model.dto.TagDTO">
         SELECT t.id,
                tag_name,
-               COUNT(at.article_id) AS count
+               COUNT(aat.article_id) AS count
         FROM t_tag t
-                 LEFT JOIN t_article_tag at ON t.id = at.tag_id
+                 LEFT JOIN (
+            SELECT a.id      AS article_id,
+                   at.tag_id AS tag_id
+            FROM t_article_tag at
+                     LEFT JOIN t_article a ON at.article_id = a.id
+            WHERE a.is_delete = 0
+              AND a.STATUS in (1, 2)
+        ) aat ON t.id = aat.tag_id
         GROUP BY t.id
         LIMIT 0, 10
     </select>

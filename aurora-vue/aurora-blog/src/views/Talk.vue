@@ -67,7 +67,6 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
     const commentStore = useCommentStore()
-    commentStore.type = 5
     const route = useRoute()
     const router = useRouter()
     const reactiveData = reactive({
@@ -81,14 +80,33 @@ export default defineComponent({
       current: 1,
       size: 7
     })
+    commentStore.type = 5
+    onMounted(() => {
+      toPageTop()
+      fetchTalk()
+      fetchComments()
+    })
+    provide(
+      'comments',
+      computed(() => reactiveData.comments)
+    )
+    provide(
+      'haveMore',
+      computed(() => reactiveData.haveMore)
+    )
+    emitter.on('talkFetchComment', () => {
+      pageInfo.current = 1
+      reactiveData.isReload = true
+      fetchComments()
+    })
+    emitter.on('talkFetchReplies', (index) => {
+      fetchReplies(index)
+    })
+    emitter.on('talkLoadMore', () => {
+      fetchComments()
+    })
     const handlePreview = (index: any) => {
       v3ImgPreviewFn({ images: reactiveData.images, index: reactiveData.images.indexOf(index) })
-    }
-    const formatTime = (data: any): string => {
-      let hours = new Date(data).getHours()
-      let minutes = new Date(data).getMinutes()
-      let seconds = new Date(data).getSeconds()
-      return hours + ':' + minutes + ':' + seconds
     }
     const fetchTalk = () => {
       api.getTalkById(route.params.talkId).then(({ data }) => {
@@ -102,12 +120,10 @@ export default defineComponent({
         }
       })
     }
-    const path = route.path
-    const arr = path.split('/')
     const fetchComments = () => {
       const params = {
         type: 5,
-        topicId: arr[2],
+        topicId: route.params.talkId,
         current: pageInfo.current,
         size: pageInfo.size
       }
@@ -131,33 +147,17 @@ export default defineComponent({
         reactiveData.comments[index].replyDTOs = data.data
       })
     }
-    provide(
-      'comments',
-      computed(() => reactiveData.comments)
-    )
-    provide(
-      'haveMore',
-      computed(() => reactiveData.haveMore)
-    )
-    emitter.on('talkFetchComment', () => {
-      pageInfo.current = 1
-      reactiveData.isReload = true
-      fetchComments()
-    })
-    emitter.on('talkFetchReplies', (index) => {
-      fetchReplies(index)
-    })
-    emitter.on('talkLoadMore', () => {
-      fetchComments()
-    })
-    const fetchData = () => {
+    const formatTime = (data: any): string => {
+      let hours = new Date(data).getHours()
+      let minutes = new Date(data).getMinutes()
+      let seconds = new Date(data).getSeconds()
+      return hours + ':' + minutes + ':' + seconds
+    }
+    const toPageTop = () => {
       window.scrollTo({
         top: 0
       })
-      fetchTalk()
-      fetchComments()
     }
-    onMounted(fetchData)
     return {
       ...toRefs(reactiveData),
       handlePreview,

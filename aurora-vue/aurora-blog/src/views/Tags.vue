@@ -39,18 +39,17 @@ export default defineComponent({
     const commonStore = useCommonStore()
     const { t } = useI18n()
     const tagStore = useTagStore()
-
-    const fetchData = async () => {
+    onMounted(() => {
+      fetchTags()
+    })
+    onUnmounted(() => {
+      commonStore.resetHeaderImage()
+    })
+    const fetchTags = () => {
       api.getAllTags().then(({ data }) => {
         tagStore.tags = data.data
       })
     }
-
-    onMounted(fetchData)
-    onUnmounted(() => {
-      commonStore.resetHeaderImage()
-    })
-
     return {
       tags: toRef(tagStore.$state, 'tags'),
       t

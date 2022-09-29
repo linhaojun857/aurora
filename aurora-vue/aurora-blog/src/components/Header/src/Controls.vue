@@ -161,7 +161,14 @@ export default defineComponent({
       articlePassword: '',
       articleId: ''
     })
-
+    emitter.on('changeArticlePasswordDialogVisible', (articleId: any) => {
+      reactiveDate.articlePasswordDialogVisible = true
+      reactiveDate.articlePassword = ''
+      reactiveDate.articleId = articleId
+      nextTick(() => {
+        document.getElementById('article-password-input')?.focus()
+      })
+    })
     const handleClick = (name: string): void => {
       appStore.changeLocale(name)
     }
@@ -203,7 +210,6 @@ export default defineComponent({
       })
       captcha.show()
     }
-
     const logout = () => {
       api.logout().then(({ data }) => {
         if (data.flag) {
@@ -225,7 +231,6 @@ export default defineComponent({
         }
       })
     }
-
     const openUserCenter = () => {
       userStore.userVisible = true
     }
@@ -237,7 +242,6 @@ export default defineComponent({
       reactiveDate.loginDialogVisible = false
       reactiveDate.registerDialogVisible = true
     }
-
     const returnLoginDialog = () => {
       reactiveDate.registerDialogVisible = false
       reactiveDate.forgetPasswordDialogVisible = false
@@ -331,16 +335,6 @@ export default defineComponent({
         }
       })
     }
-
-    emitter.on('changeArticlePasswordDialogVisible', (articleId: any) => {
-      reactiveDate.articlePasswordDialogVisible = true
-      reactiveDate.articlePassword = ''
-      reactiveDate.articleId = articleId
-      nextTick(() => {
-        document.getElementById('article-password-input')?.focus()
-      })
-    })
-
     const accessArticle = () => {
       if (reactiveDate.articlePassword.trim().length == 0) {
         proxy.$notify({
@@ -369,7 +363,6 @@ export default defineComponent({
           }
         })
     }
-
     return {
       handleOpenModel,
       loginInfo,

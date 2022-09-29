@@ -58,11 +58,9 @@ export default defineComponent({
       time: formatTime(props.comment.createTime) as any,
       show: false as any
     })
-
     const changeShow = () => {
       reactiveData.show = false
     }
-
     const clickOnReply = () => {
       reactiveData.replyContent = 'add reply...'
       reactiveData.show = true

@@ -242,19 +242,11 @@
 
 <script lang="ts">
 import { useSearchStore } from '@/stores/search'
-import { computed, defineComponent, onBeforeMount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
+import { computed, defineComponent, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import api from '@/api/api'
 import { useLocalStore } from '@/stores/local'
-import { da } from 'element-plus/es/locale'
-
-/**
- * Lodash package is imported through CDN.
- *
- * For version 4.17.21
- */
-// declare const _: any
 
 export default defineComponent({
   name: 'SearchModel',
@@ -273,17 +265,43 @@ export default defineComponent({
     const menuMaxIndex = ref(0)
     const isEmpty = ref(false)
     const { t } = useI18n()
+    onMounted(() => {
+      initSearch()
+      setTimeout(() => {
+        if (searchInput.value) searchInput.value.focus()
+      }, 200)
+    })
+    onUpdated(() => {
+      keywords.value = ''
+      searchResults.value = []
 
+      setTimeout(() => {
+        if (searchInput.value) searchInput.value.focus()
+      }, 200)
+    })
+    onUnmounted(() => {
+      document.body.classList.remove('modal--active')
+    })
+    watch(
+      () => searchStore.openModal,
+      (status: any) => {
+        if (!(status instanceof Boolean)) {
+          reloadRecentResult()
+        }
+        openModal.value = status
+        setTimeout(() => {
+          openSearchContainer.value = status
+        }, 200)
+      }
+    )
     const handleStatusChange = (status: boolean) => {
       searchStore.setOpenModal(status)
     }
-
     const handleLinkClick = (result: any) => {
       saveRecentSearch(result)
       router.push({ path: '/articles/' + result.id })
       searchStore.setOpenModal(false)
     }
-
     const saveRecentSearch = async (result: any) => {
       let temp = localStore.weight
       result.weight = localStore.weight
@@ -298,14 +316,12 @@ export default defineComponent({
       localStore.recentSearch.push(result)
       localStore.recentSearch = localStore.recentSearch.sort((a: any, b: any) => b.weight - a.weight)
     }
-
     const handleResetInput = () => {
       keywords.value = ''
       searchResults.value = []
       isEmpty.value = false
       resetIndex(recentResults.value.length)
     }
-
     const handleArrowUp = () => {
       if (isEmpty.value === true) return
       if (menuActiveIndex.value === 0) {
@@ -315,7 +331,6 @@ export default defineComponent({
       }
       moveMenuWindow()
     }
-
     const handleArrowDown = () => {
       if (isEmpty.value === true) return
       if (menuActiveIndex.value === menuMaxIndex.value) {
@@ -325,7 +340,6 @@ export default defineComponent({
       }
       moveMenuWindow()
     }
-
     const moveMenuWindow = () => {
       const searchDropdownEl = document.getElementById('Search-Dropdown')
       const activeMenuEl = document.getElementById(`search-hit-item-${menuActiveIndex.value}`)
@@ -340,14 +354,12 @@ export default defineComponent({
           })
         }
       }
-
       if (searchDropdownEl && menuActiveIndex.value === 0) {
         searchDropdownEl.scrollTo({
           top: 0
         })
       }
     }
-
     const handleEnterDown = () => {
       if (searchResults.value.length === 0 && recentResults.value.length > 0) {
         console.log(recentResults)
@@ -356,7 +368,6 @@ export default defineComponent({
         handleLinkClick(searchResults.value[menuActiveIndex.value])
       }
     }
-
     const searchKeywords = (e: any) => {
       if (e.target.value !== '') {
         let params = {
@@ -377,56 +388,18 @@ export default defineComponent({
         resetIndex(recentResults.value.length)
       }
     }
-
     const reloadRecentResult = () => {
       recentResults.value = localStore.recentSearch.reverse()
       resetIndex(recentResults.value.length)
     }
-
     const resetIndex = (max: number) => {
       menuActiveIndex.value = 0
       menuMaxIndex.value = max - 1
     }
-
     const initSearch = async () => {
       searchIndexStatus.value = false
       isEmpty.value = false
     }
-
-    onBeforeMount(initSearch)
-
-    onMounted(() =>
-      setTimeout(() => {
-        if (searchInput.value) searchInput.value.focus()
-      }, 200)
-    )
-
-    onUpdated(() => {
-      keywords.value = ''
-      searchResults.value = []
-
-      setTimeout(() => {
-        if (searchInput.value) searchInput.value.focus()
-      }, 200)
-    })
-
-    onUnmounted(() => {
-      document.body.classList.remove('modal--active')
-    })
-
-    watch(
-      () => searchStore.openModal,
-      (status: any) => {
-        if (!(status instanceof Boolean)) {
-          reloadRecentResult()
-        }
-        openModal.value = status
-        setTimeout(() => {
-          openSearchContainer.value = status
-        }, 200)
-      }
-    )
-
     return {
       openModal: computed(() => openModal.value),
       openSearchContainer: computed(() => openSearchContainer.value),

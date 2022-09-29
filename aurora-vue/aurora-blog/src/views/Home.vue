@@ -9,8 +9,8 @@
     <div class="main-grid">
       <div class="flex flex-col relative">
         <ul :class="tabClass">
-          <li :class="{ active: activeTab === '' }" @click="handleTabChange(0)">
-            <span class="first-tab" :style="activeTabStyle('')">
+          <li :class="{ active: activeTab === 0 }" @click="handleTabChange(0)">
+            <span class="first-tab" :style="activeTabStyle(0)">
               {{ t('settings.button-all') }}
             </span>
           </li>
@@ -34,20 +34,22 @@
             </li>
           </template>
         </ul>
-
         <span :class="expanderClass" @click="expandHandler">
           <svg-icon icon-class="chevron" />
         </span>
 
         <ul class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          <template v-if="articles.length === 0"> </template>
-          <template v-else>
+          <template v-if="haveArticles === true">
             <li v-for="article in articles" :key="article.id">
               <ArticleCard class="home-article" :data="article" />
             </li>
           </template>
+          <template v-else>
+            <li v-for="n in 12" :key="n">
+              <ArticleCard :data="{}" />
+            </li>
+          </template>
         </ul>
-
         <Paginator
           :pageSize="pagination.size"
           :pageTotal="pagination.total"
@@ -66,6 +68,7 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref, toRefs, toRef, reactive } from 'vue'
 import { Feature, FeatureList } from '@/components/Feature'
@@ -110,8 +113,11 @@ export default defineComponent({
       tab: true,
       'expanded-tab': false
     })
-    const activeTab = ref('')
+    const activeTab = ref(0)
     const articleOffset = ref(0)
+    const reactiveData = reactive({
+      haveArticles: false
+    })
     const pagination = reactive({
       size: 12,
       total: 0,
@@ -119,16 +125,14 @@ export default defineComponent({
     })
     let nowCategoryId = 0
     let md = require('markdown-it')()
-
-    const fetchData = () => {
+    onMounted(() => {
       fetchTopAndFeatured()
       fetchCategories()
       fetchArticles()
       const articleListEl = document.getElementById('article-list')
       articleOffset.value = articleListEl && articleListEl instanceof HTMLElement ? articleListEl.offsetTop + 120 : 0
-    }
-
-    const fetchTopAndFeatured = async () => {
+    })
+    const fetchTopAndFeatured = () => {
       api.getTopAndFeaturedArticles().then(({ data }) => {
         data.data.topArticle.articleContent = md
           .render(data.data.topArticle.articleContent)
@@ -146,16 +150,8 @@ export default defineComponent({
         articleStore.featuredArticles = data.data.featuredArticles
       })
     }
-
-    const fetchCategories = async () => {
-      categoryStore.categories = []
-      api.getAllCategories().then(({ data }) => {
-        categoryStore.categories.push(...data.data)
-      })
-    }
-
-    const fetchArticles = async () => {
-      articleStore.articles = ''
+    const fetchArticles = () => {
+      reactiveData.haveArticles = false
       api
         .getArticles({
           current: pagination.current,
@@ -172,31 +168,12 @@ export default defineComponent({
             })
             articleStore.articles = data.data.records
             pagination.total = data.data.count
+            reactiveData.haveArticles = true
           }
         })
     }
-
-    onMounted(fetchData)
-
-    const expandHandler = () => {
-      expanderClass.value.expanded = !expanderClass.value.expanded
-      tabClass.value['expanded-tab'] = !tabClass.value['expanded-tab']
-    }
-
-    const handleTabChange = async (categoryId: any) => {
-      pagination.current = 1
-      activeTab.value = categoryId
-      backToPageTop()
-      if (categoryId !== 0) {
-        nowCategoryId = categoryId
-        fetchArticlesByCategoryId(categoryId)
-      } else {
-        nowCategoryId = categoryId
-        fetchArticles()
-      }
-    }
-    const fetchArticlesByCategoryId = async (categoryId: any) => {
-      articleStore.articles = ''
+    const fetchArticlesByCategoryId = (categoryId: any) => {
+      reactiveData.haveArticles = false
       api
         .getArticlesByCategoryId({
           current: pagination.current,
@@ -205,38 +182,58 @@ export default defineComponent({
         })
         .then(({ data }) => {
           data.data.records.forEach((item: any) => {
-              item.articleContent = md
-                .render(item.articleContent)
-                .replace(/<\/?[^>]*>/g, '')
-                .replace(/[|]*\n/, '')
-                .replace(/&npsp;/gi, '')
-            })
+            item.articleContent = md
+              .render(item.articleContent)
+              .replace(/<\/?[^>]*>/g, '')
+              .replace(/[|]*\n/, '')
+              .replace(/&npsp;/gi, '')
+          })
           articleStore.articles = data.data.records
           pagination.total = data.data.count
+          reactiveData.haveArticles = true
         })
     }
-    const backToPageTop = () => {
+    const fetchCategories = () => {
+      categoryStore.categories = []
+      api.getAllCategories().then(({ data }) => {
+        categoryStore.categories.push(...data.data)
+      })
+    }
+    const expandHandler = () => {
+      expanderClass.value.expanded = !expanderClass.value.expanded
+      tabClass.value['expanded-tab'] = !tabClass.value['expanded-tab']
+    }
+    const handleTabChange = (categoryId: any) => {
+      pagination.current = 1
+      activeTab.value = categoryId
+      toPageTop()
+      nowCategoryId = categoryId
+      if (categoryId === 0) {
+        fetchArticles()
+      } else {
+        fetchArticlesByCategoryId(categoryId)
+      }
+    }
+    const toPageTop = () => {
       window.scrollTo({
         top: articleOffset.value
       })
     }
-
     const activeTabStyle = (catagoryId: any) => {
       if (catagoryId === activeTab.value) return { background: appStore.themeConfig.header_gradient_css }
       return {}
     }
-
-    const pageChangeHanlder = async (current: number) => {
+    const pageChangeHanlder = (current: number) => {
       pagination.current = current
-      backToPageTop()
+      toPageTop()
       if (nowCategoryId === 0) {
         fetchArticles()
       } else {
         fetchArticlesByCategoryId(nowCategoryId)
       }
     }
-
     return {
+      ...toRefs(reactiveData),
       ...toRefs(articleStore.$state),
       categories: toRef(categoryStore.$state, 'categories'),
       gradientText: computed(() => appStore.themeConfig.background_gradient_style),
