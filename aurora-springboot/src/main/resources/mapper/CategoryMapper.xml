@@ -10,7 +10,7 @@
             SELECT *
             FROM t_article
             WHERE is_delete = 0
-              and status = 1
+              and status in (1, 2)
         ) a ON c.id = a.category_id
         GROUP BY c.id
     </select>

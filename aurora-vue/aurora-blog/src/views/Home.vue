@@ -9,8 +9,8 @@
     <div class="main-grid">
       <div class="flex flex-col relative">
         <ul :class="tabClass">
-          <li :class="{ active: activeTab === '' }" @click="handleTabChange(0)">
-            <span class="first-tab" :style="activeTabStyle('')">
+          <li :class="{ active: activeTab === 0 }" @click="handleTabChange(0)">
+            <span class="first-tab" :style="activeTabStyle(0)">
               {{ t('settings.button-all') }}
             </span>
           </li>
@@ -34,24 +34,22 @@
             </li>
           </template>
         </ul>
-
         <span :class="expanderClass" @click="expandHandler">
           <svg-icon icon-class="chevron" />
         </span>
 
         <ul class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          <template v-if="haveArticles === false">
-            <li v-for="n in 12" :key="n">
-              <ArticleCard :data="{}" />
-            </li>
-          </template>
-          <template v-else>
+          <template v-if="haveArticles === true">
             <li v-for="article in articles" :key="article.id">
               <ArticleCard class="home-article" :data="article" />
             </li>
           </template>
+          <template v-else>
+            <li v-for="n in 12" :key="n">
+              <ArticleCard :data="{}" />
+            </li>
+          </template>
         </ul>
-
         <Paginator
           :pageSize="pagination.size"
           :pageTotal="pagination.total"
@@ -70,6 +68,7 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref, toRefs, toRef, reactive } from 'vue'
 import { Feature, FeatureList } from '@/components/Feature'
@@ -114,7 +113,7 @@ export default defineComponent({
       tab: true,
       'expanded-tab': false
     })
-    const activeTab = ref('')
+    const activeTab = ref(0)
     const articleOffset = ref(0)
     const reactiveData = reactive({
       haveArticles: false
@@ -208,12 +207,11 @@ export default defineComponent({
       pagination.current = 1
       activeTab.value = categoryId
       toPageTop()
-      if (categoryId !== 0) {
-        nowCategoryId = categoryId
-        fetchArticlesByCategoryId(categoryId)
-      } else {
-        nowCategoryId = categoryId
+      nowCategoryId = categoryId
+      if (categoryId === 0) {
         fetchArticles()
+      } else {
+        fetchArticlesByCategoryId(categoryId)
       }
     }
     const toPageTop = () => {
