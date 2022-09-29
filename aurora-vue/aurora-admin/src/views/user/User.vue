@@ -1,11 +1,8 @@
 <template>
   <el-card class="main-card">
     <div class="title">{{ this.$route.name }}</div>
-    <!-- 表格操作 -->
     <div class="operation-container">
-      <!-- 条件筛选 -->
       <div style="margin-left: auto">
-        <!-- 登录方式 -->
         <el-select clearable v-model="loginType" placeholder="请选择登录方式" size="small" style="margin-right: 1rem">
           <el-option v-for="item in typeList" :key="item.type" :label="item.desc" :value="item.type" />
         </el-select>
@@ -21,9 +18,7 @@
         </el-button>
       </div>
     </div>
-    <!-- 表格展示 -->
     <el-table border :data="userList" v-loading="loading">
-      <!-- 表格列 -->
       <el-table-column prop="linkAvatar" label="头像" align="center" width="100">
         <template slot-scope="scope">
           <img :src="scope.row.avatar" width="40" height="40" />
@@ -69,14 +64,12 @@
           {{ scope.row.lastLoginTime | date }}
         </template>
       </el-table-column>
-      <!-- 列操作 -->
       <el-table-column label="操作" align="center" width="100">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="openEditModel(scope.row)"> 编辑 </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页 -->
     <el-pagination
       class="pagination-container"
       background
@@ -87,7 +80,6 @@
       :total="count"
       :page-sizes="[10, 20]"
       layout="total, sizes, prev, pager, next, jumper" />
-    <!-- 修改对话框 -->
     <el-dialog :visible.sync="isEdit" width="30%">
       <div class="dialog-title-container" slot="title">修改用户</div>
       <el-form label-width="60px" size="medium" :model="userForm">
@@ -136,10 +128,6 @@ export default {
         {
           type: 2,
           desc: 'QQ'
-        },
-        {
-          type: 3,
-          desc: '微博'
         }
       ],
       keywords: null,

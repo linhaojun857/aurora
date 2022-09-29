@@ -1,7 +1,6 @@
 <template>
   <el-card class="main-card">
     <el-tabs v-model="activeName">
-      <!-- 修改信息 -->
       <el-tab-pane label="网站信息" name="info">
         <el-form label-width="100px" :model="websiteConfigForm" label-position="left">
           <el-form-item label="作者头像">
@@ -76,7 +75,6 @@
           </el-button>
         </el-form>
       </el-tab-pane>
-      <!-- 网站公告 -->
       <el-tab-pane label="社交信息" name="notice">
         tip:空白默认不显示
         <el-form label-width="70px" :model="websiteConfigForm">
@@ -115,7 +113,6 @@
           </el-button>
         </el-form>
       </el-tab-pane>
-      <!-- 修改密码 -->
       <el-tab-pane label="其他设置" name="password">
         <el-form label-width="120px" :model="websiteConfigForm" label-position="left">
           <el-row style="width: 600px">

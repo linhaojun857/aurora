@@ -206,7 +206,7 @@ export default defineComponent({
     const handleTabChange = (categoryId: any) => {
       pagination.current = 1
       activeTab.value = categoryId
-      toPageTop()
+      toArticleOffset()
       nowCategoryId = categoryId
       if (categoryId === 0) {
         fetchArticles()
@@ -214,7 +214,7 @@ export default defineComponent({
         fetchArticlesByCategoryId(categoryId)
       }
     }
-    const toPageTop = () => {
+    const toArticleOffset = () => {
       window.scrollTo({
         top: articleOffset.value
       })
@@ -225,7 +225,7 @@ export default defineComponent({
     }
     const pageChangeHanlder = (current: number) => {
       pagination.current = current
-      toPageTop()
+      toArticleOffset()
       if (nowCategoryId === 0) {
         fetchArticles()
       } else {

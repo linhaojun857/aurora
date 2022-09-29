@@ -1,10 +1,8 @@
 <template>
   <el-card class="main-card">
-    <!-- 标题 -->
     <div class="title">{{ this.$route.name }}</div>
     <div class="operation-container">
       <el-button type="primary" size="small" icon="el-icon-plus" @click="openModel(null)"> 新增模块 </el-button>
-      <!-- 数据筛选 -->
       <div style="margin-left: auto">
         <el-input
           v-model="keywords"
@@ -18,7 +16,6 @@
         </el-button>
       </div>
     </div>
-    <!-- 权限列表 -->
     <el-table
       v-loading="loading"
       :data="resources"
@@ -65,7 +62,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 新增模态框 -->
     <el-dialog :visible.sync="addModule" width="30%">
       <div class="dialog-title-container" slot="title" ref="moduleTitle" />
       <el-form label-width="80px" size="medium" :model="resourceForm">
@@ -78,7 +74,6 @@
         <el-button type="primary" @click="addOrEditResource"> 确 定 </el-button>
       </span>
     </el-dialog>
-    <!-- 新增模态框 -->
     <el-dialog :visible.sync="addResource" width="30%">
       <div class="dialog-title-container" slot="title" ref="resourceTitle" />
       <el-form label-width="80px" size="medium" :model="resourceForm">

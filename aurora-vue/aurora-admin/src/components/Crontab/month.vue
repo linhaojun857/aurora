@@ -3,7 +3,6 @@
     <el-form-item>
       <el-radio v-model="radioValue" :label="1"> 月，允许的通配符[, - * /] </el-radio>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model="radioValue" :label="2">
         周期从
@@ -11,7 +10,6 @@
         <el-input-number v-model="cycle02" :min="cycle01 ? cycle01 + 1 : 2" :max="12" /> 月
       </el-radio>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model="radioValue" :label="3">
         从
@@ -19,7 +17,6 @@
         <el-input-number v-model="average02" :min="1" :max="12 - average01 || 0" /> 月月执行一次
       </el-radio>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model="radioValue" :label="4">
         指定
@@ -47,7 +44,6 @@ export default {
   name: 'crontab-month',
   props: ['check', 'cron'],
   methods: {
-    // 单选按钮值变化时
     radioChange() {
       switch (this.radioValue) {
         case 1:
@@ -64,19 +60,16 @@ export default {
           break
       }
     },
-    // 周期两个值变化时
     cycleChange() {
       if (this.radioValue == '2') {
         this.$emit('update', 'month', this.cycleTotal)
       }
     },
-    // 平均两个值变化时
     averageChange() {
       if (this.radioValue == '3') {
         this.$emit('update', 'month', this.averageTotal)
       }
     },
-    // checkbox值变化时
     checkboxChange() {
       if (this.radioValue == '4') {
         this.$emit('update', 'month', this.checkboxString)
@@ -90,19 +83,16 @@ export default {
     checkboxString: 'checkboxChange'
   },
   computed: {
-    // 计算两个周期值
     cycleTotal: function () {
       const cycle01 = this.checkNum(this.cycle01, 1, 11)
       const cycle02 = this.checkNum(this.cycle02, cycle01 ? cycle01 + 1 : 2, 12)
       return cycle01 + '-' + cycle02
     },
-    // 计算平均用到的值
     averageTotal: function () {
       const average01 = this.checkNum(this.average01, 1, 11)
       const average02 = this.checkNum(this.average02, 1, 12 - average01 || 0)
       return average01 + '/' + average02
     },
-    // 计算勾选的checkbox值合集
     checkboxString: function () {
       let str = this.checkboxList.join()
       return str == '' ? '*' : str

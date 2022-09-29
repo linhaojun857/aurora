@@ -9,15 +9,12 @@
       text-color="#BFCBD9"
       active-text-color="#409EFF">
       <template v-for="route of this.$store.state.userMenus">
-        <!-- 二级菜单 -->
         <template v-if="route.name && route.children && !route.hidden">
           <el-submenu :key="route.path" :index="route.path">
-            <!-- 二级菜单标题 -->
             <template slot="title">
               <i :class="route.icon" />
               <span>{{ route.name }}</span>
             </template>
-            <!-- 二级菜单选项 -->
             <template v-for="(item, index) of route.children">
               <el-menu-item v-if="!item.hidden" :key="index" :index="item.path">
                 <i :class="item.icon" />
@@ -26,7 +23,6 @@
             </template>
           </el-submenu>
         </template>
-        <!-- 一级菜单 -->
         <template v-else-if="!route.hidden">
           <el-menu-item :index="route.path" :key="route.path">
             <i :class="route.children[0].icon" />

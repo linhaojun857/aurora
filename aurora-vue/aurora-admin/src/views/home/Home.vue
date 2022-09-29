@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- 统计数据 -->
     <el-row :gutter="30">
       <el-col :span="6">
         <el-card>
@@ -47,14 +46,12 @@
         </el-card>
       </el-col>
     </el-row>
-    <!-- 一周访问量展示 -->
     <el-card style="margin-top: 1.25rem">
       <div class="e-title">一周访问量</div>
       <div style="height: 350px">
         <v-chart :options="viewCount" v-loading="loading" />
       </div>
     </el-card>
-    <!-- 文章贡献统计 -->
     <el-card style="margin-top: 1.25rem">
       <div class="e-title">文章贡献统计</div>
       <div v-loading="loading">
@@ -62,7 +59,6 @@
       </div>
     </el-card>
     <el-row :gutter="20" style="margin-top: 1.25rem">
-      <!-- 文章浏览量排行 -->
       <el-col :span="16">
         <el-card>
           <div class="e-title">文章浏览量排行</div>
@@ -71,7 +67,6 @@
           </div>
         </el-card>
       </el-col>
-      <!-- 分类数据统计 -->
       <el-col :span="8">
         <el-card>
           <div class="e-title">文章分类统计</div>
@@ -82,7 +77,6 @@
       </el-col>
     </el-row>
     <el-row :gutter="20" style="margin-top: 1.25rem">
-      <!-- 用户地域分布 -->
       <el-col :span="16">
         <el-card>
           <div class="e-title">用户地域分布</div>
@@ -97,7 +91,6 @@
           </div>
         </el-card>
       </el-col>
-      <!-- 文章标签统计 -->
       <el-col :span="8">
         <el-card>
           <div class="e-title">文章标签统计</div>
@@ -149,7 +142,6 @@ export default {
           data: [],
           axisLine: {
             lineStyle: {
-              // 设置x轴颜色
               color: '#666'
             }
           }
@@ -157,7 +149,6 @@ export default {
         yAxis: {
           axisLine: {
             lineStyle: {
-              // 设置y轴颜色
               color: '#048CCE'
             }
           }
@@ -259,14 +250,7 @@ export default {
         geo: {
           map: 'china',
           zoom: 1.2,
-          layoutCenter: ['50%', '50%'], //地图中心在屏幕中的位置
-          //   label: {
-          //     normal: {
-          //       show: !0,
-          //       fontSize: "12",
-          //       color: "rgba(0,0,0,0.7)"
-          //     }
-          //   },
+          layoutCenter: ['50%', '50%'],
           itemStyle: {
             normal: {
               borderColor: 'rgba(0, 0, 0, 0.2)'

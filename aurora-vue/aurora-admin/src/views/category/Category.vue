@@ -1,7 +1,6 @@
 <template>
   <el-card class="main-card">
     <div class="title">{{ this.$route.name }}</div>
-    <!-- 表格操作 -->
     <div class="operation-container">
       <el-button type="primary" size="small" icon="el-icon-plus" @click="openModel(null)"> 新增 </el-button>
       <el-button
@@ -30,22 +29,16 @@
         </el-button>
       </div>
     </div>
-    <!-- 表格展示 -->
     <el-table border :data="categories" @selection-change="selectionChange" v-loading="loading">
-      <!-- 表格列 -->
       <el-table-column type="selection" width="55" />
-      <!-- 分类名 -->
       <el-table-column prop="categoryName" label="分类名" align="center" />
-      <!-- 文章量 -->
       <el-table-column prop="articleCount" label="文章量" align="center" />
-      <!-- 分类创建时间 -->
       <el-table-column prop="createTime" label="创建时间" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time" style="margin-right: 5px" />
           {{ scope.row.createTime | date }}
         </template>
       </el-table-column>
-      <!-- 列操作 -->
       <el-table-column label="操作" width="160" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="openModel(scope.row)"> 编辑 </el-button>
@@ -55,7 +48,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页 -->
     <el-pagination
       class="pagination-container"
       background
@@ -66,7 +58,6 @@
       :total="count"
       :page-sizes="[10, 20]"
       layout="total, sizes, prev, pager, next, jumper" />
-    <!-- 批量删除对话框 -->
     <el-dialog :visible.sync="isDelete" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
       <div style="font-size: 1rem">是否删除选中项？</div>
@@ -75,7 +66,6 @@
         <el-button type="primary" @click="deleteCategory(null)"> 确 定 </el-button>
       </div>
     </el-dialog>
-    <!-- 添加编辑对话框 -->
     <el-dialog :visible.sync="addOrEdit" width="30%">
       <div class="dialog-title-container" slot="title" ref="categoryTitle" />
       <el-form label-width="80px" size="medium" :model="categoryForm">

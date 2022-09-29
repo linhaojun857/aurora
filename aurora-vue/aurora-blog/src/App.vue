@@ -65,6 +65,9 @@ export default defineComponent({
       'nprogress-custom-parent': false
     })
     const wrapperStyle = ref({ 'min-height': '100vh' })
+    const isMobile = computed(() => {
+      return commonStore.isMobile
+    })
     onMounted(() => {
       initialApp()
     })
@@ -75,6 +78,7 @@ export default defineComponent({
     const initialApp = async () => {
       initResizeEvent()
       intialCopy()
+      initWindowOnload()
       fetchWebsiteConfig()
       let wrapperHeight = screen.height
       const footerEl = document.getElementById('footer')
@@ -108,9 +112,6 @@ export default defineComponent({
     const intialCopy = () => {
       document.addEventListener('copy', copyEventHandler)
     }
-    const isMobile = computed(() => {
-      return commonStore.isMobile
-    })
     const resizeHander = () => {
       const rect = document.body.getBoundingClientRect()
       const mobileState = rect.width - 1 < MOBILE_WITH
@@ -119,6 +120,15 @@ export default defineComponent({
     const initResizeEvent = () => {
       resizeHander()
       window.addEventListener('resize', resizeHander)
+    }
+    const initWindowOnload = () => {
+      window.onload = () => {
+        setTimeout(() => {
+          window.scrollTo({
+            top: 0
+          })
+        }, 10)
+      }
     }
     return {
       title: metaStore.title,

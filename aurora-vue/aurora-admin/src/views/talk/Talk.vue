@@ -2,12 +2,9 @@
   <el-card class="main-card">
     <div class="title">{{ this.$route.name }}</div>
     <div class="talk-container">
-      <!-- 输入框 -->
       <Editor ref="editor" class="editor-wrapper" v-model="talk.content" placeholder="说点什么吧" />
-      <!-- 操作菜单 -->
       <div class="operation-wrapper">
         <div class="left-wrapper">
-          <!-- 图片上传 -->
           <el-upload
             action="/api/admin/talks/images"
             multiple
@@ -19,14 +16,12 @@
           </el-upload>
         </div>
         <div class="right-wrapper">
-          <!-- 是否置顶 -->
           <el-switch
             style="margin-right: 16px"
             v-model="talk.isTop"
             inactive-text="置顶"
             :active-value="1"
             :inactive-value="0" />
-          <!-- 说说状态 -->
           <el-dropdown trigger="click" @command="handleCommand" style="margin-right: 16px">
             <span class="talk-status"> {{ dropdownTitle }}<i class="el-icon-arrow-down el-icon--right" /> </span>
             <el-dropdown-menu slot="dropdown">
@@ -40,7 +35,6 @@
           </el-button>
         </div>
       </div>
-      <!-- 图片上传 -->
       <el-upload
         class="talk-image-upload"
         v-show="uploads.length > 0"
@@ -113,7 +107,6 @@ export default {
         if (file.size / 1024 < this.config.UPLOAD_SIZE) {
           resolve(file)
         }
-        // 压缩到200KB,这里的200就是要压缩的大小,可自定义
         imageConversion.compressAccurately(file, this.config.UPLOAD_SIZE).then((res) => {
           resolve(res)
         })
@@ -124,7 +117,6 @@ export default {
         this.$message.error('说说内容不能为空')
         return false
       }
-      // 转换图片
       if (this.uploads.length > 0) {
         var img = []
         this.uploads.forEach((item) => {

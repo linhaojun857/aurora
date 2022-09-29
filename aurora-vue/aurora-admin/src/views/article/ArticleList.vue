@@ -1,7 +1,6 @@
 <template>
   <el-card class="main-card">
     <div class="title">{{ this.$route.name }}</div>
-    <!-- 文章状态 -->
     <div class="article-status-menu">
       <span>状态</span>
       <span @click="changeStatus('all')" :class="isActive('all')">全部</span>
@@ -10,7 +9,6 @@
       <span @click="changeStatus('draft')" :class="isActive('draft')"> 草稿箱 </span>
       <span @click="changeStatus('delete')" :class="isActive('delete')"> 回收站 </span>
     </div>
-    <!-- 表格操作 -->
     <div class="operation-container">
       <el-button
         v-if="isDelete == 0"
@@ -48,9 +46,7 @@
         :on-success="uploadArticle">
         <el-button type="primary" size="small" icon="el-icon-upload"> 批量导入 </el-button>
       </el-upload>
-      <!-- 条件筛选 -->
       <div style="margin-left: auto">
-        <!-- 文章类型 -->
         <el-select
           clearable
           v-model="type"
@@ -60,7 +56,6 @@
           <el-option label="全部" value="" />
           <el-option v-for="item in types" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-        <!-- 分类 -->
         <el-select
           clearable
           size="small"
@@ -71,7 +66,6 @@
           <el-option label="全部" value="" />
           <el-option v-for="item in categories" :key="item.id" :label="item.categoryName" :value="item.id" />
         </el-select>
-        <!-- 标签 -->
         <el-select
           clearable
           size="small"
@@ -82,7 +76,6 @@
           <el-option label="全部" value="" />
           <el-option v-for="item in tags" :key="item.id" :label="item.tagName" :value="item.id" />
         </el-select>
-        <!-- 文章名 -->
         <el-input
           clearable
           v-model="keywords"
@@ -96,11 +89,8 @@
         </el-button>
       </div>
     </div>
-    <!-- 表格展示 -->
     <el-table border :data="articles" @selection-change="selectionChange" v-loading="loading">
-      <!-- 表格列 -->
       <el-table-column type="selection" width="55" />
-      <!-- 文章修改时间 -->
       <el-table-column prop="articleCover" label="文章封面" width="180" align="center">
         <template slot-scope="scope">
           <el-image
@@ -115,11 +105,8 @@
           <i v-if="scope.row.status == 3" class="iconfont el-icon-mycaogaoxiang article-status-icon" />
         </template>
       </el-table-column>
-      <!-- 文章标题 -->
       <el-table-column prop="articleTitle" label="标题" align="center" />
-      <!-- 文章分类 -->
       <el-table-column prop="categoryName" label="分类" width="110" align="center" />
-      <!-- 文章标签 -->
       <el-table-column prop="tagDTOs" label="标签" width="170" align="center">
         <template slot-scope="scope">
           <el-tag v-for="item of scope.row.tagDTOs" :key="item.tagId" style="margin-right: 0.2rem; margin-top: 0.2rem">
@@ -127,7 +114,6 @@
           </el-tag>
         </template>
       </el-table-column>
-      <!-- 文章浏览量 -->
       <el-table-column prop="viewsCount" label="浏览量" width="70" align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.viewsCount">
@@ -136,7 +122,6 @@
           <span v-else>0</span>
         </template>
       </el-table-column>
-      <!-- 文章类型 -->
       <el-table-column prop="type" label="类型" width="80" align="center">
         <template slot-scope="scope">
           <el-tag :type="articleType(scope.row.type).tagType">
@@ -144,14 +129,12 @@
           </el-tag>
         </template>
       </el-table-column>
-      <!-- 文章发表时间 -->
       <el-table-column prop="createTime" label="发表时间" width="130" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time" style="margin-right: 5px" />
           {{ scope.row.createTime | date }}
         </template>
       </el-table-column>
-      <!-- 文章置顶 -->
       <el-table-column prop="isTop" label="置顶" width="80" align="center">
         <template slot-scope="scope">
           <el-switch
@@ -176,7 +159,6 @@
             @change="changeTopAndFeatured(scope.row)" />
         </template>
       </el-table-column>
-      <!-- 列操作 -->
       <el-table-column label="操作" align="center" width="150">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="editArticle(scope.row.id)" v-if="scope.row.isDelete == 0">
@@ -205,7 +187,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页 -->
     <el-pagination
       class="pagination-container"
       background
@@ -216,7 +197,6 @@
       :total="count"
       :page-sizes="[10, 20]"
       layout="total, sizes, prev, pager, next, jumper" />
-    <!-- 批量逻辑删除对话框 -->
     <el-dialog :visible.sync="updateIsDelete" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
       <div style="font-size: 1rem">是否删除选中项？</div>
@@ -225,7 +205,6 @@
         <el-button type="primary" @click="updateArticleDelete(null)"> 确 定 </el-button>
       </div>
     </el-dialog>
-    <!-- 批量彻底删除对话框 -->
     <el-dialog :visible.sync="remove" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
       <div style="font-size: 1rem">是否彻底删除选中项？</div>
@@ -234,7 +213,6 @@
         <el-button type="primary" @click="deleteArticles(null)"> 确 定 </el-button>
       </div>
     </el-dialog>
-    <!-- 批量导出对话框 -->
     <el-dialog :visible.sync="isExport" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
       <div style="font-size: 1rem">是否导出选中文章？</div>

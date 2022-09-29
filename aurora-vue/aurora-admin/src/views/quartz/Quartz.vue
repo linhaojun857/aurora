@@ -51,9 +51,7 @@
     <div style="margin-top: 5px">
       <el-table border style="width: 100%" :data="jobs" @selection-change="selectionChange" v-loading="loading">
         <el-table-column type="selection" width="55" align="center" />
-        <!--任务名称 -->
         <el-table-column label="任务名称" width="160" align="center" prop="jobName" :show-overflow-tooltip="true" />
-        <!-- 任务组名 -->
         <el-table-column label="任务组名" align="center" prop="jobGroup">
           <template slot-scope="scope">
             <el-tag>
@@ -61,11 +59,8 @@
             </el-tag>
           </template>
         </el-table-column>
-        <!-- 调用目标字符串 -->
         <el-table-column label="调用目标字符串" align="center" prop="invokeTarget" :show-overflow-tooltip="true" />
-        <!-- cron执行表达式  -->
         <el-table-column label="cron执行表达式" align="center" prop="cronExpression" :show-overflow-tooltip="true" />
-        <!-- 状态 -->
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
             <el-switch
@@ -77,19 +72,16 @@
               @change="changeStatus(scope.row)"></el-switch>
           </template>
         </el-table-column>
-        <!-- 创建时间 -->
         <el-table-column label="创建时间" align="center" width="160">
           <template slot-scope="scope">
             {{ scope.row.createTime | dateTime }}
           </template>
         </el-table-column>
-        <!-- 创建时间 -->
         <el-table-column label="备注" align="center" width="160">
           <template slot-scope="scope">
             {{ scope.row.remark }}
           </template>
         </el-table-column>
-        <!-- 操作 -->
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template slot-scope="scope">
             <el-button size="mini" type="text" @click="handleChange(scope.row.id)">编辑</el-button>
@@ -108,8 +100,6 @@
         </el-table-column>
       </el-table>
     </div>
-
-    <!--分页区域-->
     <el-pagination
       class="pagination-container"
       background
@@ -120,7 +110,6 @@
       :total="count"
       :page-sizes="[10, 20]"
       layout="total, sizes, prev, pager, next, jumper" />
-
     <el-dialog :visible.sync="isDelete" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
       <div style="font-size: 1rem">是否删除选中项？</div>
@@ -210,12 +199,9 @@
         <el-button type="primary" @click="handleEditOrUpdate">确 定</el-button>
       </div>
     </el-dialog>
-
     <el-dialog title="Cron表达式生成器" :visible.sync="openCron" append-to-body destroy-on-close class="scrollbar">
       <crontab @hide="openCron = false" @fill="crontabFill" :expression="expression"></crontab>
     </el-dialog>
-
-    <!-- 任务日志详细 -->
     <el-dialog title="任务详细" :visible.sync="openView" @closed="afterClosed" width="700px" append-to-body>
       <el-form ref="form" :model="job" label-width="120px" size="mini">
         <el-row>
@@ -429,7 +415,6 @@ export default {
           this.dialogFormVisible = false
         })
       } else if (this.editOrUpdate === false) {
-        // 添加操作
         this.axios.post('/api/admin/jobs', this.job).then(({ data }) => {
           if (data.flag) {
             this.$notify.success({
