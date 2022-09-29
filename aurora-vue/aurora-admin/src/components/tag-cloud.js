@@ -1,6 +1,3 @@
-/* eslint-disable no-redeclare */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 !(function (t, e) {
   'object' == typeof exports && 'object' == typeof module
     ? (module.exports = e())

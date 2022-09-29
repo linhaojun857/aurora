@@ -1,10 +1,8 @@
 <template>
   <el-card class="main-card">
-    <!-- 标题 -->
     <div class="title">{{ this.$route.name }}</div>
     <div class="operation-container">
       <el-button type="primary" size="small" icon="el-icon-plus" @click="openModel(null)"> 新增菜单 </el-button>
-      <!-- 数据筛选 -->
       <div style="margin-left: auto">
         <el-input
           v-model="keywords"
@@ -18,27 +16,20 @@
         </el-button>
       </div>
     </div>
-    <!-- 权限列表 -->
     <el-table
       v-loading="loading"
       :data="menus"
       row-key="id"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-      <!-- 菜单名称 -->
       <el-table-column prop="name" label="菜单名称" width="140" />
-      <!-- 菜单icon -->
       <el-table-column prop="icon" align="center" label="图标" width="100">
         <template slot-scope="scope">
           <i :class="'iconfont ' + scope.row.icon" />
         </template>
       </el-table-column>
-      <!-- 菜单排序 -->
       <el-table-column prop="orderNum" align="center" label="排序" width="100" />
-      <!-- 访问路径 -->
       <el-table-column prop="path" label="访问路径" />
-      <!-- 组件路径 -->
       <el-table-column prop="component" label="组件路径" />
-      <!-- 是否隐藏 -->
       <el-table-column prop="isHidden" label="隐藏" align="center" width="80">
         <template slot-scope="scope">
           <el-switch
@@ -50,14 +41,12 @@
             @change="changeDisable(scope.row)" />
         </template>
       </el-table-column>
-      <!-- 创建时间 -->
       <el-table-column prop="createTime" label="创建时间" align="center" width="150">
         <template slot-scope="scope">
           <i class="el-icon-time" style="margin-right: 5px" />
           {{ scope.row.createTime | date }}
         </template>
       </el-table-column>
-      <!-- 操作 -->
       <el-table-column label="操作" align="center" width="200">
         <template slot-scope="scope">
           <el-button type="text" size="mini" @click="openModel(scope.row, 1)" v-if="scope.row.children">
@@ -72,22 +61,18 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 新增模态框 -->
     <el-dialog :visible.sync="addMenu" width="30%" top="12vh">
       <div class="dialog-title-container" slot="title" ref="menuTitle" />
       <el-form label-width="80px" size="medium" :model="menuForm">
-        <!-- 菜单类型 -->
         <el-form-item label="菜单类型" v-if="show">
           <el-radio-group v-model="isCatalog">
             <el-radio :label="true">目录</el-radio>
             <el-radio :label="false">一级菜单</el-radio>
           </el-radio-group>
         </el-form-item>
-        <!-- 菜单名称 -->
         <el-form-item label="菜单名称">
           <el-input v-model="menuForm.name" style="width: 220px" />
         </el-form-item>
-        <!-- 菜单图标 -->
         <el-form-item label="菜单图标">
           <el-popover placement="bottom-start" width="300" trigger="click">
             <el-row>
@@ -102,19 +87,15 @@
               style="width: 220px" />
           </el-popover>
         </el-form-item>
-        <!-- 组件路径 -->
         <el-form-item label="组件路径" v-show="!isCatalog">
           <el-input v-model="menuForm.component" style="width: 220px" />
         </el-form-item>
-        <!-- 路由地址 -->
         <el-form-item label="访问路径">
           <el-input v-model="menuForm.path" style="width: 220px" />
         </el-form-item>
-        <!-- 显示排序 -->
         <el-form-item label="显示排序">
           <el-input-number v-model="menuForm.orderNum" controls-position="right" :min="1" :max="10" />
         </el-form-item>
-        <!-- 显示状态 -->
         <el-form-item label="显示状态">
           <el-radio-group v-model="menuForm.isHidden">
             <el-radio :label="0">显示</el-radio>

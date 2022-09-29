@@ -7,7 +7,6 @@
       <span @click="changeReview(1)" :class="isReview == 1 ? 'active-review' : 'review'"> 正常 </span>
       <span @click="changeReview(0)" :class="isReview == 0 ? 'active-review' : 'review'"> 审核中 </span>
     </div>
-    <!-- 表格操作 -->
     <div class="operation-container">
       <el-button
         type="danger"
@@ -25,7 +24,6 @@
         @click="updateCommentReview(null)">
         批量通过
       </el-button>
-      <!-- 数据筛选 -->
       <div style="margin-left: auto">
         <el-select clearable v-model="type" placeholder="请选择来源" size="small" style="margin-right: 1rem">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
@@ -42,18 +40,14 @@
         </el-button>
       </div>
     </div>
-    <!-- 表格展示 -->
     <el-table border :data="comments" @selection-change="selectionChange" v-loading="loading">
-      <!-- 表格列 -->
       <el-table-column type="selection" width="55" />
       <el-table-column prop="avatar" label="头像" align="center" width="120">
         <template slot-scope="scope">
           <img :src="scope.row.avatar" width="40" height="40" />
         </template>
       </el-table-column>
-      <!-- 评论人昵称 -->
       <el-table-column prop="nickname" label="评论人" align="center" width="120" />
-      <!-- 回复人昵称 -->
       <el-table-column prop="replyNickname" label="回复人" align="center" width="120">
         <template slot-scope="scope">
           <span v-if="scope.row.replyNickname">
@@ -62,7 +56,6 @@
           <span v-else>无</span>
         </template>
       </el-table-column>
-      <!-- 评论文章标题 -->
       <el-table-column prop="articleTitle" label="文章标题" align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.articleTitle">
@@ -71,27 +64,23 @@
           <span v-else>无</span>
         </template>
       </el-table-column>
-      <!-- 评论内容 -->
       <el-table-column prop="commentContent" label="评论内容" align="center">
         <template slot-scope="scope">
           <span v-html="scope.row.commentContent" class="comment-content" />
         </template>
       </el-table-column>
-      <!-- 评论时间 -->
       <el-table-column prop="createTime" label="评论时间" width="150" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time" style="margin-right: 5px" />
           {{ scope.row.createTime | date }}
         </template>
       </el-table-column>
-      <!-- 状态 -->
       <el-table-column prop="isReview" label="状态" width="80" align="center">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.isReview == 0" type="warning">审核中</el-tag>
           <el-tag v-if="scope.row.isReview == 1" type="success">正常</el-tag>
         </template>
       </el-table-column>
-      <!-- 来源 -->
       <el-table-column label="来源" align="center" width="100">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.type == 1">文章</el-tag>
@@ -101,7 +90,6 @@
           <el-tag v-if="scope.row.type == 5" type="warning">说说</el-tag>
         </template>
       </el-table-column>
-      <!-- 列操作 -->
       <el-table-column label="操作" width="160" align="center">
         <template slot-scope="scope">
           <el-button
@@ -118,7 +106,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页 -->
     <el-pagination
       class="pagination-container"
       background
@@ -129,7 +116,6 @@
       :total="count"
       :page-sizes="[10, 20]"
       layout="total, sizes, prev, pager, next, jumper" />
-    <!-- 批量彻底删除对话框 -->
     <el-dialog :visible.sync="remove" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
       <div style="font-size: 1rem">是否彻底删除选中项？</div>

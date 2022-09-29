@@ -1,35 +1,28 @@
 <template>
   <div>
     <el-tabs type="border-card">
-      <el-tab-pane label="秒" v-if="shouldHide('second')">
+      <el-tab-pane label="秒">
         <CrontabSecond @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronsecond" />
       </el-tab-pane>
-
-      <el-tab-pane label="分钟" v-if="shouldHide('min')">
+      <el-tab-pane label="分钟">
         <CrontabMin @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronmin" />
       </el-tab-pane>
-
-      <el-tab-pane label="小时" v-if="shouldHide('hour')">
+      <el-tab-pane label="小时">
         <CrontabHour @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronhour" />
       </el-tab-pane>
-
-      <el-tab-pane label="日" v-if="shouldHide('day')">
+      <el-tab-pane label="日">
         <CrontabDay @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronday" />
       </el-tab-pane>
-
-      <el-tab-pane label="月" v-if="shouldHide('month')">
+      <el-tab-pane label="月">
         <CrontabMonth @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronmonth" />
       </el-tab-pane>
-
-      <el-tab-pane label="周" v-if="shouldHide('week')">
+      <el-tab-pane label="周">
         <CrontabWeek @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronweek" />
       </el-tab-pane>
-
-      <el-tab-pane label="年" v-if="shouldHide('year')">
+      <el-tab-pane label="年">
         <CrontabYear @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronyear" />
       </el-tab-pane>
     </el-tabs>
-
     <div class="popup-main">
       <div class="popup-result">
         <table>
@@ -66,7 +59,6 @@
         </table>
       </div>
       <CrontabResult :ex="crontabValueString"></CrontabResult>
-
       <div class="pop_btn">
         <el-button size="small" type="primary" @click="submitFill">确定</el-button>
         <el-button size="small" type="warning" @click="clearCron">重置</el-button>
@@ -103,19 +95,23 @@ export default {
       }
     }
   },
-  name: 'vcrontab',
+  name: 'crontab',
   props: ['expression', 'hideComponent'],
+  components: {
+    CrontabSecond,
+    CrontabMin,
+    CrontabHour,
+    CrontabDay,
+    CrontabMonth,
+    CrontabWeek,
+    CrontabYear,
+    CrontabResult
+  },
   methods: {
-    shouldHide(key) {
-      if (this.hideComponent && this.hideComponent.includes(key)) return false
-      return true
-    },
     resolveExp() {
-      // 反解析 表达式
       if (this.expression) {
         let arr = this.expression.split(' ')
         if (arr.length >= 6) {
-          //6 位以上是合法表达式
           let obj = {
             second: arr[0],
             min: arr[1],
@@ -133,31 +129,24 @@ export default {
           }
         }
       } else {
-        // 没有传入的表达式 则还原
         this.clearCron()
       }
     },
-    // tab切换值
     tabCheck(index) {
       this.tabActive = index
     },
-    // 由子组件触发，更改表达式组成的字段值
     updateCrontabValue(name, value, from) {
       'updateCrontabValue', name, value, from
       this.crontabValueObj[name] = value
       if (from && from !== name) {
-        console.log(`来自组件 ${from} 改变了 ${name} ${value}`)
         this.changeRadio(name, value)
       }
     },
-    // 赋值到组件
     changeRadio(name, value) {
       let arr = ['second', 'min', 'hour', 'month'],
         refName = 'cron' + name,
         insValue
-
       if (!this.$refs[refName]) return
-
       if (arr.includes(name)) {
         if (value === '*') {
           insValue = 1
@@ -239,9 +228,7 @@ export default {
       }
       this.$refs[refName].radioValue = insValue
     },
-    // 表单选项的子组件校验数字格式（通过-props传递）
     checkNumber(value, minLimit, maxLimit) {
-      // 检查必须为整数
       value = Math.floor(value)
       if (value < minLimit) {
         value = minLimit
@@ -250,18 +237,14 @@ export default {
       }
       return value
     },
-    // 隐藏弹窗
     hidePopup() {
       this.$emit('hide')
     },
-    // 填充表达式
     submitFill() {
       this.$emit('fill', this.crontabValueString)
       this.hidePopup()
     },
     clearCron() {
-      // 还原选择项
-      ;('准备还原')
       this.crontabValueObj = {
         second: '*',
         min: '*',
@@ -295,21 +278,8 @@ export default {
       return str
     }
   },
-  components: {
-    CrontabSecond,
-    CrontabMin,
-    CrontabHour,
-    CrontabDay,
-    CrontabMonth,
-    CrontabWeek,
-    CrontabYear,
-    CrontabResult
-  },
   watch: {
-    expression: 'resolveExp',
-    hideComponent(value) {
-      // 隐藏部分组件
-    }
+    expression: 'resolveExp'
   },
   mounted: function () {
     this.resolveExp()

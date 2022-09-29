@@ -35,7 +35,6 @@ export default {
           this.$refs.md.$img2Url(pos, data.data)
         })
       } else {
-        // 压缩到200KB,这里的200就是要压缩的大小,可自定义
         imageConversion.compressAccurately(file, this.config.UPLOAD_SIZE).then((res) => {
           formdata.append('file', new window.File([res], file.name, { type: file.type }))
           this.axios.post('/api/admin/articles/images', formdata).then(({ data }) => {

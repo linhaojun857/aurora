@@ -1,6 +1,5 @@
 <template>
   <el-card class="main-card">
-    <!-- 标题 -->
     <div class="title">{{ this.$route.name }}</div>
     <div class="operation-container">
       <el-button
@@ -11,7 +10,6 @@
         @click="isDelete = true">
         批量删除
       </el-button>
-      <!-- 数据筛选 -->
       <div style="margin-left: auto">
         <el-input
           v-model="keywords"
@@ -25,7 +23,6 @@
         </el-button>
       </div>
     </div>
-    <!-- 权限列表 -->
     <el-table @selection-change="selectionChange" v-loading="loading" :data="logs">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column prop="optModule" label="系统模块" align="center" width="120" />
@@ -58,7 +55,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页 -->
     <el-pagination
       class="pagination-container"
       background
@@ -69,10 +65,8 @@
       :total="count"
       :page-sizes="[10, 20]"
       layout="total, sizes, prev, pager, next, jumper" />
-    <!-- 查看模态框 -->
     <el-dialog :visible.sync="isCheck" width="40%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-more" />详细信息</div>
-
       <el-form ref="form" :model="optLog" label-width="100px" size="mini">
         <el-form-item label="操作模块：">
           {{ optLog.optModule }}
@@ -99,7 +93,6 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <!-- 批量删除对话框 -->
     <el-dialog :visible.sync="isDelete" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
       <div style="font-size: 1rem">是否删除选中项？</div>

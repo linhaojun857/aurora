@@ -1,7 +1,6 @@
 <template>
   <el-card class="main-card">
     <div class="title">{{ this.$route.name }}</div>
-    <!-- 表格操作 -->
     <div class="operation-container">
       <el-button type="primary" size="small" icon="el-icon-plus" @click="openModel(null)"> 新增 </el-button>
       <el-button
@@ -12,7 +11,6 @@
         @click="deleteFlag = true">
         批量删除
       </el-button>
-      <!-- 条件筛选 -->
       <div style="margin-left: auto">
         <el-input
           v-model="keywords"
@@ -26,9 +24,7 @@
         </el-button>
       </div>
     </div>
-    <!-- 表格展示 -->
     <el-table border :data="linkList" @selection-change="selectionChange" v-loading="loading">
-      <!-- 表格列 -->
       <el-table-column type="selection" width="55" />
       <el-table-column prop="linkAvatar" label="链接头像" align="center" width="180">
         <template slot-scope="scope">
@@ -44,7 +40,6 @@
           {{ scope.row.createTime | date }}
         </template>
       </el-table-column>
-      <!-- 列操作 -->
       <el-table-column label="操作" align="center" width="160">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="openModel(scope.row)"> 编辑 </el-button>
@@ -54,7 +49,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页 -->
     <el-pagination
       class="pagination-container"
       background
@@ -65,7 +59,6 @@
       :total="count"
       :page-sizes="[10, 20]"
       layout="total, sizes, prev, pager, next, jumper" />
-    <!-- 批量删除对话框 -->
     <el-dialog :visible.sync="deleteFlag" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
       <div style="font-size: 1rem">是否删除选中项？</div>
@@ -74,7 +67,6 @@
         <el-button type="primary" @click="deleteLink(null)"> 确 定 </el-button>
       </div>
     </el-dialog>
-    <!-- 添加对话框 -->
     <el-dialog :visible.sync="addOrEdit" width="30%">
       <div class="dialog-title-container" slot="title" ref="linkTitle" />
       <el-form label-width="80px" size="medium" :model="linkForm">

@@ -2,9 +2,7 @@
   <div class="login-container">
     <div class="login-card">
       <div class="login-title">管理员登录</div>
-      <!-- 登录表单 -->
       <el-form status-icon :model="loginForm" :rules="rules" ref="ruleForm" class="login-form">
-        <!-- 用户名输入框 -->
         <el-form-item prop="username">
           <el-input
             v-model="loginForm.username"
@@ -12,7 +10,6 @@
             placeholder="用户名"
             @keyup.enter.native="login" />
         </el-form-item>
-        <!-- 密码输入框 -->
         <el-form-item prop="password">
           <el-input
             v-model="loginForm.password"
@@ -22,7 +19,6 @@
             @keyup.enter.native="login" />
         </el-form-item>
       </el-form>
-      <!-- 登录按钮 -->
       <el-button type="primary" @click="login">登录</el-button>
     </div>
   </div>
@@ -50,15 +46,12 @@ export default {
           const that = this
           var captcha = new TencentCaptcha(this.config.TENCENT_CAPTCHA, function (res) {
             if (res.ret === 0) {
-              // 发送登录请求
               let param = new URLSearchParams()
               param.append('username', that.loginForm.username)
               param.append('password', that.loginForm.password)
               that.axios.post('/api/users/login', param).then(({ data }) => {
                 if (data.flag) {
-                  // 登录后保存用户信息
                   that.$store.commit('login', data.data)
-                  // 加载用户菜单
                   generaMenu()
                   that.$message.success('登录成功')
                   that.$router.push({ path: '/' })
@@ -86,7 +79,8 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
-  background: url(https://static.linhaojun.top/photos/765664a8a75211296a9cd89671d6d660.png) center center / cover no-repeat;
+  background: url(https://static.linhaojun.top/photos/765664a8a75211296a9cd89671d6d660.png) center center / cover
+    no-repeat;
 }
 .login-card {
   position: absolute;

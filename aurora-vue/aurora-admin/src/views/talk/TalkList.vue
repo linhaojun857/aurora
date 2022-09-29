@@ -1,7 +1,6 @@
 <template>
   <el-card class="main-card">
     <div class="title">{{ this.$route.name }}</div>
-    <!-- 文章状态 -->
     <div class="status-menu">
       <span>状态</span>
       <span @click="changeStatus(null)" :class="isActive(null)">全部</span>
@@ -9,15 +8,12 @@
       <span @click="changeStatus(2)" :class="isActive(2)"> 私密 </span>
     </div>
     <el-empty v-if="talks == null" description="暂无说说" />
-    <!-- 说说列表 -->
     <div class="talk-item" v-for="item of talks" :key="item.id">
-      <!-- 用户信息 -->
       <div class="user-info-wrapper">
         <el-avatar class="user-avatar" :src="item.avatar" :size="36" />
         <div class="user-detail-wrapper">
           <div class="user-nickname">
             <div>{{ item.nickname }}</div>
-            <!-- 操作 -->
             <el-dropdown trigger="click" @command="handleCommand">
               <i class="el-icon-more" style="color: #333; cursor: pointer" />
               <el-dropdown-menu slot="dropdown">
@@ -26,15 +22,12 @@
               </el-dropdown-menu>
             </el-dropdown>
           </div>
-          <!-- 发表时间 -->
           <div class="time">
             {{ item.createTime | dateTime }}
             <span class="top" v-if="item.isTop == 1"> <i class="iconfont el-icon-myzhiding" /> 置顶 </span>
             <span class="secret" v-if="item.status == 2"> <i class="iconfont el-icon-mymima" /> 私密 </span>
           </div>
-          <!-- 说说信息 -->
           <div class="talk-content" v-html="item.content" />
-          <!-- 图片列表 -->
           <el-row :gutter="4" class="talk-images" v-if="item.imgs">
             <el-col :md="8" :cols="6" v-for="(img, index) of item.imgs" :key="index">
               <el-image class="images-items" :src="img" :preview-src-list="previews" />
@@ -43,7 +36,6 @@
         </div>
       </div>
     </div>
-    <!-- 分页 -->
     <el-pagination
       :hide-on-single-page="false"
       class="pagination-container"
@@ -53,7 +45,6 @@
       :page-size="size"
       :total="count"
       layout="prev, pager, next" />
-    <!-- 删除对话框 -->
     <el-dialog :visible.sync="isdelete" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
       <div style="font-size: 1rem">是否删除该说说？</div>

@@ -1,7 +1,6 @@
 <template>
   <el-card class="main-card">
     <div class="title">{{ this.$route.name }}</div>
-    <!-- 表格操作 -->
     <div class="operation-container">
       <el-button type="primary" size="small" icon="el-icon-plus" @click="openMenuModel(null)"> 新增 </el-button>
       <el-button
@@ -12,7 +11,6 @@
         @click="isDelete = true">
         批量删除
       </el-button>
-      <!-- 条件筛选 -->
       <div style="margin-left: auto">
         <el-input
           v-model="keywords"
@@ -26,9 +24,7 @@
         </el-button>
       </div>
     </div>
-    <!-- 表格展示 -->
     <el-table border :data="roles" @selection-change="selectionChange" v-loading="loading">
-      <!-- 表格列 -->
       <el-table-column type="selection" width="55" />
       <el-table-column prop="roleName" label="角色名" align="center" />
       <el-table-column prop="roleLabel" label="权限标签" align="center">
@@ -38,24 +34,12 @@
           </el-tag>
         </template>
       </el-table-column>
-      <!-- <el-table-column prop="isDisable" label="禁用" align="center" width="100">
-        <template slot-scope="scope">
-          <el-switch
-            v-model="scope.row.isDisable"
-            active-color="#13ce66"
-            inactive-color="#F4F4F5"
-            :active-value="1"
-            :inactive-value="0"
-            @change="changeDisable(scope.row)" />
-        </template>
-      </el-table-column> -->
       <el-table-column prop="createTime" label="创建时间" width="150" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time" style="margin-right: 5px" />
           {{ scope.row.createTime | date }}
         </template>
       </el-table-column>
-      <!-- 列操作 -->
       <el-table-column label="操作" align="center" width="220">
         <template slot-scope="scope">
           <el-button type="text" size="mini" @click="openMenuModel(scope.row)">
@@ -70,7 +54,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页 -->
     <el-pagination
       class="pagination-container"
       background
@@ -81,7 +64,6 @@
       :total="count"
       :page-sizes="[10, 20]"
       layout="total, sizes, prev, pager, next, jumper" />
-    <!-- 菜单对话框 -->
     <el-dialog :visible.sync="roleMenu" width="30%">
       <div class="dialog-title-container" slot="title" ref="roleTitle" />
       <el-form label-width="80px" size="medium" :model="roleForm">
@@ -97,7 +79,6 @@
         <el-button type="primary" @click="saveOrUpdateRoleMenu"> 确 定 </el-button>
       </div>
     </el-dialog>
-    <!-- 资源对话框 -->
     <el-dialog :visible.sync="roleResource" width="30%" top="9vh">
       <div class="dialog-title-container" slot="title">修改资源权限</div>
       <el-form label-width="80px" size="medium" :model="roleForm">
@@ -118,7 +99,6 @@
         <el-button type="primary" @click="saveOrUpdateRoleResource"> 确 定 </el-button>
       </div>
     </el-dialog>
-    <!-- 批量删除对话框 -->
     <el-dialog :visible.sync="isDelete" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
       <div style="font-size: 1rem">是否删除选中项？</div>

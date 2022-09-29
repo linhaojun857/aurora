@@ -1,7 +1,6 @@
 <template>
   <el-card class="main-card">
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <!-- 修改信息 -->
       <el-tab-pane label="修改信息" name="info">
         <div class="info-container">
           <el-upload
@@ -27,7 +26,6 @@
           </el-form>
         </div>
       </el-tab-pane>
-      <!-- 修改密码 -->
       <el-tab-pane label="修改密码" name="password">
         <el-form label-width="70px" :model="passwordForm" style="width: 320px">
           <el-form-item label="旧密码">

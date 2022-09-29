@@ -1,7 +1,6 @@
 <template>
   <el-card class="main-card">
     <div class="title">{{ this.$route.name }}</div>
-    <!-- 文章标题 -->
     <div class="article-title-container">
       <el-input v-model="article.articleTitle" size="medium" placeholder="输入文章标题" />
       <el-button
@@ -14,14 +13,10 @@
       </el-button>
       <el-button type="danger" size="medium" @click="openModel" style="margin-left: 10px"> 发布文章 </el-button>
     </div>
-    <!-- 文章内容 -->
     <mavon-editor ref="md" v-model="article.articleContent" @imgAdd="uploadImg" style="height: calc(100vh - 260px)" />
-    <!-- 添加文章对话框 -->
     <el-dialog :visible.sync="addOrEdit" width="40%" top="3vh">
       <div class="dialog-title-container" slot="title">发布文章</div>
-      <!-- 文章数据 -->
       <el-form label-width="80px" size="medium" :model="article">
-        <!-- 文章分类 -->
         <el-form-item label="文章分类">
           <el-tag
             type="success"
@@ -31,10 +26,8 @@
             @close="removeCategory">
             {{ article.categoryName }}
           </el-tag>
-          <!-- 分类选项 -->
           <el-popover placement="bottom-start" width="460" trigger="click" v-if="!article.categoryName">
             <div class="popover-title">分类</div>
-            <!-- 搜索框 -->
             <el-autocomplete
               style="width: 100%"
               v-model="categoryName"
@@ -47,7 +40,6 @@
                 <div>{{ item.categoryName }}</div>
               </template>
             </el-autocomplete>
-            <!-- 分类 -->
             <div class="popover-container">
               <div v-for="item of categorys" :key="item.id" class="category-item" @click="addCategory(item)">
                 {{ item.categoryName }}
@@ -56,7 +48,6 @@
             <el-button type="success" plain slot="reference" size="small"> 添加分类 </el-button>
           </el-popover>
         </el-form-item>
-        <!-- 文章标签 -->
         <el-form-item label="文章标签">
           <el-tag
             v-for="(item, index) of article.tagNames"
@@ -66,10 +57,8 @@
             @close="removeTag(item)">
             {{ item }}
           </el-tag>
-          <!-- 标签选项 -->
           <el-popover placement="bottom-start" width="460" trigger="click" v-if="article.tagNames.length < 3">
             <div class="popover-title">标签</div>
-            <!-- 搜索框 -->
             <el-autocomplete
               style="width: 100%"
               v-model="tagName"
@@ -82,7 +71,6 @@
                 <div>{{ item.tagName }}</div>
               </template>
             </el-autocomplete>
-            <!-- 标签 -->
             <div class="popover-container">
               <div style="margin-bottom: 1rem">添加标签</div>
               <el-tag v-for="(item, index) of tagList" :key="index" :class="tagClass(item)" @click="addTag(item)">
@@ -97,7 +85,6 @@
             <el-option v-for="item in typeList" :key="item.type" :label="item.desc" :value="item.type" />
           </el-select>
         </el-form-item>
-        <!-- 文章类型 -->
         <el-form-item label="原文地址" v-if="article.type != 1">
           <el-input v-model="article.originalUrl" placeholder="请填写原文链接" />
         </el-form-item>
@@ -168,7 +155,6 @@ export default {
     }
   },
   destroyed() {
-    //文章自动保存功能
     this.autoSaveArticle()
   },
   data: function () {
@@ -239,7 +225,6 @@ export default {
         if (file.size / 1024 < this.config.UPLOAD_SIZE) {
           resolve(file)
         }
-        // 压缩到200KB,这里的200就是要压缩的大小,可自定义
         imageConversion.compressAccurately(file, this.config.UPLOAD_SIZE).then((res) => {
           resolve(res)
         })
@@ -253,7 +238,6 @@ export default {
           this.$refs.md.$img2Url(pos, data.data)
         })
       } else {
-        // 压缩到200KB,这里的200就是要压缩的大小,可自定义
         imageConversion.compressAccurately(file, this.config.UPLOAD_SIZE).then((res) => {
           formdata.append('file', new window.File([res], file.name, { type: file.type }))
           this.axios.post('/api/admin/articles/images', formdata).then(({ data }) => {
@@ -292,8 +276,6 @@ export default {
           })
         }
       })
-
-      //关闭自动保存功能
       this.autoSave = false
     },
     saveOrUpdateArticle() {
@@ -338,11 +320,9 @@ export default {
         }
         this.addOrEdit = false
       })
-      //关闭自动保存功能
       this.autoSave = false
     },
     autoSaveArticle() {
-      // 自动上传文章
       if (
         this.autoSave &&
         this.article.articleTitle.trim() != '' &&
@@ -363,7 +343,6 @@ export default {
           }
         })
       }
-      // 保存本地文章记录
       if (this.autoSave && this.article.id == null) {
         sessionStorage.setItem('article', JSON.stringify(this.article))
       }

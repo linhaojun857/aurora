@@ -1,9 +1,7 @@
 <template>
   <el-card class="main-card">
-    <!-- 标题 -->
     <div class="title">{{ this.$route.name }}</div>
     <div class="operation-container">
-      <!-- 数据筛选 -->
       <div style="margin-left: auto">
         <el-input
           v-model="keywords"
@@ -17,7 +15,6 @@
         </el-button>
       </div>
     </div>
-    <!-- 权限列表 -->
     <el-table v-loading="loading" :data="users">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column prop="avatar" label="头像" align="center" width="100">
@@ -44,7 +41,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页 -->
     <el-pagination
       class="pagination-container"
       background
