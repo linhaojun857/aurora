@@ -15,7 +15,6 @@
         </span>
       </div>
     </transition>
-
     <div class="Ob-Navigator-ball" @click.stop.prevent="handleNavigatorToggle">
       <div :style="gradient">
         <transition name="fade-bounce-y" mode="out-in">
@@ -25,7 +24,6 @@
         </transition>
       </div>
     </div>
-
     <ul class="Ob-Navigator-submenu">
       <li id="Ob-Navigator-top" :style="gradient" @click.stop.prevent="handleBackToTop">
         <div>

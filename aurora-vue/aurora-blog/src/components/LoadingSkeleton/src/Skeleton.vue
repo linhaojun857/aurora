@@ -57,7 +57,6 @@ export default defineComponent({
   },
   render() {
     const { width, height, duration, prefix, circle, count, tag, isLoading, slots } = this
-
     const propClasses = this.class ? this.class.split(' ') : []
     const classes = [...[`${prefix}-skeleton`], ...propClasses]
     const elements = []
@@ -73,7 +72,6 @@ export default defineComponent({
     for (let i = 0; i < count; i += 1) {
       elements.push(h(tag, { key: i, class: classes, style: styles }, ''))
     }
-
     if (tag) {
       return !isLoading ? h(tag, slots.default) : elements
     }

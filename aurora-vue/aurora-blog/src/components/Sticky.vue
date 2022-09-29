@@ -57,7 +57,6 @@ export default defineComponent({
       newTop = ref(0),
       top = ref(0),
       isBottom = ref(false)
-
     return {
       active,
       position,
