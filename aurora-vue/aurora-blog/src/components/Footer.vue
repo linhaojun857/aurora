@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { useI18n } from 'vue-i18n'
 
@@ -50,5 +50,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" scoped></style>

@@ -86,6 +86,12 @@ export default defineComponent({
     let scrollingHandler: any
     let menuReopenHandler: any
     let needReopen = ref(false)
+    onMounted(() => {
+      document.addEventListener('scroll', scrollHandler)
+    })
+    onUnmounted(() => {
+      document.removeEventListener('scroll', scrollHandler)
+    })
     const scrollHandler = () => {
       clearTimeout(scrollingHandler)
       clearTimeout(menuReopenHandler)
@@ -134,12 +140,6 @@ export default defineComponent({
       navigatorStore.setOpenNavigator(false)
       searchStore.setOpenModal(status)
     }
-    onMounted(() => {
-      document.addEventListener('scroll', scrollHandler)
-    })
-    onUnmounted(() => {
-      document.removeEventListener('scroll', scrollHandler)
-    })
     return {
       gradient: computed(() => {
         return { background: appStore.themeConfig.header_gradient_css }
