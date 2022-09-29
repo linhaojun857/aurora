@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue'
+import { computed, defineComponent, onBeforeMount, onUnmounted, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { useCommonStore } from '@/stores/common'
 import { useMetaStore } from '@/stores/meta'
@@ -68,14 +68,14 @@ export default defineComponent({
     const isMobile = computed(() => {
       return commonStore.isMobile
     })
-    onMounted(() => {
+    onBeforeMount(() => {
       initialApp()
     })
     onUnmounted(() => {
       document.removeEventListener('copy', copyEventHandler)
       window.removeEventListener('resize', resizeHander)
     })
-    const initialApp = async () => {
+    const initialApp = () => {
       initResizeEvent()
       intialCopy()
       initWindowOnload()
