@@ -7,8 +7,8 @@ import com.aurora.model.dto.UserInfoDTO;
 import com.aurora.entity.UserAuth;
 import com.aurora.mapper.UserAuthMapper;
 import com.aurora.service.TokenService;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.UserUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.UserUtil;
 import com.aurora.model.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -34,7 +34,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        UserInfoDTO userLoginDTO = BeanCopyUtils.copyObject(UserUtils.getUserDetailsDTO(), UserInfoDTO.class);
+        UserInfoDTO userLoginDTO = BeanCopyUtil.copyObject(UserUtil.getUserDetailsDTO(), UserInfoDTO.class);
         if (Objects.nonNull(authentication)) {
             UserDetailsDTO userDetailsDTO = (UserDetailsDTO) authentication.getPrincipal();
             String token = tokenService.createToken(userDetailsDTO);
@@ -48,10 +48,10 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     @Async
     public void updateUserInfo() {
         UserAuth userAuth = UserAuth.builder()
-                .id(UserUtils.getUserDetailsDTO().getId())
-                .ipAddress(UserUtils.getUserDetailsDTO().getIpAddress())
-                .ipSource(UserUtils.getUserDetailsDTO().getIpSource())
-                .lastLoginTime(UserUtils.getUserDetailsDTO().getLastLoginTime())
+                .id(UserUtil.getUserDetailsDTO().getId())
+                .ipAddress(UserUtil.getUserDetailsDTO().getIpAddress())
+                .ipSource(UserUtil.getUserDetailsDTO().getIpSource())
+                .lastLoginTime(UserUtil.getUserDetailsDTO().getLastLoginTime())
                 .build();
         userAuthMapper.updateById(userAuth);
     }

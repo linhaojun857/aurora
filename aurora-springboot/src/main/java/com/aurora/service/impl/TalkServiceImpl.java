@@ -10,10 +10,10 @@ import com.aurora.mapper.CommentMapper;
 import com.aurora.mapper.TalkMapper;
 import com.aurora.service.TalkService;
 
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.CommonUtils;
-import com.aurora.utils.PageUtils;
-import com.aurora.utils.UserUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.CommonUtil;
+import com.aurora.util.PageUtil;
+import com.aurora.util.UserUtil;
 import com.aurora.model.vo.ConditionVO;
 import com.aurora.model.vo.PageResult;
 import com.aurora.model.vo.TalkVO;
@@ -49,7 +49,7 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
             return new PageResult<>();
         }
         // 分页查询说说
-        List<TalkDTO> talkDTOs = talkMapper.listTalks(PageUtils.getLimitCurrent(), PageUtils.getSize());
+        List<TalkDTO> talkDTOs = talkMapper.listTalks(PageUtil.getLimitCurrent(), PageUtil.getSize());
         // 查询说说评论量
         List<Integer> talkIds = talkDTOs.stream()
                 .map(TalkDTO::getId)
@@ -62,7 +62,7 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
             item.setCommentCount(commentCountMap.get(item.getId()));
             // 转换图片格式
             if (Objects.nonNull(item.getImages())) {
-                item.setImgs(CommonUtils.castList(JSON.parseObject(item.getImages(), List.class), String.class));
+                item.setImgs(CommonUtil.castList(JSON.parseObject(item.getImages(), List.class), String.class));
             }
         });
         return new PageResult<>(talkDTOs, count);
@@ -77,15 +77,15 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
         }
         // 转换图片格式
         if (Objects.nonNull(talkDTO.getImages())) {
-            talkDTO.setImgs(CommonUtils.castList(JSON.parseObject(talkDTO.getImages(), List.class), String.class));
+            talkDTO.setImgs(CommonUtil.castList(JSON.parseObject(talkDTO.getImages(), List.class), String.class));
         }
         return talkDTO;
     }
 
     @Override
     public void saveOrUpdateTalk(TalkVO talkVO) {
-        Talk talk = BeanCopyUtils.copyObject(talkVO, Talk.class);
-        talk.setUserId(UserUtils.getUserDetailsDTO().getUserInfoId());
+        Talk talk = BeanCopyUtil.copyObject(talkVO, Talk.class);
+        talk.setUserId(UserUtil.getUserDetailsDTO().getUserInfoId());
         this.saveOrUpdate(talk);
     }
 
@@ -103,11 +103,11 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
             return new PageResult<>();
         }
         // 分页查询说说
-        List<TalkAdminDTO> talkDTOList = talkMapper.listTalksAdmin(PageUtils.getLimitCurrent(), PageUtils.getSize(), conditionVO);
+        List<TalkAdminDTO> talkDTOList = talkMapper.listTalksAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
         talkDTOList.forEach(item -> {
             // 转换图片格式
             if (Objects.nonNull(item.getImages())) {
-                item.setImgs(CommonUtils.castList(JSON.parseObject(item.getImages(), List.class), String.class));
+                item.setImgs(CommonUtil.castList(JSON.parseObject(item.getImages(), List.class), String.class));
             }
         });
         return new PageResult<>(talkDTOList, count);
@@ -118,7 +118,7 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
         TalkAdminDTO talkBackDTO = talkMapper.getTalkByIdAdmin(talkId);
         // 转换图片格式
         if (Objects.nonNull(talkBackDTO.getImages())) {
-            talkBackDTO.setImgs(CommonUtils.castList(JSON.parseObject(talkBackDTO.getImages(), List.class), String.class));
+            talkBackDTO.setImgs(CommonUtil.castList(JSON.parseObject(talkBackDTO.getImages(), List.class), String.class));
         }
         return talkBackDTO;
     }

@@ -1,4 +1,4 @@
-package com.aurora.utils;
+package com.aurora.util;
 
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeansException;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * spring工具类
  */
 @Component
-public class SpringUtils implements BeanFactoryPostProcessor, ApplicationContextAware {
+public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextAware {
     /**
      * Spring应用上下文环境
      */
@@ -24,12 +24,12 @@ public class SpringUtils implements BeanFactoryPostProcessor, ApplicationContext
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        SpringUtils.beanFactory = beanFactory;
+        SpringUtil.beanFactory = beanFactory;
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        SpringUtils.applicationContext = applicationContext;
+        SpringUtil.applicationContext = applicationContext;
     }
 
     /**

@@ -4,8 +4,8 @@ import com.aurora.constant.ScheduleConstant;
 import com.aurora.entity.Job;
 import com.aurora.entity.JobLog;
 import com.aurora.mapper.JobLogMapper;
-import com.aurora.utils.ExceptionUtils;
-import com.aurora.utils.SpringUtils;
+import com.aurora.util.ExceptionUtil;
+import com.aurora.util.SpringUtil;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
@@ -74,12 +74,12 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
         jobLog.setJobMessage(jobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
         if (e != null) {
             jobLog.setStatus(ZERO);
-            jobLog.setExceptionInfo(ExceptionUtils.getTrace(e));
+            jobLog.setExceptionInfo(ExceptionUtil.getTrace(e));
         } else {
             jobLog.setStatus(ONE);
         }
         // 写入数据库当中
-        SpringUtils.getBean(JobLogMapper.class).insert(jobLog);
+        SpringUtil.getBean(JobLogMapper.class).insert(jobLog);
     }
 
     /**

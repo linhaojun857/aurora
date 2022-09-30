@@ -2,7 +2,7 @@ package com.aurora.consumer;
 
 import com.alibaba.fastjson.JSON;
 import com.aurora.model.dto.EmailDTO;
-import com.aurora.utils.EmailUtils;
+import com.aurora.util.EmailUtil;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +21,16 @@ import static com.aurora.constant.MQPrefixConstant.EMAIL_QUEUE;
 public class CommentNoticeConsumer {
 
     @Autowired
-    private EmailUtils emailUtils;
+    private EmailUtil emailUtil;
 
     @RabbitHandler
     public void process(byte[] data) {
         EmailDTO mailDTO = JSON.parseObject(new String(data), EmailDTO.class);
         if (CAPTCHA.equals(mailDTO.getSubject()) || CHECK_REMIND.equals(mailDTO.getSubject())) {
-            emailUtils.sendSimpleMail(mailDTO);
+            emailUtil.sendSimpleMail(mailDTO);
         }
         if (COMMENT_REMIND.equals(mailDTO.getSubject())) {
-            emailUtils.sendHtmlMail(mailDTO);
+            emailUtil.sendHtmlMail(mailDTO);
         }
     }
 }

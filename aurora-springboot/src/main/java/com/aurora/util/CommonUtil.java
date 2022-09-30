@@ -1,4 +1,4 @@
-package com.aurora.utils;
+package com.aurora.util;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -8,10 +8,11 @@ import java.util.regex.Pattern;
  * @author 花未眠
  * 公共工具类
  */
-public class CommonUtils {
+public class CommonUtil {
 
     /**
      * 检测邮箱是否合法
+     *
      * @param username 用户名
      * @return 合法状态
      */
@@ -27,6 +28,7 @@ public class CommonUtils {
 
     /**
      * 获取括号内容
+     *
      * @param str str
      * @return {@link String} 括号内容
      */
@@ -36,6 +38,7 @@ public class CommonUtils {
 
     /**
      * 生成6位随机验证码
+     *
      * @return 验证码
      */
     public static String getRandomCode() {
@@ -49,6 +52,7 @@ public class CommonUtils {
 
     /**
      * 转换List
+     *
      * @param obj   obj
      * @param clazz clazz
      * @return {@link List<T>}
@@ -66,6 +70,7 @@ public class CommonUtils {
 
     /**
      * 转换set
+     *
      * @param obj   obj
      * @param clazz clazz
      * @return {@link Set<T>}

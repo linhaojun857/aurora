@@ -1,4 +1,4 @@
-package com.aurora.utils;
+package com.aurora.util;
 
 import com.github.houbb.sensitive.word.bs.SensitiveWordBs;
 
@@ -6,7 +6,7 @@ import com.github.houbb.sensitive.word.bs.SensitiveWordBs;
  * @author 花未眠
  * HTML工具类
  */
-public class HTMLUtils {
+public class HTMLUtil {
 
     private static final SensitiveWordBs sensitiveWordBs = SensitiveWordBs.newInstance()
             .ignoreCase(true)

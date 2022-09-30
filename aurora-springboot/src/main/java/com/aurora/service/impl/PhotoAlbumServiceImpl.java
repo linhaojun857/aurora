@@ -8,8 +8,8 @@ import com.aurora.exception.BizException;
 import com.aurora.mapper.PhotoAlbumMapper;
 import com.aurora.mapper.PhotoMapper;
 import com.aurora.service.PhotoAlbumService;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.PageUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.PageUtil;
 import com.aurora.model.vo.ConditionVO;
 import com.aurora.model.vo.PageResult;
 import com.aurora.model.vo.PhotoAlbumVO;
@@ -47,7 +47,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
         if (Objects.nonNull(album) && !album.getId().equals(photoAlbumVO.getId())) {
             throw new BizException("相册名已存在");
         }
-        PhotoAlbum photoAlbum = BeanCopyUtils.copyObject(photoAlbumVO, PhotoAlbum.class);
+        PhotoAlbum photoAlbum = BeanCopyUtil.copyObject(photoAlbumVO, PhotoAlbum.class);
         this.saveOrUpdate(photoAlbum);
     }
 
@@ -61,7 +61,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
             return new PageResult<>();
         }
         // 查询相册信息
-        List<PhotoAlbumAdminDTO> photoAlbumBackList = photoAlbumMapper.listPhotoAlbumsAdmin(PageUtils.getLimitCurrent(), PageUtils.getSize(), conditionVO);
+        List<PhotoAlbumAdminDTO> photoAlbumBackList = photoAlbumMapper.listPhotoAlbumsAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
         return new PageResult<>(photoAlbumBackList, count);
     }
 
@@ -69,7 +69,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
     public List<PhotoAlbumDTO> listPhotoAlbumInfosAdmin() {
         List<PhotoAlbum> photoAlbumList = photoAlbumMapper.selectList(new LambdaQueryWrapper<PhotoAlbum>()
                 .eq(PhotoAlbum::getIsDelete, FALSE));
-        return BeanCopyUtils.copyList(photoAlbumList, PhotoAlbumDTO.class);
+        return BeanCopyUtil.copyList(photoAlbumList, PhotoAlbumDTO.class);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
         Integer photoCount = photoMapper.selectCount(new LambdaQueryWrapper<Photo>()
                 .eq(Photo::getAlbumId, albumId)
                 .eq(Photo::getIsDelete, FALSE));
-        PhotoAlbumAdminDTO album = BeanCopyUtils.copyObject(photoAlbum, PhotoAlbumAdminDTO.class);
+        PhotoAlbumAdminDTO album = BeanCopyUtil.copyObject(photoAlbum, PhotoAlbumAdminDTO.class);
         album.setPhotoCount(photoCount);
         return album;
     }
@@ -112,7 +112,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
                 .eq(PhotoAlbum::getStatus, PUBLIC.getStatus())
                 .eq(PhotoAlbum::getIsDelete, FALSE)
                 .orderByDesc(PhotoAlbum::getId));
-        return BeanCopyUtils.copyList(photoAlbumList, PhotoAlbumDTO.class);
+        return BeanCopyUtil.copyList(photoAlbumList, PhotoAlbumDTO.class);
     }
 
 }

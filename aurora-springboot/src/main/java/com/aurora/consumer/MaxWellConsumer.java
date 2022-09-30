@@ -5,7 +5,7 @@ import com.aurora.model.dto.ArticleSearchDTO;
 import com.aurora.model.dto.MaxwellDataDTO;
 import com.aurora.entity.Article;
 import com.aurora.mapper.ElasticsearchMapper;
-import com.aurora.utils.BeanCopyUtils;
+import com.aurora.util.BeanCopyUtil;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class MaxWellConsumer {
             case "insert":
             case "update":
                 // 更新es文章
-                elasticsearchMapper.save(BeanCopyUtils.copyObject(article, ArticleSearchDTO.class));
+                elasticsearchMapper.save(BeanCopyUtil.copyObject(article, ArticleSearchDTO.class));
                 break;
             case "delete":
                 // 删除文章

@@ -1,4 +1,4 @@
-package com.aurora.utils;
+package com.aurora.util;
 
 import com.aurora.model.dto.EmailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import javax.mail.internet.MimeMessage;
  * @author ican
  */
 @Component
-public class EmailUtils {
+public class EmailUtil {
     /**
      * 邮箱号
      */

@@ -1,9 +1,10 @@
-package com.aurora.utils;
+package com.aurora.util;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.*;
 import java.security.MessageDigest;
 import java.util.Objects;
@@ -13,10 +14,11 @@ import java.util.Objects;
  * 文件md5工具类
  */
 @Log4j2
-public class FileUtils {
+public class FileUtil {
 
     /**
      * 获取文件md5值
+     *
      * @param inputStream 文件输入流
      * @return {@link String} 文件md5值
      */
@@ -45,6 +47,7 @@ public class FileUtils {
 
     /**
      * 得到文件扩展名
+     *
      * @param fileName 文件名称
      * @return {@link String} 文件后缀
      */
@@ -57,6 +60,7 @@ public class FileUtils {
 
     /**
      * 转换file
+     *
      * @param multipartFile 多部分文件
      * @return {@link File} file
      */
@@ -77,6 +81,7 @@ public class FileUtils {
 
     /**
      * 自动调节精度(经验数值)
+     *
      * @param size 源图片大小
      * @return 图片压缩质量比
      */

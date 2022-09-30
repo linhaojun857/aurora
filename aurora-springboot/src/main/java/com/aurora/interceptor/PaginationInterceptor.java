@@ -1,7 +1,7 @@
 package com.aurora.interceptor;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.aurora.utils.PageUtils;
+import com.aurora.util.PageUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -25,14 +25,14 @@ public class PaginationInterceptor implements HandlerInterceptor {
         String currentPage = request.getParameter(CURRENT);
         String pageSize = Optional.ofNullable(request.getParameter(SIZE)).orElse(DEFAULT_SIZE);
         if (!Objects.isNull(currentPage) && !StringUtils.isEmpty(currentPage)) {
-            PageUtils.setCurrentPage(new Page<>(Long.parseLong(currentPage), Long.parseLong(pageSize)));
+            PageUtil.setCurrentPage(new Page<>(Long.parseLong(currentPage), Long.parseLong(pageSize)));
         }
         return true;
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        PageUtils.remove();
+        PageUtil.remove();
     }
 
 }

@@ -1,4 +1,4 @@
-package com.aurora.utils;
+package com.aurora.util;
 
 import com.aurora.entity.Job;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +12,7 @@ import java.util.List;
  * @author 花未眠
  * 任务执行工具
  */
-public class JobInvokeUtils {
+public class JobInvokeUtil {
     /**
      * 执行方法
      *
@@ -25,7 +25,7 @@ public class JobInvokeUtils {
         List<Object[]> methodParams = getMethodParams(invokeTarget);
 
         if (!isValidClassName(beanName)) {
-            Object bean = SpringUtils.getBean(beanName);
+            Object bean = SpringUtil.getBean(beanName);
             invokeMethod(bean, methodName, methodParams);
         } else {
             Object bean = Class.forName(beanName).newInstance();

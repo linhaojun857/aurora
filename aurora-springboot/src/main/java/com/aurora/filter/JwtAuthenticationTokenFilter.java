@@ -3,7 +3,7 @@ package com.aurora.filter;
 
 import com.aurora.model.dto.UserDetailsDTO;
 import com.aurora.service.TokenService;
-import com.aurora.utils.UserUtils;
+import com.aurora.util.UserUtil;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +30,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
         UserDetailsDTO userDetailsDTO = tokenService.getUserDetailDTO(request);
-        if (Objects.nonNull(userDetailsDTO) && Objects.isNull(UserUtils.getAuthentication())) {
+        if (Objects.nonNull(userDetailsDTO) && Objects.isNull(UserUtil.getAuthentication())) {
             tokenService.renewToken(userDetailsDTO);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetailsDTO, null, userDetailsDTO.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);

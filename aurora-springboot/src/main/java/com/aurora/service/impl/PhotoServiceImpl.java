@@ -11,8 +11,8 @@ import com.aurora.mapper.PhotoAlbumMapper;
 import com.aurora.mapper.PhotoMapper;
 import com.aurora.service.PhotoAlbumService;
 import com.aurora.service.PhotoService;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.PageUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.PageUtil;
 import com.aurora.model.vo.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
@@ -46,20 +46,20 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
     @Override
     public PageResult<PhotoAdminDTO> listPhotos(ConditionVO conditionVO) {
         // 查询照片列表
-        Page<Photo> page = new Page<>(PageUtils.getCurrent(), PageUtils.getSize());
+        Page<Photo> page = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
         Page<Photo> photoPage = photoMapper.selectPage(page, new LambdaQueryWrapper<Photo>()
                 .eq(Objects.nonNull(conditionVO.getAlbumId()), Photo::getAlbumId, conditionVO.getAlbumId())
                 .eq(Photo::getIsDelete, conditionVO.getIsDelete())
                 .orderByDesc(Photo::getId)
                 .orderByDesc(Photo::getUpdateTime));
-        List<PhotoAdminDTO> photos = BeanCopyUtils.copyList(photoPage.getRecords(), PhotoAdminDTO.class);
+        List<PhotoAdminDTO> photos = BeanCopyUtil.copyList(photoPage.getRecords(), PhotoAdminDTO.class);
         return new PageResult<>(photos, (int) photoPage.getTotal());
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updatePhoto(PhotoInfoVO photoInfoVO) {
-        Photo photo = BeanCopyUtils.copyObject(photoInfoVO, Photo.class);
+        Photo photo = BeanCopyUtil.copyObject(photoInfoVO, Photo.class);
         photoMapper.updateById(photo);
     }
 
@@ -122,7 +122,7 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
             return new PageResult<>();
         }
         // 查询相册信息
-        List<PhotoAlbumAdminDTO> PhotoAlbumAdminDTOs = photoAlbumMapper.listPhotoAlbumsAdmin(PageUtils.getLimitCurrent(), PageUtils.getSize(), conditionVO);
+        List<PhotoAlbumAdminDTO> PhotoAlbumAdminDTOs = photoAlbumMapper.listPhotoAlbumsAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
         return new PageResult<>(PhotoAlbumAdminDTOs, count);
     }
 
@@ -144,7 +144,7 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
             throw new BizException("相册不存在");
         }
         // 查询照片列表
-        Page<Photo> page = new Page<>(PageUtils.getCurrent(), PageUtils.getSize());
+        Page<Photo> page = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
         List<String> photos = photoMapper.selectPage(page, new LambdaQueryWrapper<Photo>()
                         .select(Photo::getPhotoSrc)
                         .eq(Photo::getAlbumId, albumId)

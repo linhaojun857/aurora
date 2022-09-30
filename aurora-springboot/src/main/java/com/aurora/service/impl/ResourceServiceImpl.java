@@ -9,7 +9,7 @@ import com.aurora.handler.FilterInvocationSecurityMetadataSourceImpl;
 import com.aurora.mapper.ResourceMapper;
 import com.aurora.mapper.RoleResourceMapper;
 import com.aurora.service.ResourceService;
-import com.aurora.utils.BeanCopyUtils;
+import com.aurora.util.BeanCopyUtil;
 import com.aurora.model.vo.ConditionVO;
 import com.aurora.model.vo.ResourceVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -91,7 +91,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     @Override
     public void saveOrUpdateResource(ResourceVO resourceVO) {
         // 更新资源信息
-        Resource resource = BeanCopyUtils.copyObject(resourceVO, Resource.class);
+        Resource resource = BeanCopyUtil.copyObject(resourceVO, Resource.class);
         this.saveOrUpdate(resource);
         // 重新加载角色资源信息
         filterInvocationSecurityMetadataSource.clearDataSource();
@@ -127,8 +127,8 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         Map<Integer, List<Resource>> childrenMap = listResourceChildren(resourceList);
         // 绑定模块下的所有接口
         List<ResourceDTO> resourceDTOList = parentList.stream().map(item -> {
-            ResourceDTO resourceDTO = BeanCopyUtils.copyObject(item, ResourceDTO.class);
-            List<ResourceDTO> childrenList = BeanCopyUtils.copyList(childrenMap.get(item.getId()), ResourceDTO.class);
+            ResourceDTO resourceDTO = BeanCopyUtil.copyObject(item, ResourceDTO.class);
+            List<ResourceDTO> childrenList = BeanCopyUtil.copyList(childrenMap.get(item.getId()), ResourceDTO.class);
             resourceDTO.setChildren(childrenList);
             childrenMap.remove(item.getId());
             return resourceDTO;
@@ -138,7 +138,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
             List<Resource> childrenList = new ArrayList<>();
             childrenMap.values().forEach(childrenList::addAll);
             List<ResourceDTO> childrenDTOList = childrenList.stream()
-                    .map(item -> BeanCopyUtils.copyObject(item, ResourceDTO.class))
+                    .map(item -> BeanCopyUtil.copyObject(item, ResourceDTO.class))
                     .collect(Collectors.toList());
             resourceDTOList.addAll(childrenDTOList);
         }

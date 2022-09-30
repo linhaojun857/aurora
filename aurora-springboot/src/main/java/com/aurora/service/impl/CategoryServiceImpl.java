@@ -9,8 +9,8 @@ import com.aurora.exception.BizException;
 import com.aurora.mapper.ArticleMapper;
 import com.aurora.mapper.CategoryMapper;
 import com.aurora.service.CategoryService;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.PageUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.PageUtil;
 import com.aurora.model.vo.CategoryVO;
 import com.aurora.model.vo.ConditionVO;
 import com.aurora.model.vo.PageResult;
@@ -49,7 +49,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
             return new PageResult<>();
         }
         // 分页查询分类列表
-        List<CategoryAdminDTO> categoryList = categoryMapper.listCategoriesAdmin(PageUtils.getLimitCurrent(), PageUtils.getSize(), conditionVO);
+        List<CategoryAdminDTO> categoryList = categoryMapper.listCategoriesAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
         return new PageResult<>(categoryList, count);
     }
 
@@ -59,7 +59,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         List<Category> categoryList = categoryMapper.selectList(new LambdaQueryWrapper<Category>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), Category::getCategoryName, conditionVO.getKeywords())
                 .orderByDesc(Category::getId));
-        return BeanCopyUtils.copyList(categoryList, CategoryOptionDTO.class);
+        return BeanCopyUtil.copyList(categoryList, CategoryOptionDTO.class);
     }
 
 

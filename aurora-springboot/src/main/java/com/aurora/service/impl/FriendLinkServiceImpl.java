@@ -5,8 +5,8 @@ import com.aurora.model.dto.FriendLinkDTO;
 import com.aurora.entity.FriendLink;
 import com.aurora.mapper.FriendLinkMapper;
 import com.aurora.service.FriendLinkService;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.PageUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.PageUtil;
 import com.aurora.model.vo.ConditionVO;
 import com.aurora.model.vo.FriendLinkVO;
 import com.aurora.model.vo.PageResult;
@@ -29,22 +29,22 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
     @Override
     public List<FriendLinkDTO> listFriendLinks() {
         List<FriendLink> friendLinks = friendLinkMapper.selectList(null);
-        return BeanCopyUtils.copyList(friendLinks, FriendLinkDTO.class);
+        return BeanCopyUtil.copyList(friendLinks, FriendLinkDTO.class);
     }
 
     @Override
     public PageResult<FriendLinkAdminDTO> listFriendLinksAdmin(ConditionVO conditionVO) {
-        Page<FriendLink> page = new Page<>(PageUtils.getCurrent(), PageUtils.getSize());
+        Page<FriendLink> page = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
         Page<FriendLink> friendLinkPage = friendLinkMapper.selectPage(page, new LambdaQueryWrapper<FriendLink>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), FriendLink::getLinkName, conditionVO.getKeywords()));
-        List<FriendLinkAdminDTO> friendLinkBackDTOs = BeanCopyUtils.copyList(friendLinkPage.getRecords(), FriendLinkAdminDTO.class);
+        List<FriendLinkAdminDTO> friendLinkBackDTOs = BeanCopyUtil.copyList(friendLinkPage.getRecords(), FriendLinkAdminDTO.class);
         return new PageResult<>(friendLinkBackDTOs, (int) friendLinkPage.getTotal());
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateFriendLink(FriendLinkVO friendLinkVO) {
-        FriendLink friendLink = BeanCopyUtils.copyObject(friendLinkVO, FriendLink.class);
+        FriendLink friendLink = BeanCopyUtil.copyObject(friendLinkVO, FriendLink.class);
         this.saveOrUpdate(friendLink);
     }
 }

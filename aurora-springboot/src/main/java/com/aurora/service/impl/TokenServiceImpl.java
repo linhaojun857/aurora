@@ -70,7 +70,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public UserDetailsDTO getUserDetailDTO(HttpServletRequest request) {
-        String token = request.getHeader(TOKEN_HEADER).replaceFirst(TOKEN_PREFIX, "");
+        String token = Optional.ofNullable(request.getHeader(TOKEN_HEADER)).orElse("").replaceFirst(TOKEN_PREFIX, "");
         if (StringUtils.hasText(token) && !token.equals("null")) {
             Claims claims = parseToken(token);
             String userId = claims.getSubject();

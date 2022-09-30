@@ -1,5 +1,4 @@
-package com.aurora.utils;
-
+package com.aurora.util;
 
 
 import java.util.ArrayList;
@@ -9,10 +8,11 @@ import java.util.List;
  * @author 花未眠
  * 复制对象和集合属性
  */
-public class BeanCopyUtils {
+public class BeanCopyUtil {
 
     /**
      * 复制对象
+     *
      * @param source 源
      * @param target 目标
      * @return {@link T}
@@ -32,6 +32,7 @@ public class BeanCopyUtils {
 
     /**
      * 拷贝集合
+     *
      * @param source 源
      * @param target 目标
      * @return {@link List<T>} 集合
@@ -40,7 +41,7 @@ public class BeanCopyUtils {
         List<T> list = new ArrayList<>();
         if (null != source && source.size() > 0) {
             for (Object obj : source) {
-                list.add(BeanCopyUtils.copyObject(obj, target));
+                list.add(BeanCopyUtil.copyObject(obj, target));
             }
         }
         return list;

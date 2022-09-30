@@ -17,8 +17,8 @@ import com.aurora.service.RedisService;
 import com.aurora.service.TokenService;
 import com.aurora.service.UserAuthService;
 import com.aurora.strategy.context.SocialLoginStrategyContext;
-import com.aurora.utils.PageUtils;
-import com.aurora.utils.UserUtils;
+import com.aurora.util.PageUtil;
+import com.aurora.util.UserUtil;
 import com.aurora.model.vo.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -41,8 +41,8 @@ import java.util.stream.Collectors;
 import static com.aurora.constant.MQPrefixConstant.EMAIL_EXCHANGE;
 import static com.aurora.constant.RedisPrefixConstant.*;
 import static com.aurora.enums.UserAreaTypeEnum.getUserAreaType;
-import static com.aurora.utils.CommonUtils.checkEmail;
-import static com.aurora.utils.CommonUtils.getRandomCode;
+import static com.aurora.util.CommonUtil.checkEmail;
+import static com.aurora.util.CommonUtil.getRandomCode;
 
 
 @Service
@@ -168,11 +168,11 @@ public class UserAuthServiceImpl implements UserAuthService {
     public void updateAdminPassword(PasswordVO passwordVO) {
         // 查询旧密码是否正确
         UserAuth user = userAuthMapper.selectOne(new LambdaQueryWrapper<UserAuth>()
-                .eq(UserAuth::getId, UserUtils.getUserDetailsDTO().getId()));
+                .eq(UserAuth::getId, UserUtil.getUserDetailsDTO().getId()));
         // 正确则修改密码，错误则提示不正确
         if (Objects.nonNull(user) && BCrypt.checkpw(passwordVO.getOldPassword(), user.getPassword())) {
             UserAuth userAuth = UserAuth.builder()
-                    .id(UserUtils.getUserDetailsDTO().getId())
+                    .id(UserUtil.getUserDetailsDTO().getId())
                     .password(BCrypt.hashpw(passwordVO.getNewPassword(), BCrypt.gensalt()))
                     .build();
             userAuthMapper.updateById(userAuth);
@@ -189,14 +189,14 @@ public class UserAuthServiceImpl implements UserAuthService {
             return new PageResult<>();
         }
         // 获取后台用户列表
-        List<UserAdminDTO> UserAdminDTOs = userAuthMapper.listUsers(PageUtils.getLimitCurrent(), PageUtils.getSize(), conditionVO);
+        List<UserAdminDTO> UserAdminDTOs = userAuthMapper.listUsers(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
         return new PageResult<>(UserAdminDTOs, count);
     }
 
     @SneakyThrows
     @Override
     public UserLogoutStatusDTO logout() {
-        tokenService.delLoginUser(UserUtils.getUserDetailsDTO().getId());
+        tokenService.delLoginUser(UserUtil.getUserDetailsDTO().getId());
         return new UserLogoutStatusDTO("注销成功");
     }
 

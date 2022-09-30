@@ -9,7 +9,7 @@ import com.aurora.model.dto.SocialTokenDTO;
 import com.aurora.model.dto.SocialUserInfoDTO;
 import com.aurora.enums.LoginTypeEnum;
 import com.aurora.exception.BizException;
-import com.aurora.utils.CommonUtils;
+import com.aurora.util.CommonUtil;
 import com.aurora.model.vo.QQLoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,7 +76,7 @@ public class QQLoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
         qqData.put(SocialLoginConstant.ACCESS_TOKEN, qqLoginVO.getAccessToken());
         try {
             String result = restTemplate.getForObject(qqConfigProperties.getCheckTokenUrl(), String.class, qqData);
-            QQTokenDTO qqTokenDTO = JSON.parseObject(CommonUtils.getBracketsContent(Objects.requireNonNull(result)), QQTokenDTO.class);
+            QQTokenDTO qqTokenDTO = JSON.parseObject(CommonUtil.getBracketsContent(Objects.requireNonNull(result)), QQTokenDTO.class);
             // 判断openId是否一致
             if (!qqLoginVO.getOpenId().equals(qqTokenDTO.getOpenid())) {
                 throw new BizException(QQ_LOGIN_ERROR);

@@ -19,9 +19,9 @@ import com.aurora.service.RedisService;
 import com.aurora.service.TagService;
 import com.aurora.strategy.context.SearchStrategyContext;
 import com.aurora.strategy.context.UploadStrategyContext;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.PageUtils;
-import com.aurora.utils.UserUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.PageUtil;
+import com.aurora.util.UserUtil;
 import com.aurora.model.vo.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -100,7 +100,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .eq(Article::getIsDelete, 0)
                 .eq(Article::getStatus, 1);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.selectCount(queryWrapper));
-        List<ArticleCardDTO> articles = articleMapper.listArticles(PageUtils.getLimitCurrent(), PageUtils.getSize());
+        List<ArticleCardDTO> articles = articleMapper.listArticles(PageUtil.getLimitCurrent(), PageUtil.getSize());
         return new PageResult<>(articles, asyncCount.get());
     }
 
@@ -109,7 +109,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public PageResult<ArticleCardDTO> listArticlesByCategoryId(Integer categoryId) {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>().eq(Article::getCategoryId, categoryId);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.selectCount(queryWrapper));
-        List<ArticleCardDTO> articles = articleMapper.getArticlesByCategoryId(PageUtils.getLimitCurrent(), PageUtils.getSize(), categoryId);
+        List<ArticleCardDTO> articles = articleMapper.getArticlesByCategoryId(PageUtil.getLimitCurrent(), PageUtil.getSize(), categoryId);
         return new PageResult<>(articles, asyncCount.get());
     }
 
@@ -123,7 +123,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (articleForCheck.getStatus().equals(2)) {
             Boolean isAccess;
             try {
-                isAccess = redisService.sIsMember(USER_ARTICLE_ACCESS + ":" + UserUtils.getUserDetailsDTO().getId(), articleId);
+                isAccess = redisService.sIsMember(USER_ARTICLE_ACCESS + ":" + UserUtil.getUserDetailsDTO().getId(), articleId);
             } catch (Exception exception) {
                 throw new BizException(ARTICLE_ACCESS_FAIL);
             }
@@ -167,7 +167,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             throw new BizException("文章不存在");
         }
         if (article.getPassword().equals(articlePasswordVO.getArticlePassword())) {
-            redisService.sAdd(USER_ARTICLE_ACCESS + ":" + UserUtils.getUserDetailsDTO().getId(), articlePasswordVO.getArticleId());
+            redisService.sAdd(USER_ARTICLE_ACCESS + ":" + UserUtil.getUserDetailsDTO().getId(), articlePasswordVO.getArticleId());
         } else {
             throw new BizException("密码错误");
         }
@@ -178,7 +178,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public PageResult<ArticleCardDTO> listArticlesByTagId(Integer tagId) {
         LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<ArticleTag>().eq(ArticleTag::getTagId, tagId);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleTagMapper.selectCount(queryWrapper));
-        List<ArticleCardDTO> articles = articleMapper.listArticlesByTagId(PageUtils.getLimitCurrent(), PageUtils.getSize(), tagId);
+        List<ArticleCardDTO> articles = articleMapper.listArticlesByTagId(PageUtil.getLimitCurrent(), PageUtil.getSize(), tagId);
         return new PageResult<>(articles, asyncCount.get());
     }
 
@@ -187,7 +187,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public PageResult<ArchiveDTO> listArchives() {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>().eq(Article::getIsDelete, 0).eq(Article::getStatus, 1);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.selectCount(queryWrapper));
-        List<ArticleCardDTO> articles = articleMapper.listArchives(PageUtils.getLimitCurrent(), PageUtils.getSize());
+        List<ArticleCardDTO> articles = articleMapper.listArchives(PageUtil.getLimitCurrent(), PageUtil.getSize());
         HashMap<String, List<ArticleCardDTO>> map = new HashMap<>();
         for (ArticleCardDTO article : articles) {
             LocalDateTime createTime = article.getCreateTime();
@@ -226,7 +226,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public PageResult<ArticleAdminDTO> listArticlesAdmin(ConditionVO conditionVO) {
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.countArticleAdmins(conditionVO));
-        List<ArticleAdminDTO> articleAdminDTOs = articleMapper.listArticlesAdmin(PageUtils.getLimitCurrent(), PageUtils.getSize(), conditionVO);
+        List<ArticleAdminDTO> articleAdminDTOs = articleMapper.listArticlesAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
         Map<Object, Double> viewsCountMap = redisService.zAllScore(ARTICLE_VIEWS_COUNT);
         articleAdminDTOs.forEach(item -> {
             Double viewsCount = viewsCountMap.get(item.getId());
@@ -242,11 +242,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 保存文章分类
         Category category = saveArticleCategory(articleVO);
         // 保存或修改文章
-        Article article = BeanCopyUtils.copyObject(articleVO, Article.class);
+        Article article = BeanCopyUtil.copyObject(articleVO, Article.class);
         if (Objects.nonNull(category)) {
             article.setCategoryId(category.getId());
         }
-        article.setUserId(UserUtils.getUserDetailsDTO().getUserInfoId());
+        article.setUserId(UserUtil.getUserDetailsDTO().getUserInfoId());
         this.saveOrUpdate(article);
         // 保存文章标签
         saveArticleTag(articleVO, article.getId());
@@ -295,7 +295,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 查询文章标签
         List<String> tagNames = tagMapper.listTagNamesByArticleId(articleId);
         // 封装数据
-        ArticleAdminViewDTO articleAdminViewDTO = BeanCopyUtils.copyObject(article, ArticleAdminViewDTO.class);
+        ArticleAdminViewDTO articleAdminViewDTO = BeanCopyUtil.copyObject(article, ArticleAdminViewDTO.class);
         articleAdminViewDTO.setCategoryName(categoryName);
         articleAdminViewDTO.setTagNames(tagNames);
         return articleAdminViewDTO;

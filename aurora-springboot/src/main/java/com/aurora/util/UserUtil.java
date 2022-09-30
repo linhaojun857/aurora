@@ -1,4 +1,4 @@
-package com.aurora.utils;
+package com.aurora.util;
 
 import com.aurora.model.dto.UserDetailsDTO;
 import org.springframework.security.core.Authentication;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * 用户工具类
  */
 @Component
-public class UserUtils {
+public class UserUtil {
 
     public static UserDetailsDTO getUserDetailsDTO() {
         return (UserDetailsDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

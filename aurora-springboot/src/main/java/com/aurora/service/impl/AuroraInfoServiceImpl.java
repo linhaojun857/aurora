@@ -7,8 +7,8 @@ import com.aurora.mapper.*;
 import com.aurora.service.AuroraInfoService;
 import com.aurora.service.RedisService;
 import com.aurora.service.UniqueViewService;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.IpUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.IpUtil;
 import com.aurora.model.vo.AboutVO;
 import com.aurora.model.vo.WebsiteConfigVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -71,9 +71,9 @@ public class AuroraInfoServiceImpl implements AuroraInfoService {
     @Override
     public void report() {
         // 获取ip
-        String ipAddress = IpUtils.getIpAddress(request);
+        String ipAddress = IpUtil.getIpAddress(request);
         // 获取访问设备
-        UserAgent userAgent = IpUtils.getUserAgent(request);
+        UserAgent userAgent = IpUtil.getUserAgent(request);
         Browser browser = userAgent.getBrowser();
         OperatingSystem operatingSystem = userAgent.getOperatingSystem();
         // 生成唯一用户标识
@@ -82,9 +82,9 @@ public class AuroraInfoServiceImpl implements AuroraInfoService {
         // 判断是否访问
         if (!redisService.sIsMember(UNIQUE_VISITOR, md5)) {
             // 统计游客地域分布
-            String ipSource = IpUtils.getIpSource(ipAddress);
+            String ipSource = IpUtil.getIpSource(ipAddress);
             if (StringUtils.isNotBlank(ipSource)) {
-                String ipProvince = IpUtils.getIpProvince(ipSource);
+                String ipProvince = IpUtil.getIpProvince(ipSource);
                 redisService.hIncr(VISITOR_AREA, ipProvince, 1L);
             } else {
                 redisService.hIncr(VISITOR_AREA, UNKNOWN, 1L);
@@ -128,7 +128,7 @@ public class AuroraInfoServiceImpl implements AuroraInfoService {
         List<UniqueViewDTO> uniqueViews = uniqueViewService.listUniqueViews();
         List<ArticleStatisticsDTO> articleStatisticsDTOs = articleMapper.listArticleStatistics();
         List<CategoryDTO> categoryDTOs = categoryMapper.listCategories();
-        List<TagDTO> tagDTOs = BeanCopyUtils.copyList(tagMapper.selectList(null), TagDTO.class);
+        List<TagDTO> tagDTOs = BeanCopyUtil.copyList(tagMapper.selectList(null), TagDTO.class);
         Map<Object, Double> articleMap = redisService.zReverseRangeWithScore(ARTICLE_VIEWS_COUNT, 0, 4);
         AuroraAdminInfoDTO auroraAdminInfoDTO = AuroraAdminInfoDTO.builder()
                 .articleStatisticsDTOs(articleStatisticsDTOs)
