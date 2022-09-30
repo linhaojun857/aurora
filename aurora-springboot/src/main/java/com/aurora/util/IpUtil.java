@@ -1,4 +1,4 @@
-package com.aurora.utils;
+package com.aurora.util;
 
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import java.net.UnknownHostException;
  */
 @Slf4j
 @Component
-public class IpUtils {
+public class IpUtil {
 
     /**
      * 获取ip地址

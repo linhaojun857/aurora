@@ -9,8 +9,8 @@ import com.aurora.exception.BizException;
 import com.aurora.mapper.ArticleTagMapper;
 import com.aurora.mapper.TagMapper;
 import com.aurora.service.TagService;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.PageUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.PageUtil;
 import com.aurora.model.vo.ConditionVO;
 import com.aurora.model.vo.PageResult;
 import com.aurora.model.vo.TagVO;
@@ -53,7 +53,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
             return new PageResult<>();
         }
         // 分页查询标签列表
-        List<TagAdminDTO> tags = tagMapper.listTagsAdmin(PageUtils.getLimitCurrent(), PageUtils.getSize(), conditionVO);
+        List<TagAdminDTO> tags = tagMapper.listTagsAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
         return new PageResult<>(tags, count);
     }
 
@@ -63,7 +63,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         List<Tag> tagList = tagMapper.selectList(new LambdaQueryWrapper<Tag>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), Tag::getTagName, conditionVO.getKeywords())
                 .orderByDesc(Tag::getId));
-        return BeanCopyUtils.copyList(tagList, TagAdminDTO.class);
+        return BeanCopyUtil.copyList(tagList, TagAdminDTO.class);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         if (Objects.nonNull(existTag) && !existTag.getId().equals(tagVO.getId())) {
             throw new BizException("标签名已存在");
         }
-        Tag tag = BeanCopyUtils.copyObject(tagVO, Tag.class);
+        Tag tag = BeanCopyUtil.copyObject(tagVO, Tag.class);
         this.saveOrUpdate(tag);
     }
 

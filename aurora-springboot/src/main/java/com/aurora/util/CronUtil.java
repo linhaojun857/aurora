@@ -1,4 +1,4 @@
-package com.aurora.utils;
+package com.aurora.util;
 
 import org.quartz.CronExpression;
 
@@ -8,7 +8,7 @@ import java.util.Date;
  * @author 花未眠
  * cron表达式工具类
  */
-public class CronUtils {
+public class CronUtil {
     /**
      * 返回一个布尔值代表一个给定的Cron表达式的有效性
      *

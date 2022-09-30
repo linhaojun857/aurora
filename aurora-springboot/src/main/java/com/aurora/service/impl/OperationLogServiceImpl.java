@@ -4,8 +4,8 @@ import com.aurora.model.dto.OperationLogDTO;
 import com.aurora.entity.OperationLog;
 import com.aurora.mapper.OperationLogMapper;
 import com.aurora.service.OperationLogService;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.PageUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.PageUtil;
 import com.aurora.model.vo.ConditionVO;
 import com.aurora.model.vo.PageResult;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -21,13 +21,13 @@ public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, Ope
 
     @Override
     public PageResult<OperationLogDTO> listOperationLogs(ConditionVO conditionVO) {
-        Page<OperationLog> page = new Page<>(PageUtils.getCurrent(), PageUtils.getSize());
+        Page<OperationLog> page = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
         Page<OperationLog> operationLogPage = this.page(page, new LambdaQueryWrapper<OperationLog>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), OperationLog::getOptModule, conditionVO.getKeywords())
                 .or()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), OperationLog::getOptDesc, conditionVO.getKeywords())
                 .orderByDesc(OperationLog::getId));
-        List<OperationLogDTO> operationLogDTOs = BeanCopyUtils.copyList(operationLogPage.getRecords(), OperationLogDTO.class);
+        List<OperationLogDTO> operationLogDTOs = BeanCopyUtil.copyList(operationLogPage.getRecords(), OperationLogDTO.class);
         return new PageResult<>(operationLogDTOs, (int) operationLogPage.getTotal());
     }
 }

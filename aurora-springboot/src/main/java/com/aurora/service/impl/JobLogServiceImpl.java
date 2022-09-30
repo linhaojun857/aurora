@@ -4,8 +4,8 @@ import com.aurora.model.dto.JobLogDTO;
 import com.aurora.entity.JobLog;
 import com.aurora.mapper.JobLogMapper;
 import com.aurora.service.JobLogService;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.PageUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.PageUtil;
 import com.aurora.model.vo.JobLogSearchVO;
 import com.aurora.model.vo.PageResult;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -39,9 +39,9 @@ public class JobLogServiceImpl extends ServiceImpl<JobLogMapper, JobLog> impleme
                         JobLog::getCreateTime,
                         jobLogSearchVO.getStartTime(),
                         jobLogSearchVO.getEndTime());
-        Page<JobLog> page = new Page<>(PageUtils.getCurrent(),PageUtils.getSize());
+        Page<JobLog> page = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
         Page<JobLog> jobLogPage = jobLogMapper.selectPage(page, queryWrapper);
-        List<JobLogDTO> jobLogDTOs = BeanCopyUtils.copyList(jobLogPage.getRecords(), JobLogDTO.class);
+        List<JobLogDTO> jobLogDTOs = BeanCopyUtil.copyList(jobLogPage.getRecords(), JobLogDTO.class);
         return new PageResult<>(jobLogDTOs, (int)jobLogPage.getTotal());
     }
 

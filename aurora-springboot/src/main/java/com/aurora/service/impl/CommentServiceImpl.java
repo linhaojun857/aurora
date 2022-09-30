@@ -14,9 +14,9 @@ import com.aurora.mapper.TalkMapper;
 import com.aurora.mapper.UserInfoMapper;
 import com.aurora.service.AuroraInfoService;
 import com.aurora.service.CommentService;
-import com.aurora.utils.HTMLUtils;
-import com.aurora.utils.PageUtils;
-import com.aurora.utils.UserUtils;
+import com.aurora.util.HTMLUtil;
+import com.aurora.util.PageUtil;
+import com.aurora.util.UserUtil;
 import com.aurora.model.vo.CommentVO;
 import com.aurora.model.vo.ConditionVO;
 import com.aurora.model.vo.PageResult;
@@ -82,9 +82,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         checkCommentVO(commentVO);
         WebsiteConfigDTO websiteConfig = auroraInfoService.getWebsiteConfig();
         Integer isCommentReview = websiteConfig.getIsCommentReview();
-        commentVO.setCommentContent(HTMLUtils.filter(commentVO.getCommentContent()));
+        commentVO.setCommentContent(HTMLUtil.filter(commentVO.getCommentContent()));
         Comment comment = Comment.builder()
-                .userId(UserUtils.getUserDetailsDTO().getUserInfoId())
+                .userId(UserUtil.getUserDetailsDTO().getUserInfoId())
                 .replyUserId(commentVO.getReplyUserId())
                 .topicId(commentVO.getTopicId())
                 .commentContent(commentVO.getCommentContent())
@@ -93,7 +93,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 .isReview(isCommentReview == TRUE ? FALSE : TRUE)
                 .build();
         commentMapper.insert(comment);
-        String fromNickname = UserUtils.getUserDetailsDTO().getNickname();
+        String fromNickname = UserUtil.getUserDetailsDTO().getNickname();
         if (websiteConfig.getIsEmailNotice().equals(TRUE)) {
             CompletableFuture.runAsync(() -> notice(comment, fromNickname));
         }
@@ -109,7 +109,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if (commentCount == 0) {
             return new PageResult<>();
         }
-        List<CommentDTO> commentDTOs = commentMapper.listComments(PageUtils.getLimitCurrent(), PageUtils.getSize(), commentVO);
+        List<CommentDTO> commentDTOs = commentMapper.listComments(PageUtil.getLimitCurrent(), PageUtil.getSize(), commentVO);
         if (CollectionUtils.isEmpty(commentDTOs)) {
             return new PageResult<>();
         }
@@ -139,7 +139,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     public PageResult<CommentAdminDTO> listCommentsAdmin(ConditionVO conditionVO) {
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> commentMapper.countComments(conditionVO));
-        List<CommentAdminDTO> commentBackDTOList = commentMapper.listCommentsAdmin(PageUtils.getLimitCurrent(), PageUtils.getSize(), conditionVO);
+        List<CommentAdminDTO> commentBackDTOList = commentMapper.listCommentsAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
         return new PageResult<>(commentBackDTOList, asyncCount.get());
     }
 

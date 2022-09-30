@@ -8,7 +8,7 @@ import com.aurora.exception.BizException;
 import com.aurora.mapper.RoleMapper;
 import com.aurora.mapper.UserAuthMapper;
 import com.aurora.mapper.UserInfoMapper;
-import com.aurora.utils.IpUtils;
+import com.aurora.util.IpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -61,9 +61,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
         // 查询账号角色
         List<String> roles = roleMapper.listRolesByUserInfoId(userInfo.getId());
         // 获取设备信息
-        String ipAddress = IpUtils.getIpAddress(request);
-        String ipSource = IpUtils.getIpSource(ipAddress);
-        UserAgent userAgent = IpUtils.getUserAgent(request);
+        String ipAddress = IpUtil.getIpAddress(request);
+        String ipSource = IpUtil.getIpSource(ipAddress);
+        UserAgent userAgent = IpUtil.getUserAgent(request);
         // 封装权限集合
         return UserDetailsDTO.builder()
                 .id(user.getId())

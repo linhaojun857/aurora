@@ -9,8 +9,8 @@ import com.aurora.exception.BizException;
 import com.aurora.mapper.MenuMapper;
 import com.aurora.mapper.RoleMenuMapper;
 import com.aurora.service.MenuService;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.UserUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.UserUtil;
 import com.aurora.model.vo.ConditionVO;
 import com.aurora.model.vo.IsHiddenVO;
 import com.aurora.model.vo.MenuVO;
@@ -48,9 +48,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         Map<Integer, List<Menu>> childrenMap = getMenuMap(menus);
         // 组装目录菜单数据
         List<MenuDTO> menuDTOs = catalogs.stream().map(item -> {
-            MenuDTO menuDTO = BeanCopyUtils.copyObject(item, MenuDTO.class);
+            MenuDTO menuDTO = BeanCopyUtil.copyObject(item, MenuDTO.class);
             // 获取目录下的菜单排序
-            List<MenuDTO> list = BeanCopyUtils.copyList(childrenMap.get(item.getId()), MenuDTO.class).stream()
+            List<MenuDTO> list = BeanCopyUtil.copyList(childrenMap.get(item.getId()), MenuDTO.class).stream()
                     .sorted(Comparator.comparing(MenuDTO::getOrderNum))
                     .collect(Collectors.toList());
             menuDTO.setChildren(list);
@@ -62,7 +62,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             List<Menu> childrenList = new ArrayList<>();
             childrenMap.values().forEach(childrenList::addAll);
             List<MenuDTO> childrenDTOList = childrenList.stream()
-                    .map(item -> BeanCopyUtils.copyObject(item, MenuDTO.class))
+                    .map(item -> BeanCopyUtil.copyObject(item, MenuDTO.class))
                     .sorted(Comparator.comparing(MenuDTO::getOrderNum))
                     .collect(Collectors.toList());
             menuDTOs.addAll(childrenDTOList);
@@ -73,13 +73,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateMenu(MenuVO menuVO) {
-        Menu menu = BeanCopyUtils.copyObject(menuVO, Menu.class);
+        Menu menu = BeanCopyUtil.copyObject(menuVO, Menu.class);
         this.saveOrUpdate(menu);
     }
 
     @Override
     public void updateMenuIsHidden(IsHiddenVO isHiddenVO) {
-        Menu menu = BeanCopyUtils.copyObject(isHiddenVO, Menu.class);
+        Menu menu = BeanCopyUtil.copyObject(isHiddenVO, Menu.class);
         menuMapper.updateById(menu);
     }
 
@@ -136,7 +136,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Override
     public List<UserMenuDTO> listUserMenus() {
         // 查询用户菜单信息
-        List<Menu> menus = menuMapper.listMenusByUserInfoId(UserUtils.getUserDetailsDTO().getUserInfoId());
+        List<Menu> menus = menuMapper.listMenusByUserInfoId(UserUtil.getUserDetailsDTO().getUserInfoId());
         // 获取目录列表
         List<Menu> catalogs = listCatalogs(menus);
         // 获取目录下的子菜单
@@ -167,11 +167,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             List<Menu> children = childrenMap.get(item.getId());
             if (CollectionUtils.isNotEmpty(children)) {
                 // 多级菜单处理
-                userMenuDTO = BeanCopyUtils.copyObject(item, UserMenuDTO.class);
+                userMenuDTO = BeanCopyUtil.copyObject(item, UserMenuDTO.class);
                 list = children.stream()
                         .sorted(Comparator.comparing(Menu::getOrderNum))
                         .map(menu -> {
-                            UserMenuDTO dto = BeanCopyUtils.copyObject(menu, UserMenuDTO.class);
+                            UserMenuDTO dto = BeanCopyUtil.copyObject(menu, UserMenuDTO.class);
                             dto.setHidden(menu.getIsHidden().equals(TRUE));
                             return dto;
                         })

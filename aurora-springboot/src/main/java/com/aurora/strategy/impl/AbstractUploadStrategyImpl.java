@@ -2,7 +2,7 @@ package com.aurora.strategy.impl;
 
 import com.aurora.exception.BizException;
 import com.aurora.strategy.UploadStrategy;
-import com.aurora.utils.FileUtils;
+import com.aurora.util.FileUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,9 +19,9 @@ public abstract class AbstractUploadStrategyImpl implements UploadStrategy {
     public String uploadFile(MultipartFile file, String path) {
         try {
             // 获取文件md5值
-            String md5 = FileUtils.getMd5(file.getInputStream());
+            String md5 = FileUtil.getMd5(file.getInputStream());
             // 获取文件扩展名
-            String extName = FileUtils.getExtName(file.getOriginalFilename());
+            String extName = FileUtil.getExtName(file.getOriginalFilename());
             // 重新生成文件名
             String fileName = md5 + extName;
             // 判断文件是否已存在

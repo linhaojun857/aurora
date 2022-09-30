@@ -15,8 +15,8 @@ import com.aurora.service.TokenService;
 import com.aurora.service.UserInfoService;
 import com.aurora.service.UserRoleService;
 import com.aurora.strategy.context.UploadStrategyContext;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.UserUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.UserUtil;
 import com.aurora.model.vo.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -30,8 +30,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.aurora.constant.RedisPrefixConstant.USER_CODE_KEY;
-import static com.aurora.utils.PageUtils.getLimitCurrent;
-import static com.aurora.utils.PageUtils.getSize;
+import static com.aurora.util.PageUtil.getLimitCurrent;
+import static com.aurora.util.PageUtil.getSize;
 
 
 @Service
@@ -61,7 +61,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     public void updateUserInfo(UserInfoVO userInfoVO) {
         // 封装用户信息
         UserInfo userInfo = UserInfo.builder()
-                .id(UserUtils.getUserDetailsDTO().getUserInfoId())
+                .id(UserUtil.getUserDetailsDTO().getUserInfoId())
                 .nickname(userInfoVO.getNickname())
                 .intro(userInfoVO.getIntro())
                 .website(userInfoVO.getWebsite())
@@ -75,7 +75,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         String avatar = uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.AVATAR.getPath());
         // 更新用户信息
         UserInfo userInfo = UserInfo.builder()
-                .id(UserUtils.getUserDetailsDTO().getUserInfoId())
+                .id(UserUtil.getUserDetailsDTO().getUserInfoId())
                 .avatar(avatar)
                 .build();
         userInfoMapper.updateById(userInfo);
@@ -92,7 +92,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             throw new BizException("验证码错误！");
         }
         UserInfo userInfo = UserInfo.builder()
-                .id(UserUtils.getUserDetailsDTO().getUserInfoId())
+                .id(UserUtil.getUserDetailsDTO().getUserInfoId())
                 .email(emailVO.getEmail())
                 .build();
         userInfoMapper.updateById(userInfo);
@@ -152,7 +152,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         for (Object value : values) {
             userDetailsDTOs.add((UserDetailsDTO) value);
         }
-        List<UserOnlineDTO> userOnlineDTOs = BeanCopyUtils.copyList(userDetailsDTOs, UserOnlineDTO.class);
+        List<UserOnlineDTO> userOnlineDTOs = BeanCopyUtil.copyList(userDetailsDTOs, UserOnlineDTO.class);
         List<UserOnlineDTO> onlineUsers = userOnlineDTOs.stream()
                 .filter(item -> StringUtils.isBlank(conditionVO.getKeywords()) || item.getNickname().contains(conditionVO.getKeywords()))
                 .sorted(Comparator.comparing(UserOnlineDTO::getLastLoginTime).reversed())
@@ -173,6 +173,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Override
     public UserInfoDTO getUserInfoById(Integer id) {
         UserInfo userInfo = userInfoMapper.selectById(id);
-        return BeanCopyUtils.copyObject(userInfo, UserInfoDTO.class);
+        return BeanCopyUtil.copyObject(userInfo, UserInfoDTO.class);
     }
 }

@@ -15,8 +15,8 @@ import com.aurora.mapper.UserRoleMapper;
 import com.aurora.service.TokenService;
 import com.aurora.service.impl.UserDetailServiceImpl;
 import com.aurora.strategy.SocialLoginStrategy;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.IpUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.IpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,8 +64,8 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         // 获取第三方token信息
         SocialTokenDTO socialToken = getSocialToken(data);
         // 获取用户ip信息
-        String ipAddress = IpUtils.getIpAddress(request);
-        String ipSource = IpUtils.getIpSource(ipAddress);
+        String ipAddress = IpUtil.getIpAddress(request);
+        String ipSource = IpUtil.getIpSource(ipAddress);
         // 判断是否已注册
         UserAuth user = getUserAuth(socialToken);
         if (Objects.nonNull(user)) {
@@ -84,7 +84,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetailsDTO, null, userDetailsDTO.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
         // 返回用户信息
-        UserInfoDTO userInfoDTO = BeanCopyUtils.copyObject(userDetailsDTO, UserInfoDTO.class);
+        UserInfoDTO userInfoDTO = BeanCopyUtil.copyObject(userDetailsDTO, UserInfoDTO.class);
         String token = tokenService.createToken(userDetailsDTO);
         userInfoDTO.setToken(token);
         return userInfoDTO;

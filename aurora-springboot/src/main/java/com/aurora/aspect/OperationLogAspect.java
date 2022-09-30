@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.aurora.annotation.OptLog;
 import com.aurora.entity.OperationLog;
 import com.aurora.event.OperationLogEvent;
-import com.aurora.utils.IpUtils;
-import com.aurora.utils.UserUtils;
+import com.aurora.util.IpUtil;
+import com.aurora.util.UserUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.aspectj.lang.JoinPoint;
@@ -91,13 +91,13 @@ public class OperationLogAspect {
         // 返回结果
         operationLog.setResponseData(JSON.toJSONString(keys));
         // 请求用户ID
-        operationLog.setUserId(UserUtils.getUserDetailsDTO().getId());
+        operationLog.setUserId(UserUtil.getUserDetailsDTO().getId());
         // 请求用户
-        operationLog.setNickname(UserUtils.getUserDetailsDTO().getNickname());
+        operationLog.setNickname(UserUtil.getUserDetailsDTO().getNickname());
         // 请求IP
-        String ipAddress = IpUtils.getIpAddress(request);
+        String ipAddress = IpUtil.getIpAddress(request);
         operationLog.setIpAddress(ipAddress);
-        operationLog.setIpSource(IpUtils.getIpSource(ipAddress));
+        operationLog.setIpSource(IpUtil.getIpSource(ipAddress));
         // 请求uri
         operationLog.setOptUri(request.getRequestURI());
         // 事件发布

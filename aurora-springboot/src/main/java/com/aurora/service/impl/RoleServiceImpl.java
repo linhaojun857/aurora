@@ -14,8 +14,8 @@ import com.aurora.mapper.UserRoleMapper;
 import com.aurora.service.RoleMenuService;
 import com.aurora.service.RoleResourceService;
 import com.aurora.service.RoleService;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.PageUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.PageUtil;
 import com.aurora.model.vo.ConditionVO;
 import com.aurora.model.vo.PageResult;
 import com.aurora.model.vo.RoleVO;
@@ -55,7 +55,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         // 查询角色列表
         List<Role> roleList = roleMapper.selectList(new LambdaQueryWrapper<Role>()
                 .select(Role::getId, Role::getRoleName));
-        return BeanCopyUtils.copyList(roleList, UserRoleDTO.class);
+        return BeanCopyUtil.copyList(roleList, UserRoleDTO.class);
     }
 
     @SneakyThrows
@@ -64,7 +64,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<Role>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), Role::getRoleName, conditionVO.getKeywords());
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> roleMapper.selectCount(queryWrapper));
-        List<RoleDTO> roleDTOs = roleMapper.listRoles(PageUtils.getLimitCurrent(), PageUtils.getSize(), conditionVO);
+        List<RoleDTO> roleDTOs = roleMapper.listRoles(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
         return new PageResult<>(roleDTOs, asyncCount.get());
     }
 

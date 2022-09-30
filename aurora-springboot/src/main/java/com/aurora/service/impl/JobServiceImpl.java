@@ -5,10 +5,10 @@ import com.aurora.model.dto.JobDTO;
 import com.aurora.entity.Job;
 import com.aurora.mapper.JobMapper;
 import com.aurora.service.JobService;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.CronUtils;
-import com.aurora.utils.PageUtils;
-import com.aurora.utils.ScheduleUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.CronUtil;
+import com.aurora.util.PageUtil;
+import com.aurora.util.ScheduleUtil;
 import com.aurora.model.vo.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -42,7 +42,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         scheduler.clear();
         List<Job> jobs = jobMapper.selectList(null);
         for (Job job : jobs) {
-            ScheduleUtils.createScheduleJob(scheduler, job);
+            ScheduleUtil.createScheduleJob(scheduler, job);
         }
     }
 
@@ -50,9 +50,9 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     @Transactional(rollbackFor = Exception.class)
     public void saveJob(JobVO jobVO) {
         checkCronIsValid(jobVO);
-        Job job = BeanCopyUtils.copyObject(jobVO, Job.class);
+        Job job = BeanCopyUtil.copyObject(jobVO, Job.class);
         int row = jobMapper.insert(job);
-        if (row > 0) ScheduleUtils.createScheduleJob(scheduler, job);
+        if (row > 0) ScheduleUtil.createScheduleJob(scheduler, job);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     public void updateJob(JobVO jobVO) {
         checkCronIsValid(jobVO);
         Job temp = jobMapper.selectById(jobVO.getId());
-        Job job = BeanCopyUtils.copyObject(jobVO, Job.class);
+        Job job = BeanCopyUtil.copyObject(jobVO, Job.class);
         int row = jobMapper.updateById(job);
         if (row > 0) updateSchedulerJob(job, temp.getJobGroup());
     }
@@ -74,7 +74,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         if (row > 0) {
             jobs.forEach(item -> {
                 try {
-                    scheduler.deleteJob(ScheduleUtils.getJobKey(item.getId(), item.getJobGroup()));
+                    scheduler.deleteJob(ScheduleUtil.getJobKey(item.getId(), item.getJobGroup()));
                 } catch (SchedulerException e) {
                     throw new RuntimeException(e);
                 }
@@ -85,8 +85,8 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     @Override
     public JobDTO getJobById(Integer jobId) {
         Job job = jobMapper.selectById(jobId);
-        JobDTO jobDTO = BeanCopyUtils.copyObject(job, JobDTO.class);
-        Date nextExecution = CronUtils.getNextExecution(jobDTO.getCronExpression());
+        JobDTO jobDTO = BeanCopyUtil.copyObject(job, JobDTO.class);
+        Date nextExecution = CronUtil.getNextExecution(jobDTO.getCronExpression());
         jobDTO.setNextValidTime(nextExecution);
         return jobDTO;
     }
@@ -95,7 +95,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     @Override
     public PageResult<JobDTO> listJobs(JobSearchVO jobSearchVO) {
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> jobMapper.countJobs(jobSearchVO));
-        List<JobDTO> jobDTOs = jobMapper.listJobs(PageUtils.getLimitCurrent(), PageUtils.getSize(), jobSearchVO);
+        List<JobDTO> jobDTOs = jobMapper.listJobs(PageUtil.getLimitCurrent(), PageUtil.getSize(), jobSearchVO);
         return new PageResult<>(jobDTOs, asyncCount.get());
     }
 
@@ -115,9 +115,9 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         int row = jobMapper.update(null, updateWrapper);
         if (row > 0) {
             if (ScheduleConstant.Status.NORMAL.getValue().equals(status)) {
-                scheduler.resumeJob(ScheduleUtils.getJobKey(jobId, jobGroup));
+                scheduler.resumeJob(ScheduleUtil.getJobKey(jobId, jobGroup));
             } else if (ScheduleConstant.Status.PAUSE.getValue().equals(status)) {
-                scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
+                scheduler.pauseJob(ScheduleUtil.getJobKey(jobId, jobGroup));
             }
         }
     }
@@ -127,7 +127,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     public void runJob(JobRunVO jobRunVO) {
         Integer jobId = jobRunVO.getId();
         String jobGroup = jobRunVO.getJobGroup();
-        scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, jobGroup));
+        scheduler.triggerJob(ScheduleUtil.getJobKey(jobId, jobGroup));
     }
 
     @Override
@@ -139,7 +139,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      * 校验cron表达式的合法性
      */
     private void checkCronIsValid(JobVO jobVO) {
-        boolean valid = CronUtils.isValid(jobVO.getCronExpression());
+        boolean valid = CronUtil.isValid(jobVO.getCronExpression());
         Assert.isTrue(valid, "Cron表达式无效!");
     }
 
@@ -150,11 +150,11 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     public void updateSchedulerJob(Job job, String jobGroup) {
         Integer jobId = job.getId();
         // 判断是否存在
-        JobKey jobKey = ScheduleUtils.getJobKey(jobId, jobGroup);
+        JobKey jobKey = ScheduleUtil.getJobKey(jobId, jobGroup);
         if (scheduler.checkExists(jobKey)) {
             // 防止创建时存在数据问题 先移除，然后在执行创建操作
             scheduler.deleteJob(jobKey);
         }
-        ScheduleUtils.createScheduleJob(scheduler, job);
+        ScheduleUtil.createScheduleJob(scheduler, job);
     }
 }

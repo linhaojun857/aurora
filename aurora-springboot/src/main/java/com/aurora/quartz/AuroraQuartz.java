@@ -9,8 +9,8 @@ import com.aurora.mapper.ElasticsearchMapper;
 import com.aurora.mapper.UniqueViewMapper;
 import com.aurora.mapper.UserAuthMapper;
 import com.aurora.service.*;
-import com.aurora.utils.BeanCopyUtils;
-import com.aurora.utils.IpUtils;
+import com.aurora.util.BeanCopyUtil;
+import com.aurora.util.IpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -88,7 +88,7 @@ public class AuroraQuartz {
                 .stream()
                 .map(item -> {
                     if (Objects.nonNull(item) && StringUtils.isNotBlank(item.getIpSource())) {
-                        return IpUtils.getIpProvince(item.getIpSource());
+                        return IpUtil.getIpProvince(item.getIpSource());
                     }
                     return UNKNOWN;
                 })
@@ -141,7 +141,7 @@ public class AuroraQuartz {
         elasticsearchMapper.deleteAll();
         List<Article> articles = articleService.list();
         for (Article article : articles) {
-            elasticsearchMapper.save(BeanCopyUtils.copyObject(article, ArticleSearchDTO.class));
+            elasticsearchMapper.save(BeanCopyUtil.copyObject(article, ArticleSearchDTO.class));
         }
     }
 }

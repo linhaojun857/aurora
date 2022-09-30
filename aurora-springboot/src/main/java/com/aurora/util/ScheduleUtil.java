@@ -1,4 +1,4 @@
-package com.aurora.utils;
+package com.aurora.util;
 
 import com.aurora.constant.ScheduleConstant;
 import com.aurora.entity.Job;
@@ -11,7 +11,7 @@ import org.quartz.*;
  * @author 花未眠
  * 定时任务工具类
  */
-public class ScheduleUtils {
+public class ScheduleUtil {
     /**
      * 得到quartz任务类
      *
@@ -68,7 +68,7 @@ public class ScheduleUtils {
 
         // 暂停任务
         if (job.getStatus().equals(ScheduleConstant.Status.PAUSE.getValue())) {
-            scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
+            scheduler.pauseJob(ScheduleUtil.getJobKey(jobId, jobGroup));
         }
     }
 
