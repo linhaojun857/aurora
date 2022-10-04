@@ -11,8 +11,8 @@
 ## 相关技术
 
 ### 前端：
-- 基础框架：vue3（前台），vue2（后台）
-- 状态管理：pinia（前台），vuex（后台）
+- 基础框架：vue3(前台) vue2(后台)
+- 状态管理：pinia(前台) vuex(后台)
 - 路由组件：vue-router
 - 网络请求：axios
 - 其他技术：详见前端项目的package.json
