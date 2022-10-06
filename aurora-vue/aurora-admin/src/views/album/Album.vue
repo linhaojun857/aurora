@@ -1,6 +1,5 @@
 <template>
   <el-card class="main-card">
-    <!-- 标题 -->
     <div class="title">{{ this.$route.name }}</div>
     <div class="operation-container">
       <el-button type="primary" size="small" icon="el-icon-plus" @click="openModel(null)"> 新建相册 </el-button>
@@ -20,13 +19,10 @@
         </el-button>
       </div>
     </div>
-    <!-- 相册列表 -->
     <el-row class="album-container" :gutter="12" v-loading="loading">
-      <!-- 空状态 -->
       <el-empty v-if="albums == null" description="暂无相册" />
       <el-col v-for="item of albums" :key="item.id" :md="6">
         <div class="album-item" @click="checkPhoto(item)">
-          <!-- 相册操作 -->
           <div class="album-opreation">
             <el-dropdown @command="handleCommand">
               <i class="el-icon-more" style="color: #fff" />
@@ -47,7 +43,6 @@
         </div>
       </el-col>
     </el-row>
-    <!-- 分页 -->
     <el-pagination
       :hide-on-single-page="true"
       class="pagination-container"
@@ -57,7 +52,6 @@
       :page-size="size"
       :total="count"
       layout="prev, pager, next" />
-    <!-- 新增模态框 -->
     <el-dialog :visible.sync="addOrEdit" width="35%" top="10vh">
       <div class="dialog-title-container" slot="title" ref="albumTitle" />
       <el-form label-width="80px" size="medium" :model="albumForum">
@@ -93,7 +87,6 @@
         <el-button type="primary" @click="addOrEditAlbum"> 确 定 </el-button>
       </div>
     </el-dialog>
-    <!-- 删除对话框 -->
     <el-dialog :visible.sync="isdelete" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
       <div style="font-size: 1rem">是否删除该相册？</div>

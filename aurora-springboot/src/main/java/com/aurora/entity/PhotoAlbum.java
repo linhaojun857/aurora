@@ -9,10 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @author 花未眠
- * 相册
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
