@@ -1,4 +1,4 @@
-package com.aurora.model.vo;
+package com.aurora.model.dto;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ApiModel(description = "分页对象")
-public class PageResult<T> {
+public class PageResultDTO<T> {
 
     /**
      * 分页列表

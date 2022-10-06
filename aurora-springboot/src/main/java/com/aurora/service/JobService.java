@@ -2,6 +2,7 @@ package com.aurora.service;
 
 import com.aurora.model.dto.JobDTO;
 import com.aurora.entity.Job;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -17,7 +18,7 @@ public interface JobService extends IService<Job> {
 
     JobDTO getJobById(Integer jobId);
 
-    PageResult<JobDTO> listJobs(JobSearchVO jobSearchVO);
+    PageResultDTO<JobDTO> listJobs(JobSearchVO jobSearchVO);
 
     void updateJobStatus(JobStatusVO jobStatusVO);
 

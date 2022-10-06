@@ -15,7 +15,7 @@ import com.aurora.util.CommonUtil;
 import com.aurora.util.PageUtil;
 import com.aurora.util.UserUtil;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.vo.TalkVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -41,12 +41,12 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
 
 
     @Override
-    public PageResult<TalkDTO> listTalks() {
+    public PageResultDTO<TalkDTO> listTalks() {
         // 查询说说总量
         Integer count = talkMapper.selectCount((new LambdaQueryWrapper<Talk>()
                 .eq(Talk::getStatus, PUBLIC.getStatus())));
         if (count == 0) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
         // 分页查询说说
         List<TalkDTO> talkDTOs = talkMapper.listTalks(PageUtil.getLimitCurrent(), PageUtil.getSize());
@@ -65,7 +65,7 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
                 item.setImgs(CommonUtil.castList(JSON.parseObject(item.getImages(), List.class), String.class));
             }
         });
-        return new PageResult<>(talkDTOs, count);
+        return new PageResultDTO<>(talkDTOs, count);
     }
 
     @Override
@@ -95,12 +95,12 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
     }
 
     @Override
-    public PageResult<TalkAdminDTO> listBackTalks(ConditionVO conditionVO) {
+    public PageResultDTO<TalkAdminDTO> listBackTalks(ConditionVO conditionVO) {
         // 查询说说总量
         Integer count = talkMapper.selectCount(new LambdaQueryWrapper<Talk>()
                 .eq(Objects.nonNull(conditionVO.getStatus()), Talk::getStatus, conditionVO.getStatus()));
         if (count == 0) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
         // 分页查询说说
         List<TalkAdminDTO> talkDTOList = talkMapper.listTalksAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
@@ -110,7 +110,7 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
                 item.setImgs(CommonUtil.castList(JSON.parseObject(item.getImages(), List.class), String.class));
             }
         });
-        return new PageResult<>(talkDTOList, count);
+        return new PageResultDTO<>(talkDTOList, count);
     }
 
     @Override

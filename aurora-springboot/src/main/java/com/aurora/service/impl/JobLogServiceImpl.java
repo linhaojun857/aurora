@@ -7,7 +7,7 @@ import com.aurora.service.JobLogService;
 import com.aurora.util.BeanCopyUtil;
 import com.aurora.util.PageUtil;
 import com.aurora.model.vo.JobLogSearchVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -28,7 +28,7 @@ public class JobLogServiceImpl extends ServiceImpl<JobLogMapper, JobLog> impleme
 
     @SneakyThrows
     @Override
-    public PageResult<JobLogDTO> listJobLogs(JobLogSearchVO jobLogSearchVO) {
+    public PageResultDTO<JobLogDTO> listJobLogs(JobLogSearchVO jobLogSearchVO) {
         LambdaQueryWrapper<JobLog> queryWrapper = new LambdaQueryWrapper<JobLog>()
                 .orderByDesc(JobLog::getCreateTime)
                 .eq(Objects.nonNull(jobLogSearchVO.getJobId()), JobLog::getJobId, jobLogSearchVO.getJobId())
@@ -42,7 +42,7 @@ public class JobLogServiceImpl extends ServiceImpl<JobLogMapper, JobLog> impleme
         Page<JobLog> page = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
         Page<JobLog> jobLogPage = jobLogMapper.selectPage(page, queryWrapper);
         List<JobLogDTO> jobLogDTOs = BeanCopyUtil.copyList(jobLogPage.getRecords(), JobLogDTO.class);
-        return new PageResult<>(jobLogDTOs, (int)jobLogPage.getTotal());
+        return new PageResultDTO<>(jobLogDTOs, (int)jobLogPage.getTotal());
     }
 
     @Override

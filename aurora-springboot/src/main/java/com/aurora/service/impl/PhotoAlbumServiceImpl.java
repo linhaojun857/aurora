@@ -11,7 +11,7 @@ import com.aurora.service.PhotoAlbumService;
 import com.aurora.util.BeanCopyUtil;
 import com.aurora.util.PageUtil;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.vo.PhotoAlbumVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -52,17 +52,17 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
     }
 
     @Override
-    public PageResult<PhotoAlbumAdminDTO> listPhotoAlbumsAdmin(ConditionVO conditionVO) {
+    public PageResultDTO<PhotoAlbumAdminDTO> listPhotoAlbumsAdmin(ConditionVO conditionVO) {
         // 查询相册数量
         Integer count = photoAlbumMapper.selectCount(new LambdaQueryWrapper<PhotoAlbum>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), PhotoAlbum::getAlbumName, conditionVO.getKeywords())
                 .eq(PhotoAlbum::getIsDelete, FALSE));
         if (count == 0) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
         // 查询相册信息
         List<PhotoAlbumAdminDTO> photoAlbumBackList = photoAlbumMapper.listPhotoAlbumsAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
-        return new PageResult<>(photoAlbumBackList, count);
+        return new PageResultDTO<>(photoAlbumBackList, count);
     }
 
     @Override

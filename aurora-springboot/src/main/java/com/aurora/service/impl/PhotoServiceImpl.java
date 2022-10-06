@@ -1,6 +1,7 @@
 package com.aurora.service.impl;
 
 
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.dto.PhotoAdminDTO;
 import com.aurora.model.dto.PhotoAlbumAdminDTO;
 import com.aurora.model.dto.PhotoDTO;
@@ -44,7 +45,7 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
 
 
     @Override
-    public PageResult<PhotoAdminDTO> listPhotos(ConditionVO conditionVO) {
+    public PageResultDTO<PhotoAdminDTO> listPhotos(ConditionVO conditionVO) {
         // 查询照片列表
         Page<Photo> page = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
         Page<Photo> photoPage = photoMapper.selectPage(page, new LambdaQueryWrapper<Photo>()
@@ -53,7 +54,7 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
                 .orderByDesc(Photo::getId)
                 .orderByDesc(Photo::getUpdateTime));
         List<PhotoAdminDTO> photos = BeanCopyUtil.copyList(photoPage.getRecords(), PhotoAdminDTO.class);
-        return new PageResult<>(photos, (int) photoPage.getTotal());
+        return new PageResultDTO<>(photos, (int) photoPage.getTotal());
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -113,17 +114,17 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
     }
 
     @Override
-    public PageResult<PhotoAlbumAdminDTO> listPhotoAlbumBacks(ConditionVO conditionVO) {
+    public PageResultDTO<PhotoAlbumAdminDTO> listPhotoAlbumBacks(ConditionVO conditionVO) {
         // 查询相册数量
         Integer count = photoAlbumMapper.selectCount(new LambdaQueryWrapper<PhotoAlbum>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), PhotoAlbum::getAlbumName, conditionVO.getKeywords())
                 .eq(PhotoAlbum::getIsDelete, FALSE));
         if (count == 0) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
         // 查询相册信息
         List<PhotoAlbumAdminDTO> PhotoAlbumAdminDTOs = photoAlbumMapper.listPhotoAlbumsAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
-        return new PageResult<>(PhotoAlbumAdminDTOs, count);
+        return new PageResultDTO<>(PhotoAlbumAdminDTOs, count);
     }
 
 

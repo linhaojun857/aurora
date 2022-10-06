@@ -17,7 +17,7 @@ import com.aurora.service.RoleService;
 import com.aurora.util.BeanCopyUtil;
 import com.aurora.util.PageUtil;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.vo.RoleVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -60,12 +60,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @SneakyThrows
     @Override
-    public PageResult<RoleDTO> listRoles(ConditionVO conditionVO) {
+    public PageResultDTO<RoleDTO> listRoles(ConditionVO conditionVO) {
         LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<Role>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), Role::getRoleName, conditionVO.getKeywords());
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> roleMapper.selectCount(queryWrapper));
         List<RoleDTO> roleDTOs = roleMapper.listRoles(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
-        return new PageResult<>(roleDTOs, asyncCount.get());
+        return new PageResultDTO<>(roleDTOs, asyncCount.get());
     }
 
     @Transactional(rollbackFor = Exception.class)

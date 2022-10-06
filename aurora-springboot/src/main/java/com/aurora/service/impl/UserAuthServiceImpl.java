@@ -182,15 +182,15 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
-    public PageResult<UserAdminDTO> listUsers(ConditionVO conditionVO) {
+    public PageResultDTO<UserAdminDTO> listUsers(ConditionVO conditionVO) {
         // 获取后台用户数量
         Integer count = userAuthMapper.countUser(conditionVO);
         if (count == 0) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
         // 获取后台用户列表
         List<UserAdminDTO> UserAdminDTOs = userAuthMapper.listUsers(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
-        return new PageResult<>(UserAdminDTOs, count);
+        return new PageResultDTO<>(UserAdminDTOs, count);
     }
 
     @SneakyThrows

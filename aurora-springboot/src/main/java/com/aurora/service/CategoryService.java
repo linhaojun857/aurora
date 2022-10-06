@@ -6,7 +6,7 @@ import com.aurora.model.dto.CategoryOptionDTO;
 import com.aurora.entity.Category;
 import com.aurora.model.vo.CategoryVO;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface CategoryService extends IService<Category> {
 
     List<CategoryDTO> listCategories();
 
-    PageResult<CategoryAdminDTO> listCategoriesAdmin(ConditionVO conditionVO);
+    PageResultDTO<CategoryAdminDTO> listCategoriesAdmin(ConditionVO conditionVO);
 
     List<CategoryOptionDTO> listCategoriesBySearch(ConditionVO conditionVO);
 

@@ -3,9 +3,9 @@ package com.aurora.interceptor;
 import com.alibaba.fastjson.JSON;
 
 import com.aurora.annotation.AccessLimit;
+import com.aurora.model.vo.ResultVO;
 import com.aurora.service.RedisService;
 import com.aurora.util.IpUtil;
-import com.aurora.model.vo.Result;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.RedisConnectionFailureException;
@@ -27,6 +27,7 @@ import static com.aurora.constant.CommonConstant.APPLICATION_JSON;
  */
 @Log4j2
 @Component
+@SuppressWarnings("all")
 public class AccessLimitInterceptor implements HandlerInterceptor {
 
     @Autowired
@@ -49,7 +50,7 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
                     // 此操作代表获取该key对应的值自增1后的结果
                     long q = redisService.incrExpire(key, seconds);
                     if (q > maxCount) {
-                        render(httpServletResponse, Result.fail("请求过于频繁，" + seconds + "秒后再试"));
+                        render(httpServletResponse, ResultVO.fail("请求过于频繁，" + seconds + "秒后再试"));
                         log.warn(key + "请求次数超过每" + seconds + "秒" + maxCount + "次");
                         return false;
                     }
@@ -63,10 +64,10 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private void render(HttpServletResponse response, Result<?> result) throws Exception {
+    private void render(HttpServletResponse response, ResultVO<?> resultVO) throws Exception {
         response.setContentType(APPLICATION_JSON);
         OutputStream out = response.getOutputStream();
-        String str = JSON.toJSONString(result);
+        String str = JSON.toJSONString(resultVO);
         out.write(str.getBytes(StandardCharsets.UTF_8));
         out.flush();
         out.close();

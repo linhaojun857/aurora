@@ -7,7 +7,7 @@ import com.aurora.service.ExceptionLogService;
 import com.aurora.util.BeanCopyUtil;
 import com.aurora.util.PageUtil;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,12 +21,12 @@ public class ExceptionLogServiceImpl extends ServiceImpl<ExceptionLogMapper, Exc
 
 
     @Override
-    public PageResult<ExceptionLogDTO> listExceptionLogs(ConditionVO conditionVO) {
+    public PageResultDTO<ExceptionLogDTO> listExceptionLogs(ConditionVO conditionVO) {
         Page<ExceptionLog> page = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
         Page<ExceptionLog> exceptionLogPage = this.page(page, new LambdaQueryWrapper<ExceptionLog>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), ExceptionLog::getOptDesc, conditionVO.getKeywords())
                 .orderByDesc(ExceptionLog::getId));
         List<ExceptionLogDTO> exceptionLogDTOs = BeanCopyUtil.copyList(exceptionLogPage.getRecords(), ExceptionLogDTO.class);
-        return new PageResult<>(exceptionLogDTOs, (int) exceptionLogPage.getTotal());
+        return new PageResultDTO<>(exceptionLogDTOs, (int) exceptionLogPage.getTotal());
     }
 }

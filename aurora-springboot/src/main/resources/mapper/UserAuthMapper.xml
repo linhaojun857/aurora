@@ -3,18 +3,18 @@
 <mapper namespace="com.aurora.mapper.UserAuthMapper">
     <resultMap id="UserAdminMap" type="com.aurora.model.dto.UserAdminDTO">
         <id property="id" column="id"/>
-        <result property="userInfoId" column="user_info_id"/>
-        <result property="avatar" column="avatar"/>
-        <result property="nickname" column="nickname"/>
-        <result property="loginType" column="login_type"/>
-        <result property="ipAddress" column="ip_address"/>
-        <result property="ipSource" column="ip_source"/>
-        <result property="createTime" column="create_time"/>
-        <result property="lastLoginTime" column="last_login_time"/>
-        <result property="isDisable" column="is_disable"/>
+        <resultVO property="userInfoId" column="user_info_id"/>
+        <resultVO property="avatar" column="avatar"/>
+        <resultVO property="nickname" column="nickname"/>
+        <resultVO property="loginType" column="login_type"/>
+        <resultVO property="ipAddress" column="ip_address"/>
+        <resultVO property="ipSource" column="ip_source"/>
+        <resultVO property="createTime" column="create_time"/>
+        <resultVO property="lastLoginTime" column="last_login_time"/>
+        <resultVO property="isDisable" column="is_disable"/>
         <collection property="roles" ofType="com.aurora.model.dto.UserRoleDTO">
             <id property="id" column="role_id"/>
-            <result property="roleName" column="role_name"/>
+            <resultVO property="roleName" column="role_name"/>
         </collection>
     </resultMap>
     <select id="listUsers" resultMap="UserAdminMap">

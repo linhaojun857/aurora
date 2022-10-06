@@ -2,10 +2,10 @@ package com.aurora.controller;
 
 import com.aurora.annotation.OptLog;
 import com.aurora.model.dto.OperationLogDTO;
+import com.aurora.model.vo.ResultVO;
 import com.aurora.service.OperationLogService;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
-import com.aurora.model.vo.Result;
+import com.aurora.model.dto.PageResultDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +27,16 @@ public class OperationLogController {
 
     @ApiOperation(value = "查看操作日志")
     @GetMapping("/admin/operation/logs")
-    public Result<PageResult<OperationLogDTO>> listOperationLogs(ConditionVO conditionVO) {
-        return Result.ok(operationLogService.listOperationLogs(conditionVO));
+    public ResultVO<PageResultDTO<OperationLogDTO>> listOperationLogs(ConditionVO conditionVO) {
+        return ResultVO.ok(operationLogService.listOperationLogs(conditionVO));
     }
 
     @OptLog(optType = DELETE)
     @ApiOperation(value = "删除操作日志")
     @DeleteMapping("/admin/operation/logs")
-    public Result<?> deleteOperationLogs(@RequestBody List<Integer> operationLogIds) {
+    public ResultVO<?> deleteOperationLogs(@RequestBody List<Integer> operationLogIds) {
         operationLogService.removeByIds(operationLogIds);
-        return Result.ok();
+        return ResultVO.ok();
     }
 
 }

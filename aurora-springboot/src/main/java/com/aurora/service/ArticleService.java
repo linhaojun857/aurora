@@ -12,19 +12,19 @@ public interface ArticleService extends IService<Article> {
 
     TopAndFeaturedArticlesDTO listTopAndFeaturedArticles();
 
-    PageResult<ArticleCardDTO> listArticles();
+    PageResultDTO<ArticleCardDTO> listArticles();
 
-    PageResult<ArticleCardDTO> listArticlesByCategoryId(Integer categoryId);
+    PageResultDTO<ArticleCardDTO> listArticlesByCategoryId(Integer categoryId);
 
     ArticleDTO getArticleById(Integer articleId);
 
     void accessArticle(ArticlePasswordVO articlePasswordVO);
 
-    PageResult<ArticleCardDTO> listArticlesByTagId(Integer tagId);
+    PageResultDTO<ArticleCardDTO> listArticlesByTagId(Integer tagId);
 
-    PageResult<ArchiveDTO> listArchives();
+    PageResultDTO<ArchiveDTO> listArchives();
 
-    PageResult<ArticleAdminDTO> listArticlesAdmin(ConditionVO conditionVO);
+    PageResultDTO<ArticleAdminDTO> listArticlesAdmin(ConditionVO conditionVO);
 
     void saveOrUpdateArticle(ArticleVO articleVO);
 

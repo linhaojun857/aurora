@@ -4,7 +4,7 @@ import com.aurora.model.dto.PhotoAlbumAdminDTO;
 import com.aurora.model.dto.PhotoAlbumDTO;
 import com.aurora.entity.PhotoAlbum;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.vo.PhotoAlbumVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -14,7 +14,7 @@ public interface PhotoAlbumService extends IService<PhotoAlbum> {
 
     void saveOrUpdatePhotoAlbum(PhotoAlbumVO photoAlbumVO);
 
-    PageResult<PhotoAlbumAdminDTO> listPhotoAlbumsAdmin(ConditionVO condition);
+    PageResultDTO<PhotoAlbumAdminDTO> listPhotoAlbumsAdmin(ConditionVO condition);
 
     List<PhotoAlbumDTO> listPhotoAlbumInfosAdmin();
 

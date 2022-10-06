@@ -1,5 +1,6 @@
 package com.aurora.service;
 
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.dto.PhotoAdminDTO;
 import com.aurora.model.dto.PhotoAlbumAdminDTO;
 import com.aurora.model.dto.PhotoDTO;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public interface PhotoService extends IService<Photo> {
 
-    PageResult<PhotoAdminDTO> listPhotos(ConditionVO conditionVO);
+    PageResultDTO<PhotoAdminDTO> listPhotos(ConditionVO conditionVO);
 
     void updatePhoto(PhotoInfoVO photoInfoVO);
 
@@ -21,7 +22,7 @@ public interface PhotoService extends IService<Photo> {
 
     void updatePhotoDelete(DeleteVO deleteVO);
 
-    PageResult<PhotoAlbumAdminDTO> listPhotoAlbumBacks(ConditionVO conditionVO);
+    PageResultDTO<PhotoAlbumAdminDTO> listPhotoAlbumBacks(ConditionVO conditionVO);
 
     void deletePhotos(List<Integer> photoIds);
 

@@ -1,5 +1,6 @@
 package com.aurora.service.impl;
 
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.dto.UserDetailsDTO;
 import com.aurora.model.dto.UserInfoDTO;
 import com.aurora.model.dto.UserOnlineDTO;
@@ -145,7 +146,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     }
 
     @Override
-    public PageResult<UserOnlineDTO> listOnlineUsers(ConditionVO conditionVO) {
+    public PageResultDTO<UserOnlineDTO> listOnlineUsers(ConditionVO conditionVO) {
         Map<String, Object> userMaps = redisService.hGetAll("login_user");
         Collection<Object> values = userMaps.values();
         ArrayList<UserDetailsDTO> userDetailsDTOs = new ArrayList<>();
@@ -161,7 +162,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         int size = getSize().intValue();
         int toIndex = onlineUsers.size() - fromIndex > size ? fromIndex + size : onlineUsers.size();
         List<UserOnlineDTO> userOnlineList = onlineUsers.subList(fromIndex, toIndex);
-        return new PageResult<>(userOnlineList, onlineUsers.size());
+        return new PageResultDTO<>(userOnlineList, onlineUsers.size());
     }
 
     @Override

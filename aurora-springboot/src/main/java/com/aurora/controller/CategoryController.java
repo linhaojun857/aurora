@@ -7,8 +7,8 @@ import com.aurora.model.dto.CategoryOptionDTO;
 import com.aurora.service.CategoryService;
 import com.aurora.model.vo.CategoryVO;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
-import com.aurora.model.vo.Result;
+import com.aurora.model.dto.PageResultDTO;
+import com.aurora.model.vo.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,36 +28,36 @@ public class CategoryController {
 
     @ApiOperation("获取所有分类")
     @GetMapping("/categories/all")
-    public Result<List<CategoryDTO>> listCategories() {
-        return Result.ok(categoryService.listCategories());
+    public ResultVO<List<CategoryDTO>> listCategories() {
+        return ResultVO.ok(categoryService.listCategories());
     }
 
     @ApiOperation(value = "查看后台分类列表")
     @GetMapping("/admin/categories")
-    public Result<PageResult<CategoryAdminDTO>> listCategoriesAdmin(ConditionVO conditionVO) {
-        return Result.ok(categoryService.listCategoriesAdmin(conditionVO));
+    public ResultVO<PageResultDTO<CategoryAdminDTO>> listCategoriesAdmin(ConditionVO conditionVO) {
+        return ResultVO.ok(categoryService.listCategoriesAdmin(conditionVO));
     }
 
     @ApiOperation(value = "搜索文章分类")
     @GetMapping("/admin/categories/search")
-    public Result<List<CategoryOptionDTO>> listCategoriesAdminBySearch(ConditionVO conditionVO) {
-        return Result.ok(categoryService.listCategoriesBySearch(conditionVO));
+    public ResultVO<List<CategoryOptionDTO>> listCategoriesAdminBySearch(ConditionVO conditionVO) {
+        return ResultVO.ok(categoryService.listCategoriesBySearch(conditionVO));
     }
 
     @OptLog(optType = DELETE)
     @ApiOperation(value = "删除分类")
     @DeleteMapping("/admin/categories")
-    public Result<?> deleteCategories(@RequestBody List<Integer> categoryIds) {
+    public ResultVO<?> deleteCategories(@RequestBody List<Integer> categoryIds) {
         categoryService.deleteCategories(categoryIds);
-        return Result.ok();
+        return ResultVO.ok();
     }
 
     @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation(value = "添加或修改分类")
     @PostMapping("/admin/categories")
-    public Result<?> saveOrUpdateCategory(@Valid @RequestBody CategoryVO categoryVO) {
+    public ResultVO<?> saveOrUpdateCategory(@Valid @RequestBody CategoryVO categoryVO) {
         categoryService.saveOrUpdateCategory(categoryVO);
-        return Result.ok();
+        return ResultVO.ok();
     }
 
 

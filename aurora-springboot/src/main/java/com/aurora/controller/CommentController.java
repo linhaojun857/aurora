@@ -4,6 +4,7 @@ import com.aurora.annotation.AccessLimit;
 import com.aurora.annotation.OptLog;
 import com.aurora.model.dto.CommentAdminDTO;
 import com.aurora.model.dto.CommentDTO;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.dto.ReplyDTO;
 import com.aurora.service.CommentService;
 import com.aurora.model.vo.*;
@@ -28,49 +29,49 @@ public class CommentController {
     @OptLog(optType = SAVE)
     @ApiOperation("添加评论")
     @PostMapping("/comments/save")
-    public Result<?> saveComment(@Valid @RequestBody CommentVO commentVO) {
+    public ResultVO<?> saveComment(@Valid @RequestBody CommentVO commentVO) {
         commentService.saveComment(commentVO);
-        return Result.ok();
+        return ResultVO.ok();
     }
 
     @ApiOperation("获取评论")
     @GetMapping("/comments")
-    public Result<PageResult<CommentDTO>> getComments(CommentVO commentVO) {
-        return Result.ok(commentService.listComments(commentVO));
+    public ResultVO<PageResultDTO<CommentDTO>> getComments(CommentVO commentVO) {
+        return ResultVO.ok(commentService.listComments(commentVO));
     }
 
     @ApiOperation(value = "根据commentId获取回复")
     @GetMapping("/comments/{commentId}/replies")
-    public Result<List<ReplyDTO>> listRepliesByCommentId(@PathVariable("commentId") Integer commentId) {
-        return Result.ok(commentService.listRepliesByCommentId(commentId));
+    public ResultVO<List<ReplyDTO>> listRepliesByCommentId(@PathVariable("commentId") Integer commentId) {
+        return ResultVO.ok(commentService.listRepliesByCommentId(commentId));
     }
 
     @ApiOperation("获取前六个评论")
     @GetMapping("/comments/topSix")
-    public Result<List<CommentDTO>> listTopSixComments() {
-        return Result.ok(commentService.listTopSixComments());
+    public ResultVO<List<CommentDTO>> listTopSixComments() {
+        return ResultVO.ok(commentService.listTopSixComments());
     }
 
     @ApiOperation(value = "查询后台评论")
     @GetMapping("/admin/comments")
-    public Result<PageResult<CommentAdminDTO>> listCommentBackDTO(ConditionVO conditionVO) {
-        return Result.ok(commentService.listCommentsAdmin(conditionVO));
+    public ResultVO<PageResultDTO<CommentAdminDTO>> listCommentBackDTO(ConditionVO conditionVO) {
+        return ResultVO.ok(commentService.listCommentsAdmin(conditionVO));
     }
 
     @OptLog(optType = UPDATE)
     @ApiOperation(value = "审核评论")
     @PutMapping("/admin/comments/review")
-    public Result<?> updateCommentsReview(@Valid @RequestBody ReviewVO reviewVO) {
+    public ResultVO<?> updateCommentsReview(@Valid @RequestBody ReviewVO reviewVO) {
         commentService.updateCommentsReview(reviewVO);
-        return Result.ok();
+        return ResultVO.ok();
     }
 
     @OptLog(optType = DELETE)
     @ApiOperation(value = "删除评论")
     @DeleteMapping("/admin/comments")
-    public Result<?> deleteComments(@RequestBody List<Integer> commentIdList) {
+    public ResultVO<?> deleteComments(@RequestBody List<Integer> commentIdList) {
         commentService.removeByIds(commentIdList);
-        return Result.ok();
+        return ResultVO.ok();
     }
 
 }

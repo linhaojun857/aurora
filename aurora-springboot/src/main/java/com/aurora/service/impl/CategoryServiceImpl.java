@@ -13,7 +13,7 @@ import com.aurora.util.BeanCopyUtil;
 import com.aurora.util.PageUtil;
 import com.aurora.model.vo.CategoryVO;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -41,16 +41,16 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @SneakyThrows
     @Override
-    public PageResult<CategoryAdminDTO> listCategoriesAdmin(ConditionVO conditionVO) {
+    public PageResultDTO<CategoryAdminDTO> listCategoriesAdmin(ConditionVO conditionVO) {
         // 查询分类数量
         Integer count = categoryMapper.selectCount(new LambdaQueryWrapper<Category>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), Category::getCategoryName, conditionVO.getKeywords()));
         if (count == 0) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
         // 分页查询分类列表
         List<CategoryAdminDTO> categoryList = categoryMapper.listCategoriesAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
-        return new PageResult<>(categoryList, count);
+        return new PageResultDTO<>(categoryList, count);
     }
 
     @SneakyThrows

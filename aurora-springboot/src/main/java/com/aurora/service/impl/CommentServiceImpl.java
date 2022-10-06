@@ -19,7 +19,7 @@ import com.aurora.util.PageUtil;
 import com.aurora.util.UserUtil;
 import com.aurora.model.vo.CommentVO;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.vo.ReviewVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -100,18 +100,18 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public PageResult<CommentDTO> listComments(CommentVO commentVO) {
+    public PageResultDTO<CommentDTO> listComments(CommentVO commentVO) {
         Integer commentCount = commentMapper.selectCount(new LambdaQueryWrapper<Comment>()
                 .eq(Objects.nonNull(commentVO.getTopicId()), Comment::getTopicId, commentVO.getTopicId())
                 .eq(Comment::getType, commentVO.getType())
                 .isNull(Comment::getParentId)
                 .eq(Comment::getIsReview, TRUE));
         if (commentCount == 0) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
         List<CommentDTO> commentDTOs = commentMapper.listComments(PageUtil.getLimitCurrent(), PageUtil.getSize(), commentVO);
         if (CollectionUtils.isEmpty(commentDTOs)) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
         List<Integer> commentIds = commentDTOs.stream()
                 .map(CommentDTO::getId)
@@ -122,7 +122,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         commentDTOs.forEach(item -> {
             item.setReplyDTOs(replyMap.get(item.getId()));
         });
-        return new PageResult<>(commentDTOs, commentCount);
+        return new PageResultDTO<>(commentDTOs, commentCount);
     }
 
     @Override
@@ -137,10 +137,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @SneakyThrows
     @Override
-    public PageResult<CommentAdminDTO> listCommentsAdmin(ConditionVO conditionVO) {
+    public PageResultDTO<CommentAdminDTO> listCommentsAdmin(ConditionVO conditionVO) {
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> commentMapper.countComments(conditionVO));
         List<CommentAdminDTO> commentBackDTOList = commentMapper.listCommentsAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
-        return new PageResult<>(commentBackDTOList, asyncCount.get());
+        return new PageResultDTO<>(commentBackDTOList, asyncCount.get());
     }
 
     @Override
