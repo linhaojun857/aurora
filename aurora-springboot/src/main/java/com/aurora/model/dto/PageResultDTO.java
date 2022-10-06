@@ -1,6 +1,5 @@
 package com.aurora.model.dto;
 
-import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,25 +7,14 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-/**
- * @author 花未眠
- * 分页对象
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(description = "分页对象")
 public class PageResultDTO<T> {
 
-    /**
-     * 分页列表
-     */
     private List<T> records;
 
-    /**
-     * 总数
-     */
     private Integer count;
 
 }

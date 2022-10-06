@@ -15,16 +15,29 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleCardDTO {
+
     private Integer id;
+
     private String articleCover;
+
     private String articleTitle;
+
     private String articleContent;
+
     private Integer isTop;
+
     private Integer isFeatured;
+
     private UserInfo author;
+
     private String categoryName;
+
     private List<Tag> tags;
+
     private Integer status;
+
     private LocalDateTime createTime;
+
     private LocalDateTime updateTime;
+
 }

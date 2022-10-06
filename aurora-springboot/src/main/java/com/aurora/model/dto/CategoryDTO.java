@@ -10,7 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryDTO {
+
     private Integer id;
+
     private String categoryName;
+
     private Integer articleCount;
+
 }

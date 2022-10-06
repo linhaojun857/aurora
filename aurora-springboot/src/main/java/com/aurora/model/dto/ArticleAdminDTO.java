@@ -18,16 +18,29 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleAdminDTO {
+
     private Integer id;
+
     private String articleCover;
+
     private String articleTitle;
+
     private LocalDateTime createTime;
+
     private Integer viewsCount;
+
     private String categoryName;
+
     private List<TagDTO> tagDTOs;
+
     private Integer isTop;
+
     private Integer isFeatured;
+
     private Integer isDelete;
+
     private Integer status;
+
     private Integer type;
+
 }

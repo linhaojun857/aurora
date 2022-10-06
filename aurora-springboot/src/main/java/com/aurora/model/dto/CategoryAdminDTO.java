@@ -12,8 +12,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryAdminDTO {
+
     private Integer id;
+
     private String categoryName;
+
     private Integer articleCount;
+
     private LocalDateTime createTime;
+
 }
