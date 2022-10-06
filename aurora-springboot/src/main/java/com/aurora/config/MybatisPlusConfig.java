@@ -7,10 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-/**
- * @author 花未眠
- * mybatis plus配置类
- */
 @EnableTransactionManagement
 @Configuration
 public class MybatisPlusConfig {

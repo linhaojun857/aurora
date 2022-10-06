@@ -24,10 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
-/**
- * @author 花未眠
- * 操作日志切面处理
- */
 @Aspect
 @Component
 public class OperationLogAspect {
@@ -35,52 +31,29 @@ public class OperationLogAspect {
     @Autowired
     private ApplicationContext applicationContext;
 
-    /**
-     * 设置操作日志切入点 记录操作日志 在注解的位置切入代码
-     */
     @Pointcut("@annotation(com.aurora.annotation.OptLog)")
     public void operationLogPointCut() {
     }
 
-
-    /**
-     * 正常返回通知，拦截用户操作日志，连接点正常执行完成后执行， 如果连接点抛出异常，则不会执行
-     *
-     * @param joinPoint 切入点
-     * @param keys      返回结果
-     */
     @AfterReturning(value = "operationLogPointCut()", returning = "keys")
     @SuppressWarnings("unchecked")
     public void saveOperationLog(JoinPoint joinPoint, Object keys) {
-        // 获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        // 从获取RequestAttributes中获取HttpServletRequest的信息
         HttpServletRequest request = (HttpServletRequest) Objects.requireNonNull(requestAttributes).resolveReference(RequestAttributes.REFERENCE_REQUEST);
         OperationLog operationLog = new OperationLog();
-        // 从切面织入点处通过反射机制获取织入点处的方法
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        // 获取切入点所在的方法
         Method method = signature.getMethod();
-        // 获取操作
         Api api = (Api) signature.getDeclaringType().getAnnotation(Api.class);
         ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
         OptLog optLog = method.getAnnotation(OptLog.class);
-        // 操作模块
         operationLog.setOptModule(api.tags()[0]);
-        // 操作类型
         operationLog.setOptType(optLog.optType());
-        // 操作描述
         operationLog.setOptDesc(apiOperation.value());
-        // 获取请求的类名
         String className = joinPoint.getTarget().getClass().getName();
-        // 获取请求的方法名
         String methodName = method.getName();
         methodName = className + "." + methodName;
-        // 请求方式
         operationLog.setRequestMethod(Objects.requireNonNull(request).getMethod());
-        // 请求方法
         operationLog.setOptMethod(methodName);
-        // 请求参数
         if (joinPoint.getArgs().length > 0) {
             if (joinPoint.getArgs()[0] instanceof MultipartFile) {
                 operationLog.setRequestParam("file");
@@ -88,19 +61,13 @@ public class OperationLogAspect {
                 operationLog.setRequestParam(JSON.toJSONString(joinPoint.getArgs()));
             }
         }
-        // 返回结果
         operationLog.setResponseData(JSON.toJSONString(keys));
-        // 请求用户ID
         operationLog.setUserId(UserUtil.getUserDetailsDTO().getId());
-        // 请求用户
         operationLog.setNickname(UserUtil.getUserDetailsDTO().getNickname());
-        // 请求IP
         String ipAddress = IpUtil.getIpAddress(request);
         operationLog.setIpAddress(ipAddress);
         operationLog.setIpSource(IpUtil.getIpSource(ipAddress));
-        // 请求uri
         operationLog.setOptUri(request.getRequestURI());
-        // 事件发布
         applicationContext.publishEvent(new OperationLogEvent(operationLog));
     }
 

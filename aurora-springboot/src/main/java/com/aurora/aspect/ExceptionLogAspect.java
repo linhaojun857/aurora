@@ -41,16 +41,12 @@ public class ExceptionLogAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
-        // 请求uri
         exceptionLog.setOptUri(Objects.requireNonNull(request).getRequestURI());
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = method.getName();
         methodName = className + "." + methodName;
-        // 请求方法
         exceptionLog.setOptMethod(methodName);
-        // 请求方式
         exceptionLog.setRequestMethod(Objects.requireNonNull(request).getMethod());
-        // 请求参数
         if (joinPoint.getArgs().length > 0) {
             if (joinPoint.getArgs()[0] instanceof MultipartFile) {
                 exceptionLog.setRequestParam("file");
@@ -58,20 +54,15 @@ public class ExceptionLogAspect {
                 exceptionLog.setRequestParam(JSON.toJSONString(joinPoint.getArgs()));
             }
         }
-        // 请求方法描述
         if (Objects.nonNull(apiOperation)) {
             exceptionLog.setOptDesc(apiOperation.value());
         } else {
             exceptionLog.setOptDesc("");
         }
-        // 异常信息
         exceptionLog.setExceptionInfo(ExceptionUtil.getTrace(e));
-        // ip地址
         String ipAddress = IpUtil.getIpAddress(request);
         exceptionLog.setIpAddress(ipAddress);
-        // ip来源
         exceptionLog.setIpSource(IpUtil.getIpSource(ipAddress));
-        // 事件发布
         applicationContext.publishEvent(new ExceptionLogEvent(exceptionLog));
     }
 
