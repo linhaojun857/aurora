@@ -4,9 +4,9 @@
 
     <resultMap id="roleMap" type="com.aurora.model.dto.RoleDTO">
         <id property="id" column="id"/>
-        <resultVO property="roleName" column="role_name"/>
-        <resultVO property="createTime" column="create_time"/>
-        <resultVO property="isDisable" column="is_disabled"/>
+        <result property="roleName" column="role_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="isDisable" column="is_disabled"/>
         <collection property="resourceIds" ofType="java.lang.Integer">
             <constructor>
                 <arg column="resource_id"/>
@@ -20,8 +20,8 @@
     </resultMap>
     <resultMap id="resourceRoleResultMap" type="com.aurora.model.dto.ResourceRoleDTO">
         <id property="id" column="id"/>
-        <resultVO property="url" column="url"/>
-        <resultVO property="requestMethod" column="request_method"/>
+        <result property="url" column="url"/>
+        <result property="requestMethod" column="request_method"/>
         <collection property="roleList" ofType="java.lang.String">
             <constructor>
                 <arg column="role_name"/>

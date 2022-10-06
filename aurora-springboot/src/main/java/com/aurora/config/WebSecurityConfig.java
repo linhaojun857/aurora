@@ -39,10 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
 
-
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-
 
     @Bean
     public FilterInvocationSecurityMetadataSource securityMetadataSource() {

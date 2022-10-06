@@ -3,59 +3,59 @@
 <mapper namespace="com.aurora.mapper.ArticleMapper">
     <resultMap id="ArticleCardDTOResultMap" type="com.aurora.model.dto.ArticleCardDTO">
         <id property="id" column="id"/>
-        <resultVO property="articleCover" column="article_cover"/>
-        <resultVO property="articleTitle" column="article_title"/>
-        <resultVO property="articleContent" column="article_content"/>
-        <resultVO property="isTop" column="is_top"/>
-        <resultVO property="isFeatured" column="is_featured"/>
-        <resultVO property="status" column="status"/>
-        <resultVO property="createTime" column="create_time"/>
-        <resultVO property="updateTime" column="update_time"/>
-        <resultVO property="categoryName" column="category_name"/>
+        <result property="articleCover" column="article_cover"/>
+        <result property="articleTitle" column="article_title"/>
+        <result property="articleContent" column="article_content"/>
+        <result property="isTop" column="is_top"/>
+        <result property="isFeatured" column="is_featured"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="categoryName" column="category_name"/>
         <association property="author" javaType="com.aurora.entity.UserInfo">
-            <resultVO property="nickname" column="author_nickname"/>
-            <resultVO property="website" column="author_website"/>
-            <resultVO property="avatar" column="author_avatar"/>
+            <result property="nickname" column="author_nickname"/>
+            <result property="website" column="author_website"/>
+            <result property="avatar" column="author_avatar"/>
         </association>
         <collection property="tags" ofType="com.aurora.entity.Tag">
-            <resultVO property="tagName" column="tag_name"/>
+            <result property="tagName" column="tag_name"/>
         </collection>
     </resultMap>
     <resultMap id="ArticleDTOResultMap" type="com.aurora.model.dto.ArticleDTO">
         <id property="id" column="id"/>
-        <resultVO property="articleCover" column="article_cover"/>
-        <resultVO property="articleTitle" column="article_title"/>
-        <resultVO property="articleContent" column="article_content"/>
-        <resultVO property="isTop" column="is_top"/>
-        <resultVO property="isFeatured" column="is_featured"/>
-        <resultVO property="createTime" column="create_time"/>
-        <resultVO property="updateTime" column="update_time"/>
-        <resultVO property="categoryName" column="category_name"/>
-        <resultVO property="type" column="type"/>
-        <resultVO property="originalUrl" column="original_url"/>
+        <result property="articleCover" column="article_cover"/>
+        <result property="articleTitle" column="article_title"/>
+        <result property="articleContent" column="article_content"/>
+        <result property="isTop" column="is_top"/>
+        <result property="isFeatured" column="is_featured"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="type" column="type"/>
+        <result property="originalUrl" column="original_url"/>
         <association property="author" javaType="com.aurora.entity.UserInfo">
-            <resultVO property="nickname" column="author_nickname"/>
-            <resultVO property="website" column="author_website"/>
-            <resultVO property="avatar" column="author_avatar"/>
+            <result property="nickname" column="author_nickname"/>
+            <result property="website" column="author_website"/>
+            <result property="avatar" column="author_avatar"/>
         </association>
         <collection property="tags" ofType="com.aurora.entity.Tag">
-            <resultVO property="tagName" column="tag_name"/>
+            <result property="tagName" column="tag_name"/>
         </collection>
     </resultMap>
     <resultMap id="articleAdminResultMap" type="com.aurora.model.dto.ArticleAdminDTO">
         <id property="id" column="id"/>
-        <resultVO property="articleCover" column="article_cover"/>
-        <resultVO property="articleTitle" column="article_title"/>
-        <resultVO property="isTop" column="is_top"/>
-        <resultVO property="isFeatured" column="is_featured"/>
-        <resultVO property="isDelete" column="is_delete"/>
-        <resultVO property="status" column="status"/>
-        <resultVO property="type" column="type"/>
-        <resultVO property="createTime" column="create_time"/>
-        <resultVO property="categoryName" column="category_name"/>
+        <result property="articleCover" column="article_cover"/>
+        <result property="articleTitle" column="article_title"/>
+        <result property="isTop" column="is_top"/>
+        <result property="isFeatured" column="is_featured"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="status" column="status"/>
+        <result property="type" column="type"/>
+        <result property="createTime" column="create_time"/>
+        <result property="categoryName" column="category_name"/>
         <collection property="tagDTOs" ofType="com.aurora.model.dto.TagDTO">
             <id column="tag_id" property="id"/>
-            <resultVO column="tag_name" property="tagName"/>
+            <result column="tag_name" property="tagName"/>
         </collection>
     </resultMap>
     <select id="listTopAndFeaturedArticles" resultMap="ArticleCardDTOResultMap">
