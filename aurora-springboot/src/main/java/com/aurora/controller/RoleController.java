@@ -3,10 +3,10 @@ package com.aurora.controller;
 import com.aurora.annotation.OptLog;
 import com.aurora.model.dto.RoleDTO;
 import com.aurora.model.dto.UserRoleDTO;
+import com.aurora.model.vo.ResultVO;
 import com.aurora.service.RoleService;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
-import com.aurora.model.vo.Result;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.vo.RoleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,30 +27,30 @@ public class RoleController {
 
     @ApiOperation(value = "查询用户角色选项")
     @GetMapping("/admin/users/role")
-    public Result<List<UserRoleDTO>> listUserRoles() {
-        return Result.ok(roleService.listUserRoles());
+    public ResultVO<List<UserRoleDTO>> listUserRoles() {
+        return ResultVO.ok(roleService.listUserRoles());
     }
 
 
     @ApiOperation(value = "查询角色列表")
     @GetMapping("/admin/roles")
-    public Result<PageResult<RoleDTO>> listRoles(ConditionVO conditionVO) {
-        return Result.ok(roleService.listRoles(conditionVO));
+    public ResultVO<PageResultDTO<RoleDTO>> listRoles(ConditionVO conditionVO) {
+        return ResultVO.ok(roleService.listRoles(conditionVO));
     }
 
     @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation(value = "保存或更新角色")
     @PostMapping("/admin/role")
-    public Result<?> saveOrUpdateRole(@RequestBody @Valid RoleVO roleVO) {
+    public ResultVO<?> saveOrUpdateRole(@RequestBody @Valid RoleVO roleVO) {
         roleService.saveOrUpdateRole(roleVO);
-        return Result.ok();
+        return ResultVO.ok();
     }
 
     @OptLog(optType = DELETE)
     @ApiOperation(value = "删除角色")
     @DeleteMapping("/admin/roles")
-    public Result<?> deleteRoles(@RequestBody List<Integer> roleIdList) {
+    public ResultVO<?> deleteRoles(@RequestBody List<Integer> roleIdList) {
         roleService.deleteRoles(roleIdList);
-        return Result.ok();
+        return ResultVO.ok();
     }
 }

@@ -70,18 +70,13 @@ public class AuroraInfoServiceImpl implements AuroraInfoService {
 
     @Override
     public void report() {
-        // 获取ip
         String ipAddress = IpUtil.getIpAddress(request);
-        // 获取访问设备
         UserAgent userAgent = IpUtil.getUserAgent(request);
         Browser browser = userAgent.getBrowser();
         OperatingSystem operatingSystem = userAgent.getOperatingSystem();
-        // 生成唯一用户标识
         String uuid = ipAddress + browser.getName() + operatingSystem.getName();
         String md5 = DigestUtils.md5DigestAsHex(uuid.getBytes());
-        // 判断是否访问
         if (!redisService.sIsMember(UNIQUE_VISITOR, md5)) {
-            // 统计游客地域分布
             String ipSource = IpUtil.getIpSource(ipAddress);
             if (StringUtils.isNotBlank(ipSource)) {
                 String ipProvince = IpUtil.getIpProvince(ipSource);
@@ -89,9 +84,7 @@ public class AuroraInfoServiceImpl implements AuroraInfoService {
             } else {
                 redisService.hIncr(VISITOR_AREA, UNKNOWN, 1L);
             }
-            // 访问量+1
             redisService.incr(BLOG_VIEWS_COUNT, 1);
-            // 保存唯一标识
             redisService.sAdd(UNIQUE_VISITOR, md5);
         }
     }
@@ -141,7 +134,6 @@ public class AuroraInfoServiceImpl implements AuroraInfoService {
                 .uniqueViewDTOs(uniqueViews)
                 .build();
         if (CollectionUtils.isNotEmpty(articleMap)) {
-            // 查询文章排行
             List<ArticleRankDTO> articleRankDTOList = listArticleRank(articleMap);
             auroraAdminInfoDTO.setArticleRankDTOs(articleRankDTOList);
         }
@@ -150,13 +142,11 @@ public class AuroraInfoServiceImpl implements AuroraInfoService {
 
     @Override
     public void updateWebsiteConfig(WebsiteConfigVO websiteConfigVO) {
-        // 修改网站配置
         WebsiteConfig websiteConfig = WebsiteConfig.builder()
                 .id(DEFAULT_CONFIG_ID)
                 .config(JSON.toJSONString(websiteConfigVO))
                 .build();
         websiteConfigMapper.updateById(websiteConfig);
-        // 删除缓存
         redisService.del(WEBSITE_CONFIG);
     }
 
@@ -199,10 +189,8 @@ public class AuroraInfoServiceImpl implements AuroraInfoService {
     }
 
     private List<ArticleRankDTO> listArticleRank(Map<Object, Double> articleMap) {
-        // 提取文章id
         List<Integer> articleIds = new ArrayList<>(articleMap.size());
         articleMap.forEach((key, value) -> articleIds.add((Integer) key));
-        // 查询文章信息
         return articleMapper.selectList(new LambdaQueryWrapper<Article>()
                         .select(Article::getId, Article::getArticleTitle)
                         .in(Article::getId, articleIds))

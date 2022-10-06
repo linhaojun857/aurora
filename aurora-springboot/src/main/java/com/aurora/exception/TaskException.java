@@ -1,9 +1,5 @@
 package com.aurora.exception;
 
-/**
- * @author 花未眠
- * 定时任务异常
- */
 public class TaskException extends Exception {
     private static final long serialVersionUID = 1L;
 

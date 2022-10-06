@@ -10,10 +10,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuroraHomeInfoDTO {
+
     private Integer articleCount;
+
     private Integer talkCount;
+
     private Integer categoryCount;
+
     private Integer tagCount;
+
     private WebsiteConfigDTO websiteConfigDTO;
+
     private Integer viewCount;
+
 }

@@ -4,12 +4,12 @@ import com.aurora.annotation.OptLog;
 import com.aurora.model.dto.PhotoAlbumAdminDTO;
 import com.aurora.model.dto.PhotoAlbumDTO;
 import com.aurora.enums.FilePathEnum;
+import com.aurora.model.vo.ResultVO;
 import com.aurora.service.PhotoAlbumService;
 import com.aurora.strategy.context.UploadStrategyContext;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.vo.PhotoAlbumVO;
-import com.aurora.model.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -41,50 +41,50 @@ public class PhotoAlbumController {
     @ApiOperation(value = "上传相册封面")
     @ApiImplicitParam(name = "file", value = "相册封面", required = true, dataType = "MultipartFile")
     @PostMapping("/admin/photos/albums/upload")
-    public Result<String> savePhotoAlbumCover(MultipartFile file) {
-        return Result.ok(uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.PHOTO.getPath()));
+    public ResultVO<String> savePhotoAlbumCover(MultipartFile file) {
+        return ResultVO.ok(uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.PHOTO.getPath()));
     }
 
     @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation(value = "保存或更新相册")
     @PostMapping("/admin/photos/albums")
-    public Result<?> saveOrUpdatePhotoAlbum(@Valid @RequestBody PhotoAlbumVO photoAlbumVO) {
+    public ResultVO<?> saveOrUpdatePhotoAlbum(@Valid @RequestBody PhotoAlbumVO photoAlbumVO) {
         photoAlbumService.saveOrUpdatePhotoAlbum(photoAlbumVO);
-        return Result.ok();
+        return ResultVO.ok();
     }
 
     @ApiOperation(value = "查看后台相册列表")
     @GetMapping("/admin/photos/albums")
-    public Result<PageResult<PhotoAlbumAdminDTO>> listPhotoAlbumBacks(ConditionVO conditionVO) {
-        return Result.ok(photoAlbumService.listPhotoAlbumsAdmin(conditionVO));
+    public ResultVO<PageResultDTO<PhotoAlbumAdminDTO>> listPhotoAlbumBacks(ConditionVO conditionVO) {
+        return ResultVO.ok(photoAlbumService.listPhotoAlbumsAdmin(conditionVO));
     }
 
     @ApiOperation(value = "获取后台相册列表信息")
     @GetMapping("/admin/photos/albums/info")
-    public Result<List<PhotoAlbumDTO>> listPhotoAlbumBackInfos() {
-        return Result.ok(photoAlbumService.listPhotoAlbumInfosAdmin());
+    public ResultVO<List<PhotoAlbumDTO>> listPhotoAlbumBackInfos() {
+        return ResultVO.ok(photoAlbumService.listPhotoAlbumInfosAdmin());
     }
 
     @ApiOperation(value = "根据id获取后台相册信息")
     @ApiImplicitParam(name = "albumId", value = "相册id", required = true, dataType = "Integer")
     @GetMapping("/admin/photos/albums/{albumId}/info")
-    public Result<PhotoAlbumAdminDTO> getPhotoAlbumBackById(@PathVariable("albumId") Integer albumId) {
-        return Result.ok(photoAlbumService.getPhotoAlbumByIdAdmin(albumId));
+    public ResultVO<PhotoAlbumAdminDTO> getPhotoAlbumBackById(@PathVariable("albumId") Integer albumId) {
+        return ResultVO.ok(photoAlbumService.getPhotoAlbumByIdAdmin(albumId));
     }
 
     @OptLog(optType = DELETE)
     @ApiOperation(value = "根据id删除相册")
     @ApiImplicitParam(name = "albumId", value = "相册id", required = true, dataType = "Integer")
     @DeleteMapping("/admin/photos/albums/{albumId}")
-    public Result<?> deletePhotoAlbumById(@PathVariable("albumId") Integer albumId) {
+    public ResultVO<?> deletePhotoAlbumById(@PathVariable("albumId") Integer albumId) {
         photoAlbumService.deletePhotoAlbumById(albumId);
-        return Result.ok();
+        return ResultVO.ok();
     }
 
     @ApiOperation(value = "获取相册列表")
     @GetMapping("/photos/albums")
-    public Result<List<PhotoAlbumDTO>> listPhotoAlbums() {
-        return Result.ok(photoAlbumService.listPhotoAlbums());
+    public ResultVO<List<PhotoAlbumDTO>> listPhotoAlbums() {
+        return ResultVO.ok(photoAlbumService.listPhotoAlbums());
     }
 
 }

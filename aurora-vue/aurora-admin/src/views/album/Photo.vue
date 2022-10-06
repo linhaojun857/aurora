@@ -1,8 +1,6 @@
 <template>
   <el-card class="main-card">
-    <!-- 标题 -->
     <div class="title">{{ this.$route.name }}</div>
-    <!-- 相册信息 -->
     <div class="album-info">
       <el-image fit="cover" class="album-cover" :src="albumInfo.albumCover" />
       <div class="album-detail">
@@ -19,7 +17,6 @@
           </el-button>
         </div>
       </div>
-      <!-- 相册操作 -->
       <div class="operation">
         <div class="all-check">
           <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">
@@ -45,15 +42,12 @@
         </el-button>
       </div>
     </div>
-    <!-- 照片列表 -->
     <el-row class="photo-container" :gutter="10" v-loading="loading">
-      <!-- 空状态 -->
       <el-empty v-if="photos.length == 0" description="暂无照片" />
       <el-checkbox-group v-model="selectphotoIds" @change="handleCheckedPhotoChange">
         <el-col :md="4" v-for="item of photos" :key="item.id">
           <el-checkbox :label="item.id">
             <div class="photo-item">
-              <!-- 照片操作 -->
               <div class="photo-opreation">
                 <el-dropdown @command="handleCommand">
                   <i class="el-icon-more" style="color: #fff" />
@@ -71,7 +65,6 @@
         </el-col>
       </el-checkbox-group>
     </el-row>
-    <!-- 分页 -->
     <el-pagination
       :hide-on-single-page="true"
       class="pagination-container"
@@ -81,10 +74,8 @@
       :page-size="size"
       :total="count"
       layout="prev, pager, next" />
-    <!-- 上传模态框 -->
     <el-dialog :visible.sync="uploadPhoto" width="70%" top="10vh">
       <div class="dialog-title-container" slot="title">上传照片</div>
-      <!-- 上传 -->
       <div class="upload-container">
         <el-upload
           v-show="uploads.length > 0"
@@ -124,7 +115,6 @@
         </div>
       </div>
     </el-dialog>
-    <!-- 编辑对话框 -->
     <el-dialog :visible.sync="editPhoto" width="30%">
       <div class="dialog-title-container" slot="title">修改信息</div>
       <el-form label-width="80px" size="medium" :model="photoForm">
@@ -140,7 +130,6 @@
         <el-button type="primary" @click="updatePhoto"> 确 定 </el-button>
       </div>
     </el-dialog>
-    <!-- 批量删除对话框 -->
     <el-dialog :visible.sync="batchDeletePhoto" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
       <div style="font-size: 1rem">是否删除选中照片？</div>
@@ -149,7 +138,6 @@
         <el-button type="primary" @click="updatePhotoDelete(null)"> 确 定 </el-button>
       </div>
     </el-dialog>
-    <!-- 移动对话框 -->
     <el-dialog :visible.sync="movePhoto" width="30%">
       <div class="dialog-title-container" slot="title">移动照片</div>
       <el-empty v-if="albumList.length < 2" description="暂无其他相册" />

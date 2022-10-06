@@ -1,8 +1,6 @@
 <template>
   <el-card class="main-card">
-    <!-- 标题 -->
     <div class="title">{{ this.$route.name }}</div>
-    <!-- 相册操作 -->
     <div class="operation">
       <div class="all-check">
         <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">
@@ -27,9 +25,7 @@
         批量删除
       </el-button>
     </div>
-    <!-- 照片列表 -->
     <el-row class="photo-container" :gutter="10" v-loading="loading">
-      <!-- 空状态 -->
       <el-empty v-if="photos.length == 0" description="暂无照片" />
       <el-checkbox-group v-model="selectPhotoIds" @change="handleCheckedPhotoChange">
         <el-col :md="4" v-for="item of photos" :key="item.id">
@@ -42,7 +38,6 @@
         </el-col>
       </el-checkbox-group>
     </el-row>
-    <!-- 分页 -->
     <el-pagination
       :hide-on-single-page="true"
       class="pagination-container"
@@ -52,7 +47,6 @@
       :page-size="size"
       :total="count"
       layout="prev, pager, next" />
-    <!-- 批量删除对话框 -->
     <el-dialog :visible.sync="batchDeletePhoto" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
       <div style="font-size: 1rem">是否删除选中照片？</div>

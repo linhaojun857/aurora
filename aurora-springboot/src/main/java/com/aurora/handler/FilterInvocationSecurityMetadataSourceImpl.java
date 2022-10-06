@@ -15,10 +15,6 @@ import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * @author 花未眠
- * 接口拦截规则
- */
 @Component
 public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocationSecurityMetadataSource {
 
@@ -39,17 +35,13 @@ public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocat
 
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
-        // 修改接口角色关系后重新加载
         if (CollectionUtils.isEmpty(resourceRoleList)) {
             this.loadResourceRoleList();
         }
         FilterInvocation fi = (FilterInvocation) object;
-        // 获取用户请求方式
         String method = fi.getRequest().getMethod();
-        // 获取用户请求Url
         String url = fi.getRequest().getRequestURI();
         AntPathMatcher antPathMatcher = new AntPathMatcher();
-        // 获取接口角色信息，若为匿名接口则放行，若无对应角色则禁止
         for (ResourceRoleDTO resourceRoleDTO : resourceRoleList) {
             if (antPathMatcher.match(resourceRoleDTO.getUrl(), url) && resourceRoleDTO.getRequestMethod().equals(method)) {
                 List<String> roleList = resourceRoleDTO.getRoleList();

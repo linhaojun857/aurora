@@ -17,7 +17,7 @@ import com.aurora.service.RoleService;
 import com.aurora.util.BeanCopyUtil;
 import com.aurora.util.PageUtil;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.vo.RoleVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -52,7 +52,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public List<UserRoleDTO> listUserRoles() {
-        // 查询角色列表
         List<Role> roleList = roleMapper.selectList(new LambdaQueryWrapper<Role>()
                 .select(Role::getId, Role::getRoleName));
         return BeanCopyUtil.copyList(roleList, UserRoleDTO.class);
@@ -60,12 +59,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @SneakyThrows
     @Override
-    public PageResult<RoleDTO> listRoles(ConditionVO conditionVO) {
+    public PageResultDTO<RoleDTO> listRoles(ConditionVO conditionVO) {
         LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<Role>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), Role::getRoleName, conditionVO.getKeywords());
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> roleMapper.selectCount(queryWrapper));
         List<RoleDTO> roleDTOs = roleMapper.listRoles(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
-        return new PageResult<>(roleDTOs, asyncCount.get());
+        return new PageResultDTO<>(roleDTOs, asyncCount.get());
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -83,7 +82,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                 .isDisable(CommonConstant.FALSE)
                 .build();
         this.saveOrUpdate(role);
-        // 更新角色资源关系
         if (Objects.nonNull(roleVO.getResourceIds())) {
             if (Objects.nonNull(roleVO.getId())) {
                 roleResourceService.remove(new LambdaQueryWrapper<RoleResource>()
@@ -96,10 +94,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                             .build())
                     .collect(Collectors.toList());
             roleResourceService.saveBatch(roleResourceList);
-            // 重新加载角色资源信息
             filterInvocationSecurityMetadataSource.clearDataSource();
         }
-        // 更新角色菜单关系
         if (Objects.nonNull(roleVO.getMenuIds())) {
             if (Objects.nonNull(roleVO.getId())) {
                 roleMenuService.remove(new LambdaQueryWrapper<RoleMenu>().eq(RoleMenu::getRoleId, roleVO.getId()));
@@ -116,7 +112,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public void deleteRoles(List<Integer> roleIdList) {
-        // 判断角色下是否有用户
         Integer count = userRoleMapper.selectCount(new LambdaQueryWrapper<UserRole>()
                 .in(UserRole::getRoleId, roleIdList));
         if (count > 0) {

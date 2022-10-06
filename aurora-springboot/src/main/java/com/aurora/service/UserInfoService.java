@@ -1,5 +1,6 @@
 package com.aurora.service;
 
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.dto.UserInfoDTO;
 import com.aurora.model.dto.UserOnlineDTO;
 import com.aurora.entity.UserInfo;
@@ -21,7 +22,7 @@ public interface UserInfoService extends IService<UserInfo> {
 
     void updateUserDisable(UserDisableVO userDisableVO);
 
-    PageResult<UserOnlineDTO> listOnlineUsers(ConditionVO conditionVO);
+    PageResultDTO<UserOnlineDTO> listOnlineUsers(ConditionVO conditionVO);
 
     void removeOnlineUser(Integer userInfoId);
 

@@ -1,9 +1,6 @@
 package com.aurora.service;
 
-import com.aurora.model.dto.UserAdminDTO;
-import com.aurora.model.dto.UserAreaDTO;
-import com.aurora.model.dto.UserInfoDTO;
-import com.aurora.model.dto.UserLogoutStatusDTO;
+import com.aurora.model.dto.*;
 import com.aurora.model.vo.*;
 
 import java.util.List;
@@ -20,7 +17,7 @@ public interface UserAuthService {
 
     void updateAdminPassword(PasswordVO passwordVO);
 
-    PageResult<UserAdminDTO> listUsers(ConditionVO condition);
+    PageResultDTO<UserAdminDTO> listUsers(ConditionVO condition);
 
     UserLogoutStatusDTO logout();
 

@@ -9,7 +9,7 @@ import com.aurora.mapper.UserAuthMapper;
 import com.aurora.service.TokenService;
 import com.aurora.util.BeanCopyUtil;
 import com.aurora.util.UserUtil;
-import com.aurora.model.vo.Result;
+import com.aurora.model.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
@@ -41,7 +41,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
             userLoginDTO.setToken(token);
         }
         response.setContentType(CommonConstant.APPLICATION_JSON);
-        response.getWriter().write(JSON.toJSONString(Result.ok(userLoginDTO)));
+        response.getWriter().write(JSON.toJSONString(ResultVO.ok(userLoginDTO)));
         updateUserInfo();
     }
 

@@ -4,6 +4,7 @@ import com.aurora.constant.ScheduleConstant;
 import com.aurora.model.dto.JobDTO;
 import com.aurora.entity.Job;
 import com.aurora.mapper.JobMapper;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.service.JobService;
 import com.aurora.util.BeanCopyUtil;
 import com.aurora.util.CronUtil;
@@ -93,10 +94,10 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
 
     @SneakyThrows
     @Override
-    public PageResult<JobDTO> listJobs(JobSearchVO jobSearchVO) {
+    public PageResultDTO<JobDTO> listJobs(JobSearchVO jobSearchVO) {
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> jobMapper.countJobs(jobSearchVO));
         List<JobDTO> jobDTOs = jobMapper.listJobs(PageUtil.getLimitCurrent(), PageUtil.getSize(), jobSearchVO);
-        return new PageResult<>(jobDTOs, asyncCount.get());
+        return new PageResultDTO<>(jobDTOs, asyncCount.get());
     }
 
     @SneakyThrows
@@ -135,17 +136,11 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         return jobMapper.listJobGroups();
     }
 
-    /**
-     * 校验cron表达式的合法性
-     */
     private void checkCronIsValid(JobVO jobVO) {
         boolean valid = CronUtil.isValid(jobVO.getCronExpression());
         Assert.isTrue(valid, "Cron表达式无效!");
     }
 
-    /**
-     * 更新任务
-     */
     @SneakyThrows
     public void updateSchedulerJob(Job job, String jobGroup) {
         Integer jobId = job.getId();

@@ -95,22 +95,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @SneakyThrows
     @Override
-    public PageResult<ArticleCardDTO> listArticles() {
+    public PageResultDTO<ArticleCardDTO> listArticles() {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>()
                 .eq(Article::getIsDelete, 0)
                 .eq(Article::getStatus, 1);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.selectCount(queryWrapper));
         List<ArticleCardDTO> articles = articleMapper.listArticles(PageUtil.getLimitCurrent(), PageUtil.getSize());
-        return new PageResult<>(articles, asyncCount.get());
+        return new PageResultDTO<>(articles, asyncCount.get());
     }
 
     @SneakyThrows
     @Override
-    public PageResult<ArticleCardDTO> listArticlesByCategoryId(Integer categoryId) {
+    public PageResultDTO<ArticleCardDTO> listArticlesByCategoryId(Integer categoryId) {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>().eq(Article::getCategoryId, categoryId);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.selectCount(queryWrapper));
         List<ArticleCardDTO> articles = articleMapper.getArticlesByCategoryId(PageUtil.getLimitCurrent(), PageUtil.getSize(), categoryId);
-        return new PageResult<>(articles, asyncCount.get());
+        return new PageResultDTO<>(articles, asyncCount.get());
     }
 
     @SneakyThrows
@@ -175,16 +175,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @SneakyThrows
     @Override
-    public PageResult<ArticleCardDTO> listArticlesByTagId(Integer tagId) {
+    public PageResultDTO<ArticleCardDTO> listArticlesByTagId(Integer tagId) {
         LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<ArticleTag>().eq(ArticleTag::getTagId, tagId);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleTagMapper.selectCount(queryWrapper));
         List<ArticleCardDTO> articles = articleMapper.listArticlesByTagId(PageUtil.getLimitCurrent(), PageUtil.getSize(), tagId);
-        return new PageResult<>(articles, asyncCount.get());
+        return new PageResultDTO<>(articles, asyncCount.get());
     }
 
     @SneakyThrows
     @Override
-    public PageResult<ArchiveDTO> listArchives() {
+    public PageResultDTO<ArchiveDTO> listArchives() {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>().eq(Article::getIsDelete, 0).eq(Article::getStatus, 1);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.selectCount(queryWrapper));
         List<ArticleCardDTO> articles = articleMapper.listArchives(PageUtil.getLimitCurrent(), PageUtil.getSize());
@@ -219,12 +219,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 return 1;
             } else return Integer.compare(o2Month, o1Month);
         });
-        return new PageResult<>(archiveDTOs, asyncCount.get());
+        return new PageResultDTO<>(archiveDTOs, asyncCount.get());
     }
 
     @SneakyThrows
     @Override
-    public PageResult<ArticleAdminDTO> listArticlesAdmin(ConditionVO conditionVO) {
+    public PageResultDTO<ArticleAdminDTO> listArticlesAdmin(ConditionVO conditionVO) {
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.countArticleAdmins(conditionVO));
         List<ArticleAdminDTO> articleAdminDTOs = articleMapper.listArticlesAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
         Map<Object, Double> viewsCountMap = redisService.zAllScore(ARTICLE_VIEWS_COUNT);
@@ -234,21 +234,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 item.setViewsCount(viewsCount.intValue());
             }
         });
-        return new PageResult<>(articleAdminDTOs, asyncCount.get());
+        return new PageResultDTO<>(articleAdminDTOs, asyncCount.get());
     }
 
     @Override
     public void saveOrUpdateArticle(ArticleVO articleVO) {
-        // 保存文章分类
         Category category = saveArticleCategory(articleVO);
-        // 保存或修改文章
         Article article = BeanCopyUtil.copyObject(articleVO, Article.class);
         if (Objects.nonNull(category)) {
             article.setCategoryId(category.getId());
         }
         article.setUserId(UserUtil.getUserDetailsDTO().getUserInfoId());
         this.saveOrUpdate(article);
-        // 保存文章标签
         saveArticleTag(articleVO, article.getId());
         if (article.getStatus().equals(1)) {
             rabbitTemplate.convertAndSend(SUBSCRIBE_EXCHANGE, "*", new Message(JSON.toJSONBytes(article.getId()), new MessageProperties()));
@@ -286,15 +283,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public ArticleAdminViewDTO getArticleByIdAdmin(Integer articleId) {
         Article article = articleMapper.selectById(articleId);
-        // 查询文章分类
         Category category = categoryMapper.selectById(article.getCategoryId());
         String categoryName = null;
         if (Objects.nonNull(category)) {
             categoryName = category.getCategoryName();
         }
-        // 查询文章标签
         List<String> tagNames = tagMapper.listTagNamesByArticleId(articleId);
-        // 封装数据
         ArticleAdminViewDTO articleAdminViewDTO = BeanCopyUtil.copyObject(article, ArticleAdminViewDTO.class);
         articleAdminViewDTO.setCategoryName(categoryName);
         articleAdminViewDTO.setTagNames(tagNames);
@@ -303,11 +297,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public List<String> exportArticles(List<Integer> articleIds) {
-        // 查询文章信息
         List<Article> articles = articleMapper.selectList(new LambdaQueryWrapper<Article>()
                 .select(Article::getArticleTitle, Article::getArticleContent)
                 .in(Article::getId, articleIds));
-        // 写入文件并上传
         List<String> urls = new ArrayList<>();
         for (Article article : articles) {
             try (ByteArrayInputStream inputStream = new ByteArrayInputStream(article.getArticleContent().getBytes())) {
@@ -331,7 +323,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     private Category saveArticleCategory(ArticleVO articleVO) {
-        // 判断分类是否存在
         Category category = categoryMapper.selectOne(new LambdaQueryWrapper<Category>()
                 .eq(Category::getCategoryName, articleVO.getCategoryName()));
         if (Objects.isNull(category) && !articleVO.getStatus().equals(DRAFT.getStatus())) {
@@ -344,15 +335,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     private void saveArticleTag(ArticleVO articleVO, Integer articleId) {
-        // 编辑文章则删除文章所有标签
         if (Objects.nonNull(articleVO.getId())) {
             articleTagMapper.delete(new LambdaQueryWrapper<ArticleTag>()
                     .eq(ArticleTag::getArticleId, articleVO.getId()));
         }
-        // 添加文章标签
         List<String> tagNames = articleVO.getTagNames();
         if (CollectionUtils.isNotEmpty(tagNames)) {
-            // 查询已存在的标签
             List<Tag> existTags = tagService.list(new LambdaQueryWrapper<Tag>()
                     .in(Tag::getTagName, tagNames));
             List<String> existTagNameList = existTags.stream()
@@ -361,7 +349,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             List<Integer> existTagIds = existTags.stream()
                     .map(Tag::getId)
                     .collect(Collectors.toList());
-            // 对比新增不存在的标签
             tagNames.removeAll(existTagNameList);
             if (CollectionUtils.isNotEmpty(tagNames)) {
                 List<Tag> tagList = tagNames.stream().map(item -> Tag.builder()
@@ -374,7 +361,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                         .collect(Collectors.toList());
                 existTagIds.addAll(tagIdList);
             }
-            // 提取标签id绑定文章
             List<ArticleTag> articleTags = existTagIds.stream().map(item -> ArticleTag.builder()
                             .articleId(articleId)
                             .tagId(item)

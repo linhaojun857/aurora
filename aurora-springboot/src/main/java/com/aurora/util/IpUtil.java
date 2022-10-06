@@ -18,17 +18,10 @@ import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-/**
- * @author 花未眠
- * ip工具类
- */
 @Slf4j
 @Component
 public class IpUtil {
 
-    /**
-     * 获取ip地址
-     */
     public static String getIpAddress(HttpServletRequest request) {
         String ipAddress = request.getHeader("X-Real-IP");
         if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {

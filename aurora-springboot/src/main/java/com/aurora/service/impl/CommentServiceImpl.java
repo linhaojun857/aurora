@@ -19,7 +19,7 @@ import com.aurora.util.PageUtil;
 import com.aurora.util.UserUtil;
 import com.aurora.model.vo.CommentVO;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.vo.ReviewVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -100,18 +100,18 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public PageResult<CommentDTO> listComments(CommentVO commentVO) {
+    public PageResultDTO<CommentDTO> listComments(CommentVO commentVO) {
         Integer commentCount = commentMapper.selectCount(new LambdaQueryWrapper<Comment>()
                 .eq(Objects.nonNull(commentVO.getTopicId()), Comment::getTopicId, commentVO.getTopicId())
                 .eq(Comment::getType, commentVO.getType())
                 .isNull(Comment::getParentId)
                 .eq(Comment::getIsReview, TRUE));
         if (commentCount == 0) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
         List<CommentDTO> commentDTOs = commentMapper.listComments(PageUtil.getLimitCurrent(), PageUtil.getSize(), commentVO);
         if (CollectionUtils.isEmpty(commentDTOs)) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
         List<Integer> commentIds = commentDTOs.stream()
                 .map(CommentDTO::getId)
@@ -122,7 +122,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         commentDTOs.forEach(item -> {
             item.setReplyDTOs(replyMap.get(item.getId()));
         });
-        return new PageResult<>(commentDTOs, commentCount);
+        return new PageResultDTO<>(commentDTOs, commentCount);
     }
 
     @Override
@@ -137,10 +137,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @SneakyThrows
     @Override
-    public PageResult<CommentAdminDTO> listCommentsAdmin(ConditionVO conditionVO) {
+    public PageResultDTO<CommentAdminDTO> listCommentsAdmin(ConditionVO conditionVO) {
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> commentMapper.countComments(conditionVO));
         List<CommentAdminDTO> commentBackDTOList = commentMapper.listCommentsAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
-        return new PageResult<>(commentBackDTOList, asyncCount.get());
+        return new PageResultDTO<>(commentBackDTOList, asyncCount.get());
     }
 
     @Override
@@ -154,24 +154,19 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     public void checkCommentVO(CommentVO commentVO) {
-        // 校验评论类型是否存在
         if (!types.contains(commentVO.getType())) {
             throw new BizException("参数校验异常");
         }
-        // 类型为文章和说说时，类型id不能为空，且判断文章或说说是否存在
         if (Objects.requireNonNull(getCommentEnum(commentVO.getType())) == ARTICLE || Objects.requireNonNull(getCommentEnum(commentVO.getType())) == TALK) {
-            // 类型id为空则报异常
             if (Objects.isNull(commentVO.getTopicId())) {
                 throw new BizException("参数校验异常");
             } else {
-                // 类型id不为空判断文章是否存在
                 if (Objects.requireNonNull(getCommentEnum(commentVO.getType())) == ARTICLE) {
                     Article article = articleMapper.selectOne(new LambdaQueryWrapper<Article>().select(Article::getId, Article::getUserId).eq(Article::getId, commentVO.getTopicId()));
                     if (Objects.isNull(article)) {
                         throw new BizException("参数校验异常");
                     }
                 }
-                // 类型id不为空判断说说是否存在
                 if (Objects.requireNonNull(getCommentEnum(commentVO.getType())) == TALK) {
                     Talk talk = talkMapper.selectOne(new LambdaQueryWrapper<Talk>().select(Talk::getId, Talk::getUserId).eq(Talk::getId, commentVO.getTopicId()));
                     if (Objects.isNull(talk)) {
@@ -180,7 +175,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 }
             }
         }
-        // 类型为友链,about,留言时，topicId必须为空
         if (Objects.requireNonNull(getCommentEnum(commentVO.getType())) == LINK
                 || Objects.requireNonNull(getCommentEnum(commentVO.getType())) == ABOUT
                 || Objects.requireNonNull(getCommentEnum(commentVO.getType())) == MESSAGE) {
@@ -188,13 +182,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 throw new BizException("参数校验异常");
             }
         }
-        // 父评论时 replyUserId 为空
         if (Objects.isNull(commentVO.getParentId())) {
             if (Objects.nonNull(commentVO.getReplyUserId())) {
                 throw new BizException("参数校验异常");
             }
         }
-        // 子评论时
         if (Objects.nonNull(commentVO.getParentId())) {
             Comment parentComment = commentMapper.selectOne(new LambdaQueryWrapper<Comment>().select(Comment::getId, Comment::getParentId, Comment::getType).eq(Comment::getId, commentVO.getParentId()));
             if (Objects.isNull(parentComment)) {
@@ -218,15 +210,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     private void notice(Comment comment, String fromNickname) {
-        // 评论自己不发邮件提醒
         if (comment.getUserId().equals(comment.getReplyUserId())) {
             return;
         }
-        // 博主自己发评论不发邮件提醒
         if (comment.getUserId().equals(BLOGGER_ID) && Objects.isNull(comment.getParentId())) {
             return;
         }
-        // 查询回复用户邮箱号
         String title;
         Integer userId = BLOGGER_ID;
         String topicId = Objects.nonNull(comment.getTopicId()) ? comment.getTopicId().toString() : "";

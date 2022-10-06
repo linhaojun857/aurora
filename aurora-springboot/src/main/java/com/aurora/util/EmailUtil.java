@@ -13,16 +13,9 @@ import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-/**
- * 邮件工具
- *
- * @author ican
- */
 @Component
 public class EmailUtil {
-    /**
-     * 邮箱号
-     */
+
     @Value("${spring.mail.username}")
     private String email;
 

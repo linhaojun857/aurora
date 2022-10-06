@@ -14,8 +14,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @TableName("t_article_tag")
 public class ArticleTag {
+
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
     private Integer articleId;
+
     private Integer tagId;
+
 }

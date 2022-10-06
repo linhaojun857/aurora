@@ -9,10 +9,6 @@ import org.springframework.context.annotation.Configuration;
 
 import static com.aurora.constant.MQPrefixConstant.*;
 
-/**
- * @author 花未眠
- * rabbitmq的配置类
- */
 @Configuration
 public class RabbitMQConfig {
     @Bean

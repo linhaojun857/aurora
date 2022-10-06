@@ -12,15 +12,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * @author 花未眠
- * 访问决策管理器
- */
 @Component
 public class AccessDecisionManagerImpl implements AccessDecisionManager {
     @Override
     public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
-        // 获取用户权限列表
         List<String> permissionList = authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)

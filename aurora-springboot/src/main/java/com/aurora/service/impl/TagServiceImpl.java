@@ -12,7 +12,7 @@ import com.aurora.service.TagService;
 import com.aurora.util.BeanCopyUtil;
 import com.aurora.util.PageUtil;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.vo.TagVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -45,16 +45,14 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
 
     @SneakyThrows
     @Override
-    public PageResult<TagAdminDTO> listTagsAdmin(ConditionVO conditionVO) {
-        // 查询标签数量
+    public PageResultDTO<TagAdminDTO> listTagsAdmin(ConditionVO conditionVO) {
         Integer count = tagMapper.selectCount(new LambdaQueryWrapper<Tag>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), Tag::getTagName, conditionVO.getKeywords()));
         if (count == 0) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
-        // 分页查询标签列表
         List<TagAdminDTO> tags = tagMapper.listTagsAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
-        return new PageResult<>(tags, count);
+        return new PageResultDTO<>(tags, count);
     }
 
     @SneakyThrows
@@ -80,7 +78,6 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
 
     @Override
     public void deleteTag(List<Integer> tagIds) {
-        // 查询标签下是否有文章
         Integer count = articleTagMapper.selectCount(new LambdaQueryWrapper<ArticleTag>()
                 .in(ArticleTag::getTagId, tagIds));
         if (count > 0) {

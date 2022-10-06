@@ -1,6 +1,7 @@
 package com.aurora.service.impl;
 
 
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.dto.PhotoAdminDTO;
 import com.aurora.model.dto.PhotoAlbumAdminDTO;
 import com.aurora.model.dto.PhotoDTO;
@@ -37,15 +38,10 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
     private PhotoMapper photoMapper;
 
     @Autowired
-    private PhotoAlbumMapper photoAlbumMapper;
-
-    @Autowired
     private PhotoAlbumService photoAlbumService;
 
-
     @Override
-    public PageResult<PhotoAdminDTO> listPhotos(ConditionVO conditionVO) {
-        // 查询照片列表
+    public PageResultDTO<PhotoAdminDTO> listPhotos(ConditionVO conditionVO) {
         Page<Photo> page = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
         Page<Photo> photoPage = photoMapper.selectPage(page, new LambdaQueryWrapper<Photo>()
                 .eq(Objects.nonNull(conditionVO.getAlbumId()), Photo::getAlbumId, conditionVO.getAlbumId())
@@ -53,7 +49,7 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
                 .orderByDesc(Photo::getId)
                 .orderByDesc(Photo::getUpdateTime));
         List<PhotoAdminDTO> photos = BeanCopyUtil.copyList(photoPage.getRecords(), PhotoAdminDTO.class);
-        return new PageResult<>(photos, (int) photoPage.getTotal());
+        return new PageResultDTO<>(photos, (int) photoPage.getTotal());
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -89,14 +85,12 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updatePhotoDelete(DeleteVO deleteVO) {
-        // 更新照片状态
         List<Photo> photoList = deleteVO.getIds().stream().map(item -> Photo.builder()
                         .id(item)
                         .isDelete(deleteVO.getIsDelete())
                         .build())
                 .collect(Collectors.toList());
         this.updateBatchById(photoList);
-        // 若恢复照片所在的相册已删除，恢复相册
         if (deleteVO.getIsDelete().equals(FALSE)) {
             List<PhotoAlbum> photoAlbumList = photoMapper.selectList(new LambdaQueryWrapper<Photo>()
                             .select(Photo::getAlbumId)
@@ -112,21 +106,6 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
         }
     }
 
-    @Override
-    public PageResult<PhotoAlbumAdminDTO> listPhotoAlbumBacks(ConditionVO conditionVO) {
-        // 查询相册数量
-        Integer count = photoAlbumMapper.selectCount(new LambdaQueryWrapper<PhotoAlbum>()
-                .like(StringUtils.isNotBlank(conditionVO.getKeywords()), PhotoAlbum::getAlbumName, conditionVO.getKeywords())
-                .eq(PhotoAlbum::getIsDelete, FALSE));
-        if (count == 0) {
-            return new PageResult<>();
-        }
-        // 查询相册信息
-        List<PhotoAlbumAdminDTO> PhotoAlbumAdminDTOs = photoAlbumMapper.listPhotoAlbumsAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
-        return new PageResult<>(PhotoAlbumAdminDTOs, count);
-    }
-
-
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deletePhotos(List<Integer> photoIds) {
@@ -135,7 +114,6 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
 
     @Override
     public PhotoDTO listPhotosByAlbumId(Integer albumId) {
-        // 查询相册信息
         PhotoAlbum photoAlbum = photoAlbumService.getOne(new LambdaQueryWrapper<PhotoAlbum>()
                 .eq(PhotoAlbum::getId, albumId)
                 .eq(PhotoAlbum::getIsDelete, FALSE)
@@ -143,7 +121,6 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
         if (Objects.isNull(photoAlbum)) {
             throw new BizException("相册不存在");
         }
-        // 查询照片列表
         Page<Photo> page = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
         List<String> photos = photoMapper.selectPage(page, new LambdaQueryWrapper<Photo>()
                         .select(Photo::getPhotoSrc)

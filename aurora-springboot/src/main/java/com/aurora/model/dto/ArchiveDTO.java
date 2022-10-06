@@ -12,6 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArchiveDTO {
+
     private String Time;
+
     private List<ArticleCardDTO> articles;
 }

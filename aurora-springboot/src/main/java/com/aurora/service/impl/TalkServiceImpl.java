@@ -15,7 +15,7 @@ import com.aurora.util.CommonUtil;
 import com.aurora.util.PageUtil;
 import com.aurora.util.UserUtil;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.vo.TalkVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -41,41 +41,34 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
 
 
     @Override
-    public PageResult<TalkDTO> listTalks() {
-        // 查询说说总量
+    public PageResultDTO<TalkDTO> listTalks() {
         Integer count = talkMapper.selectCount((new LambdaQueryWrapper<Talk>()
                 .eq(Talk::getStatus, PUBLIC.getStatus())));
         if (count == 0) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
-        // 分页查询说说
         List<TalkDTO> talkDTOs = talkMapper.listTalks(PageUtil.getLimitCurrent(), PageUtil.getSize());
-        // 查询说说评论量
         List<Integer> talkIds = talkDTOs.stream()
                 .map(TalkDTO::getId)
                 .collect(Collectors.toList());
         Map<Integer, Integer> commentCountMap = commentMapper.listCommentCountByTopicIds(talkIds)
                 .stream()
                 .collect(Collectors.toMap(CommentCountDTO::getId, CommentCountDTO::getCommentCount));
-        // 查询说说点赞量
         talkDTOs.forEach(item -> {
             item.setCommentCount(commentCountMap.get(item.getId()));
-            // 转换图片格式
             if (Objects.nonNull(item.getImages())) {
                 item.setImgs(CommonUtil.castList(JSON.parseObject(item.getImages(), List.class), String.class));
             }
         });
-        return new PageResult<>(talkDTOs, count);
+        return new PageResultDTO<>(talkDTOs, count);
     }
 
     @Override
     public TalkDTO getTalkById(Integer talkId) {
-        // 查询说说信息
         TalkDTO talkDTO = talkMapper.getTalkById(talkId);
         if (Objects.isNull(talkDTO)) {
             throw new BizException("说说不存在");
         }
-        // 转换图片格式
         if (Objects.nonNull(talkDTO.getImages())) {
             talkDTO.setImgs(CommonUtil.castList(JSON.parseObject(talkDTO.getImages(), List.class), String.class));
         }
@@ -95,28 +88,24 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
     }
 
     @Override
-    public PageResult<TalkAdminDTO> listBackTalks(ConditionVO conditionVO) {
-        // 查询说说总量
+    public PageResultDTO<TalkAdminDTO> listBackTalks(ConditionVO conditionVO) {
         Integer count = talkMapper.selectCount(new LambdaQueryWrapper<Talk>()
                 .eq(Objects.nonNull(conditionVO.getStatus()), Talk::getStatus, conditionVO.getStatus()));
         if (count == 0) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
-        // 分页查询说说
         List<TalkAdminDTO> talkDTOList = talkMapper.listTalksAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
         talkDTOList.forEach(item -> {
-            // 转换图片格式
             if (Objects.nonNull(item.getImages())) {
                 item.setImgs(CommonUtil.castList(JSON.parseObject(item.getImages(), List.class), String.class));
             }
         });
-        return new PageResult<>(talkDTOList, count);
+        return new PageResultDTO<>(talkDTOList, count);
     }
 
     @Override
     public TalkAdminDTO getBackTalkById(Integer talkId) {
         TalkAdminDTO talkBackDTO = talkMapper.getTalkByIdAdmin(talkId);
-        // 转换图片格式
         if (Objects.nonNull(talkBackDTO.getImages())) {
             talkBackDTO.setImgs(CommonUtil.castList(JSON.parseObject(talkBackDTO.getImages(), List.class), String.class));
         }

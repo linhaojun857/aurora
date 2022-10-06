@@ -8,24 +8,14 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "upload.minio")
 public class MinioProperties {
-    /**
-     * minio域名
-     */
+
     private String url;
-    /**
-     * 终点
-     */
+
     private String endpoint;
-    /**
-     * accessKey
-     */
+
     private String accessKey;
-    /**
-     * secretKey
-     */
+
     private String secretKey;
-    /**
-     * 桶名称
-     */
+
     private String bucketName;
 }

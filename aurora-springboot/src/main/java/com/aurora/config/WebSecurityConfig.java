@@ -39,10 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
 
-
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-
 
     @Bean
     public FilterInvocationSecurityMetadataSource securityMetadataSource() {
@@ -71,7 +69,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/users/login")
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler);
-        // 配置路由权限信息
         http.authorizeRequests()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
@@ -83,11 +80,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .anyRequest().permitAll()
                 .and()
-                // 关闭跨站请求防护
                 .csrf().disable().exceptionHandling()
-                // 未登录处理
                 .authenticationEntryPoint(authenticationEntryPoint)
-                // 权限不足处理
                 .accessDeniedHandler(accessDeniedHandler)
                 .and()
                 .sessionManagement()

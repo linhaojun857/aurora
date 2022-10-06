@@ -56,15 +56,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
     }
 
     public UserDetailsDTO convertUserDetail(UserAuth user, HttpServletRequest request) {
-        // 查询账号信息
         UserInfo userInfo = userInfoMapper.selectById(user.getUserInfoId());
-        // 查询账号角色
         List<String> roles = roleMapper.listRolesByUserInfoId(userInfo.getId());
-        // 获取设备信息
         String ipAddress = IpUtil.getIpAddress(request);
         String ipSource = IpUtil.getIpSource(ipAddress);
         UserAgent userAgent = IpUtil.getUserAgent(request);
-        // 封装权限集合
         return UserDetailsDTO.builder()
                 .id(user.getId())
                 .loginType(user.getLoginType())

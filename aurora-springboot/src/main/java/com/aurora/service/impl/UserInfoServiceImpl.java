@@ -1,5 +1,6 @@
 package com.aurora.service.impl;
 
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.dto.UserDetailsDTO;
 import com.aurora.model.dto.UserInfoDTO;
 import com.aurora.model.dto.UserOnlineDTO;
@@ -59,7 +60,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateUserInfo(UserInfoVO userInfoVO) {
-        // 封装用户信息
         UserInfo userInfo = UserInfo.builder()
                 .id(UserUtil.getUserDetailsDTO().getUserInfoId())
                 .nickname(userInfoVO.getNickname())
@@ -71,9 +71,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     @Override
     public String updateUserAvatar(MultipartFile file) {
-        // 头像上传
         String avatar = uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.AVATAR.getPath());
-        // 更新用户信息
         UserInfo userInfo = UserInfo.builder()
                 .id(UserUtil.getUserDetailsDTO().getUserInfoId())
                 .avatar(avatar)
@@ -115,13 +113,11 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateUserRole(UserRoleVO userRoleVO) {
-        // 更新用户角色和昵称
         UserInfo userInfo = UserInfo.builder()
                 .id(userRoleVO.getUserInfoId())
                 .nickname(userRoleVO.getNickname())
                 .build();
         userInfoMapper.updateById(userInfo);
-        // 删除用户角色重新添加
         userRoleService.remove(new LambdaQueryWrapper<UserRole>()
                 .eq(UserRole::getUserId, userRoleVO.getUserInfoId()));
         List<UserRole> userRoleList = userRoleVO.getRoleIds().stream()
@@ -136,7 +132,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateUserDisable(UserDisableVO userDisableVO) {
-        // 更新用户禁用状态
         UserInfo userInfo = UserInfo.builder()
                 .id(userDisableVO.getId())
                 .isDisable(userDisableVO.getIsDisable())
@@ -145,7 +140,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     }
 
     @Override
-    public PageResult<UserOnlineDTO> listOnlineUsers(ConditionVO conditionVO) {
+    public PageResultDTO<UserOnlineDTO> listOnlineUsers(ConditionVO conditionVO) {
         Map<String, Object> userMaps = redisService.hGetAll("login_user");
         Collection<Object> values = userMaps.values();
         ArrayList<UserDetailsDTO> userDetailsDTOs = new ArrayList<>();
@@ -161,7 +156,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         int size = getSize().intValue();
         int toIndex = onlineUsers.size() - fromIndex > size ? fromIndex + size : onlineUsers.size();
         List<UserOnlineDTO> userOnlineList = onlineUsers.subList(fromIndex, toIndex);
-        return new PageResult<>(userOnlineList, onlineUsers.size());
+        return new PageResultDTO<>(userOnlineList, onlineUsers.size());
     }
 
     @Override

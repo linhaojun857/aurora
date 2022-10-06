@@ -9,10 +9,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * @author 花未眠
- * web mvc配置
- */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 

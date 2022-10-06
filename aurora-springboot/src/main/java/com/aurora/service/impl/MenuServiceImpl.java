@@ -39,17 +39,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Override
     public List<MenuDTO> listMenus(ConditionVO conditionVO) {
-        // 查询菜单数据
         List<Menu> menus = menuMapper.selectList(new LambdaQueryWrapper<Menu>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), Menu::getName, conditionVO.getKeywords()));
-        // 获取目录列表
         List<Menu> catalogs = listCatalogs(menus);
-        // 获取目录下的子菜单
         Map<Integer, List<Menu>> childrenMap = getMenuMap(menus);
-        // 组装目录菜单数据
         List<MenuDTO> menuDTOs = catalogs.stream().map(item -> {
             MenuDTO menuDTO = BeanCopyUtil.copyObject(item, MenuDTO.class);
-            // 获取目录下的菜单排序
             List<MenuDTO> list = BeanCopyUtil.copyList(childrenMap.get(item.getId()), MenuDTO.class).stream()
                     .sorted(Comparator.comparing(MenuDTO::getOrderNum))
                     .collect(Collectors.toList());
@@ -57,7 +52,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             childrenMap.remove(item.getId());
             return menuDTO;
         }).sorted(Comparator.comparing(MenuDTO::getOrderNum)).collect(Collectors.toList());
-        // 若还有菜单未取出则拼接
         if (CollectionUtils.isNotEmpty(childrenMap)) {
             List<Menu> childrenList = new ArrayList<>();
             childrenMap.values().forEach(childrenList::addAll);
@@ -85,13 +79,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Override
     public void deleteMenu(Integer menuId) {
-        // 查询是否有角色关联
         Integer count = roleMenuMapper.selectCount(new LambdaQueryWrapper<RoleMenu>()
                 .eq(RoleMenu::getMenuId, menuId));
         if (count > 0) {
             throw new BizException("菜单下有角色关联");
         }
-        // 查询子菜单
         List<Integer> menuIds = menuMapper.selectList(new LambdaQueryWrapper<Menu>()
                         .select(Menu::getId)
                         .eq(Menu::getParentId, menuId))
@@ -104,16 +96,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Override
     public List<LabelOptionDTO> listMenuOptions() {
-        // 查询菜单数据
         List<Menu> menus = menuMapper.selectList(new LambdaQueryWrapper<Menu>()
                 .select(Menu::getId, Menu::getName, Menu::getParentId, Menu::getOrderNum));
-        // 获取目录列表
         List<Menu> catalogs = listCatalogs(menus);
-        // 获取目录下的子菜单
         Map<Integer, List<Menu>> childrenMap = getMenuMap(menus);
-        // 组装目录菜单数据
         return catalogs.stream().map(item -> {
-            // 获取目录下的菜单排序
             List<LabelOptionDTO> list = new ArrayList<>();
             List<Menu> children = childrenMap.get(item.getId());
             if (CollectionUtils.isNotEmpty(children)) {
@@ -135,13 +122,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Override
     public List<UserMenuDTO> listUserMenus() {
-        // 查询用户菜单信息
         List<Menu> menus = menuMapper.listMenusByUserInfoId(UserUtil.getUserDetailsDTO().getUserInfoId());
-        // 获取目录列表
         List<Menu> catalogs = listCatalogs(menus);
-        // 获取目录下的子菜单
         Map<Integer, List<Menu>> childrenMap = getMenuMap(menus);
-        // 转换前端菜单格式
         return convertUserMenuList(catalogs, childrenMap);
     }
 
@@ -160,13 +143,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     private List<UserMenuDTO> convertUserMenuList(List<Menu> catalogList, Map<Integer, List<Menu>> childrenMap) {
         return catalogList.stream().map(item -> {
-            // 获取目录
             UserMenuDTO userMenuDTO = new UserMenuDTO();
             List<UserMenuDTO> list = new ArrayList<>();
-            // 获取目录下的子菜单
             List<Menu> children = childrenMap.get(item.getId());
             if (CollectionUtils.isNotEmpty(children)) {
-                // 多级菜单处理
                 userMenuDTO = BeanCopyUtil.copyObject(item, UserMenuDTO.class);
                 list = children.stream()
                         .sorted(Comparator.comparing(Menu::getOrderNum))
@@ -177,7 +157,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
                         })
                         .collect(Collectors.toList());
             } else {
-                // 一级菜单处理
                 userMenuDTO.setPath(item.getPath());
                 userMenuDTO.setComponent(COMPONENT);
                 list.add(UserMenuDTO.builder()

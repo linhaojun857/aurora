@@ -9,7 +9,7 @@ import com.aurora.util.BeanCopyUtil;
 import com.aurora.util.PageUtil;
 import com.aurora.model.vo.ConditionVO;
 import com.aurora.model.vo.FriendLinkVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -33,12 +33,12 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
     }
 
     @Override
-    public PageResult<FriendLinkAdminDTO> listFriendLinksAdmin(ConditionVO conditionVO) {
+    public PageResultDTO<FriendLinkAdminDTO> listFriendLinksAdmin(ConditionVO conditionVO) {
         Page<FriendLink> page = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
         Page<FriendLink> friendLinkPage = friendLinkMapper.selectPage(page, new LambdaQueryWrapper<FriendLink>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), FriendLink::getLinkName, conditionVO.getKeywords()));
         List<FriendLinkAdminDTO> friendLinkBackDTOs = BeanCopyUtil.copyList(friendLinkPage.getRecords(), FriendLinkAdminDTO.class);
-        return new PageResult<>(friendLinkBackDTOs, (int) friendLinkPage.getTotal());
+        return new PageResultDTO<>(friendLinkBackDTOs, (int) friendLinkPage.getTotal());
     }
 
     @Transactional(rollbackFor = Exception.class)

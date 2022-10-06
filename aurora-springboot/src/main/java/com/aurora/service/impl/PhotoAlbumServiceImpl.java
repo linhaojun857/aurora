@@ -11,7 +11,7 @@ import com.aurora.service.PhotoAlbumService;
 import com.aurora.util.BeanCopyUtil;
 import com.aurora.util.PageUtil;
 import com.aurora.model.vo.ConditionVO;
-import com.aurora.model.vo.PageResult;
+import com.aurora.model.dto.PageResultDTO;
 import com.aurora.model.vo.PhotoAlbumVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -40,7 +40,6 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdatePhotoAlbum(PhotoAlbumVO photoAlbumVO) {
-        // 查询相册名是否存在
         PhotoAlbum album = photoAlbumMapper.selectOne(new LambdaQueryWrapper<PhotoAlbum>()
                 .select(PhotoAlbum::getId)
                 .eq(PhotoAlbum::getAlbumName, photoAlbumVO.getAlbumName()));
@@ -52,17 +51,15 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
     }
 
     @Override
-    public PageResult<PhotoAlbumAdminDTO> listPhotoAlbumsAdmin(ConditionVO conditionVO) {
-        // 查询相册数量
+    public PageResultDTO<PhotoAlbumAdminDTO> listPhotoAlbumsAdmin(ConditionVO conditionVO) {
         Integer count = photoAlbumMapper.selectCount(new LambdaQueryWrapper<PhotoAlbum>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), PhotoAlbum::getAlbumName, conditionVO.getKeywords())
                 .eq(PhotoAlbum::getIsDelete, FALSE));
         if (count == 0) {
-            return new PageResult<>();
+            return new PageResultDTO<>();
         }
-        // 查询相册信息
         List<PhotoAlbumAdminDTO> photoAlbumBackList = photoAlbumMapper.listPhotoAlbumsAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
-        return new PageResult<>(photoAlbumBackList, count);
+        return new PageResultDTO<>(photoAlbumBackList, count);
     }
 
     @Override
@@ -74,9 +71,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
 
     @Override
     public PhotoAlbumAdminDTO getPhotoAlbumByIdAdmin(Integer albumId) {
-        // 查询相册信息
         PhotoAlbum photoAlbum = photoAlbumMapper.selectById(albumId);
-        // 查询照片数量
         Integer photoCount = photoMapper.selectCount(new LambdaQueryWrapper<Photo>()
                 .eq(Photo::getAlbumId, albumId)
                 .eq(Photo::getIsDelete, FALSE));
@@ -87,11 +82,9 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
 
     @Override
     public void deletePhotoAlbumById(Integer albumId) {
-        // 查询照片数量
         Integer count = photoMapper.selectCount(new LambdaQueryWrapper<Photo>()
                 .eq(Photo::getAlbumId, albumId));
         if (count > 0) {
-            // 若相册下存在照片则逻辑删除相册和照片
             photoAlbumMapper.updateById(PhotoAlbum.builder()
                     .id(albumId)
                     .isDelete(TRUE)
@@ -100,14 +93,12 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
                     .set(Photo::getIsDelete, TRUE)
                     .eq(Photo::getAlbumId, albumId));
         } else {
-            // 若相册下不存在照片则直接删除
             photoAlbumMapper.deleteById(albumId);
         }
     }
 
     @Override
     public List<PhotoAlbumDTO> listPhotoAlbums() {
-        // 查询相册列表
         List<PhotoAlbum> photoAlbumList = photoAlbumMapper.selectList(new LambdaQueryWrapper<PhotoAlbum>()
                 .eq(PhotoAlbum::getStatus, PUBLIC.getStatus())
                 .eq(PhotoAlbum::getIsDelete, FALSE)
