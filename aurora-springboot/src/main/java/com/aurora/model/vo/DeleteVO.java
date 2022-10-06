@@ -9,9 +9,6 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-/**
- * @author 花未眠
- */
 @Data
 @Builder
 @NoArgsConstructor
