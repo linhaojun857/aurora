@@ -343,23 +343,23 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (CollectionUtils.isNotEmpty(tagNames)) {
             List<Tag> existTags = tagService.list(new LambdaQueryWrapper<Tag>()
                     .in(Tag::getTagName, tagNames));
-            List<String> existTagNameList = existTags.stream()
+            List<String> existTagNames = existTags.stream()
                     .map(Tag::getTagName)
                     .collect(Collectors.toList());
             List<Integer> existTagIds = existTags.stream()
                     .map(Tag::getId)
                     .collect(Collectors.toList());
-            tagNames.removeAll(existTagNameList);
+            tagNames.removeAll(existTagNames);
             if (CollectionUtils.isNotEmpty(tagNames)) {
-                List<Tag> tagList = tagNames.stream().map(item -> Tag.builder()
+                List<Tag> tags = tagNames.stream().map(item -> Tag.builder()
                                 .tagName(item)
                                 .build())
                         .collect(Collectors.toList());
-                tagService.saveBatch(tagList);
-                List<Integer> tagIdList = tagList.stream()
+                tagService.saveBatch(tags);
+                List<Integer> tagIds = tags.stream()
                         .map(Tag::getId)
                         .collect(Collectors.toList());
-                existTagIds.addAll(tagIdList);
+                existTagIds.addAll(tagIds);
             }
             List<ArticleTag> articleTags = existTagIds.stream().map(item -> ArticleTag.builder()
                             .articleId(articleId)

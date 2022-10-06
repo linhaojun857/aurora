@@ -88,6 +88,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<UserAreaDTO> listUserAreas(ConditionVO conditionVO) {
         List<UserAreaDTO> userAreaDTOs = new ArrayList<>();
         switch (Objects.requireNonNull(getUserAreaType(conditionVO.getType()))) {
