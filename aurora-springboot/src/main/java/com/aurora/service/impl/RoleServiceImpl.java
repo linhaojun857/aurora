@@ -52,7 +52,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public List<UserRoleDTO> listUserRoles() {
-        // 查询角色列表
         List<Role> roleList = roleMapper.selectList(new LambdaQueryWrapper<Role>()
                 .select(Role::getId, Role::getRoleName));
         return BeanCopyUtil.copyList(roleList, UserRoleDTO.class);
@@ -83,7 +82,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                 .isDisable(CommonConstant.FALSE)
                 .build();
         this.saveOrUpdate(role);
-        // 更新角色资源关系
         if (Objects.nonNull(roleVO.getResourceIds())) {
             if (Objects.nonNull(roleVO.getId())) {
                 roleResourceService.remove(new LambdaQueryWrapper<RoleResource>()
@@ -96,10 +94,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                             .build())
                     .collect(Collectors.toList());
             roleResourceService.saveBatch(roleResourceList);
-            // 重新加载角色资源信息
             filterInvocationSecurityMetadataSource.clearDataSource();
         }
-        // 更新角色菜单关系
         if (Objects.nonNull(roleVO.getMenuIds())) {
             if (Objects.nonNull(roleVO.getId())) {
                 roleMenuService.remove(new LambdaQueryWrapper<RoleMenu>().eq(RoleMenu::getRoleId, roleVO.getId()));
@@ -116,7 +112,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public void deleteRoles(List<Integer> roleIdList) {
-        // 判断角色下是否有用户
         Integer count = userRoleMapper.selectCount(new LambdaQueryWrapper<UserRole>()
                 .in(UserRole::getRoleId, roleIdList));
         if (count > 0) {

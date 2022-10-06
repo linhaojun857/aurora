@@ -65,9 +65,7 @@ public class AuroraQuartz {
     private String websiteUrl;
 
     public void saveUniqueView() {
-        // 获取每天用户量
         Long count = redisService.sSize(UNIQUE_VISITOR);
-        // 获取昨天日期插入数据
         UniqueView uniqueView = UniqueView.builder()
                 .createTime(LocalDateTimeUtil.offset(LocalDateTime.now(), -1, ChronoUnit.DAYS))
                 .viewsCount(Optional.of(count.intValue()).orElse(0))
@@ -76,14 +74,11 @@ public class AuroraQuartz {
     }
 
     public void clear() {
-        // 清空redis访客记录
         redisService.del(UNIQUE_VISITOR);
-        // 清空redis游客区域统计
         redisService.del(VISITOR_AREA);
     }
 
     public void statisticalUserArea() {
-        // 统计用户地域分布
         Map<String, Long> userAreaMap = userAuthMapper.selectList(new LambdaQueryWrapper<UserAuth>().select(UserAuth::getIpSource))
                 .stream()
                 .map(item -> {
@@ -93,7 +88,6 @@ public class AuroraQuartz {
                     return UNKNOWN;
                 })
                 .collect(Collectors.groupingBy(item -> item, Collectors.counting()));
-        // 转换格式
         List<UserAreaDTO> userAreaList = userAreaMap.entrySet().stream()
                 .map(item -> UserAreaDTO.builder()
                         .name(item.getKey())
@@ -134,9 +128,6 @@ public class AuroraQuartz {
         roleResourceService.saveBatch(roleResources);
     }
 
-    /**
-     * 先删除全部数据，再重新导入数据
-     */
     public void importDataIntoES() {
         elasticsearchMapper.deleteAll();
         List<Article> articles = articleService.list();

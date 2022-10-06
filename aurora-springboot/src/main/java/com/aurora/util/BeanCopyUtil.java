@@ -4,19 +4,8 @@ package com.aurora.util;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author 花未眠
- * 复制对象和集合属性
- */
 public class BeanCopyUtil {
 
-    /**
-     * 复制对象
-     *
-     * @param source 源
-     * @param target 目标
-     * @return {@link T}
-     */
     public static <T> T copyObject(Object source, Class<T> target) {
         T temp = null;
         try {
@@ -30,13 +19,6 @@ public class BeanCopyUtil {
         return temp;
     }
 
-    /**
-     * 拷贝集合
-     *
-     * @param source 源
-     * @param target 目标
-     * @return {@link List<T>} 集合
-     */
     public static <T, S> List<T> copyList(List<S> source, Class<T> target) {
         List<T> list = new ArrayList<>();
         if (null != source && source.size() > 0) {
@@ -46,6 +28,5 @@ public class BeanCopyUtil {
         }
         return list;
     }
-
 
 }

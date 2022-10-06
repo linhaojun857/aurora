@@ -18,10 +18,6 @@ import java.util.Objects;
 
 import static com.aurora.enums.ArticleStatusEnum.DRAFT;
 
-
-/**
- * 普通文章导入策略
- */
 @Slf4j
 @Service("normalArticleImportStrategyImpl")
 public class NormalArticleImportStrategyImpl implements ArticleImportStrategy {
@@ -30,9 +26,7 @@ public class NormalArticleImportStrategyImpl implements ArticleImportStrategy {
 
     @Override
     public void importArticles(MultipartFile file) {
-        // 获取文件名作为文章标题
         String articleTitle = Objects.requireNonNull(file.getOriginalFilename()).split("\\.")[0];
-        // 获取文章内容
         StringBuilder articleContent = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             while (reader.ready()) {
@@ -42,7 +36,6 @@ public class NormalArticleImportStrategyImpl implements ArticleImportStrategy {
             log.error(StrUtil.format("导入文章失败, 堆栈:{}", ExceptionUtil.stacktraceToString(e)));
             throw new BizException("导入文章失败");
         }
-        // 保存文章
         ArticleVO articleVO = ArticleVO.builder()
                 .articleTitle(articleTitle)
                 .articleContent(articleContent.toString())

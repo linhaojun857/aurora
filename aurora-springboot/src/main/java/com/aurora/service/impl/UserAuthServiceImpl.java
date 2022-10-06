@@ -74,20 +74,16 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public void sendCode(String username) {
-        // 校验账号是否合法
         if (!checkEmail(username)) {
             throw new BizException("请输入正确邮箱");
         }
-        // 生成六位随机验证码发送
         String code = getRandomCode();
-        // 发送验证码
         EmailDTO emailDTO = EmailDTO.builder()
                 .email(username)
                 .subject("验证码")
                 .content("您的验证码为 " + code + " 有效期15分钟，请不要告诉他人哦！")
                 .build();
         rabbitTemplate.convertAndSend(EMAIL_EXCHANGE, "*", new Message(JSON.toJSONBytes(emailDTO), new MessageProperties()));
-        // 将验证码存入redis，设置过期时间为15分钟
         redisService.set(USER_CODE_KEY + username, code, CODE_EXPIRE_TIME);
     }
 
@@ -96,14 +92,12 @@ public class UserAuthServiceImpl implements UserAuthService {
         List<UserAreaDTO> userAreaDTOs = new ArrayList<>();
         switch (Objects.requireNonNull(getUserAreaType(conditionVO.getType()))) {
             case USER:
-                // 查询注册用户区域分布
                 Object userArea = redisService.get(USER_AREA);
                 if (Objects.nonNull(userArea)) {
                     userAreaDTOs = JSON.parseObject(userArea.toString(), List.class);
                 }
                 return userAreaDTOs;
             case VISITOR:
-                // 查询游客区域分布
                 Map<String, Object> visitorArea = redisService.hGetAll(VISITOR_AREA);
                 if (Objects.nonNull(visitorArea)) {
                     userAreaDTOs = visitorArea.entrySet().stream()
@@ -125,24 +119,20 @@ public class UserAuthServiceImpl implements UserAuthService {
         if (!checkEmail(userVO.getUsername())) {
             throw new BizException("邮箱格式不对!");
         }
-        // 校验账号是否合法
         if (checkUser(userVO)) {
             throw new BizException("邮箱已被注册！");
         }
-        // 新增用户信息
         UserInfo userInfo = UserInfo.builder()
                 .email(userVO.getUsername())
                 .nickname(CommonConstant.DEFAULT_NICKNAME + IdWorker.getId())
                 .avatar(auroraInfoService.getWebsiteConfig().getUserAvatar())
                 .build();
         userInfoMapper.insert(userInfo);
-        // 绑定用户角色
         UserRole userRole = UserRole.builder()
                 .userId(userInfo.getId())
                 .roleId(RoleEnum.USER.getRoleId())
                 .build();
         userRoleMapper.insert(userRole);
-        // 新增用户账号
         UserAuth userAuth = UserAuth.builder()
                 .userInfoId(userInfo.getId())
                 .username(userVO.getUsername())
@@ -154,11 +144,9 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public void updatePassword(UserVO userVO) {
-        // 校验账号是否合法
         if (!checkUser(userVO)) {
             throw new BizException("邮箱尚未注册！");
         }
-        // 根据用户名修改密码
         userAuthMapper.update(new UserAuth(), new LambdaUpdateWrapper<UserAuth>()
                 .set(UserAuth::getPassword, BCrypt.hashpw(userVO.getPassword(), BCrypt.gensalt()))
                 .eq(UserAuth::getUsername, userVO.getUsername()));
@@ -166,10 +154,8 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public void updateAdminPassword(PasswordVO passwordVO) {
-        // 查询旧密码是否正确
         UserAuth user = userAuthMapper.selectOne(new LambdaQueryWrapper<UserAuth>()
                 .eq(UserAuth::getId, UserUtil.getUserDetailsDTO().getId()));
-        // 正确则修改密码，错误则提示不正确
         if (Objects.nonNull(user) && BCrypt.checkpw(passwordVO.getOldPassword(), user.getPassword())) {
             UserAuth userAuth = UserAuth.builder()
                     .id(UserUtil.getUserDetailsDTO().getId())
@@ -183,12 +169,10 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public PageResultDTO<UserAdminDTO> listUsers(ConditionVO conditionVO) {
-        // 获取后台用户数量
         Integer count = userAuthMapper.countUser(conditionVO);
         if (count == 0) {
             return new PageResultDTO<>();
         }
-        // 获取后台用户列表
         List<UserAdminDTO> UserAdminDTOs = userAuthMapper.listUsers(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
         return new PageResultDTO<>(UserAdminDTOs, count);
     }
@@ -210,7 +194,6 @@ public class UserAuthServiceImpl implements UserAuthService {
         if (!user.getCode().equals(redisService.get(USER_CODE_KEY + user.getUsername()))) {
             throw new BizException("验证码错误！");
         }
-        //查询用户名是否存在
         UserAuth userAuth = userAuthMapper.selectOne(new LambdaQueryWrapper<UserAuth>()
                 .select(UserAuth::getUsername)
                 .eq(UserAuth::getUsername, user.getUsername()));

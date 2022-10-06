@@ -4,10 +4,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.Objects;
 
-/**
- * @author 花未眠
- * 分页工具类
- **/
 public class PageUtil {
 
     private static final ThreadLocal<Page<?>> PAGE_HOLDER = new ThreadLocal<>();

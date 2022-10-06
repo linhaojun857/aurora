@@ -50,12 +50,10 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void importSwagger() {
-        // 删除所有资源
         this.remove(null);
         roleResourceMapper.delete(null);
         List<Resource> resourceList = new ArrayList<>();
         Map<String, Object> data = restTemplate.getForObject("http://localhost:8080/v2/api-docs", Map.class);
-        // 获取所有模块
         List<Map<String, String>> tagList = (List<Map<String, String>>) data.get("tags");
         tagList.forEach(item -> {
             Resource resource = Resource.builder()
@@ -69,7 +67,6 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         Map<String, Integer> permissionMap = resourceList.stream()
                 .collect(Collectors.toMap(Resource::getResourceName, Resource::getId));
         resourceList.clear();
-        // 获取所有接口
         Map<String, Map<String, Map<String, Object>>> path = (Map<String, Map<String, Map<String, Object>>>) data.get("paths");
         path.forEach((url, value) -> value.forEach((requestMethod, info) -> {
             String permissionName = info.get("summary").toString();
@@ -90,22 +87,18 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
     @Override
     public void saveOrUpdateResource(ResourceVO resourceVO) {
-        // 更新资源信息
         Resource resource = BeanCopyUtil.copyObject(resourceVO, Resource.class);
         this.saveOrUpdate(resource);
-        // 重新加载角色资源信息
         filterInvocationSecurityMetadataSource.clearDataSource();
     }
 
     @Override
     public void deleteResource(Integer resourceId) {
-        // 查询是否有角色关联
         Integer count = roleResourceMapper.selectCount(new LambdaQueryWrapper<RoleResource>()
                 .eq(RoleResource::getResourceId, resourceId));
         if (count > 0) {
             throw new BizException("该资源下存在角色");
         }
-        // 删除子资源
         List<Integer> resourceIdList = resourceMapper.selectList(new LambdaQueryWrapper<Resource>()
                         .select(Resource::getId).
                         eq(Resource::getParentId, resourceId))
@@ -118,14 +111,10 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
     @Override
     public List<ResourceDTO> listResources(ConditionVO conditionVO) {
-        // 查询资源列表
         List<Resource> resourceList = resourceMapper.selectList(new LambdaQueryWrapper<Resource>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), Resource::getResourceName, conditionVO.getKeywords()));
-        // 获取所有模块
         List<Resource> parentList = listResourceModule(resourceList);
-        // 根据父id分组获取模块下的资源
         Map<Integer, List<Resource>> childrenMap = listResourceChildren(resourceList);
-        // 绑定模块下的所有接口
         List<ResourceDTO> resourceDTOList = parentList.stream().map(item -> {
             ResourceDTO resourceDTO = BeanCopyUtil.copyObject(item, ResourceDTO.class);
             List<ResourceDTO> childrenList = BeanCopyUtil.copyList(childrenMap.get(item.getId()), ResourceDTO.class);
@@ -133,7 +122,6 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
             childrenMap.remove(item.getId());
             return resourceDTO;
         }).collect(Collectors.toList());
-        // 若还有资源未取出则拼接
         if (CollectionUtils.isNotEmpty(childrenMap)) {
             List<Resource> childrenList = new ArrayList<>();
             childrenMap.values().forEach(childrenList::addAll);
@@ -147,15 +135,11 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
     @Override
     public List<LabelOptionDTO> listResourceOption() {
-        // 查询资源列表
         List<Resource> resourceList = resourceMapper.selectList(new LambdaQueryWrapper<Resource>()
                 .select(Resource::getId, Resource::getResourceName, Resource::getParentId)
                 .eq(Resource::getIsAnonymous, FALSE));
-        // 获取所有模块
         List<Resource> parentList = listResourceModule(resourceList);
-        // 根据父id分组获取模块下的资源
         Map<Integer, List<Resource>> childrenMap = listResourceChildren(resourceList);
-        // 组装父子数据
         return parentList.stream().map(item -> {
             List<LabelOptionDTO> list = new ArrayList<>();
             List<Resource> children = childrenMap.get(item.getId());

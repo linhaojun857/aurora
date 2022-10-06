@@ -22,10 +22,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
-/**
- * @author 花未眠
- * redis操作
- **/
 @Service
 public class RedisServiceImpl implements RedisService {
     @Resource

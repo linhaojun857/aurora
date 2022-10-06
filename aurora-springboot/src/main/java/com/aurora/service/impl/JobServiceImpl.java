@@ -136,17 +136,11 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         return jobMapper.listJobGroups();
     }
 
-    /**
-     * 校验cron表达式的合法性
-     */
     private void checkCronIsValid(JobVO jobVO) {
         boolean valid = CronUtil.isValid(jobVO.getCronExpression());
         Assert.isTrue(valid, "Cron表达式无效!");
     }
 
-    /**
-     * 更新任务
-     */
     @SneakyThrows
     public void updateSchedulerJob(Job job, String jobGroup) {
         Integer jobId = job.getId();

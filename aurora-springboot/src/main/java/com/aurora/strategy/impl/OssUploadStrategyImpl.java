@@ -8,10 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 
-/**
- * @author 花未眠
- * oss上传策略
- */
 @Service("ossUploadStrategyImpl")
 public class OssUploadStrategyImpl extends AbstractUploadStrategyImpl {
 

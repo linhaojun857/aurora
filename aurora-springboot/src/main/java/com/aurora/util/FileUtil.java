@@ -9,19 +9,9 @@ import java.io.*;
 import java.security.MessageDigest;
 import java.util.Objects;
 
-/**
- * @author 花未眠
- * 文件md5工具类
- */
 @Log4j2
 public class FileUtil {
 
-    /**
-     * 获取文件md5值
-     *
-     * @param inputStream 文件输入流
-     * @return {@link String} 文件md5值
-     */
     public static String getMd5(InputStream inputStream) {
         try {
             MessageDigest md5 = MessageDigest.getInstance("md5");
@@ -45,12 +35,6 @@ public class FileUtil {
         }
     }
 
-    /**
-     * 得到文件扩展名
-     *
-     * @param fileName 文件名称
-     * @return {@link String} 文件后缀
-     */
     public static String getExtName(String fileName) {
         if (StringUtils.isBlank(fileName)) {
             return "";
@@ -58,12 +42,6 @@ public class FileUtil {
         return fileName.substring(fileName.lastIndexOf("."));
     }
 
-    /**
-     * 转换file
-     *
-     * @param multipartFile 多部分文件
-     * @return {@link File} file
-     */
     public static File multipartFileToFile(MultipartFile multipartFile) {
         File file = null;
         try {
@@ -79,12 +57,6 @@ public class FileUtil {
     }
 
 
-    /**
-     * 自动调节精度(经验数值)
-     *
-     * @param size 源图片大小
-     * @return 图片压缩质量比
-     */
     private static double getAccuracy(long size) {
         double accuracy;
         if (size < 900) {

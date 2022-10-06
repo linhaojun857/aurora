@@ -42,13 +42,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @SneakyThrows
     @Override
     public PageResultDTO<CategoryAdminDTO> listCategoriesAdmin(ConditionVO conditionVO) {
-        // 查询分类数量
         Integer count = categoryMapper.selectCount(new LambdaQueryWrapper<Category>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), Category::getCategoryName, conditionVO.getKeywords()));
         if (count == 0) {
             return new PageResultDTO<>();
         }
-        // 分页查询分类列表
         List<CategoryAdminDTO> categoryList = categoryMapper.listCategoriesAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
         return new PageResultDTO<>(categoryList, count);
     }
