@@ -8,10 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @author 花未眠
- * 角色菜单
- */
 @Data
 @Builder
 @AllArgsConstructor
@@ -19,20 +15,11 @@ import lombok.NoArgsConstructor;
 @TableName("t_role_menu")
 public class RoleMenu {
 
-    /**
-     * 主键id
-     */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * 角色id
-     */
     private Integer roleId;
 
-    /**
-     * 菜单id
-     */
     private Integer menuId;
 
 }
