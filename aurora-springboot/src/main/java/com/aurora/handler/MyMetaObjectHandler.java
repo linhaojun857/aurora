@@ -8,11 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-
-/**
- * @author 花未眠
- * MyBatisPlus插入和更新时自动填充字段
- */
 @Slf4j
 @Component
 public class MyMetaObjectHandler implements MetaObjectHandler {

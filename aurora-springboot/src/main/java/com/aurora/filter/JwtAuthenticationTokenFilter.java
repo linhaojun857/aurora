@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 @Component
+@SuppressWarnings("all")
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
