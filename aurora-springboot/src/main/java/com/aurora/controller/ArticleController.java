@@ -52,8 +52,8 @@ public class ArticleController {
     }
 
     @ApiOperation("根据id获取文章")
-    @GetMapping("/articles/{id}")
-    public ResultVO<ArticleDTO> getArticleById(@PathVariable("id") Integer articleId) {
+    @GetMapping("/articles/{articleId}")
+    public ResultVO<ArticleDTO> getArticleById(@PathVariable("articleId") Integer articleId) {
         return ResultVO.ok(articleService.getArticleById(articleId));
     }
 
