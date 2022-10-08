@@ -22,6 +22,10 @@ import java.net.UnknownHostException;
 @Component
 public class IpUtil {
 
+    private static DbSearcher searcher;
+
+    private static Method method;
+
     public static String getIpAddress(HttpServletRequest request) {
         String ipAddress = request.getHeader("X-Real-IP");
         if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
@@ -56,26 +60,15 @@ public class IpUtil {
         return StringUtils.substringBefore(ipAddress, ",");
     }
 
-    private static DbSearcher searcher;
-    private static Method method;
-
-    /**
-     * 在服务启动时加载 ip2region.db 到内存中
-     */
     @PostConstruct
     private void initIp2regionResource() throws Exception {
         InputStream inputStream = new ClassPathResource("/ip/ip2region.db").getInputStream();
-        //将 ip2region.db 转为 ByteArray
         byte[] dbBinStr = FileCopyUtils.copyToByteArray(inputStream);
         DbConfig dbConfig = new DbConfig();
         searcher = new DbSearcher(dbConfig, dbBinStr);
-        //二进制方式初始化 DBSearcher，需要使用基于内存的查找算法 memorySearch
         method = searcher.getClass().getMethod("memorySearch", String.class);
     }
 
-    /**
-     * 获取ip地址的归属地
-     */
     public static String getIpSource(String ipAddress) {
         if (ipAddress == null || !Util.isIpAddress(ipAddress)) {
             log.error("Error: Invalid ip address");
@@ -103,9 +96,6 @@ public class IpUtil {
         return strings[1];
     }
 
-    /**
-     * 获取访问设备
-     */
     public static UserAgent getUserAgent(HttpServletRequest request) {
         return UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
     }
