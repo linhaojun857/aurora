@@ -5,22 +5,15 @@
       data-dia="author">
       <div class="profile absolute w-full flex flex-col justify-center items-center">
         <div class="flex flex-col justify-center items-center">
-          <img
-            v-if="websiteConfig.authorAvatar !== ''"
-            :class="avatarClass"
-            :src="websiteConfig.authorAvatar"
-            alt="avatar" />
-          <ob-skeleton v-else width="7rem" height="7rem" circle />
-
+          <img v-if="websiteConfig.authorAvatar" :class="avatarClass" :src="websiteConfig.authorAvatar" />
+          <img v-else :class="avatarClass" :src="default" />
           <h2 class="text-center pt-4 text-4xl font-semibold text-ob-bright">
             <template v-if="websiteConfig.author">
               {{ websiteConfig.author }}
             </template>
             <ob-skeleton v-else height="2.25rem" width="7rem" />
           </h2>
-
           <span class="h-1 w-14 rounded-full mt-2" :style="gradientBackground" />
-
           <p
             v-if="websiteConfig.authorIntro"
             class="pt-6 px-10 w-full text-s text-center"
@@ -70,6 +63,7 @@ export default defineComponent({
     const appStore = useAppStore()
     const { t } = useI18n()
     return {
+      default: 'https://static.linhaojun.top/config/52a81cd2772167b645569342e81ce312.jpg',
       avatarClass: computed(() => {
         return {
           'ob-avatar': true,

@@ -2,7 +2,7 @@
   <div class="sidebar-box">
     <SubTitle :title="'titles.tag_list'" icon="tag" />
     <TagList>
-      <template v-if="tags && tags.length > 0">
+      <template v-if="tags != '' && tags.length > 0">
         <TagItem v-for="tag in tags" :key="tag.id" :id="tag.id" :name="tag.tagName" :count="tag.count" size="xs" />
         <div class="flex flex-row items-center hover:opacity-50 mr-2 mb-2 cursor-pointer transition-all">
           <span class="text-center px-3 py-1 rounded-md text-sm">
@@ -10,15 +10,6 @@
               <router-link to="/tags"> {{ t('settings.more-tags') }} ... </router-link>
             </b>
           </span>
-        </div>
-      </template>
-      <template v-else-if="tags">
-        <ob-skeleton tag="li" :count="10" height="20px" width="3rem" />
-      </template>
-      <template v-else>
-        <div class="flex flex-row justify-center items-center">
-          <svg-icon class="stroke-ob-bright mr-2" icon-class="warning" />
-          {{ t('settings.empty-tag') }}
         </div>
       </template>
     </TagList>
