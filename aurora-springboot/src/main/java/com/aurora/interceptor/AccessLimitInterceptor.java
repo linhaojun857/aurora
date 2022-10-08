@@ -20,11 +20,6 @@ import java.nio.charset.StandardCharsets;
 
 import static com.aurora.constant.CommonConstant.APPLICATION_JSON;
 
-
-/**
- * @author 花未眠
- * 限流逻辑
- */
 @Log4j2
 @Component
 @SuppressWarnings("all")
@@ -35,19 +30,14 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler) throws Exception {
-        // 如果请求输入方法
         if (handler instanceof HandlerMethod) {
             HandlerMethod hm = (HandlerMethod) handler;
-            // 获取方法中的注解,看是否有该注解
             AccessLimit accessLimit = hm.getMethodAnnotation(AccessLimit.class);
             if (accessLimit != null) {
                 long seconds = accessLimit.seconds();
                 int maxCount = accessLimit.maxCount();
-                // 关于key的生成规则可以自己定义 本项目需求是对每个方法都加上限流功能，如果你只是针对ip地址限流，那么key只需要只用ip就好
                 String key = IpUtil.getIpAddress(httpServletRequest) + hm.getMethod().getName();
-                // 从redis中获取用户访问的次数
                 try {
-                    // 此操作代表获取该key对应的值自增1后的结果
                     long q = redisService.incrExpire(key, seconds);
                     if (q > maxCount) {
                         render(httpServletResponse, ResultVO.fail("请求过于频繁，" + seconds + "秒后再试"));
