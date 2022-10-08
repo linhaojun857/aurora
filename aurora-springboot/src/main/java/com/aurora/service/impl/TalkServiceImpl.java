@@ -94,13 +94,13 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
         if (count == 0) {
             return new PageResultDTO<>();
         }
-        List<TalkAdminDTO> talkDTOList = talkMapper.listTalksAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
-        talkDTOList.forEach(item -> {
+        List<TalkAdminDTO> talkDTOs = talkMapper.listTalksAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
+        talkDTOs.forEach(item -> {
             if (Objects.nonNull(item.getImages())) {
                 item.setImgs(CommonUtil.castList(JSON.parseObject(item.getImages(), List.class), String.class));
             }
         });
-        return new PageResultDTO<>(talkDTOList, count);
+        return new PageResultDTO<>(talkDTOs, count);
     }
 
     @Override

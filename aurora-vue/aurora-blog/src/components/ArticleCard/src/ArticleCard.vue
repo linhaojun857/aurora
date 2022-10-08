@@ -46,7 +46,7 @@
         </h1>
         <ob-skeleton v-else tag="h1" height="3rem" />
         <p v-if="article.articleContent">{{ article.articleContent }}</p>
-        <ob-skeleton v-else tag="p" :count="4" height="16px" />
+        <ob-skeleton v-else tag="p" :count="5" height="16px" />
         <div class="article-footer" v-if="article.author && article.createTime">
           <div class="flex flex-row items-center">
             <img

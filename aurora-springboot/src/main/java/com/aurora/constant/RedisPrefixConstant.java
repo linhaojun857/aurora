@@ -22,6 +22,6 @@ public class RedisPrefixConstant {
 
     public static final String LOGIN_USER = "login_user";
 
-    public static final String USER_ARTICLE_ACCESS = "article_access";
+    public static final String ARTICLE_ACCESS = "article_access";
 
 }

@@ -123,7 +123,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (articleForCheck.getStatus().equals(2)) {
             Boolean isAccess;
             try {
-                isAccess = redisService.sIsMember(USER_ARTICLE_ACCESS + ":" + UserUtil.getUserDetailsDTO().getId(), articleId);
+                isAccess = redisService.sIsMember(ARTICLE_ACCESS + ":" + UserUtil.getUserDetailsDTO().getId(), articleId);
             } catch (Exception exception) {
                 throw new BizException(ARTICLE_ACCESS_FAIL);
             }
@@ -167,7 +167,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             throw new BizException("文章不存在");
         }
         if (article.getPassword().equals(articlePasswordVO.getArticlePassword())) {
-            redisService.sAdd(USER_ARTICLE_ACCESS + ":" + UserUtil.getUserDetailsDTO().getId(), articlePasswordVO.getArticleId());
+            redisService.sAdd(ARTICLE_ACCESS + ":" + UserUtil.getUserDetailsDTO().getId(), articlePasswordVO.getArticleId());
         } else {
             throw new BizException("密码错误");
         }
@@ -343,23 +343,23 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (CollectionUtils.isNotEmpty(tagNames)) {
             List<Tag> existTags = tagService.list(new LambdaQueryWrapper<Tag>()
                     .in(Tag::getTagName, tagNames));
-            List<String> existTagNameList = existTags.stream()
+            List<String> existTagNames = existTags.stream()
                     .map(Tag::getTagName)
                     .collect(Collectors.toList());
             List<Integer> existTagIds = existTags.stream()
                     .map(Tag::getId)
                     .collect(Collectors.toList());
-            tagNames.removeAll(existTagNameList);
+            tagNames.removeAll(existTagNames);
             if (CollectionUtils.isNotEmpty(tagNames)) {
-                List<Tag> tagList = tagNames.stream().map(item -> Tag.builder()
+                List<Tag> tags = tagNames.stream().map(item -> Tag.builder()
                                 .tagName(item)
                                 .build())
                         .collect(Collectors.toList());
-                tagService.saveBatch(tagList);
-                List<Integer> tagIdList = tagList.stream()
+                tagService.saveBatch(tags);
+                List<Integer> tagIds = tags.stream()
                         .map(Tag::getId)
                         .collect(Collectors.toList());
-                existTagIds.addAll(tagIdList);
+                existTagIds.addAll(tagIds);
             }
             List<ArticleTag> articleTags = existTagIds.stream().map(item -> ArticleTag.builder()
                             .articleId(articleId)

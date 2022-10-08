@@ -46,7 +46,7 @@
         </h1>
         <ob-skeleton v-else tag="h1" height="3rem" />
         <p v-if="article.articleContent">{{ article.articleContent }}</p>
-        <ob-skeleton v-else tag="p" :count="3" height="20px" />
+        <ob-skeleton v-else tag="p" :count="4" height="20px" />
         <div class="article-footer" v-if="article">
           <div class="flex flex-row items-center">
             <img
@@ -101,9 +101,6 @@ export default defineComponent({
       window.open(link)
     }
     const toArticle = () => {
-      if (articleStore.topArticle == '') {
-        return
-      }
       let isAccess = false
       userStore.accessArticles.forEach((item: any) => {
         if (item == articleStore.topArticle.id) {

@@ -1,6 +1,7 @@
 package com.aurora.exception;
 
 public class TaskException extends Exception {
+
     private static final long serialVersionUID = 1L;
 
     private final Code code;
@@ -9,8 +10,8 @@ public class TaskException extends Exception {
         this(msg, code, null);
     }
 
-    public TaskException(String msg, Code code, Exception nestedEx) {
-        super(msg, nestedEx);
+    public TaskException(String msg, Code code, Exception exception) {
+        super(msg, exception);
         this.code = code;
     }
 
