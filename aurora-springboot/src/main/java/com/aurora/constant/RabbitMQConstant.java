@@ -1,6 +1,6 @@
 package com.aurora.constant;
 
-public class MQPrefixConstant {
+public class RabbitMQConstant {
 
     public static final String MAXWELL_QUEUE = "maxwell_queue";
 

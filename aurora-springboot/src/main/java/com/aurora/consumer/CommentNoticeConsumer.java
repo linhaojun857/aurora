@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 
 import static com.aurora.constant.CommonConstant.*;
-import static com.aurora.constant.MQPrefixConstant.EMAIL_QUEUE;
+import static com.aurora.constant.RabbitMQConstant.EMAIL_QUEUE;
 
 /**
  * @author 花未眠
