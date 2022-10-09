@@ -22,6 +22,6 @@ public class RedisConstant {
 
     public static final String LOGIN_USER = "login_user";
 
-    public static final String ARTICLE_ACCESS = "article_access";
+    public static final String ARTICLE_ACCESS = "article_access:";
 
 }
