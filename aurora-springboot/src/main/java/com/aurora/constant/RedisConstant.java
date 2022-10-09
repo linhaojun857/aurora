@@ -1,6 +1,6 @@
 package com.aurora.constant;
 
-public class RedisPrefixConstant {
+public class RedisConstant {
 
     public static final long CODE_EXPIRE_TIME = 15 * 60;
 
@@ -22,6 +22,6 @@ public class RedisPrefixConstant {
 
     public static final String LOGIN_USER = "login_user";
 
-    public static final String ARTICLE_ACCESS = "article_access";
+    public static final String ARTICLE_ACCESS = "article_access:";
 
 }

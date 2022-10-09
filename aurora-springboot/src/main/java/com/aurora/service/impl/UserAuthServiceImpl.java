@@ -38,8 +38,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.aurora.constant.MQPrefixConstant.EMAIL_EXCHANGE;
-import static com.aurora.constant.RedisPrefixConstant.*;
+import static com.aurora.constant.RabbitMQConstant.EMAIL_EXCHANGE;
+import static com.aurora.constant.RedisConstant.*;
 import static com.aurora.enums.UserAreaTypeEnum.getUserAreaType;
 import static com.aurora.util.CommonUtil.checkEmail;
 import static com.aurora.util.CommonUtil.getRandomCode;

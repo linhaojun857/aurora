@@ -30,7 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.aurora.constant.RedisPrefixConstant.USER_CODE_KEY;
+import static com.aurora.constant.RedisConstant.USER_CODE_KEY;
 import static com.aurora.util.PageUtil.getLimitCurrent;
 import static com.aurora.util.PageUtil.getSize;
 

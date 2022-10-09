@@ -40,7 +40,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.aurora.constant.CommonConstant.*;
-import static com.aurora.constant.MQPrefixConstant.EMAIL_EXCHANGE;
+import static com.aurora.constant.RabbitMQConstant.EMAIL_EXCHANGE;
 import static com.aurora.enums.CommentTypeEnum.*;
 
 @Service

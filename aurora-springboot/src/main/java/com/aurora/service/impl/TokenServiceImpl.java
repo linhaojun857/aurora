@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.aurora.constant.AuthConstant.*;
-import static com.aurora.constant.RedisPrefixConstant.LOGIN_USER;
+import static com.aurora.constant.RedisConstant.LOGIN_USER;
 
 
 @Service

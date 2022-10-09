@@ -39,8 +39,8 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import static com.aurora.constant.MQPrefixConstant.SUBSCRIBE_EXCHANGE;
-import static com.aurora.constant.RedisPrefixConstant.*;
+import static com.aurora.constant.RabbitMQConstant.SUBSCRIBE_EXCHANGE;
+import static com.aurora.constant.RedisConstant.*;
 import static com.aurora.enums.ArticleStatusEnum.*;
 import static com.aurora.enums.StatusCodeEnum.ARTICLE_ACCESS_FAIL;
 
@@ -123,7 +123,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (articleForCheck.getStatus().equals(2)) {
             Boolean isAccess;
             try {
-                isAccess = redisService.sIsMember(ARTICLE_ACCESS + ":" + UserUtil.getUserDetailsDTO().getId(), articleId);
+                isAccess = redisService.sIsMember(ARTICLE_ACCESS + UserUtil.getUserDetailsDTO().getId(), articleId);
             } catch (Exception exception) {
                 throw new BizException(ARTICLE_ACCESS_FAIL);
             }
@@ -167,7 +167,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             throw new BizException("文章不存在");
         }
         if (article.getPassword().equals(articlePasswordVO.getArticlePassword())) {
-            redisService.sAdd(ARTICLE_ACCESS + ":" + UserUtil.getUserDetailsDTO().getId(), articlePasswordVO.getArticleId());
+            redisService.sAdd(ARTICLE_ACCESS + UserUtil.getUserDetailsDTO().getId(), articlePasswordVO.getArticleId());
         } else {
             throw new BizException("密码错误");
         }

@@ -27,7 +27,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.aurora.constant.CommonConstant.UNKNOWN;
-import static com.aurora.constant.RedisPrefixConstant.*;
+import static com.aurora.constant.RedisConstant.*;
 
 @Slf4j
 @Component("auroraQuartz")
