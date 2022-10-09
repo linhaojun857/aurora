@@ -29,7 +29,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.aurora.constant.CommonConstant.*;
-import static com.aurora.constant.RedisPrefixConstant.*;
+import static com.aurora.constant.RedisConstant.*;
 
 @Service
 public class AuroraInfoServiceImpl implements AuroraInfoService {

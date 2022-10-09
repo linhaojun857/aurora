@@ -1,6 +1,6 @@
 package com.aurora.constant;
 
-public class RedisPrefixConstant {
+public class RedisConstant {
 
     public static final long CODE_EXPIRE_TIME = 15 * 60;
 
