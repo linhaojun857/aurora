@@ -1,6 +1,7 @@
 package com.aurora.service.impl;
 
 import com.aurora.constant.ScheduleConstant;
+import com.aurora.enums.JobStatusEnum;
 import com.aurora.model.dto.JobDTO;
 import com.aurora.entity.Job;
 import com.aurora.mapper.JobMapper;
@@ -115,9 +116,9 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         updateWrapper.eq(Job::getId, jobStatusVO.getId()).set(Job::getStatus, status);
         int row = jobMapper.update(null, updateWrapper);
         if (row > 0) {
-            if (ScheduleConstant.Status.NORMAL.getValue().equals(status)) {
+            if (JobStatusEnum.NORMAL.getValue().equals(status)) {
                 scheduler.resumeJob(ScheduleUtil.getJobKey(jobId, jobGroup));
-            } else if (ScheduleConstant.Status.PAUSE.getValue().equals(status)) {
+            } else if (JobStatusEnum.PAUSE.getValue().equals(status)) {
                 scheduler.pauseJob(ScheduleUtil.getJobKey(jobId, jobGroup));
             }
         }
@@ -144,10 +145,8 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     @SneakyThrows
     public void updateSchedulerJob(Job job, String jobGroup) {
         Integer jobId = job.getId();
-        // 判断是否存在
         JobKey jobKey = ScheduleUtil.getJobKey(jobId, jobGroup);
         if (scheduler.checkExists(jobKey)) {
-            // 防止创建时存在数据问题 先移除，然后在执行创建操作
             scheduler.deleteJob(jobKey);
         }
         ScheduleUtil.createScheduleJob(scheduler, job);

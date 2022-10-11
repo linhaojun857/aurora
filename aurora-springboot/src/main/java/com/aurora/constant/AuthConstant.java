@@ -1,14 +1,15 @@
 package com.aurora.constant;
 
-public class AuthConstant {
+public interface AuthConstant {
 
-    public static final String TOKEN_HEADER = "Authorization";
+    int TWENTY_MINUTES = 20;
 
-    public static final String TOKEN_PREFIX = "Bearer ";
+    int EXPIRE_TIME = 7 * 24 * 60 * 60;
 
-    public final static Integer TWENTY_MINUTES = 20;
+    String TOKEN_HEADER = "Authorization";
 
-    public final static String SECRET = "huaweimian";
+    String TOKEN_PREFIX = "Bearer ";
 
-    public final static Integer EXPIRE_TIME = 7 * 24 * 60 * 60;
+    String SECRET = "huaweimian";
+
 }
