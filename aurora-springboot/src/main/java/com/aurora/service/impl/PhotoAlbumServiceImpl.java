@@ -58,15 +58,15 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
         if (count == 0) {
             return new PageResultDTO<>();
         }
-        List<PhotoAlbumAdminDTO> photoAlbumBackList = photoAlbumMapper.listPhotoAlbumsAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
-        return new PageResultDTO<>(photoAlbumBackList, count);
+        List<PhotoAlbumAdminDTO> photoAlbumBacks = photoAlbumMapper.listPhotoAlbumsAdmin(PageUtil.getLimitCurrent(), PageUtil.getSize(), conditionVO);
+        return new PageResultDTO<>(photoAlbumBacks, count);
     }
 
     @Override
     public List<PhotoAlbumDTO> listPhotoAlbumInfosAdmin() {
-        List<PhotoAlbum> photoAlbumList = photoAlbumMapper.selectList(new LambdaQueryWrapper<PhotoAlbum>()
+        List<PhotoAlbum> photoAlbums = photoAlbumMapper.selectList(new LambdaQueryWrapper<PhotoAlbum>()
                 .eq(PhotoAlbum::getIsDelete, FALSE));
-        return BeanCopyUtil.copyList(photoAlbumList, PhotoAlbumDTO.class);
+        return BeanCopyUtil.copyList(photoAlbums, PhotoAlbumDTO.class);
     }
 
     @Override

@@ -46,13 +46,13 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     @Autowired
     private FilterInvocationSecurityMetadataSourceImpl filterInvocationSecurityMetadataSource;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("all")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void importSwagger() {
         this.remove(null);
         roleResourceMapper.delete(null);
-        List<Resource> resourceList = new ArrayList<>();
+        List<Resource> resources = new ArrayList<>();
         Map<String, Object> data = restTemplate.getForObject("http://localhost:8080/v2/api-docs", Map.class);
         List<Map<String, String>> tagList = (List<Map<String, String>>) data.get("tags");
         tagList.forEach(item -> {
@@ -61,12 +61,12 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
                     .isAnonymous(FALSE)
                     .createTime(LocalDateTime.now())
                     .build();
-            resourceList.add(resource);
+            resources.add(resource);
         });
-        this.saveBatch(resourceList);
-        Map<String, Integer> permissionMap = resourceList.stream()
+        this.saveBatch(resources);
+        Map<String, Integer> permissionMap = resources.stream()
                 .collect(Collectors.toMap(Resource::getResourceName, Resource::getId));
-        resourceList.clear();
+        resources.clear();
         Map<String, Map<String, Map<String, Object>>> path = (Map<String, Map<String, Map<String, Object>>>) data.get("paths");
         path.forEach((url, value) -> value.forEach((requestMethod, info) -> {
             String permissionName = info.get("summary").toString();
@@ -80,9 +80,9 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
                     .isAnonymous(FALSE)
                     .createTime(LocalDateTime.now())
                     .build();
-            resourceList.add(resource);
+            resources.add(resource);
         }));
-        this.saveBatch(resourceList);
+        this.saveBatch(resources);
     }
 
     @Override
@@ -99,48 +99,48 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         if (count > 0) {
             throw new BizException("该资源下存在角色");
         }
-        List<Integer> resourceIdList = resourceMapper.selectList(new LambdaQueryWrapper<Resource>()
+        List<Integer> resourceIds = resourceMapper.selectList(new LambdaQueryWrapper<Resource>()
                         .select(Resource::getId).
                         eq(Resource::getParentId, resourceId))
                 .stream()
                 .map(Resource::getId)
                 .collect(Collectors.toList());
-        resourceIdList.add(resourceId);
-        resourceMapper.deleteBatchIds(resourceIdList);
+        resourceIds.add(resourceId);
+        resourceMapper.deleteBatchIds(resourceIds);
     }
 
     @Override
     public List<ResourceDTO> listResources(ConditionVO conditionVO) {
-        List<Resource> resourceList = resourceMapper.selectList(new LambdaQueryWrapper<Resource>()
+        List<Resource> resources = resourceMapper.selectList(new LambdaQueryWrapper<Resource>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), Resource::getResourceName, conditionVO.getKeywords()));
-        List<Resource> parentList = listResourceModule(resourceList);
-        Map<Integer, List<Resource>> childrenMap = listResourceChildren(resourceList);
-        List<ResourceDTO> resourceDTOList = parentList.stream().map(item -> {
+        List<Resource> parents = listResourceModule(resources);
+        Map<Integer, List<Resource>> childrenMap = listResourceChildren(resources);
+        List<ResourceDTO> resourceDTOs = parents.stream().map(item -> {
             ResourceDTO resourceDTO = BeanCopyUtil.copyObject(item, ResourceDTO.class);
-            List<ResourceDTO> childrenList = BeanCopyUtil.copyList(childrenMap.get(item.getId()), ResourceDTO.class);
-            resourceDTO.setChildren(childrenList);
+            List<ResourceDTO> child = BeanCopyUtil.copyList(childrenMap.get(item.getId()), ResourceDTO.class);
+            resourceDTO.setChildren(child);
             childrenMap.remove(item.getId());
             return resourceDTO;
         }).collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(childrenMap)) {
             List<Resource> childrenList = new ArrayList<>();
             childrenMap.values().forEach(childrenList::addAll);
-            List<ResourceDTO> childrenDTOList = childrenList.stream()
+            List<ResourceDTO> childrenDTOs = childrenList.stream()
                     .map(item -> BeanCopyUtil.copyObject(item, ResourceDTO.class))
                     .collect(Collectors.toList());
-            resourceDTOList.addAll(childrenDTOList);
+            resourceDTOs.addAll(childrenDTOs);
         }
-        return resourceDTOList;
+        return resourceDTOs;
     }
 
     @Override
     public List<LabelOptionDTO> listResourceOption() {
-        List<Resource> resourceList = resourceMapper.selectList(new LambdaQueryWrapper<Resource>()
+        List<Resource> resources = resourceMapper.selectList(new LambdaQueryWrapper<Resource>()
                 .select(Resource::getId, Resource::getResourceName, Resource::getParentId)
                 .eq(Resource::getIsAnonymous, FALSE));
-        List<Resource> parentList = listResourceModule(resourceList);
-        Map<Integer, List<Resource>> childrenMap = listResourceChildren(resourceList);
-        return parentList.stream().map(item -> {
+        List<Resource> parents = listResourceModule(resources);
+        Map<Integer, List<Resource>> childrenMap = listResourceChildren(resources);
+        return parents.stream().map(item -> {
             List<LabelOptionDTO> list = new ArrayList<>();
             List<Resource> children = childrenMap.get(item.getId());
             if (CollectionUtils.isNotEmpty(children)) {

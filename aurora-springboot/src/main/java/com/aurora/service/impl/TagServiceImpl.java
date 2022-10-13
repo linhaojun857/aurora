@@ -58,10 +58,10 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     @SneakyThrows
     @Override
     public List<TagAdminDTO> listTagsAdminBySearch(ConditionVO conditionVO) {
-        List<Tag> tagList = tagMapper.selectList(new LambdaQueryWrapper<Tag>()
+        List<Tag> tags = tagMapper.selectList(new LambdaQueryWrapper<Tag>()
                 .like(StringUtils.isNotBlank(conditionVO.getKeywords()), Tag::getTagName, conditionVO.getKeywords())
                 .orderByDesc(Tag::getId));
-        return BeanCopyUtil.copyList(tagList, TagAdminDTO.class);
+        return BeanCopyUtil.copyList(tags, TagAdminDTO.class);
     }
 
     @Override
