@@ -1,6 +1,5 @@
 package com.aurora.service.impl;
 
-import com.aurora.constant.ScheduleConstant;
 import com.aurora.enums.JobStatusEnum;
 import com.aurora.model.dto.JobDTO;
 import com.aurora.entity.Job;

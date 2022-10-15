@@ -2,6 +2,7 @@ package com.aurora.util;
 
 import com.aurora.constant.ScheduleConstant;
 import com.aurora.entity.Job;
+import com.aurora.enums.JobStatusEnum;
 import com.aurora.exception.TaskException;
 import com.aurora.quartz.QuartzDisallowConcurrentExecution;
 import com.aurora.quartz.QuartzJobExecution;
@@ -36,7 +37,7 @@ public class ScheduleUtil {
             scheduler.deleteJob(getJobKey(jobId, jobGroup));
         }
         scheduler.scheduleJob(jobDetail, trigger);
-        if (job.getStatus().equals(ScheduleConstant.Status.PAUSE.getValue())) {
+        if (job.getStatus().equals(JobStatusEnum.PAUSE.getValue())) {
             scheduler.pauseJob(ScheduleUtil.getJobKey(jobId, jobGroup));
         }
     }

@@ -4,8 +4,6 @@ import com.aurora.model.vo.ResultVO;
 import com.aurora.enums.StatusCodeEnum;
 import com.aurora.exception.BizException;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
