@@ -85,7 +85,7 @@ export default {
         { status: 2, desc: '私密' }
       ],
       uploads: [],
-      headers: { token: sessionStorage.getItem('token') }
+      headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') }
     }
   },
   methods: {

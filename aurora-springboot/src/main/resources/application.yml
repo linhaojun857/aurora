@@ -9,11 +9,11 @@ spring:
     username: 账号
     password: 密码
     hikari:
-      minimum-idle: 5
+      minimum-idle: 10
       # 空闲连接存活最大时间，默认600000（10分钟）
       idle-timeout: 180000
       # 连接池最大连接数，默认是10
-      maximum-pool-size: 10
+      maximum-pool-size: 100
       # 此属性控制从池返回的连接的默认自动提交行为,默认值：true
       auto-commit: true
       # 连接池名称
@@ -31,8 +31,8 @@ spring:
     database: 1
     lettuce:
       pool:
-        max-idle: 30
-        max-active: 8
+        max-idle: 100
+        max-active: 100
         max-wait: 10000
         min-idle: 10
 

@@ -11,7 +11,7 @@ import static com.aurora.enums.ZoneEnum.SHANGHAI;
 public class GlobalZoneConfig {
 
     @PostConstruct
-    void started() {
+    public void setGlobalZone() {
         TimeZone.setDefault(TimeZone.getTimeZone(SHANGHAI.getZone()));
     }
 
