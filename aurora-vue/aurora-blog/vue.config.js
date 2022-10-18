@@ -24,7 +24,6 @@ module.exports = defineConfig({
       }
     }
   },
-  //去掉v-i18n浏览器告警部分
   chainWebpack: (config) => {
     config.resolve.alias.set('vue-i18n', 'vue-i18n/dist/vue-i18n.cjs.js')
     config.module.rule('svg').exclude.add(resolve('src/icons')).end()

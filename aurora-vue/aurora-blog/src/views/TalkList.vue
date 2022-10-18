@@ -8,7 +8,7 @@
       <div class="main-grid">
         <div class="relative space-y-5">
           <div
-            class="bg-ob-deep-800 flex p-4 lg:p-8 rounded-2xl shadow-xl mb-8 lg:mb-0 talk-item"
+            class="bg-ob-deep-800 flex p-4 lg:p-8 rounded-2xl shadow-xl mb-0 talk-item"
             v-for="item in talks"
             :key="item.id"
             @click="toTalk(item.id)">
