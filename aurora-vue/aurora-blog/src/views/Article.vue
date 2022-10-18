@@ -12,7 +12,6 @@
             <ob-skeleton v-if="loading" :count="2" tag="li" height="16px" width="35px" class="mr-2" />
             <template v-else-if="!loading && article.tags && article.tags.length > 0">
               <li v-for="tag in article.tags" :key="tag.id">
-                <!-- @ts-ignore -->
                 <em class="opacity-50">#</em>
                 {{ tag.tagName }}
               </li>
