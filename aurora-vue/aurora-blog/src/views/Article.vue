@@ -12,7 +12,6 @@
             <ob-skeleton v-if="loading" :count="2" tag="li" height="16px" width="35px" class="mr-2" />
             <template v-else-if="!loading && article.tags && article.tags.length > 0">
               <li v-for="tag in article.tags" :key="tag.id">
-                <!-- @ts-ignore -->
                 <em class="opacity-50">#</em>
                 {{ tag.tagName }}
               </li>
@@ -25,7 +24,6 @@
             </template>
           </ul>
         </span>
-
         <h1 v-if="article.articleTitle" class="post-title text-white">
           {{ article.articleTitle }}
         </h1>
@@ -34,7 +32,6 @@
           class="post-title text-white uppercase"
           width="100%"
           height="clamp(1.2rem, calc(1rem + 3.5vw), 4rem)" />
-
         <div class="flex flex-row items-center justify-start mt-8 mb-4">
           <div class="post-footer" v-if="article.author">
             <img
@@ -54,7 +51,6 @@
               </span>
             </span>
           </div>
-
           <div class="post-footer" v-else>
             <div class="flex flex-row items-center">
               <ob-skeleton class="mr-2" height="28px" width="28px" :circle="true" />
@@ -63,7 +59,6 @@
               </span>
             </div>
           </div>
-
           <div class="post-stats" v-if="wordNum !== '' && readTime !== ''">
             <span>
               <svg-icon icon-class="text-outline" style="stroke: white" />
@@ -78,7 +73,6 @@
               </span>
             </span>
           </div>
-
           <div v-else class="post-stats">
             <span>
               <svg-icon icon-class="clock" />

@@ -84,7 +84,6 @@ export default defineComponent({
         })
         .then(({ data }) => {
           data.data.records.forEach((item: any) => {
-            console.log(item.articles)
             item.articles.forEach((article: any) => {
               article.articleContent = md
                 .render(article.articleContent)

@@ -30,5 +30,6 @@
 
 ## 鸣谢
 
-- 感谢[网盾星球-SCDN](https://cdn.netdun.net/)提供的CDN支持
+- 感谢[亿志云](https://idc.ddospt.top/)提供的服务器
+- 感谢[网盾星球](https://cdn.netdun.net/)提供的CDN
 - 感谢[jetbrains](https://www.jetbrains.com/)提供的开源开发许可证
