@@ -25,9 +25,6 @@ import static com.aurora.constant.RabbitMQConstant.SUBSCRIBE_QUEUE;
 @RabbitListener(queues = SUBSCRIBE_QUEUE)
 public class SubscribeConsumer {
 
-    /**
-     * 邮箱号
-     */
     @Value("${spring.mail.username}")
     private String email;
 
@@ -57,7 +54,7 @@ public class SubscribeConsumer {
             if (article.getUpdateTime() == null) {
                 message.setText("花未眠的个人博客发布了新的文章，地址：" + websiteUrl + "/articles/" + articleId);
             } else {
-//                message.setText("花未眠的个人博客对《" + article.getArticleTitle() + "》进行了更新，地址：" + websiteUrl + "/articles/" + articleId);
+                message.setText("花未眠的个人博客对《" + article.getArticleTitle() + "》进行了更新，地址：" + websiteUrl + "/articles/" + articleId);
             }
             javaMailSender.send(message);
         }
