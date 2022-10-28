@@ -147,20 +147,20 @@
           </el-row>
           <el-form-item label="邮箱通知">
             <el-radio-group v-model="websiteConfigForm.isEmailNotice">
-              <el-radio :label="0">关闭</el-radio>
               <el-radio :label="1">开启</el-radio>
+              <el-radio :label="0">关闭</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="评论审核">
             <el-radio-group v-model="websiteConfigForm.isCommentReview">
-              <el-radio :label="0">关闭</el-radio>
               <el-radio :label="1">开启</el-radio>
+              <el-radio :label="0">关闭</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="打赏状态">
             <el-radio-group v-model="websiteConfigForm.isReward">
-              <el-radio :label="0">关闭</el-radio>
               <el-radio :label="1">开启</el-radio>
+              <el-radio :label="0">关闭</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-row style="width: 600px" v-show="websiteConfigForm.isReward == 1">
