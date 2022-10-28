@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.aurora.constant.CommonConstant.TRUE;
@@ -45,14 +47,20 @@ public class SubscribeConsumer {
         List<String> emails = users.stream().map(UserInfo::getEmail).collect(Collectors.toList());
         for (String email : emails) {
             EmailDTO emailDTO = new EmailDTO();
+            Map<String, Object> map = new HashMap<>();
             emailDTO.setEmail(email);
             emailDTO.setSubject("文章订阅");
+            emailDTO.setTemplate("common.html");
+            String url = websiteUrl + "/articles/" + articleId;
             if (article.getUpdateTime() == null) {
-                emailDTO.setContent("花未眠的个人博客发布了新的文章，地址：" + websiteUrl + "/articles/" + articleId);
+                map.put("content", "花未眠的个人博客发布了新的文章，"
+                        + "<a style=\"text-decoration:none;color:#12addb\" href=\"" + url + "\">点击查看</a>");
             } else {
-                emailDTO.setContent("花未眠的个人博客对《" + article.getArticleTitle() + "》进行了更新，地址：" + websiteUrl + "/articles/" + articleId);
+                map.put("content", "花未眠的个人博客对《" + article.getArticleTitle() + "》进行了更新，"
+                        + "<a style=\"text-decoration:none;color:#12addb\" href=\"" + url + "\">点击查看</a>");
             }
-            emailUtil.sendSimpleMail(emailDTO);
+            emailDTO.setCommentMap(map);
+            emailUtil.sendHtmlMail(emailDTO);
         }
     }
 
