@@ -11,7 +11,7 @@
               <b class="font-extrabold">{{ websiteConfig.author }}</b>
             </li>
             <li v-if="websiteConfig.beian_number != ''" class="flex flex-row gap-3 mx-auto">
-              <a href="https://beian.miit.gov.cn/">
+              <a href="https://beian.miit.gov.cn/" target="_blank">
                 <b class="font-extrabold border-b-2 border-ob hover:text-ob"> {{ websiteConfig.beianNumber }} </b>
               </a>
             </li>
