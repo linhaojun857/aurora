@@ -36,7 +36,7 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
             if (accessLimit != null) {
                 long seconds = accessLimit.seconds();
                 int maxCount = accessLimit.maxCount();
-                String key = IpUtil.getIpAddress(httpServletRequest) + hm.getMethod().getName();
+                String key = IpUtil.getIpAddress(httpServletRequest) + "-" + hm.getMethod().getName();
                 try {
                     long q = redisService.incrExpire(key, seconds);
                     if (q > maxCount) {
