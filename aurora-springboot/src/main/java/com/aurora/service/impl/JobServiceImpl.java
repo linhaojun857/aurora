@@ -150,4 +150,5 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         }
         ScheduleUtil.createScheduleJob(scheduler, job);
     }
+
 }
