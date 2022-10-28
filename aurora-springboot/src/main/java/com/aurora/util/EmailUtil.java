@@ -3,7 +3,6 @@ package com.aurora.util;
 import com.aurora.model.dto.EmailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -24,15 +23,6 @@ public class EmailUtil {
 
     @Autowired
     private TemplateEngine templateEngine;
-
-    public void sendSimpleMail(EmailDTO emailDTO) {
-        SimpleMailMessage simpleMail = new SimpleMailMessage();
-        simpleMail.setFrom(email);
-        simpleMail.setTo(emailDTO.getEmail());
-        simpleMail.setSubject(emailDTO.getSubject());
-        simpleMail.setText(emailDTO.getContent());
-        javaMailSender.send(simpleMail);
-    }
 
     public void sendHtmlMail(EmailDTO emailDTO) {
         try {

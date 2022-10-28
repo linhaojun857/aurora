@@ -25,7 +25,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @AccessLimit(seconds = 60,maxCount = 3)
+    @AccessLimit(seconds = 60, maxCount = 3)
     @OptLog(optType = SAVE)
     @ApiOperation("添加评论")
     @PostMapping("/comments/save")

@@ -32,10 +32,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.aurora.constant.RabbitMQConstant.EMAIL_EXCHANGE;
@@ -78,10 +75,13 @@ public class UserAuthServiceImpl implements UserAuthService {
             throw new BizException("请输入正确邮箱");
         }
         String code = getRandomCode();
+        Map<String, Object> map = new HashMap<>();
+        map.put("content", "您的验证码为 " + code + " 有效期15分钟，请不要告诉他人哦！");
         EmailDTO emailDTO = EmailDTO.builder()
                 .email(username)
                 .subject("验证码")
-                .content("您的验证码为 " + code + " 有效期15分钟，请不要告诉他人哦！")
+                .template("common.html")
+                .commentMap(map)
                 .build();
         rabbitTemplate.convertAndSend(EMAIL_EXCHANGE, "*", new Message(JSON.toJSONBytes(emailDTO), new MessageProperties()));
         redisService.set(USER_CODE_KEY + username, code, CODE_EXPIRE_TIME);

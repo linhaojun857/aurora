@@ -119,9 +119,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         List<ReplyDTO> replyDTOS = commentMapper.listReplies(commentIds);
         Map<Integer, List<ReplyDTO>> replyMap = replyDTOS.stream()
                 .collect(Collectors.groupingBy(ReplyDTO::getParentId));
-        commentDTOs.forEach(item -> {
-            item.setReplyDTOs(replyMap.get(item.getId()));
-        });
+        commentDTOs.forEach(item -> item.setReplyDTOs(replyMap.get(item.getId())));
         return new PageResultDTO<>(commentDTOs, commentCount);
     }
 
@@ -211,10 +209,39 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     private void notice(Comment comment, String fromNickname) {
         if (comment.getUserId().equals(comment.getReplyUserId())) {
-            return;
+            if (Objects.nonNull(comment.getParentId())) {
+                Comment parentComment = commentMapper.selectById(comment.getParentId());
+                if (parentComment.getUserId().equals(comment.getUserId())) {
+                    return;
+                }
+            }
         }
         if (comment.getUserId().equals(BLOGGER_ID) && Objects.isNull(comment.getParentId())) {
             return;
+        }
+        if (Objects.nonNull(comment.getParentId())) {
+            Comment parentComment = commentMapper.selectById(comment.getParentId());
+            if (!comment.getReplyUserId().equals(parentComment.getUserId())
+                    && !comment.getReplyUserId().equals(comment.getUserId())) {
+                UserInfo userInfo = userInfoMapper.selectById(comment.getUserId());
+                UserInfo replyUserinfo = userInfoMapper.selectById(comment.getReplyUserId());
+                Map<String, Object> map = new HashMap<>();
+                String topicId = Objects.nonNull(comment.getTopicId()) ? comment.getTopicId().toString() : "";
+                String url = websiteUrl + getCommentPath(comment.getType()) + topicId;
+                map.put("content", userInfo.getNickname() + "在" + Objects.requireNonNull(getCommentEnum(comment.getType())).getDesc()
+                        + "的评论区@了你，"
+                        + "<a style=\"text-decoration:none;color:#12addb\" href=\"" + url + "\">点击查看</a>");
+                EmailDTO emailDTO = EmailDTO.builder()
+                        .email(replyUserinfo.getEmail())
+                        .subject(MENTION_REMIND)
+                        .template("common.html")
+                        .commentMap(map)
+                        .build();
+                rabbitTemplate.convertAndSend(EMAIL_EXCHANGE, "*", new Message(JSON.toJSONBytes(emailDTO), new MessageProperties()));
+            }
+            if (comment.getUserId().equals(parentComment.getUserId())) {
+                return;
+            }
         }
         String title;
         Integer userId = BLOGGER_ID;
@@ -237,21 +264,21 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         } else {
             title = Objects.requireNonNull(getCommentEnum(comment.getType())).getDesc();
         }
-        UserInfo user = userInfoMapper.selectById(userId);
-        if (StringUtils.isNotBlank(user.getEmail())) {
-            EmailDTO emailDTO = getEmailDTO(comment, user, fromNickname, topicId, title, userId);
+        UserInfo userInfo = userInfoMapper.selectById(userId);
+        if (StringUtils.isNotBlank(userInfo.getEmail())) {
+            EmailDTO emailDTO = getEmailDTO(comment, userInfo, fromNickname, topicId, title);
             rabbitTemplate.convertAndSend(EMAIL_EXCHANGE, "*", new Message(JSON.toJSONBytes(emailDTO), new MessageProperties()));
         }
     }
 
-    private EmailDTO getEmailDTO(Comment comment, UserInfo user, String fromNickname, String topicId, String title, Integer userId) {
+    private EmailDTO getEmailDTO(Comment comment, UserInfo userInfo, String fromNickname, String topicId, String title) {
         EmailDTO emailDTO = new EmailDTO();
+        Map<String, Object> map = new HashMap<>();
         if (comment.getIsReview().equals(TRUE)) {
-            Map<String, Object> map = new HashMap<>();
             String url = websiteUrl + getCommentPath(comment.getType()) + topicId;
             if (Objects.isNull(comment.getParentId())) {
-                emailDTO.setEmail(user.getEmail());
-                emailDTO.setSubject("评论提醒");
+                emailDTO.setEmail(userInfo.getEmail());
+                emailDTO.setSubject(COMMENT_REMIND);
                 emailDTO.setTemplate("owner.html");
                 String createTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(comment.getCreateTime());
                 map.put("time", createTime);
@@ -260,26 +287,42 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 map.put("nickname", fromNickname);
                 map.put("content", comment.getCommentContent());
             } else {
-                Comment parentComment = commentMapper.selectOne(new LambdaQueryWrapper<Comment>().select(Comment::getCommentContent, Comment::getCreateTime).eq(Comment::getId, comment.getParentId()));
-                emailDTO.setEmail(user.getEmail());
-                emailDTO.setSubject("评论提醒");
+                Comment parentComment = commentMapper.selectOne(new LambdaQueryWrapper<Comment>().select(Comment::getUserId, Comment::getCommentContent, Comment::getCreateTime).eq(Comment::getId, comment.getParentId()));
+                if (!userInfo.getId().equals(parentComment.getUserId())) {
+                    userInfo = userInfoMapper.selectById(parentComment.getUserId());
+                }
+                emailDTO.setEmail(userInfo.getEmail());
+                emailDTO.setSubject(COMMENT_REMIND);
                 emailDTO.setTemplate("user.html");
                 map.put("url", url);
                 map.put("title", title);
                 String createTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(parentComment.getCreateTime());
                 map.put("time", createTime);
-                map.put("toUser", user.getNickname());
+                map.put("toUser", userInfo.getNickname());
                 map.put("fromUser", fromNickname);
                 map.put("parentComment", parentComment.getCommentContent());
-                map.put("replyComment", comment.getCommentContent());
+                if (!comment.getReplyUserId().equals(parentComment.getUserId())) {
+                    UserInfo mentionUserInfo = userInfoMapper.selectById(comment.getReplyUserId());
+                    if (Objects.nonNull(mentionUserInfo.getWebsite())) {
+                        map.put("replyComment", "<a style=\"text-decoration:none;color:#12addb\" href=\""
+                                + mentionUserInfo.getWebsite()
+                                + "\">@" + mentionUserInfo.getNickname() + " " + "</a>" + parentComment.getCommentContent());
+                    } else {
+                        map.put("replyComment", "@" + mentionUserInfo.getNickname() + " " + parentComment.getCommentContent());
+                    }
+                } else {
+                    map.put("replyComment", parentComment.getCommentContent());
+                }
             }
-            emailDTO.setCommentMap(map);
         } else {
             String adminEmail = userInfoMapper.selectById(BLOGGER_ID).getEmail();
             emailDTO.setEmail(adminEmail);
-            emailDTO.setSubject("审核提醒");
-            emailDTO.setContent("您收到了一条新的回复，请前往后台管理页面审核");
+            emailDTO.setSubject(CHECK_REMIND);
+            emailDTO.setTemplate("common.html");
+            map.put("content", "您收到了一条新的回复，请前往后台管理页面审核");
         }
+        emailDTO.setCommentMap(map);
         return emailDTO;
     }
+
 }

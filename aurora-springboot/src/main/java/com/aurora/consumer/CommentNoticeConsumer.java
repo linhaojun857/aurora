@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
-import static com.aurora.constant.CommonConstant.*;
 import static com.aurora.constant.RabbitMQConstant.EMAIL_QUEUE;
 
 @Component
@@ -21,12 +20,8 @@ public class CommentNoticeConsumer {
 
     @RabbitHandler
     public void process(byte[] data) {
-        EmailDTO mailDTO = JSON.parseObject(new String(data), EmailDTO.class);
-        if (CAPTCHA.equals(mailDTO.getSubject()) || CHECK_REMIND.equals(mailDTO.getSubject())) {
-            emailUtil.sendSimpleMail(mailDTO);
-        }
-        if (COMMENT_REMIND.equals(mailDTO.getSubject())) {
-            emailUtil.sendHtmlMail(mailDTO);
-        }
+        EmailDTO emailDTO = JSON.parseObject(new String(data), EmailDTO.class);
+        emailUtil.sendHtmlMail(emailDTO);
     }
+
 }

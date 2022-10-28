@@ -17,8 +17,6 @@ public class EmailDTO {
 
     private String subject;
 
-    private String content;
-
     private Map<String, Object> commentMap;
 
     private String template;

@@ -40,4 +40,6 @@ public interface CommonConstant {
 
     String COMMENT_REMIND = "评论提醒";
 
+    String MENTION_REMIND = "@提醒";
+
 }
