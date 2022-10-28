@@ -203,9 +203,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             }
         }
         List<ArchiveDTO> archiveDTOs = new ArrayList<>();
-        map.forEach((key, value) -> {
-            archiveDTOs.add(ArchiveDTO.builder().Time(key).articles(value).build());
-        });
+        map.forEach((key, value) -> archiveDTOs.add(ArchiveDTO.builder().Time(key).articles(value).build()));
         archiveDTOs.sort((o1, o2) -> {
             String[] o1s = o1.getTime().split("-");
             String[] o2s = o2.getTime().split("-");
