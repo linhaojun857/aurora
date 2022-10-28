@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "upload": "node upload.js",
+    "deploy": "npm run build && npm run upload"
   },
   "dependencies": {
     "axios": "^0.27.2",
@@ -45,6 +47,7 @@
     "babel-plugin-prismjs": "^2.1.0",
     "postcss": "^7.0.35",
     "sass-loader": "^10.1.1",
+    "scp2": "^0.5.0",
     "svg-sprite-loader": "^6.0.11",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@2.1.2",
     "typescript": "~4.5.5"
