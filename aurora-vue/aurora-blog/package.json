@@ -5,8 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "upload": "node upload.js",
-    "deploy": "npm run build && npm run upload"
+    "deploy": "node deploy.js"
   },
   "dependencies": {
     "axios": "^0.27.2",
