@@ -43,4 +43,4 @@ conn.on('ready', () => {
     port: process.env.VUE_APP_PORT,
     username: process.env.VUE_APP_USERNAME,
     password: process.env.VUE_APP_PASSWORD
-});
+})
