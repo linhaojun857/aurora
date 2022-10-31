@@ -17,4 +17,5 @@ public interface FriendLinkService extends IService<FriendLink> {
     PageResultDTO<FriendLinkAdminDTO> listFriendLinksAdmin(ConditionVO conditionVO);
 
     void saveOrUpdateFriendLink(FriendLinkVO friendLinkVO);
+
 }

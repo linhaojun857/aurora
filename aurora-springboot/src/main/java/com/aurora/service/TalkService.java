@@ -24,4 +24,5 @@ public interface TalkService extends IService<Talk> {
     PageResultDTO<TalkAdminDTO> listBackTalks(ConditionVO conditionVO);
 
     TalkAdminDTO getBackTalkById(Integer talkId);
+
 }

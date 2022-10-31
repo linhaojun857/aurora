@@ -9,4 +9,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface ExceptionLogService extends IService<ExceptionLog> {
 
     PageResultDTO<ExceptionLogDTO> listExceptionLogs(ConditionVO conditionVO);
+
 }

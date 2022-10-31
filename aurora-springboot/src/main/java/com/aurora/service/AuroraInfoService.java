@@ -23,5 +23,4 @@ public interface AuroraInfoService {
 
     AboutDTO getAbout();
 
-
 }

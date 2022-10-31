@@ -24,4 +24,5 @@ public interface MenuService extends IService<Menu> {
     List<LabelOptionDTO> listMenuOptions();
 
     List<UserMenuDTO> listUserMenus();
+
 }

@@ -39,4 +39,5 @@ public interface ArticleService extends IService<Article> {
     List<String> exportArticles(List<Integer> articleIdList);
 
     List<ArticleSearchDTO> listArticlesBySearch(ConditionVO condition);
+
 }
