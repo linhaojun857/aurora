@@ -37,7 +37,6 @@
         <span :class="expanderClass" @click="expandHandler">
           <svg-icon icon-class="chevron" />
         </span>
-
         <ul class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           <template v-if="haveArticles === true">
             <li v-for="article in articles" :key="article.id">
@@ -217,8 +216,8 @@ export default defineComponent({
       userStore.page = 1
       pagination.current = 1
       activeTab.value = categoryId
-      toArticleOffset()
       nowCategoryId = categoryId
+      toArticleOffset()
       if (categoryId === 0) {
         fetchArticles()
       } else {

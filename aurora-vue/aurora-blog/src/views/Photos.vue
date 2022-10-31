@@ -83,8 +83,8 @@ export default defineComponent({
       }
       api.getPhotosBuAlbumId(reactiveData.albumId, params).then(({ data }) => {
         if (data.data.photos.length > 0) {
-          reactiveData.photoAlbumName = data.data.photoAlbumName
           reactiveData.current++
+          reactiveData.photoAlbumName = data.data.photoAlbumName
           reactiveData.photos.push(...data.data.photos)
         } else {
           reactiveData.noResult = true
