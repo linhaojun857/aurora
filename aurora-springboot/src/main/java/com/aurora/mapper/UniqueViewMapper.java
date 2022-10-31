@@ -13,4 +13,5 @@ import java.util.List;
 public interface UniqueViewMapper extends BaseMapper<UniqueView> {
 
     List<UniqueViewDTO> listUniqueViews(@Param("startTime") Date startTime, @Param("endTime") Date endTime);
+
 }

@@ -18,4 +18,5 @@ public interface RoleMapper extends BaseMapper<Role> {
     List<String> listRolesByUserInfoId(@Param("userInfoId") Integer userInfoId);
 
     List<RoleDTO> listRoles(@Param("current") Long current, @Param("size") Long size, @Param("conditionVO") ConditionVO conditionVO);
+
 }
