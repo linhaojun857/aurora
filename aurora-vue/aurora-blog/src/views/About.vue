@@ -141,7 +141,6 @@ export default defineComponent({
         })
       }
     }
-
     const fetchAbout = () => {
       api.getAbout().then(({ data }) => {
         data.data.content = markdownToHtml(data.data.content)

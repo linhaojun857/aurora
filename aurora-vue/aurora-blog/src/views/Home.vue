@@ -76,6 +76,7 @@ import { ArticleCard, HorizontalArticle } from '@/components/ArticleCard'
 import { Title } from '@/components/Title'
 import { Sidebar, Profile, RecentComment, TagBox, Notice, WebsiteInfo } from '@/components/Sidebar'
 import { useAppStore } from '@/stores/app'
+import { useUserStore } from '@/stores/user'
 import { useMetaStore } from '@/stores/meta'
 import { useArticleStore } from '@/stores/article'
 import { useCategoryStore } from '@/stores/Category'
@@ -102,6 +103,7 @@ export default defineComponent({
   setup() {
     useMetaStore().setTitle('home')
     const appStore = useAppStore()
+    const userStore = useUserStore()
     const articleStore = useArticleStore()
     const categoryStore = useCategoryStore()
     const { t } = useI18n()
@@ -151,26 +153,33 @@ export default defineComponent({
       })
     }
     const fetchArticles = () => {
-      reactiveData.haveArticles = false
-      api
-        .getArticles({
-          current: pagination.current,
-          size: pagination.size
-        })
-        .then(({ data }) => {
-          if (data.flag) {
-            data.data.records.forEach((item: any) => {
-              item.articleContent = md
-                .render(item.articleContent)
-                .replace(/<\/?[^>]*>/g, '')
-                .replace(/[|]*\n/, '')
-                .replace(/&npsp;/gi, '')
-            })
-            articleStore.articles = data.data.records
-            pagination.total = data.data.count
-            reactiveData.haveArticles = true
-          }
-        })
+      activeTab.value = userStore.tab
+      nowCategoryId = userStore.tab
+      pagination.current = userStore.page
+      if (userStore.tab === 0) {
+        reactiveData.haveArticles = false
+        api
+          .getArticles({
+            current: pagination.current,
+            size: pagination.size
+          })
+          .then(({ data }) => {
+            if (data.flag) {
+              data.data.records.forEach((item: any) => {
+                item.articleContent = md
+                  .render(item.articleContent)
+                  .replace(/<\/?[^>]*>/g, '')
+                  .replace(/[|]*\n/, '')
+                  .replace(/&npsp;/gi, '')
+              })
+              articleStore.articles = data.data.records
+              pagination.total = data.data.count
+              reactiveData.haveArticles = true
+            }
+          })
+      } else {
+        fetchArticlesByCategoryId(userStore.tab)
+      }
     }
     const fetchArticlesByCategoryId = (categoryId: any) => {
       reactiveData.haveArticles = false
@@ -204,6 +213,8 @@ export default defineComponent({
       tabClass.value['expanded-tab'] = !tabClass.value['expanded-tab']
     }
     const handleTabChange = (categoryId: any) => {
+      userStore.tab = categoryId
+      userStore.page = 1
       pagination.current = 1
       activeTab.value = categoryId
       toArticleOffset()
@@ -224,6 +235,7 @@ export default defineComponent({
       return {}
     }
     const pageChangeHanlder = (current: number) => {
+      userStore.page = current
       pagination.current = current
       toArticleOffset()
       if (nowCategoryId === 0) {
