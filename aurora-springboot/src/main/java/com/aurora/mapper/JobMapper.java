@@ -17,4 +17,5 @@ public interface JobMapper extends BaseMapper<Job> {
     List<JobDTO> listJobs(@Param("current") Long current, @Param("size") Long size, @Param("jobSearchVO")JobSearchVO jobSearchVO);
 
     List<String> listJobGroups();
+
 }

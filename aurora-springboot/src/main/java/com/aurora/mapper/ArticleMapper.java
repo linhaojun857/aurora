@@ -15,6 +15,7 @@ import java.util.List;
 
 @Repository
 public interface ArticleMapper extends BaseMapper<Article> {
+
     List<ArticleCardDTO> listTopAndFeaturedArticles();
 
     List<ArticleCardDTO> listArticles(@Param("current") Long current, @Param("size") Long size);
@@ -40,5 +41,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
     List<ArticleAdminDTO> listArticlesAdmin(@Param("current") Long current, @Param("size") Long size, @Param("conditionVO") ConditionVO conditionVO);
 
     List<ArticleStatisticsDTO> listArticleStatistics();
+
 }
 

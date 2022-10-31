@@ -17,4 +17,5 @@ public interface CategoryMapper extends BaseMapper<Category> {
     List<CategoryDTO> listCategories();
 
     List<CategoryAdminDTO> listCategoriesAdmin(@Param("current") Long current, @Param("size") Long size, @Param("conditionVO") ConditionVO conditionVO);
+
 }

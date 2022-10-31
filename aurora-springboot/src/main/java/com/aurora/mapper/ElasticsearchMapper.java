@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ElasticsearchMapper extends ElasticsearchRepository<ArticleSearchDTO,Integer> {
+
 }

@@ -10,4 +10,5 @@ import java.util.List;
 public interface JobLogMapper extends BaseMapper<JobLog> {
 
     List<String> listJobLogGroups();
+
 }

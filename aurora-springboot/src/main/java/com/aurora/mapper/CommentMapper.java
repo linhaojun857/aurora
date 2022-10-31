@@ -27,4 +27,5 @@ public interface CommentMapper extends BaseMapper<Comment> {
     List<CommentAdminDTO> listCommentsAdmin(@Param("current") Long current, @Param("size") Long size, @Param("conditionVO") ConditionVO conditionVO);
 
     List<CommentCountDTO> listCommentCountByTopicIds(@Param("topicIds") List<Integer> topicIds);
+
 }

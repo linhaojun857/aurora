@@ -19,4 +19,5 @@ public interface JobLogService extends IService<JobLog> {
     void cleanJobLogs();
 
     List<String> listJobLogGroups();
+
 }

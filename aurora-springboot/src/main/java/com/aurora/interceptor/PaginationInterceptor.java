@@ -13,10 +13,6 @@ import java.util.Optional;
 
 import static com.aurora.constant.CommonConstant.*;
 
-/**
- * @author 花未眠
- * 分页拦截器
- **/
 @Component
 @SuppressWarnings("all")
 public class PaginationInterceptor implements HandlerInterceptor {

@@ -20,4 +20,5 @@ public interface ResourceService extends IService<Resource> {
     List<ResourceDTO> listResources(ConditionVO conditionVO);
 
     List<LabelOptionDTO> listResourceOption();
+
 }

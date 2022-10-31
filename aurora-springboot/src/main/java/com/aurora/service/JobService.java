@@ -25,4 +25,5 @@ public interface JobService extends IService<Job> {
     void runJob(JobRunVO jobRunVO);
 
     List<String> listJobGroups();
+
 }

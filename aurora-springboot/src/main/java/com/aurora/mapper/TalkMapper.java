@@ -20,4 +20,5 @@ public interface TalkMapper extends BaseMapper<Talk> {
     List<TalkAdminDTO> listTalksAdmin(@Param("current") Long current, @Param("size") Long size, @Param("conditionVO") ConditionVO conditionVO);
 
     TalkAdminDTO getTalkByIdAdmin(@Param("talkId") Integer talkId);
+
 }

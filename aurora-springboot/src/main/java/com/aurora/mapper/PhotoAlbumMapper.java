@@ -13,4 +13,5 @@ import java.util.List;
 public interface PhotoAlbumMapper extends BaseMapper<PhotoAlbum> {
 
     List<PhotoAlbumAdminDTO> listPhotoAlbumsAdmin(@Param("current") Long current, @Param("size") Long size, @Param("condition") ConditionVO conditionVO);
+
 }

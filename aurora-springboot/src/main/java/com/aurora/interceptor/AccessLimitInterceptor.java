@@ -31,12 +31,12 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler) throws Exception {
         if (handler instanceof HandlerMethod) {
-            HandlerMethod hm = (HandlerMethod) handler;
-            AccessLimit accessLimit = hm.getMethodAnnotation(AccessLimit.class);
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            AccessLimit accessLimit = handlerMethod.getMethodAnnotation(AccessLimit.class);
             if (accessLimit != null) {
                 long seconds = accessLimit.seconds();
                 int maxCount = accessLimit.maxCount();
-                String key = IpUtil.getIpAddress(httpServletRequest) + "-" + hm.getMethod().getName();
+                String key = IpUtil.getIpAddress(httpServletRequest) + "-" + handlerMethod.getMethod().getName();
                 try {
                     long q = redisService.incrExpire(key, seconds);
                     if (q > maxCount) {

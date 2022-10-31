@@ -118,5 +118,6 @@ public interface RedisService {
     GeoResults<RedisGeoCommands.GeoLocation<Object>> geoNearByPlace(String key, String place, Distance distance, long limit, Sort.Direction sort);
 
     List<String> geoGetHash(String key, String... place);
+
 }
 

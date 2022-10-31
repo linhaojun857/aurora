@@ -20,4 +20,5 @@ public interface TokenService {
     UserDetailsDTO getUserDetailDTO(HttpServletRequest request);
 
     void delLoginUser(Integer userId);
+
 }

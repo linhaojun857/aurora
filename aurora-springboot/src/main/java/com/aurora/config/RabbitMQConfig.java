@@ -11,6 +11,7 @@ import static com.aurora.constant.RabbitMQConstant.*;
 
 @Configuration
 public class RabbitMQConfig {
+
     @Bean
     public Queue articleQueue() {
         return new Queue(MAXWELL_QUEUE, true);
@@ -55,4 +56,5 @@ public class RabbitMQConfig {
     public Binding bindingSubscribeDirect() {
         return BindingBuilder.bind(subscribeQueue()).to(subscribeExchange());
     }
+
 }

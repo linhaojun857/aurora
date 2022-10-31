@@ -25,4 +25,5 @@ public interface PhotoService extends IService<Photo> {
     void deletePhotos(List<Integer> photoIds);
 
     PhotoDTO listPhotosByAlbumId(Integer albumId);
+
 }
