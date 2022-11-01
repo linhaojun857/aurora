@@ -8,6 +8,10 @@
 - 后台链接：[admin.linhaojun.top](https://admin.linhaojun.top)
 - 演示账号：test@163.com，密码：123456
 
+## 交流群
+
+- QQ群：338371628
+
 ## 相关技术
 
 ### 前端：
@@ -27,6 +31,10 @@
 - 对象存储：minio
 - 定时任务：quartz
 - 其他技术：详见后端项目的pom.xml
+
+## 部署
+
+- 详见项目部署文档
 
 ## 鸣谢
 
