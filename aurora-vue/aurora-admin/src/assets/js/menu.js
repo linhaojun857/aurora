@@ -1,6 +1,6 @@
 import Layout from '@/layout/index.vue'
-import router from '../../router'
-import store from '../../store'
+import router from '@/router'
+import store from '@/store'
 import axios from 'axios'
 import Vue from 'vue'
 

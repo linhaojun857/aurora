@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { generaMenu } from '../../assets/js/menu'
+import { generaMenu } from '@/assets/js/menu'
 export default {
   data: function () {
     return {
@@ -61,7 +61,6 @@ export default {
               })
             }
           })
-          // 显示验证码
           captcha.show()
         } else {
           return false
