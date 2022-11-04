@@ -83,8 +83,8 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
     }
 
     @Override
-    public void deleteTalks(List<Integer> talkIdList) {
-        talkMapper.deleteBatchIds(talkIdList);
+    public void deleteTalks(List<Integer> talkIds) {
+        talkMapper.deleteBatchIds(talkIds);
     }
 
     @Override
@@ -111,5 +111,6 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
         }
         return talkBackDTO;
     }
+
 }
 
