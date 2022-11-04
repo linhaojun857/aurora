@@ -1,19 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : RDS
- Source Server Type    : MySQL
- Source Server Version : 80025
- Source Host           : localhost:3306
- Source Schema         : aurora
-
- Target Server Type    : MySQL
- Target Server Version : 80025
- File Encoding         : 65001
-
- Date: 19/08/2022 17:46:21
-*/
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -32,7 +16,7 @@ CREATE TABLE `t_about`  (
 -- ----------------------------
 -- Records of t_about
 -- ----------------------------
-INSERT INTO `t_about` VALUES (1, '{\"content\":\"# 个人介绍\\n哈尔滨理工大学 计算机系 大二\\n# 目前使用的编程语言\\nJava（学习中） JavaScript（学习中） C/C++（学习中）\\n# 爱好\\n瞎倒腾!\\n# 联系方式\\nQQ: 1909925152\\n有需要的欢迎联系\"}', '2022-07-24 17:22:13', '2022-09-23 14:37:34');
+INSERT INTO `t_about` VALUES (1, '{\"content\":\"this is about\"}', '2022-07-24 17:22:13', '2022-09-23 14:37:34');
 
 -- ----------------------------
 -- Table structure for t_article
