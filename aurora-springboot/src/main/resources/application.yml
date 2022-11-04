@@ -10,20 +10,14 @@ spring:
     password: 密码
     hikari:
       minimum-idle: 10
-      # 空闲连接存活最大时间，默认600000（10分钟）
       idle-timeout: 180000
-      # 连接池最大连接数，默认是10
       maximum-pool-size: 100
-      # 此属性控制从池返回的连接的默认自动提交行为,默认值：true
       auto-commit: true
-      # 连接池名称
       pool-name: MyHikariCP
-      # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
       max-lifetime: 60000
-      # 数据库连接超时时间,默认30秒，即30000
       connection-timeout: 30000
       connection-test-query: SELECT 1
-  # redis配置
+
   redis:
     host: redis的ip
     port: 6379
@@ -36,7 +30,6 @@ spring:
         max-wait: 10000
         min-idle: 10
 
-  # rabbitmq配置
   rabbitmq:
     host: rabbitmq的ip
     port: 5672
@@ -46,12 +39,13 @@ spring:
       simple:
         retry:
           enabled: true
-          max-attempts: 3 #最大重试次数
-          initial-interval: 3000 #重试间隔时间（单位毫秒）
+          max-attempts: 3
+          initial-interval: 3000
+
   elasticsearch:
     rest:
       uris: es的ip:9200
-  # 配置邮箱
+
   mail:
     host: smtp.163.com
     username: 邮箱
@@ -71,6 +65,7 @@ spring:
           starttls:
             enable: true
             required: true
+
   servlet:
     multipart:
       max-file-size: 100MB

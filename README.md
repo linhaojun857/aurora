@@ -1,14 +1,14 @@
 # Aurora---前后端分离博客
 
+## 前言
+
+- 开源不易，希望大家star支持一下
+
 ## 在线地址
 
 - 前台链接：[www.linhaojun.top](https://www.linhaojun.top)
 - 后台链接：[admin.linhaojun.top](https://admin.linhaojun.top)
 - 演示账号：test@163.com，密码：123456
-
-## 交流群
-
-- QQ群：338371628
 
 ## 相关技术
 
@@ -33,7 +33,10 @@
 ## 部署
 
 - 详见项目部署文档
-- 如有问题，加群询问
+
+## 交流群
+
+- QQ群：338371628
 
 ## 鸣谢
 
