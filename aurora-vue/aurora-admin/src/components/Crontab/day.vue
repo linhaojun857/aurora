@@ -62,7 +62,6 @@ export default {
       if (this.radioValue !== 2 && this.cron.week !== '?') {
         this.$emit('update', 'week', '?', 'day')
       }
-
       switch (this.radioValue) {
         case 1:
           this.$emit('update', 'day', '*')
