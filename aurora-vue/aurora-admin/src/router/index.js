@@ -11,13 +11,11 @@ const routes = [
     component: () => import('../views/login/Login.vue')
   }
 ]
-
 const createRouter = () =>
   new VueRouter({
     mode: 'history',
     routes: routes
   })
-
 const router = createRouter()
 
 export function resetRouter() {
