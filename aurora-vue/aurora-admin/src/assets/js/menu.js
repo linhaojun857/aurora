@@ -5,7 +5,6 @@ import axios from 'axios'
 import Vue from 'vue'
 
 export function generaMenu() {
-  // 查询用户菜单
   axios.get('/api/admin/user/menus').then(({ data }) => {
     if (data.flag) {
       let userMenus = data.data
@@ -23,9 +22,7 @@ export function generaMenu() {
           })
         }
       })
-      // 添加侧边栏菜单
       store.commit('saveUserMenus', userMenus)
-      // 添加菜单到路由
       userMenus.forEach((item) => {
         router.addRoute(item)
       })
@@ -37,6 +34,5 @@ export function generaMenu() {
 }
 
 export const loadView = (view) => {
-  // 路由懒加载
   return (resolve) => require([`@/views${view}`], resolve)
 }
