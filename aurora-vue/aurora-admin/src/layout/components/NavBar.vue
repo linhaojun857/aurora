@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { resetRouter } from '../../router'
+import { resetRouter } from '@/router'
 export default {
   created() {
     let matched = this.$route.matched.filter((item) => item.name)
