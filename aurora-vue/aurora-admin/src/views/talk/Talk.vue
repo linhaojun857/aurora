@@ -54,7 +54,7 @@
 
 <script>
 import * as imageConversion from 'image-conversion'
-import Editor from '../../components/Editor.vue'
+import Editor from '@/components/Editor.vue'
 export default {
   components: {
     Editor

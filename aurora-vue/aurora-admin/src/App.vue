@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { generaMenu } from './assets/js/menu'
+import { generaMenu } from '@/assets/js/menu'
 export default {
   created() {
     if (this.$store.state.userInfo != null) {

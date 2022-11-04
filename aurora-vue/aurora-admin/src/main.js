@@ -44,11 +44,11 @@ Vue.filter('dateTime', function (value, formatStr = 'YYYY-MM-DD HH:mm:ss') {
 })
 
 NProgress.configure({
-  easing: 'ease', // 动画方式
-  speed: 500, // 递增进度条的速度
-  showSpinner: false, // 是否显示加载ico
-  trickleSpeed: 200, // 自动递增间隔
-  minimum: 0.3 // 初始化时的最小百分比
+  easing: 'ease',
+  speed: 500,
+  showSpinner: false,
+  trickleSpeed: 200,
+  minimum: 0.3
 })
 
 router.beforeEach((to, from, next) => {

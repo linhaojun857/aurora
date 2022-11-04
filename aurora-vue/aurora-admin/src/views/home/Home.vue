@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import '../../assets/js/china'
+import '@/assets/js/china'
 export default {
   created() {
     this.listUserArea()
