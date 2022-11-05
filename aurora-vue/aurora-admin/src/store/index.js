@@ -9,7 +9,13 @@ export default new Vuex.Store({
     collapse: false,
     tabList: [{ name: '首页', path: '/' }],
     userInfo: null,
-    userMenus: []
+    userMenus: [],
+    pageState: {
+      articleList: 1,
+      category: 1,
+      tag: 1,
+      comment: 1
+    }
   },
   mutations: {
     saveTab(state, tab) {
@@ -46,6 +52,18 @@ export default new Vuex.Store({
       state.userInfo.nickname = user.nickname
       state.userInfo.intro = user.intro
       state.userInfo.webSite = user.webSite
+    },
+    updateArticleListPageState(state, current) {
+      state.pageState.articleList = current
+    },
+    updateCategoryPageState(state, current) {
+      state.pageState.category = current
+    },
+    updateTagPageState(state, current) {
+      state.pageState.tag = current
+    },
+    updateCommentPageState(state, current) {
+      state.pageState.comment = current
     }
   },
   actions: {},

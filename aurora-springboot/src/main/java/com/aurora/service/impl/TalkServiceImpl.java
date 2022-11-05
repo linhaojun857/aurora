@@ -73,7 +73,9 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
             talkDTO.setImgs(CommonUtil.castList(JSON.parseObject(talkDTO.getImages(), List.class), String.class));
         }
         CommentCountDTO commentCountDTO = commentMapper.listCommentCountByTypeAndTopicId(CommentTypeEnum.TALK.getType(), talkId);
-        talkDTO.setCommentCount(commentCountDTO.getCommentCount());
+        if (Objects.nonNull(commentCountDTO)) {
+            talkDTO.setCommentCount(commentCountDTO.getCommentCount());
+        }
         return talkDTO;
     }
 

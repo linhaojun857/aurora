@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aurora.mapper.TalkMapper">
-
     <select id="listTalks" resultType="com.aurora.model.dto.TalkDTO">
         SELECT t.id,
                nickname,
@@ -65,5 +64,4 @@
                  JOIN t_user_info ui ON t.user_id = ui.id
         WHERE t.id = #{talkId}
     </select>
-
 </mapper>

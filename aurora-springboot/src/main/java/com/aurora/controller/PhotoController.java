@@ -20,10 +20,6 @@ import java.util.List;
 
 import static com.aurora.constant.OptTypeConstant.*;
 
-
-/**
- * @author 花未眠
- */
 @Api(tags = "照片模块")
 @RestController
 public class PhotoController {

@@ -130,6 +130,7 @@
 <script>
 export default {
   created() {
+    this.current = this.$store.state.pageState.comment
     this.listComments()
   },
   data: function () {
@@ -181,6 +182,7 @@ export default {
     },
     currentChange(current) {
       this.current = current
+      this.$store.commit('updateCommentPageState', current)
       this.listComments()
     },
     changeReview(review) {

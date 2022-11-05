@@ -77,7 +77,7 @@ CREATE TABLE `t_comment`  (
   `comment_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '评论内容',
   `reply_user_id` int NULL DEFAULT NULL COMMENT '回复用户id',
   `parent_id` int NULL DEFAULT NULL COMMENT '父评论id',
-  `type` tinyint NOT NULL COMMENT '评论类型 1.文章 2.留言 3.友链 4.关于我',
+  `type` tinyint NOT NULL COMMENT '评论类型 1.文章 2.留言 3.关于我 4.友链 5.说说',
   `is_delete` tinyint NOT NULL DEFAULT 0 COMMENT '是否删除  0否 1是',
   `is_review` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否审核',
   `create_time` datetime NOT NULL COMMENT '评论时间',

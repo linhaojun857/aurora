@@ -85,6 +85,7 @@
 <script>
 export default {
   created() {
+    this.current = this.$store.state.pageState.tag
     this.listTags()
   },
   data: function () {
@@ -121,6 +122,7 @@ export default {
     },
     currentChange(current) {
       this.current = current
+      this.$store.commit('updateTagPageState', current)
       this.listTags()
     },
     deleteTag(id) {
