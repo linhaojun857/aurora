@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * 用于处理过滤其中的异常（目前用不到）
- */
 @Api(tags = "异常处理模块")
 @RestController
 public class BizExceptionController {
@@ -27,4 +24,5 @@ public class BizExceptionController {
             throw new Exception();
         }
     }
+
 }
