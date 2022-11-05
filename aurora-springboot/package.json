@@ -1,6 +1,9 @@
 {
   "name": "aurora-springboot",
   "version": "1.0.0",
+  "scripts": {
+    "deploy": "node deploy.js"
+  },
   "dependencies": {
     "chalk": "^4.1.2",
     "dotenv": "^16.0.3",
