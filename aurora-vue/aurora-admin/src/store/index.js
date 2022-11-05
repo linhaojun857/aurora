@@ -14,7 +14,13 @@ export default new Vuex.Store({
       articleList: 1,
       category: 1,
       tag: 1,
-      comment: 1
+      comment: 1,
+      talkList: 1,
+      user: 1,
+      online: 1,
+      role: 1,
+      quartz: 1,
+      friendLinks: 1
     }
   },
   mutations: {
@@ -64,6 +70,24 @@ export default new Vuex.Store({
     },
     updateCommentPageState(state, current) {
       state.pageState.comment = current
+    },
+    updateTalkListPageState(state, current) {
+      state.pageState.talkList = current
+    },
+    updateUserPageState(state, current) {
+      state.pageState.user = current
+    },
+    updateOnlinePageState(state, current) {
+      state.pageState.online = current
+    },
+    updateRolePageState(state, current) {
+      state.pageState.role = current
+    },
+    updateQuartzPageState(state, current) {
+      state.pageState.quartz = current
+    },
+    updateFriendLinkPageState(state, current) {
+      state.pageState.current = current
     }
   },
   actions: {},
