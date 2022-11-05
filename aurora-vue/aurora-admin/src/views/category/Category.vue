@@ -84,7 +84,7 @@
 <script>
 export default {
   created() {
-    this.current = this.$store.state.categoryState.page
+    this.current = this.$store.state.pageState.category
     this.listCategories()
   },
   data: function () {
@@ -121,7 +121,7 @@ export default {
     },
     currentChange(current) {
       this.current = current
-      this.$store.commit('updateCategoryState', { page: current })
+      this.$store.commit('updateCategoryPageState', current)
       this.listCategories()
     },
     deleteCategory(id) {

@@ -10,14 +10,11 @@ export default new Vuex.Store({
     tabList: [{ name: '首页', path: '/' }],
     userInfo: null,
     userMenus: [],
-    articleListState: {
-      page: 1
-    },
-    categoryState: {
-      page: 1
-    },
-    tagState: {
-      page: 1
+    pageState: {
+      articleList: 1,
+      category: 1,
+      tag: 1,
+      comment: 1
     }
   },
   mutations: {
@@ -56,14 +53,17 @@ export default new Vuex.Store({
       state.userInfo.intro = user.intro
       state.userInfo.webSite = user.webSite
     },
-    updateArticleListState(state, articleListState) {
-      state.articleListState.page = articleListState.page
+    updateArticleListPageState(state, current) {
+      state.pageState.articleList = current
     },
-    updateCategoryState(state, categoryState) {
-      state.categoryState.page = categoryState.page
+    updateCategoryPageState(state, current) {
+      state.pageState.category = current
     },
-    updateTagState(state, tagState) {
-      state.tagState.page = tagState.page
+    updateTagPageState(state, current) {
+      state.pageState.tag = current
+    },
+    updateCommentPageState(state, current) {
+      state.pageState.comment = current
     }
   },
   actions: {},

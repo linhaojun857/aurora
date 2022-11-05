@@ -227,7 +227,7 @@
 <script>
 export default {
   created() {
-    this.current = this.$store.state.articleListState.page
+    this.current = this.$store.state.pageState.articleList
     this.listArticles()
     this.listCategories()
     this.listTags()
@@ -386,7 +386,7 @@ export default {
     },
     currentChange(current) {
       this.current = current
-      this.$store.commit('updateArticleListState', { page: current })
+      this.$store.commit('updateArticleListPageState', current)
       this.listArticles()
     },
     changeStatus(status) {
