@@ -5,7 +5,7 @@
       <span>状态</span>
       <span @click="changeStatus('all')" :class="isActive('all')">全部</span>
       <span @click="changeStatus('public')" :class="isActive('public')"> 公开 </span>
-      <span @click="changeStatus('secret')" :class="isActive('secret')"> 私密 </span>
+      <span @click="changeStatus('private')" :class="isActive('private')"> 私密 </span>
       <span @click="changeStatus('draft')" :class="isActive('draft')"> 草稿箱 </span>
       <span @click="changeStatus('delete')" :class="isActive('delete')"> 回收站 </span>
     </div>
@@ -227,6 +227,7 @@
 <script>
 export default {
   created() {
+    this.current = this.$store.state.articleListState.page
     this.listArticles()
     this.listCategories()
     this.listTags()
@@ -357,8 +358,8 @@ export default {
     },
     downloadFile(url) {
       const iframe = document.createElement('iframe')
-      iframe.style.display = 'none' // 防止影响页面
-      iframe.style.height = 0 // 防止影响页面
+      iframe.style.display = 'none'
+      iframe.style.height = 0
       iframe.src = url
       document.body.appendChild(iframe)
       setTimeout(() => {
@@ -385,6 +386,7 @@ export default {
     },
     currentChange(current) {
       this.current = current
+      this.$store.commit('updateArticleListState', { page: current })
       this.listArticles()
     },
     changeStatus(status) {
@@ -397,7 +399,7 @@ export default {
           this.isDelete = 0
           this.status = 1
           break
-        case 'secret':
+        case 'private':
           this.isDelete = 0
           this.status = 2
           break
