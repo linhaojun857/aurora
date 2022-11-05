@@ -14,4 +14,5 @@ public class CommentCountDTO {
     private Integer id;
 
     private Integer commentCount;
+
 }

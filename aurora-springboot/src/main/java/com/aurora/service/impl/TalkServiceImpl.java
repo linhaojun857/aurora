@@ -1,6 +1,7 @@
 package com.aurora.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.aurora.enums.CommentTypeEnum;
 import com.aurora.model.dto.CommentCountDTO;
 import com.aurora.model.dto.TalkAdminDTO;
 import com.aurora.model.dto.TalkDTO;
@@ -39,7 +40,6 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
     @Autowired
     private CommentMapper commentMapper;
 
-
     @Override
     public PageResultDTO<TalkDTO> listTalks() {
         Integer count = talkMapper.selectCount((new LambdaQueryWrapper<Talk>()
@@ -51,7 +51,7 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
         List<Integer> talkIds = talkDTOs.stream()
                 .map(TalkDTO::getId)
                 .collect(Collectors.toList());
-        Map<Integer, Integer> commentCountMap = commentMapper.listCommentCountByTopicIds(talkIds)
+        Map<Integer, Integer> commentCountMap = commentMapper.listCommentCountByTypeAndTopicIds(CommentTypeEnum.TALK.getType(), talkIds)
                 .stream()
                 .collect(Collectors.toMap(CommentCountDTO::getId, CommentCountDTO::getCommentCount));
         talkDTOs.forEach(item -> {
@@ -72,6 +72,8 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
         if (Objects.nonNull(talkDTO.getImages())) {
             talkDTO.setImgs(CommonUtil.castList(JSON.parseObject(talkDTO.getImages(), List.class), String.class));
         }
+        CommentCountDTO commentCountDTO = commentMapper.listCommentCountByTypeAndTopicId(CommentTypeEnum.TALK.getType(), talkId);
+        talkDTO.setCommentCount(commentCountDTO.getCommentCount());
         return talkDTO;
     }
 
