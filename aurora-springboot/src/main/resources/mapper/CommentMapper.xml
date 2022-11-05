@@ -70,7 +70,8 @@
         FROM t_comment c
                  JOIN t_user_info u ON c.user_id = u.id
         where c.is_review = 1
-        ORDER BY c.id DESC LIMIT 0 , 6
+        ORDER BY c.id DESC
+        LIMIT 0 , 6
     </select>
     <select id="countComments" resultType="java.lang.Integer">
         SELECT
@@ -121,20 +122,27 @@
         id DESC
         LIMIT #{current},#{size}
     </select>
-    <select id="listCommentCountByTopicIds" resultType="com.aurora.model.dto.CommentCountDTO">
+    <select id="listCommentCountByTypeAndTopicIds" resultType="com.aurora.model.dto.CommentCountDTO">
         SELECT
         topic_id as id,
         COUNT( 1 ) AS comment_count
         FROM
         t_comment
-        WHERE
+        WHERE type = #{type}
+        AND
         topic_id IN
         <foreach open="(" collection="topicIds" item="topicId" separator="," close=")">
             #{topicId}
         </foreach>
-        AND
-        parent_id IS NULL
         GROUP BY
         topic_id
+    </select>
+    <select id="listCommentCountByTypeAndTopicId" resultType="com.aurora.model.dto.CommentCountDTO">
+        SELECT topic_id as id,
+               COUNT(1) AS comment_count
+        FROM t_comment
+        WHERE type = #{type}
+          AND topic_id = #{topicId}
+        GROUP BY topic_id
     </select>
 </mapper>
