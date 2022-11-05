@@ -12,6 +12,12 @@ export default new Vuex.Store({
     userMenus: [],
     articleListState: {
       page: 1
+    },
+    categoryState: {
+      page: 1
+    },
+    tagState: {
+      page: 1
     }
   },
   mutations: {
@@ -52,6 +58,12 @@ export default new Vuex.Store({
     },
     updateArticleListState(state, articleListState) {
       state.articleListState.page = articleListState.page
+    },
+    updateCategoryState(state, categoryState) {
+      state.categoryState.page = categoryState.page
+    },
+    updateTagState(state, tagState) {
+      state.tagState.page = tagState.page
     }
   },
   actions: {},
