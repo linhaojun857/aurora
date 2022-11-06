@@ -59,6 +59,7 @@
 <script>
 export default {
   created() {
+    this.current = this.$store.state.pageState.talkList
     this.listTalks()
   },
   data: function () {
@@ -113,6 +114,7 @@ export default {
     currentChange(current) {
       this.previews = []
       this.current = current
+      this.$store.commit('updateTalkListPageState', current)
       this.listTalks()
     },
     changeStatus(status) {
