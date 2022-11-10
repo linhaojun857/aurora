@@ -105,6 +105,7 @@
 <script>
 export default {
   created() {
+    this.current = this.$store.state.pageState.user
     this.listUsers()
     this.listRoles()
   },
@@ -147,6 +148,7 @@ export default {
     },
     currentChange(current) {
       this.current = current
+      this.$store.commit('updateUserPageState', current)
       this.listUsers()
     },
     changeDisable(user) {

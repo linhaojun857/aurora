@@ -282,7 +282,7 @@ export default {
       openCron: false,
       expression: '',
       openView: false,
-      editOrUpdate: true, // true: 编辑 false: 新增
+      editOrUpdate: true,
       searchParams: {},
       jobGroups: [],
       jobs: [],
@@ -398,7 +398,6 @@ export default {
     },
     handleEditOrUpdate() {
       if (this.editOrUpdate === true) {
-        // 更新操作
         this.axios.put('/api/admin/jobs', this.job).then(({ data }) => {
           if (data.flag) {
             this.$notify.success({
