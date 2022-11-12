@@ -234,7 +234,7 @@ export default {
   },
   data: function () {
     return {
-      uploadHeaders: { token: sessionStorage.getItem('token') },
+      uploadHeaders: { Authorization: 'Bearer ' + sessionStorage.getItem('token') },
       loading: true,
       updateIsDelete: false,
       remove: false,
