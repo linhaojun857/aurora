@@ -26,20 +26,20 @@ export default {
       children: []
     },
     {
-      name: 'Archives',
-      path: '/archives',
-      i18n: {
-        cn: '归档',
-        en: 'Archives'
-      },
-      children: []
-    },
-    {
       name: 'About',
       path: '/about',
       i18n: {
         cn: '关于',
         en: 'About'
+      },
+      children: []
+    },
+    {
+      name: 'Archives',
+      path: '/archives',
+      i18n: {
+        cn: '归档',
+        en: 'Archives'
       },
       children: []
     },
