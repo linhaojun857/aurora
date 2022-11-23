@@ -12,7 +12,7 @@
             v-for="item in talks"
             :key="item.id"
             @click="toTalk(item.id)">
-            <Avatar :url="item.avatar"></Avatar>
+            <Avatar :url="item.avatar" />
             <div class="talk-info">
               <div class="user-nickname text-sm">
                 {{ item.nickname }}

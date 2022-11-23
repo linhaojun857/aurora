@@ -1,6 +1,6 @@
 <template>
   <div class="flex space-x-3 xl:space-x-5">
-    <Avatar :url="avatar"></Avatar>
+    <Avatar :url="avatar" />
     <div class="reply flex flex-col flex-wrap-reverse w-full max-w-full-calc" style="width: fit-content">
       <textarea
         v-model="commentContent"

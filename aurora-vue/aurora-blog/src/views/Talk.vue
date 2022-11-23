@@ -8,7 +8,7 @@
         <div class="main-grid">
           <div class="relative space-y-5">
             <div class="bg-ob-deep-800 flex p-4 lg:p-8 rounded-2xl shadow-xl mb-8 lg:mb-0">
-              <Avatar v-if="talk.avatar" :url="talk.avatar"></Avatar>
+              <Avatar v-if="talk.avatar" :url="talk.avatar" />
               <div class="talk-info">
                 <div class="user-nickname text-sm">
                   {{ talk.nickname }}
