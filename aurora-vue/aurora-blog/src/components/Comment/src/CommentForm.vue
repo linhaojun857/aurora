@@ -1,13 +1,13 @@
 <template>
   <div class="flex space-x-3 xl:space-x-5">
-    <Avatar :url="avatar"></Avatar>
+    <Avatar :url="avatar" />
     <div class="comment flex flex-col flex-wrap-reverse w-full max-w-full-calc">
       <textarea
         v-model="commentContent"
         class="w-full shadow-md rounded-md p-4 focus:outline-none input"
         placeholder="Add comment..."
         cols="30"
-        rows="5"/>
+        rows="5" />
       <div class="justify-between" style="text-align: right">
         <button
           @click="saveComment"

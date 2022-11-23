@@ -7,12 +7,16 @@
           class="bg-ob-deep-900 px-2 py-3 mb-1.5 rounded-lg flex flex-row justify-items-center items-center shadow-sm hover:shadow-ob transition-shadow"
           v-for="comment in comments"
           :key="comment.id">
-          <img
-            class="col-span-1 mr-2 rounded-full p-1"
-            :src="comment.avatar"
-            alt="comment-avatar"
-            height="40"
-            width="40" />
+          <div class="flex-shrink-0 mr-2">
+            <div class="rounded-full ring-gray-100 overflow-hidden shaodw-lg w-9">
+              <template v-if="comment.avatar != null">
+                <img class="avatar-img" :src="comment.avatar" alt="" />
+              </template>
+              <template v-else>
+                <img class="avatar-img" :src="default" alt="" />
+              </template>
+            </div>
+          </div>
           <div class="flex-1 text-xs comment">
             <div class="text-xs">
               <span class="text-ob pr-2">
@@ -66,6 +70,7 @@ export default defineComponent({
     }
     return {
       comments: toRef(commentStore.$state, 'recentComment'),
+      default: 'https://static.linhaojun.top/config/0af1901da1e64dfb99bb61db21e716c4.jpeg',
       t
     }
   }
@@ -82,5 +87,14 @@ export default defineComponent({
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+.avatar-img {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 800ms;
+  transform: rotate(-360deg);
+}
+.avatar-img:hover {
+  transform: rotate(360deg);
 }
 </style>
