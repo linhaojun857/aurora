@@ -116,6 +116,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void register(UserVO userVO) {
         if (!checkEmail(userVO.getUsername())) {
             throw new BizException("邮箱格式不对!");

@@ -20,6 +20,7 @@ import eu.bitwalker.useragentutils.UserAgent;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -141,6 +142,7 @@ public class AuroraInfoServiceImpl implements AuroraInfoService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateWebsiteConfig(WebsiteConfigVO websiteConfigVO) {
         WebsiteConfig websiteConfig = WebsiteConfig.builder()
                 .id(DEFAULT_CONFIG_ID)
@@ -165,6 +167,7 @@ public class AuroraInfoServiceImpl implements AuroraInfoService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateAbout(AboutVO aboutVO) {
         About about = About.builder()
                 .id(DEFAULT_ABOUT_ID)

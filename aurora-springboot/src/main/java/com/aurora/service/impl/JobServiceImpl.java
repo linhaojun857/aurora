@@ -100,6 +100,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         return new PageResultDTO<>(jobDTOs, asyncCount.get());
     }
 
+    //todo 同理可不加事务
     @SneakyThrows
     @Override
     @Transactional(rollbackFor = Exception.class)
