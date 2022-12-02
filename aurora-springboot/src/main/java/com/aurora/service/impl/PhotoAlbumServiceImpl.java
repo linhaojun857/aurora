@@ -81,6 +81,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deletePhotoAlbumById(Integer albumId) {
         Integer count = photoMapper.selectCount(new LambdaQueryWrapper<Photo>()
                 .eq(Photo::getAlbumId, albumId));
