@@ -30,4 +30,5 @@ public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, Ope
         List<OperationLogDTO> operationLogDTOs = BeanCopyUtil.copyList(operationLogPage.getRecords(), OperationLogDTO.class);
         return new PageResultDTO<>(operationLogDTOs, (int) operationLogPage.getTotal());
     }
+
 }

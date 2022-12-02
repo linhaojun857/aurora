@@ -138,5 +138,4 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
                 .build();
     }
 
-
 }
