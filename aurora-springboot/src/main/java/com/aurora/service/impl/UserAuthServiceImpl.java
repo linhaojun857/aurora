@@ -79,7 +79,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         map.put("content", "您的验证码为 " + code + " 有效期15分钟，请不要告诉他人哦！");
         EmailDTO emailDTO = EmailDTO.builder()
                 .email(username)
-                .subject("验证码")
+                .subject(CommonConstant.CAPTCHA)
                 .template("common.html")
                 .commentMap(map)
                 .build();
@@ -155,6 +155,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
+    @SuppressWarnings("all")
     public void updateAdminPassword(PasswordVO passwordVO) {
         UserAuth user = userAuthMapper.selectOne(new LambdaQueryWrapper<UserAuth>()
                 .eq(UserAuth::getId, UserUtil.getUserDetailsDTO().getId()));
@@ -201,6 +202,5 @@ public class UserAuthServiceImpl implements UserAuthService {
                 .eq(UserAuth::getUsername, user.getUsername()));
         return Objects.nonNull(userAuth);
     }
-
 
 }

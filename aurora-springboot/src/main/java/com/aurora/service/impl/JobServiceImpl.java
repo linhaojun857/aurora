@@ -100,10 +100,8 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         return new PageResultDTO<>(jobDTOs, asyncCount.get());
     }
 
-    //todo 同理可不加事务
     @SneakyThrows
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void updateJobStatus(JobStatusVO jobStatusVO) {
         Job job = jobMapper.selectById(jobStatusVO.getId());
         if (job.getStatus().equals(jobStatusVO.getStatus())) {

@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> implements RoleMenuService {
+
 }

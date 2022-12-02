@@ -33,7 +33,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Autowired
     private ArticleMapper articleMapper;
 
-
     @Override
     public List<CategoryDTO> listCategories() {
         return categoryMapper.listCategories();
@@ -85,4 +84,5 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
                 .build();
         this.saveOrUpdate(category);
     }
+
 }

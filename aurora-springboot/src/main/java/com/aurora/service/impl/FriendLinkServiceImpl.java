@@ -16,7 +16,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -41,11 +40,10 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         return new PageResultDTO<>(friendLinkBackDTOs, (int) friendLinkPage.getTotal());
     }
 
-    //todo 这里事务其实可以不用加，单条失败数据库会自己回滚
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateFriendLink(FriendLinkVO friendLinkVO) {
         FriendLink friendLink = BeanCopyUtil.copyObject(friendLinkVO, FriendLink.class);
         this.saveOrUpdate(friendLink);
     }
+
 }

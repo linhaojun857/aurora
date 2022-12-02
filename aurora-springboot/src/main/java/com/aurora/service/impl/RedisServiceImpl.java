@@ -2,6 +2,7 @@ package com.aurora.service.impl;
 
 
 import com.aurora.service.RedisService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
@@ -13,7 +14,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -23,8 +23,10 @@ import java.util.stream.Collectors;
 
 
 @Service
+@SuppressWarnings("all")
 public class RedisServiceImpl implements RedisService {
-    @Resource
+
+    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
     @Override

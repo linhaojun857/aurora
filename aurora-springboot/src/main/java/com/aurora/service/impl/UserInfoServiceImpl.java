@@ -170,4 +170,5 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         UserInfo userInfo = userInfoMapper.selectById(id);
         return BeanCopyUtil.copyObject(userInfo, UserInfoDTO.class);
     }
+
 }

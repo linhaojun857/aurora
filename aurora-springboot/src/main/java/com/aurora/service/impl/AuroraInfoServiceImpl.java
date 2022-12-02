@@ -68,7 +68,6 @@ public class AuroraInfoServiceImpl implements AuroraInfoService {
     @Autowired
     private HttpServletRequest request;
 
-
     @Override
     public void report() {
         String ipAddress = IpUtil.getIpAddress(request);
@@ -204,4 +203,5 @@ public class AuroraInfoServiceImpl implements AuroraInfoService {
                 .sorted(Comparator.comparingInt(ArticleRankDTO::getViewsCount).reversed())
                 .collect(Collectors.toList());
     }
+
 }
