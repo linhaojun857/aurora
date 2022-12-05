@@ -39,8 +39,7 @@ html::-webkit-scrollbar {
 html::-webkit-scrollbar-thumb {
   background: #434343;
   border-radius: 16px;
-  box-shadow: inset 2px 2px 2px rgba(100, 100, 100, 0.25),
-    inset -2px -2px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 2px 2px 2px rgba(100, 100, 100, 0.25), inset -2px -2px 2px rgba(0, 0, 0, 0.25);
 }
 
 html::-webkit-scrollbar-track {
@@ -56,8 +55,7 @@ div::-webkit-scrollbar {
 div::-webkit-scrollbar-thumb {
   background: #434343;
   border-radius: 16px;
-  box-shadow: inset 2px 2px 2px rgba(100, 100, 100, 0.25),
-    inset -2px -2px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 2px 2px 2px rgba(100, 100, 100, 0.25), inset -2px -2px 2px rgba(0, 0, 0, 0.25);
 }
 
 div::-webkit-scrollbar-track {
@@ -74,4 +72,3 @@ div::-webkit-scrollbar-track {
 .is-collapsed {
   max-height: 0;
 }
-

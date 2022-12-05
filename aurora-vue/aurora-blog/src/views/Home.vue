@@ -76,7 +76,6 @@ import { Title } from '@/components/Title'
 import { Sidebar, Profile, RecentComment, TagBox, Notice, WebsiteInfo } from '@/components/Sidebar'
 import { useAppStore } from '@/stores/app'
 import { useUserStore } from '@/stores/user'
-import { useMetaStore } from '@/stores/meta'
 import { useArticleStore } from '@/stores/article'
 import { useCategoryStore } from '@/stores/Category'
 import { useI18n } from 'vue-i18n'
@@ -100,7 +99,6 @@ export default defineComponent({
     WebsiteInfo
   },
   setup() {
-    useMetaStore().setTitle('home')
     const appStore = useAppStore()
     const userStore = useUserStore()
     const articleStore = useArticleStore()

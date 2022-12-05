@@ -155,7 +155,6 @@ import { Comment } from '@/components/Comment'
 import { SubTitle } from '@/components/Title'
 import { ArticleCard } from '@/components/ArticleCard'
 import '@/styles/prism-aurora-future.css'
-import { useMetaStore } from '@/stores/meta'
 import { useCommonStore } from '@/stores/common'
 import { useCommentStore } from '@/stores/comment'
 import Sticky from '@/components/Sticky.vue'
@@ -171,7 +170,6 @@ export default defineComponent({
   components: { Sidebar, Comment, SubTitle, ArticleCard, Profile, Sticky, Navigator },
   setup() {
     const proxy: any = getCurrentInstance()?.appContext.config.globalProperties
-    const metaStore = useMetaStore()
     const commonStore = useCommonStore()
     const commentStore = useCommentStore()
     const route = useRoute()
@@ -289,7 +287,6 @@ export default defineComponent({
           router.push({ path: '/出错啦' })
           return
         }
-        metaStore.setTitle(data.data.articleTitle)
         commonStore.setHeaderImage(data.data.articleCover)
         new Promise((resolve) => {
           data.data.articleContent = markdownToHtml(data.data.articleContent)
@@ -390,7 +387,7 @@ export default defineComponent({
   padding-left: 1.5rem;
 
   > li {
-    @apply font-bold pb-1;
+    @apply font-medium pb-1;
     &.is-active-li > .node-name--H1 {
       @apply text-ob;
     }
@@ -403,7 +400,7 @@ export default defineComponent({
   }
 
   ol li {
-    @apply font-semibold mt-1.5 mb-1.5;
+    @apply font-medium mt-1.5 mb-1.5;
     padding-left: 1.5rem;
     &.is-active-li > .node-name--H2 {
       @apply text-ob;
@@ -436,7 +433,7 @@ export default defineComponent({
     width: 1em;
     margin-left: -1.15em;
     padding: 0;
-    font-weight: bold;
+    font-weight: medium;
     text-shadow: 0 0 0.5em var(--accent-2);
   }
 

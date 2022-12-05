@@ -2,7 +2,7 @@
   <div class="sidebar-box">
     <SubTitle :title="'titles.notice'" icon="notice" />
     <div class="mx-auto">
-      <span class="text-sm font-semibold text-right notice"> {{ notice }}</span>
+      <span class="text-sm font-medium text-right notice"> {{ notice }}</span>
     </div>
   </div>
 </template>

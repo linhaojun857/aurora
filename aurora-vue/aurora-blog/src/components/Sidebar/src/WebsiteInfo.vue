@@ -3,15 +3,15 @@
     <SubTitle :title="'titles.website_info'" icon="website-info" />
     <ul class="mx-auto">
       <li class="pb-3">
-        <span class="text-sm font-semibold">{{ t('settings.running-time') }}:</span>
-        <span class="text-sm font-semibold text-right float-right" v-if="websiteCreateTime != ''">
+        <span class="text-sm font-medium">{{ t('settings.running-time') }}:</span>
+        <span class="text-sm font-medium text-right float-right" v-if="websiteCreateTime != ''">
           {{ websiteCreateTime }}
         </span>
         <ob-skeleton v-else class="float-right" tag="span" width="136px" height="16px" />
       </li>
       <li class="pb-2">
-        <span class="text-sm font-semibold">{{ t('settings.view-count') }}:</span>
-        <span class="text-sm font-semibold text-right float-right" v-if="viewCount">{{ viewCount }}</span>
+        <span class="text-sm font-medium">{{ t('settings.view-count') }}:</span>
+        <span class="text-sm font-medium text-right float-right" v-if="viewCount">{{ viewCount }}</span>
         <ob-skeleton v-else class="float-right" tag="span" width="60px" height="16px" />
       </li>
     </ul>
