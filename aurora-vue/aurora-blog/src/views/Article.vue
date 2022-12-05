@@ -155,7 +155,6 @@ import { Comment } from '@/components/Comment'
 import { SubTitle } from '@/components/Title'
 import { ArticleCard } from '@/components/ArticleCard'
 import '@/styles/prism-aurora-future.css'
-import { useMetaStore } from '@/stores/meta'
 import { useCommonStore } from '@/stores/common'
 import { useCommentStore } from '@/stores/comment'
 import Sticky from '@/components/Sticky.vue'
@@ -171,7 +170,6 @@ export default defineComponent({
   components: { Sidebar, Comment, SubTitle, ArticleCard, Profile, Sticky, Navigator },
   setup() {
     const proxy: any = getCurrentInstance()?.appContext.config.globalProperties
-    const metaStore = useMetaStore()
     const commonStore = useCommonStore()
     const commentStore = useCommentStore()
     const route = useRoute()
@@ -289,7 +287,6 @@ export default defineComponent({
           router.push({ path: '/出错啦' })
           return
         }
-        metaStore.setTitle(data.data.articleTitle)
         commonStore.setHeaderImage(data.data.articleCover)
         new Promise((resolve) => {
           data.data.articleContent = markdownToHtml(data.data.articleContent)
