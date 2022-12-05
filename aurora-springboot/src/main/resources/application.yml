@@ -25,10 +25,10 @@ spring:
     database: 1
     lettuce:
       pool:
+        min-idle: 10
         max-idle: 100
         max-active: 100
         max-wait: 10000
-        min-idle: 10
 
   rabbitmq:
     host: rabbitmq的ip
