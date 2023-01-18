@@ -90,10 +90,15 @@ public class IpUtil {
 
     public static String getIpProvince(String ipSource) {
         String[] strings = ipSource.split("\\|");
-        if (strings[1].endsWith("省")) {
-            return StringUtils.substringBefore(strings[1], "省");
+        try {
+            if (strings[1].endsWith("省")) {
+                return StringUtils.substringBefore(strings[1], "省");
+            }
+            return strings[1];
+        } catch (Exception e) {
+            log.warn("Warn: Invaild provice");
+            return "";
         }
-        return strings[1];
     }
 
     public static UserAgent getUserAgent(HttpServletRequest request) {
