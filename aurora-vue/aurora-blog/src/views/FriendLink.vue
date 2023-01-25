@@ -7,7 +7,6 @@
       </div>
       <div class="main-grid">
         <div class="relative space-y-5">
-          <div class="post-html" v-html="`这是一个友链展示区`" />
           <div class="bg-ob-deep-800 p-4 lg:p-14 rounded-2xl shadow-xl mb-8 lg:mb-0">
             <el-row :gutter="36">
               <template v-for="link in links" :key="link.id">

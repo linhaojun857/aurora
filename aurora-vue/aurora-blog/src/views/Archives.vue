@@ -14,7 +14,7 @@
             <div class="timeline-marker"></div>
             <div class="timeline-content">
               <h2 class="timeline-title">
-                {{ t(`settings.months[${archive.time.split('-')[1]}]`) }}&nbsp{{ archive.time.split('-')[0] }}
+                {{ t(`settings.months[${archive.time.split('-')[1] - 1}]`) }}&nbsp{{ archive.time.split('-')[0] }}
               </h2>
             </div>
           </li>
