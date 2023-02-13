@@ -44,7 +44,7 @@ export default {
     return axios.get('/api/articles/' + articleId)
   },
   getAllCategories: () => {
-    return axios.get('/api//categories/all')
+    return axios.get('/api/categories/all')
   },
   getAllTags: () => {
     return axios.get('/api/tags/all')
