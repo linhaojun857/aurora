@@ -16,7 +16,7 @@ export default defineComponent({
   setup(props) {
     return {
       url: toRefs(props).url,
-      default: 'https://static.linhaojun.top/config/52a81cd2772167b645569342e81ce312.jpg'
+      default: 'https://static.linhaojun.top/aurora/config/52a81cd2772167b645569342e81ce312.jpg'
     }
   }
 })
