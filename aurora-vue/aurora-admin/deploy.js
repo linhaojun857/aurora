@@ -7,7 +7,7 @@ const Client = require('ssh2').Client
 const conn = new Client()
 conn
   .on('ready', () => {
-    conn.exec('rm -rf /usr/local/vue/admin', (err, stream) => {
+    conn.exec('rm -rf /usr/local/aurora-vue/admin', (err, stream) => {
       if (err) throw err
       stream
         .on('close', () => {

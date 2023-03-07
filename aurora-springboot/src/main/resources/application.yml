@@ -22,7 +22,7 @@ spring:
     host: redis的ip
     port: 6379
     password: 密码
-    database: 1
+    database: 0
     lettuce:
       pool:
         min-idle: 10

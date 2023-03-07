@@ -70,7 +70,7 @@ export default defineComponent({
     }
     return {
       comments: toRef(commentStore.$state, 'recentComment'),
-      default: 'https://static.linhaojun.top/config/0af1901da1e64dfb99bb61db21e716c4.jpeg',
+      default: 'https://static.linhaojun.top/aurora/config/0af1901da1e64dfb99bb61db21e716c4.jpeg',
       t
     }
   }
