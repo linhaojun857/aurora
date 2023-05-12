@@ -59,6 +59,7 @@ import router from '@/router'
 
 export default {
   created() {
+    this.current = this.$store.state.pageState.online
     this.listOnlineUsers()
   },
   data() {
@@ -95,6 +96,7 @@ export default {
     },
     currentChange(current) {
       this.current = current
+      this.$store.commit('updateOnlinePageState', current)
       this.listOnlineUsers()
     },
     removeOnlineUser(user) {

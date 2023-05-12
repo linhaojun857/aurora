@@ -94,6 +94,7 @@
 <script>
 export default {
   created() {
+    this.current = this.$store.state.pageState.friendLink
     this.listLinks()
   },
   data: function () {
@@ -133,6 +134,7 @@ export default {
     },
     currentChange(current) {
       this.current = current
+      this.$store.commit('updateFriendLinkPageState', current)
       this.listLinks()
     },
     deleteLink(id) {

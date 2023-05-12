@@ -107,6 +107,7 @@
 <script>
 export default {
   created() {
+    this.current = this.$store.state.pageState.operationLog
     this.listLogs()
   },
   data() {
@@ -132,6 +133,7 @@ export default {
     },
     searchLogs() {
       this.current = 1
+      this.$store.commit('updateOperationLogPageState', this.current)
       this.listLogs()
     },
     sizeChange(size) {
@@ -140,6 +142,7 @@ export default {
     },
     currentChange(current) {
       this.current = current
+      this.$store.commit('updateOperationLogPageState', current)
       this.listLogs()
     },
     listLogs() {

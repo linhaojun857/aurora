@@ -265,6 +265,7 @@ import router from '@/router'
 export default {
   components: { Crontab },
   created() {
+    this.current = this.$store.state.pageState.quartz
     this.listJobGroups()
     this.listJobs()
   },
@@ -301,6 +302,7 @@ export default {
     },
     currentChange(current) {
       this.current = current
+      this.$store.commit('updateQuartzPageState', current)
       this.listJobs()
     },
     listJobGroups() {

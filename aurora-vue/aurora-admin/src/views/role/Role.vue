@@ -113,6 +113,7 @@
 <script>
 export default {
   created() {
+    this.current = this.$store.state.pageState.role
     this.listRoles()
   },
   data: function () {
@@ -148,6 +149,7 @@ export default {
     },
     currentChange(current) {
       this.current = current
+      this.$store.commit('updateRolePageState', current)
       this.listRoles()
     },
     selectionChange(roles) {
