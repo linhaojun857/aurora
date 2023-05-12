@@ -44,8 +44,8 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="small" @click="listJobLogs">查找</el-button>
-          <el-button icon="el-icon-refresh" size="small" @click="">重置</el-button>
+          <el-button type="primary" icon="el-icon-search" size="small" @click="searchLogs">查找</el-button>
+          <el-button icon="el-icon-refresh" size="small" @click="clearSearch">重置</el-button>
         </el-form-item>
       </el-row>
     </el-form>
@@ -56,7 +56,7 @@
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" icon="el-icon-delete" size="small" @click="clean">清空 </el-button>
+        <el-button type="danger" icon="el-icon-delete" size="small" @click="clean">清空</el-button>
       </el-col>
     </el-row>
 
@@ -95,7 +95,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-view" @click="changeOpen(scope.row)">详细 </el-button>
+          <el-button size="mini" type="text" icon="el-icon-view" @click="changeOpen(scope.row)">详细</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -147,7 +147,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="open = false">关 闭</el-button>
+        <el-button @click="open = false">关闭</el-button>
       </div>
     </el-dialog>
   </el-card>
@@ -160,6 +160,15 @@ export default {
       this.jobId = 0
     } else if (this.$route.params.quartzId !== null) {
       this.jobId = this.$route.params.quartzId
+    }
+    if (this.jobId == this.$store.state.pageState.quartzLog.jobId) {
+      this.current = this.$store.state.pageState.quartzLog.current
+    } else {
+      this.current = 1
+      this.$store.commit('updateQuartzLogPageState', {
+        jobId: this.jobId,
+        current: this.current
+      })
     }
     this.listJobLogs()
     this.listJobGroups()
@@ -212,12 +221,29 @@ export default {
           this.loading = false
         })
     },
+    searchLogs() {
+      this.current = 1
+      this.$store.commit('updateQuartzLogPageState', {
+        jobId: this.jobId,
+        current: this.current
+      })
+      this.listJobLogs()
+    },
+    clearSearch() {
+      this.searchParams = {}
+      this.dateRange = []
+      this.listJobLogs()
+    },
     sizeChange(size) {
       this.size = size
       this.listJobLogs()
     },
     currentChange(current) {
       this.current = current
+      this.$store.commit('updateQuartzLogPageState', {
+        jobId: this.jobId,
+        current: this.current
+      })
       this.listJobLogs()
     },
     deleteJobLogs() {

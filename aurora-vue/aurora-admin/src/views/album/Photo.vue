@@ -68,7 +68,6 @@
     <el-pagination
       :hide-on-single-page="true"
       class="pagination-container"
-      @size-change="sizeChange"
       @current-change="currentChange"
       :current-page="current"
       :page-size="size"
@@ -167,6 +166,16 @@
 import * as imageConversion from 'image-conversion'
 export default {
   created() {
+    this.albumId = this.$route.params.albumId
+    if (this.albumId == this.$store.state.pageState.photo.albumId) {
+      this.current = this.$store.state.pageState.photo.current
+    } else {
+      this.current = 1
+      this.$store.commit('updatePhotoPageState', {
+        albumId: this.$route.params.albumId,
+        current: this.current
+      })
+    }
     this.getAlbumInfo()
     this.listAlbums()
     this.listPhotos()
@@ -213,7 +222,6 @@ export default {
     listAlbums() {
       this.axios.get('/api/admin/photos/albums/info').then(({ data }) => {
         this.albumList = data.data
-        console.log(this.albumList)
       })
     },
     listPhotos() {
@@ -232,12 +240,12 @@ export default {
           this.loading = false
         })
     },
-    sizeChange(size) {
-      this.size = size
-      this.listPhotos()
-    },
     currentChange(current) {
       this.current = current
+      this.$store.commit('updatePhotoPageState', {
+        albumId: this.$route.params.albumId,
+        current: this.current
+      })
       this.listPhotos()
     },
     savePhotos() {

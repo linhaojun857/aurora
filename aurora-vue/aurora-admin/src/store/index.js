@@ -20,7 +20,17 @@ export default new Vuex.Store({
       online: 1,
       role: 1,
       quartz: 1,
-      friendLinks: 1
+      friendLink: 1,
+      operationLog: 1,
+      exceptionLog: 1,
+      quartzLog: {
+        jobId: -1,
+        current: 1
+      },
+      photo: {
+        albumId: -1,
+        current: 1
+      }
     }
   },
   mutations: {
@@ -87,11 +97,23 @@ export default new Vuex.Store({
       state.pageState.quartz = current
     },
     updateFriendLinkPageState(state, current) {
-      state.pageState.current = current
+      state.pageState.friendLink = current
+    },
+    updateOperationLogPageState(state, current) {
+      state.pageState.operationLog = current
+    },
+    updateExceptionLogPageState(state, current) {
+      state.pageState.exceptionLog = current
+    },
+    updateQuartzLogPageState(state, quartzLog) {
+      state.pageState.quartzLog.jobId = quartzLog.jobId
+      state.pageState.quartzLog.current = quartzLog.current
+    },
+    updatePhotoPageState(state, photo) {
+      state.pageState.photo.albumId = photo.albumId
+      state.pageState.photo.current = photo.current
     }
   },
-  actions: {},
-  modules: {},
   plugins: [
     createPersistedState({
       storage: window.sessionStorage

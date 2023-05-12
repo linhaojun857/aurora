@@ -37,7 +37,7 @@ conn
     })
   })
   .on('error', async (err) => {
-    console.log(chalk.red('Client 链接错误' + err.toString()))
+    console.log(chalk.red('Client 连接错误' + err.toString()))
   })
   .connect({
     host: process.env.VUE_APP_HOST,

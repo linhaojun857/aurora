@@ -101,6 +101,7 @@
 <script>
 export default {
   created() {
+    this.current = this.$store.state.pageState.exceptionLog
     this.listLogs()
   },
   data() {
@@ -131,10 +132,12 @@ export default {
     },
     currentChange(current) {
       this.current = current
+      this.$store.commit('updateExceptionLogPageState', current)
       this.listLogs()
     },
     searchLogs() {
       this.current = 1
+      this.$store.commit('updateExceptionLogPageState', this.current)
       this.listLogs()
     },
     listLogs() {
