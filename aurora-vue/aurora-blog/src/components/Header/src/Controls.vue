@@ -181,34 +181,28 @@ export default defineComponent({
         })
         return
       }
-      //@ts-ignore
-      let captcha = new TencentCaptcha(config.captcha.TENCENT_CAPTCHA, (res: any) => {
-        if (res.ret === 0) {
-          let params = new URLSearchParams()
-          params.append('username', loginInfo.username)
-          params.append('password', loginInfo.password)
-          api.login(params).then(({ data }) => {
-            if (data.flag) {
-              userStore.userInfo = data.data
-              sessionStorage.setItem('token', data.data.token)
-              userStore.token = data.data.token
-              proxy.$notify({
-                title: 'Success',
-                message: '登录成功',
-                type: 'success'
-              })
-              reactiveDate.loginDialogVisible = false
-            } else {
-              proxy.$notify({
-                title: 'Error',
-                message: data.message,
-                type: 'error'
-              })
-            }
+      let params = new URLSearchParams()
+      params.append('username', loginInfo.username)
+      params.append('password', loginInfo.password)
+      api.login(params).then(({ data }) => {
+        if (data.flag) {
+          userStore.userInfo = data.data
+          sessionStorage.setItem('token', data.data.token)
+          userStore.token = data.data.token
+          proxy.$notify({
+            title: 'Success',
+            message: '登录成功',
+            type: 'success'
+          })
+          reactiveDate.loginDialogVisible = false
+        } else {
+          proxy.$notify({
+            title: 'Error',
+            message: data.message,
+            type: 'error'
           })
         }
       })
-      captcha.show()
     }
     const logout = () => {
       api.logout().then(({ data }) => {

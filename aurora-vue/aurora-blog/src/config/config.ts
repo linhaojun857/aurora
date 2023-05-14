@@ -1,7 +1,4 @@
 export default {
-  captcha: {
-    TENCENT_CAPTCHA: '2091489673'
-  },
   qqLogin: {
     QQ_APP_ID: '101999415',
     QQ_REDIRECT_URI: 'https://www.linhaojun.top/oauth/login/qq'

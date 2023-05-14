@@ -57,7 +57,6 @@ export default {
               that.$message.error(data.message)
             }
           })
-          captcha.show()
         } else {
           return false
         }
