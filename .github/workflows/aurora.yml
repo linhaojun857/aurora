@@ -28,7 +28,7 @@ jobs:
       - name: Install OSS && Upload jar
         uses: manyuanrong/setup-ossutil@v2.0
         with:
-          endpoint: ${{OSS_ENDPOINT}}
+          endpoint: ${{secrets.OSS_ENDPOINT}}
           access-key-id: ${{secrets.OSS_ACCESS_KEY_ID}}
           access-key-secret: ${{secrets.OSS_ACCESS_KEY_SECRET}}
       - run: ossutil cp -rf ./aurora-springboot/target/aurora-springboot-0.0.1.jar ${{secrets.OSS_BUCKET_PATH}}
