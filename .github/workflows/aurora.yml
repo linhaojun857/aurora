@@ -25,8 +25,10 @@ jobs:
       - name: Delete old jar
         run: sshpass -p ${{secrets.REMOTE_HOST_B_PASSWORD}} ssh -o StrictHostKeyChecking=no root@${{secrets.REMOTE_HOST_B_IP}} "cd /usr/local/aurora-springboot && rm -rf ./aurora-springboot-0.0.1.jar"
 
-      - name: Copy jar to remote server
-        run: sshpass -p ${{secrets.REMOTE_HOST_B_PASSWORD}} scp -o StrictHostKeyChecking=no ./aurora-springboot/target/aurora-springboot-0.0.1.jar root@${{secrets.REMOTE_HOST_B_IP}}:/usr/local/aurora-springboot
-
-      - name: Run jar on remote server
-        run: sshpass -p ${{secrets.REMOTE_HOST_B_PASSWORD}} ssh -o StrictHostKeyChecking=no root@${{secrets.REMOTE_HOST_B_IP}} "cd /usr/local/aurora-springboot-0.0.1.jar && ./aurora-start.sh"
+      - name: Install OSS && Upload jar
+        uses: manyuanrong/setup-ossutil@v2.0
+        with:
+          endpoint: ${{OSS_ENDPOINT}}
+          access-key-id: ${{secrets.OSS_ACCESS_KEY_ID}}
+          access-key-secret: ${{secrets.OSS_ACCESS_KEY_SECRET}}
+      - run: ossutil cp -rf ./aurora-springboot/target/aurora-springboot-0.0.1.jar ${{secrets.OSS_BUCKET_PATH}}
