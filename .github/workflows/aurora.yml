@@ -1,0 +1,32 @@
+name: Aurora CI
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: "8"
+          distribution: "temurin"
+          cache: "maven"
+
+      - name: Build with Maven
+        run: |
+          cd aurora-springboot
+          mvn -B package --file pom.xml
+
+      - name: Delete old jar
+        run: sshpass -p ${{secrets.REMOTE_HOST_B_PASSWORD}} ssh -o StrictHostKeyChecking=no root@${{secrets.REMOTE_HOST_B_IP}} "cd /usr/local/aurora-springboot && rm -rf ./aurora-springboot-0.0.1.jar"
+
+      - name: Copy jar to remote server
+        run: sshpass -p ${{secrets.REMOTE_HOST_B_PASSWORD}} scp -o StrictHostKeyChecking=no ./aurora-springboot/target/aurora-springboot-0.0.1.jar root@${{secrets.REMOTE_HOST_B_IP}}:/usr/local/aurora-springboot
+
+      - name: Run jar on remote server
+        run: sshpass -p ${{secrets.REMOTE_HOST_B_PASSWORD}} ssh -o StrictHostKeyChecking=no root@${{secrets.REMOTE_HOST_B_IP}} "cd /usr/local/aurora-springboot-0.0.1.jar && ./aurora-start.sh"
