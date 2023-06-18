@@ -26,7 +26,7 @@ jobs:
         run: sshpass -p ${{secrets.REMOTE_HOST_B_PASSWORD}} ssh -o StrictHostKeyChecking=no root@${{secrets.REMOTE_HOST_B_IP}} "cd /usr/local/aurora-springboot && rm -rf ./aurora-springboot-0.0.1.jar"
 
       - name: Copy jar to remote server
-        run: sshpass -p ${{secrets.REMOTE_HOST_B_PASSWORD}} scp -o StrictHostKeyChecking=no ./target/aurora-springboot.jar root@${{secrets.REMOTE_HOST_B_IP}}:/usr/local/aurora-springboot-0.0.1.jar
+        run: sshpass -p ${{secrets.REMOTE_HOST_B_PASSWORD}} scp -o StrictHostKeyChecking=no ./target/aurora-springboot-0.0.1.jar root@${{secrets.REMOTE_HOST_B_IP}}:/usr/local/aurora-springboot-0.0.1.jar
 
       - name: Run jar on remote server
         run: sshpass -p ${{secrets.REMOTE_HOST_B_PASSWORD}} ssh -o StrictHostKeyChecking=no root@${{secrets.REMOTE_HOST_B_IP}} "cd /usr/local/aurora-springboot-0.0.1.jar && ./aurora-start.sh"
