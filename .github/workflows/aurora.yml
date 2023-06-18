@@ -20,7 +20,9 @@ jobs:
           cache: "maven"
 
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: |
+          cd aurora-springboot
+          mvn -B package --file pom.xml
 
       - name: Delete old jar
         run: sshpass -p ${{secrets.REMOTE_HOST_B_PASSWORD}} ssh -o StrictHostKeyChecking=no root@${{secrets.REMOTE_HOST_B_IP}} "cd /usr/local/aurora-springboot && rm -rf ./aurora-springboot.jar"
