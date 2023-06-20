@@ -2,7 +2,7 @@ name: Aurora CI
 
 on:
   push:
-    branches: ["dev"]
+    branches: ["master"]
 
 jobs:
   aurora-springboot-build:
