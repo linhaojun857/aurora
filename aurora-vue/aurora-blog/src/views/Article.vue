@@ -93,7 +93,9 @@
     <div class="main-grid">
       <div>
         <template v-if="article.articleContent">
-          <div class="post-html" ref="articleRef" v-html="article.articleContent" />
+          <div class="post-html">
+            <div class="markdown-body" ref="articleRef" v-html="article.articleContent" />
+          </div>
         </template>
         <div v-else class="bg-ob-deep-800 px-14 py-16 rounded-2xl shadow-xl block min-h-screen">
           <ob-skeleton tag="div" :count="1" height="36px" width="150px" class="mb-6" />
@@ -163,7 +165,6 @@ import tocbot from 'tocbot'
 import emitter from '@/utils/mitt'
 import { v3ImgPreviewFn } from 'v3-img-preview'
 import api from '@/api/api'
-import markdownToHtml from '@/utils/markdown'
 
 export default defineComponent({
   name: 'Article',
@@ -178,6 +179,16 @@ export default defineComponent({
     const loading = ref(true)
     const articleRef = ref()
     let md = require('markdown-it')()
+              .use(require('markdown-it-container'), 'hljs-center')  // 容器插件
+              .use(require('markdown-it-container'), 'hljs-left')
+              .use(require('markdown-it-container'), 'hljs-right')
+              .use(require('markdown-it-sup'))                       // 上角标插件
+              .use(require('markdown-it-sub'))                       // 下角标插件
+              .use(require('markdown-it-footnote'))                  // 脚注插件
+              .use(require('markdown-it-abbr'))                      // 缩写插件
+              .use(require('markdown-it-emoji'))                     // 表情插件
+              .use(require('markdown-it-ins'))                       // 插入插件
+              .use(require('markdown-it-mark'))                      // 标记插件 
     const reactiveData = reactive({
       articleId: '' as any,
       article: '' as any,
@@ -289,7 +300,7 @@ export default defineComponent({
         }
         commonStore.setHeaderImage(data.data.articleCover)
         new Promise((resolve) => {
-          data.data.articleContent = markdownToHtml(data.data.articleContent)
+          data.data.articleContent = md.render(data.data.articleContent)
           resolve(data.data)
         }).then((article: any) => {
           reactiveData.article = article
