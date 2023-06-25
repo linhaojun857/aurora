@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Data
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "upload.minio")
 public class MinioProperties {
 
