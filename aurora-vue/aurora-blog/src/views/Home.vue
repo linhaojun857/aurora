@@ -81,6 +81,7 @@ import { useCategoryStore } from '@/stores/Category'
 import { useI18n } from 'vue-i18n'
 import Paginator from '@/components/Paginator.vue'
 import api from '@/api/api'
+import markdownToHtml from '@/utils/markdown'
 
 export default defineComponent({
   name: 'Home',
@@ -123,7 +124,6 @@ export default defineComponent({
       current: 1
     })
     let nowCategoryId = 0
-    let md = require('markdown-it')()
     onMounted(() => {
       fetchTopAndFeatured()
       fetchCategories()
@@ -133,14 +133,12 @@ export default defineComponent({
     })
     const fetchTopAndFeatured = () => {
       api.getTopAndFeaturedArticles().then(({ data }) => {
-        data.data.topArticle.articleContent = md
-          .render(data.data.topArticle.articleContent)
+        data.data.topArticle.articleContent = markdownToHtml(data.data.topArticle.articleContent)
           .replace(/<\/?[^>]*>/g, '')
           .replace(/[|]*\n/, '')
           .replace(/&npsp;/gi, '')
         data.data.featuredArticles.forEach((item: any) => {
-          item.articleContent = md
-            .render(item.articleContent)
+          item.articleContent = markdownToHtml(item.articleContent)
             .replace(/<\/?[^>]*>/g, '')
             .replace(/[|]*\n/, '')
             .replace(/&npsp;/gi, '')
@@ -163,8 +161,7 @@ export default defineComponent({
           .then(({ data }) => {
             if (data.flag) {
               data.data.records.forEach((item: any) => {
-                item.articleContent = md
-                  .render(item.articleContent)
+                item.articleContent = markdownToHtml(item.articleContent)
                   .replace(/<\/?[^>]*>/g, '')
                   .replace(/[|]*\n/, '')
                   .replace(/&npsp;/gi, '')
@@ -188,8 +185,7 @@ export default defineComponent({
         })
         .then(({ data }) => {
           data.data.records.forEach((item: any) => {
-            item.articleContent = md
-              .render(item.articleContent)
+            item.articleContent = markdownToHtml(item.articleContent)
               .replace(/<\/?[^>]*>/g, '')
               .replace(/[|]*\n/, '')
               .replace(/&npsp;/gi, '')

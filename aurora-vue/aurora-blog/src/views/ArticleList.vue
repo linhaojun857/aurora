@@ -31,13 +31,13 @@ import { ArticleCard } from '@/components/ArticleCard'
 import Paginator from '@/components/Paginator.vue'
 import { useRoute } from 'vue-router'
 import api from '@/api/api'
+import markdownToHtml from '@/utils/markdown'
 
 export default defineComponent({
   name: 'ArticleList',
   components: { Breadcrumb, ArticleCard, Paginator },
   setup() {
     const route = useRoute()
-    let md = require('markdown-it')()
     const pagination = reactive({
       size: 12,
       total: 0,
@@ -62,8 +62,7 @@ export default defineComponent({
         })
         .then(({ data }) => {
           data.data.records.forEach((item: any) => {
-            item.articleContent = md
-              .render(item.articleContent)
+            item.articleContent = markdownToHtml(item.articleContent)
               .replace(/<\/?[^>]*>/g, '')
               .replace(/[|]*\n/, '')
               .replace(/&npsp;/gi, '')
