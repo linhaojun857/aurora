@@ -14,8 +14,10 @@
 
 ## 效果图
 
+### 前台1：
 ![前台1](https://s3.bmp.ovh/imgs/2023/06/25/8a6ad38dfb27bb3a.png)
 
+### 前台2：
 ![前台2](https://s3.bmp.ovh/imgs/2023/06/25/7036a13dc0a0488a.png)
 
 ## 相关技术
