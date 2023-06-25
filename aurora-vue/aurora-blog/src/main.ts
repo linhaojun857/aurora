@@ -17,6 +17,7 @@ import { components, plugins } from './plugins/element-plus'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import infiniteScroll from 'vue3-infinite-scroll-better'
 import v3ImgPreview from 'v3-img-preview'
+import 'mavon-editor/dist/css/index.css'
 import api from './api/api'
 
 const pinia = createPinia()
