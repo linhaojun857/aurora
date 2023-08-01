@@ -24,6 +24,7 @@
 
 ### 前端：
 
+- 样式来自于：[hexo的aurora主题](https://github.com/auroral-ui/hexo-theme-aurora)
 - 基础框架：vue3(前台) vue2(后台)
 - 状态管理：pinia(前台) vuex(后台)
 - 路由组件：vue-router
