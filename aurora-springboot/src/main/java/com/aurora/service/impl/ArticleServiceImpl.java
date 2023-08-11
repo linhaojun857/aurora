@@ -1,6 +1,7 @@
 package com.aurora.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.aurora.annotation.AuroraCache;
 import com.aurora.model.dto.*;
 import com.aurora.entity.Article;
 import com.aurora.entity.ArticleTag;
@@ -27,6 +28,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.SneakyThrows;
+import org.redisson.api.RBloomFilter;
+import org.redisson.api.RedissonClient;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -34,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -56,6 +60,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @Resource
+    private RedissonClient redissonClient;
 
     @Autowired
     private TagMapper tagMapper;
@@ -105,19 +112,28 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return new PageResultDTO<>(articles, asyncCount.get());
     }
 
+    //根据分类id获取文章
     @SneakyThrows
     @Override
     public PageResultDTO<ArticleCardDTO> listArticlesByCategoryId(Integer categoryId) {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>().eq(Article::getCategoryId, categoryId);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.selectCount(queryWrapper));
+
         List<ArticleCardDTO> articles = articleMapper.getArticlesByCategoryId(PageUtil.getLimitCurrent(), PageUtil.getSize(), categoryId);
         return new PageResultDTO<>(articles, asyncCount.get());
     }
-
+    //根据id获取文章
     @SneakyThrows
     @Override
+    @AuroraCache(prefix = ARTICEL)
     public ArticleDTO getArticleById(Integer articleId) {
+
+        RBloomFilter<Object> bloomFilter = redissonClient.getBloomFilter(BLOOM_FILTER);
+        if (!bloomFilter.contains(articleId)){
+            throw new BizException(ARTICLE_ACCESS_FAIL);
+        }
         Article articleForCheck = articleMapper.selectOne(new LambdaQueryWrapper<Article>().eq(Article::getId, articleId));
+
         if (Objects.isNull(articleForCheck)) {
             return null;
         }
@@ -132,6 +148,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 throw new BizException(ARTICLE_ACCESS_FAIL);
             }
         }
+        //更新浏览量
         updateArticleViewsCount(articleId);
         CompletableFuture<ArticleDTO> asyncArticle = CompletableFuture.supplyAsync(() -> articleMapper.getArticleById(articleId));
         CompletableFuture<ArticleCardDTO> asyncPreArticle = CompletableFuture.supplyAsync(() -> {

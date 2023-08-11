@@ -23,6 +23,8 @@ public enum StatusCodeEnum {
 
     USERNAME_NOT_EXIST(52002, "用户名不存在"),
 
+    ARTICLE_NOT_EXIST(52004, "文章不存在"),
+
     ARTICLE_ACCESS_FAIL(52003, "文章密码认证未通过"),
 
     QQ_LOGIN_ERROR(53001, "qq登录错误");
