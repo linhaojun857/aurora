@@ -14,10 +14,7 @@ import com.aurora.mapper.ArticleMapper;
 import com.aurora.mapper.ArticleTagMapper;
 import com.aurora.mapper.CategoryMapper;
 import com.aurora.mapper.TagMapper;
-import com.aurora.service.ArticleService;
-import com.aurora.service.ArticleTagService;
-import com.aurora.service.RedisService;
-import com.aurora.service.TagService;
+import com.aurora.service.*;
 import com.aurora.strategy.context.SearchStrategyContext;
 import com.aurora.strategy.context.UploadStrategyContext;
 import com.aurora.util.BeanCopyUtil;
@@ -54,6 +51,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private ArticleMapper articleMapper;
+
+    @Autowired
+    private RabbitService rabbitService;
 
     @Autowired
     private ArticleTagMapper articleTagMapper;
@@ -122,6 +122,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         List<ArticleCardDTO> articles = articleMapper.getArticlesByCategoryId(PageUtil.getLimitCurrent(), PageUtil.getSize(), categoryId);
         return new PageResultDTO<>(articles, asyncCount.get());
     }
+
     //根据id获取文章
     @SneakyThrows
     @Override
@@ -129,7 +130,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public ArticleDTO getArticleById(Integer articleId) {
 
         RBloomFilter<Object> bloomFilter = redissonClient.getBloomFilter(BLOOM_FILTER);
-        if (!bloomFilter.contains(articleId)){
+        if (!bloomFilter.contains(articleId)) {
             throw new BizException(ARTICLE_ACCESS_FAIL);
         }
         Article articleForCheck = articleMapper.selectOne(new LambdaQueryWrapper<Article>().eq(Article::getId, articleId));
@@ -265,7 +266,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         this.saveOrUpdate(article);
         saveArticleTag(articleVO, article.getId());
         if (article.getStatus().equals(1)) {
-            rabbitTemplate.convertAndSend(SUBSCRIBE_EXCHANGE, "*", new Message(JSON.toJSONBytes(article.getId()), new MessageProperties()));
+            //rabbitTemplate.convertAndSend(SUBSCRIBE_EXCHANGE, "*", new Message(JSON.toJSONBytes(article.getId()), new MessageProperties()));
+            rabbitService.sendMsg(SUBSCRIBE_EXCHANGE, "*", JSON.toJSONBytes(article.getId()));
         }
     }
 

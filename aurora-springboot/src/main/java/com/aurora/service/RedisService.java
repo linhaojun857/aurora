@@ -13,6 +13,7 @@ import java.util.Set;
 @SuppressWarnings("all")
 public interface RedisService {
 
+    Boolean setnx(String key,Object value);
     void set(String key, Object value, long time);
 
     void set(String key, Object value);
