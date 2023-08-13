@@ -3,6 +3,7 @@ name: Aurora CI
 on:
   push:
     branches: ["master"]
+  workflow_dispatch:
 
 jobs:
   aurora-springboot-build:
