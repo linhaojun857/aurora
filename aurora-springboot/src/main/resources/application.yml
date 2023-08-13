@@ -35,8 +35,12 @@ spring:
     port: 5672
     username: 账号
     password: 密码
+    publisher-confirm-type: correlated  #交换机的确认 异步回调ConfirmCallback
+    publisher-returns: true  # 队列的确认 异步回调ReturnCallback
     listener:
       simple:
+        acknowledge-mode: manual #默认情况下消息消费者是自动确认消息的，如果要手动确认消息则需要修改确认模式为manual
+        prefetch: 1 # 消费者每次从队列获取的消息数量。此属性当不设置时为：轮询分发，设置为1为：公平分发
         retry:
           enabled: true
           max-attempts: 3

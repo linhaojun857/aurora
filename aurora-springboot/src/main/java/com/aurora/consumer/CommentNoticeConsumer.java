@@ -3,6 +3,9 @@ package com.aurora.consumer;
 import com.alibaba.fastjson.JSON;
 import com.aurora.model.dto.EmailDTO;
 import com.aurora.util.EmailUtil;
+import com.rabbitmq.client.Channel;
+import lombok.SneakyThrows;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +21,13 @@ public class CommentNoticeConsumer {
     @Autowired
     private EmailUtil emailUtil;
 
+    @SneakyThrows
     @RabbitHandler
     public void process(byte[] data) {
+
         EmailDTO emailDTO = JSON.parseObject(new String(data), EmailDTO.class);
         emailUtil.sendHtmlMail(emailDTO);
-    }
 
+
+    }
 }
