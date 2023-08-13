@@ -4,16 +4,6 @@ public interface RedisConstant {
 
     long CODE_EXPIRE_TIME = 15 * 60;
 
-    long KEY_TEMPORARY_TIMEOUT = 5 * 60;
-
-    long LOCK_EXPIRE_PX1 = 1;
-
-    long LOCK_EXPIRE_PX2 = 3;
-
-    String LOCK_SUFFIX = ":lock";
-
-    String BLOOM_FILTER = "bloom:filter";
-
     String USER_CODE_KEY = "code:";
 
     String BLOG_VIEWS_COUNT = "blog_views_count";
@@ -33,7 +23,5 @@ public interface RedisConstant {
     String LOGIN_USER = "login_user";
 
     String ARTICLE_ACCESS = "article_access:";
-
-    String ARTICEL = "article:";
 
 }
