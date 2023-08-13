@@ -82,7 +82,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public TopAndFeaturedArticlesDTO listTopAndFeaturedArticles() {
         List<ArticleCardDTO> articleCardDTOs = articleMapper.listTopAndFeaturedArticles();
-        if (articleCardDTOs.size() == 0) {
+        if (articleCardDTOs.isEmpty()) {
             return new TopAndFeaturedArticlesDTO();
         } else if (articleCardDTOs.size() > 3) {
             articleCardDTOs = articleCardDTOs.subList(0, 3);

@@ -20,6 +20,7 @@ import javax.annotation.PostConstruct;
 @SuppressWarnings("all")
 @Component
 public class MQProducerAckConfig implements RabbitTemplate.ReturnCallback, RabbitTemplate.ConfirmCallback {
+
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
