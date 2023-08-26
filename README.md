@@ -41,6 +41,7 @@
 - 搜索引擎：elasticsearch
 - 对象存储：minio
 - 定时任务：quartz
+- 配置服务（可选）：Apollo
 - 其他技术：详见后端项目的pom.xml
 
 ## 后续计划
