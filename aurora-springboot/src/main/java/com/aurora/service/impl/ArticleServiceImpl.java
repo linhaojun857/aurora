@@ -102,6 +102,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .in(Article::getStatus, 1, 2);
         CompletableFuture<Integer> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.selectCount(queryWrapper));
         List<ArticleCardDTO> articles = articleMapper.listArticles(PageUtil.getLimitCurrent(), PageUtil.getSize());
+        articles.stream()
+                .filter(article -> article.getStatus() == 2)
+                .forEach(article -> article.setArticleContent("加密文章,输入密码访问"));
         return new PageResultDTO<>(articles, asyncCount.get());
     }
 
