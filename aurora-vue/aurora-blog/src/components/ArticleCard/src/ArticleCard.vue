@@ -48,8 +48,10 @@
 <!--        <p v-if="article.articleContent">{{ article.articleContent }}</p>-->
         <p class = "a" v-if="article.articleContent&&article.status == 2"
            style="font-size: 23px;display: flex; align-items: center; justify-content: center; line-height: 13vh;">
-          {{ article.articleContent='输入密码后访问叭🙃' }}</p>        <ob-skeleton v-else tag="p" :count="5" height="16px" />
-        <p v-else-if="article.articleContent">{{ article.articleContent }}</p><div class="article-footer" v-if="article.author && article.createTime">
+          {{ article.articleContent='输入密码后访问叭🙃' }}</p>       
+        <p v-else-if="article.articleContent">{{ article.articleContent }}</p>
+        <ob-skeleton v-else tag="p" :count="5" height="16px" />
+        <div class="article-footer" v-if="article.author && article.createTime">
           <div class="flex flex-row items-center">
             <img
               class="hover:opacity-50 cursor-pointer"
