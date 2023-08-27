@@ -99,6 +99,7 @@ export default defineComponent({
         appStore.categoryCount = data.data.categoryCount
         appStore.tagCount = data.data.tagCount
         appStore.websiteConfig = data.data.websiteConfigDTO
+        initFavicon(data.data.websiteConfigDTO.favicon)
       })
     }
     const copyEventHandler = (event: any) => {
@@ -130,8 +131,31 @@ export default defineComponent({
         }, 10)
       }
     }
+    const initFavicon = (faviconUrl: string) => {
+      if (!faviconUrl) {
+        return
+      }
+      // 获取 head 标签
+      var head = document.getElementsByTagName('head')[0];
+      // 获取当前 favicon 元素
+      var favicon = document.querySelector("link[rel*='icon']") || document.createElement('link');
+      // Cast favicon to HTMLLinkElement
+      var faviconLink = favicon as HTMLLinkElement;
+
+      faviconLink.type = 'image/x-icon';
+      faviconLink.rel = 'shortcut icon';
+
+      // 设置新的 favicon 地址
+      faviconLink.href = faviconUrl;
+
+      // 如果当前 head 标签中不存在 favicon 元素，则将新的 favicon 添加到 head 标签中
+      if (!document.querySelector("link[rel*='icon']")) {
+          head.appendChild(faviconLink);
+      }
+    }
+    console.log(computed(() => appStore.themeConfig.theme))
     return {
-      title: metaStore.title,
+      title: computed(() => appStore.websiteConfig.websiteTitle || metaStore.title),
       theme: computed(() => appStore.themeConfig.theme),
       headerImage: computed(() => {
         return {

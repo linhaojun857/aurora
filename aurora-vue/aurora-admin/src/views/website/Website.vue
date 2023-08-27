@@ -27,6 +27,18 @@
               <i v-else class="el-icon-plus avatar-uploader-icon" />
             </el-upload>
           </el-form-item>
+          <el-form-item label="favicon">
+            <el-upload
+              class="avatar-uploader"
+              action="/api/admin/config/images"
+              :headers="headers"
+              :show-file-list="false"
+              :before-upload="beforeUpload"
+              :on-success="handleFaviconSuccess">
+              <img v-if="websiteConfigForm.favicon" :src="websiteConfigForm.favicon" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon" />
+            </el-upload>
+          </el-form-item>
           <el-form-item label="网站名称">
             <el-input v-model="websiteConfigForm.name" size="small" style="width: 400px" />
           </el-form-item>
@@ -35,6 +47,9 @@
           </el-form-item>
           <el-form-item label="网站作者">
             <el-input v-model="websiteConfigForm.author" size="small" style="width: 400px" />
+          </el-form-item>
+          <el-form-item label="网页标题">
+            <el-input v-model="websiteConfigForm.websiteTitle" size="small" style="width: 400px" />
           </el-form-item>
           <el-form-item label="作者介绍">
             <el-input v-model="websiteConfigForm.authorIntro" size="small" style="width: 400px" />
@@ -61,8 +76,11 @@
               type="textarea"
               :rows="5" />
           </el-form-item>
-          <el-form-item label="备案号">
+          <el-form-item label="工信部备案号">
             <el-input v-model="websiteConfigForm.beianNumber" size="small" style="width: 400px" />
+          </el-form-item>
+          <el-form-item label="公安部备案号">
+            <el-input v-model="websiteConfigForm.gonganBeianNumber" size="small" style="width: 400px" />
           </el-form-item>
           <el-form-item label="qq登录">
             <el-radio-group v-model="websiteConfigForm.qqLogin">
@@ -224,6 +242,9 @@ export default {
     },
     handleAuthorAvatarSuccess(response) {
       this.websiteConfigForm.authorAvatar = response.data
+    },
+    handleFaviconSuccess(response) {
+      this.websiteConfigForm.favicon = response.favicon
     },
     handleLogoSuccess(response) {
       this.websiteConfigForm.logo = response.data

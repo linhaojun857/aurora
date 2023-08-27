@@ -98,4 +98,13 @@ public class WebsiteConfigVO {
     @ApiModelProperty(name = "alipayQRCode", value = "支付宝二维码", required = true, dataType = "String")
     private String alipayQRCode;
 
+    @ApiModelProperty(name = "favicon", value = "favicon", required = true, dataType = "String")
+    private String favicon;
+
+    @ApiModelProperty(name = "websiteTitle", value = "网页标题", required = true, dataType = "String")
+    private String websiteTitle;
+
+    @ApiModelProperty(name = "gonganBeianNumber", value = "公安部备案编号", required = true, dataType = "String")
+    private String gonganBeianNumber;
+
 }
