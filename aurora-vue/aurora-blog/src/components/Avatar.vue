@@ -8,15 +8,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs } from 'vue'
+import { defineComponent, toRefs, computed } from 'vue'
+import { useAppStore } from '@/stores/app'
 
 export default defineComponent({
   name: 'Avatar',
   props: ['url'],
   setup(props) {
+    const appStore = useAppStore()
     return {
       url: toRefs(props).url,
-      default: 'https://static.linhaojun.top/aurora/config/52a81cd2772167b645569342e81ce312.jpg'
+      default: computed(() => appStore.websiteConfig.touristAvatar || 'https://static.linhaojun.top/aurora/config/52a81cd2772167b645569342e81ce312.jpg')
     }
   }
 })
