@@ -244,7 +244,7 @@ export default {
       this.websiteConfigForm.authorAvatar = response.data
     },
     handleFaviconSuccess(response) {
-      this.websiteConfigForm.favicon = response.favicon
+      this.websiteConfigForm.favicon = response.data
     },
     handleLogoSuccess(response) {
       this.websiteConfigForm.logo = response.data
