@@ -13,6 +13,7 @@ export default function markdownToHtml(content: any) {
     .use(require('markdown-it-footnote'))                  // 脚注插件
     .use(require('markdown-it-abbr'))                      // 缩写插件
     .use(require('markdown-it-ins'))                       // 插入插件
-    .use(require('markdown-it-mark'))                      // 标记插件 
+    .use(require('markdown-it-mark'))                      // 标记插件
+    .use(require('@iktakahiro/markdown-it-katex'))
   return md.render(content)
 }
