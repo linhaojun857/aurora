@@ -45,11 +45,7 @@
           </a>
         </h1>
         <ob-skeleton v-else tag="h1" height="3rem" />
-<!--        <p v-if="article.articleContent">{{ article.articleContent }}</p>-->
-        <p class = "a" v-if="article.articleContent&&article.status == 2"
-           style="font-size: 23px;display: flex; align-items: center; justify-content: center; line-height: 13vh;">
-          {{ article.articleContent='输入密码后访问叭🙃' }}</p>       
-        <p v-else-if="article.articleContent">{{ article.articleContent }}</p>
+        <p v-if="article.articleContent">{{ article.articleContent }}</p>
         <ob-skeleton v-else tag="p" :count="5" height="16px" />
         <div class="article-footer" v-if="article.author && article.createTime">
           <div class="flex flex-row items-center">
@@ -141,37 +137,4 @@ export default defineComponent({
 .article-title:hover {
   cursor: default;
 }
-.a {
-  color: #88e;
-  text-shadow: 0 0 0.3em rgba(200, 200, 255, 0.3), 0.04em 0.04em 0 #112,
-  0.045em 0.045em 0 #88e, 0.09em 0.09em 0 #112, 0.095em 0.095em 0 #66c,
-  0.14em 0.14em 0 #112, 0.145em 0.145em 0 #44a;
-  animation: pulsea 300ms ease infinite alternate;
-}
-@keyframes pulsea {
-  0% {
-    text-shadow: 0 0 0.3em rgba(200, 200, 255, 0.3), 0.04em 0.04em 0 #112,
-    0.045em 0.045em 0 #88e, 0.09em 0.09em 0 #112, 0.095em 0.095em 0 #66c,
-    0.14em 0.14em 0 #112, 0.145em 0.145em 0 #aaf;
-  }
-
-  50% {
-    text-shadow: 0 0 0.3em rgba(200, 200, 255, 0.3), 0.04em 0.04em 0 #112,
-    0.045em 0.045em 0 #88e, 0.09em 0.09em 0 #112, 0.095em 0.095em 0 #aaf,
-    0.14em 0.14em 0 #112, 0.145em 0.145em 0 #44a;
-  }
-
-  75% {
-    text-shadow: 0 0 0.3em rgba(200, 200, 255, 0.3), 0.04em 0.04em 0 #112,
-    0.045em 0.045em 0 #aaf, 0.09em 0.09em 0 #112, 0.095em 0.095em 0 #66c,
-    0.14em 0.14em 0 #112, 0.145em 0.145em 0 #44a;
-  }
-
-  100% {
-    text-shadow: 0 0 0.3em rgba(200, 200, 255, 0.4), 0.04em 0.04em 0 #112,
-    0.045em 0.045em 0 #88e, 0.09em 0.09em 0 #112, 0.095em 0.095em 0 #66c,
-    0.14em 0.14em 0 #112, 0.145em 0.145em 0 #44a;
-  }
-}
-
 </style>
