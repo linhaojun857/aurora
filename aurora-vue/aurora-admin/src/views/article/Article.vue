@@ -127,6 +127,9 @@
         <el-form-item label="访问密码" v-if="article.status == 2">
           <el-input v-model="article.password" placeholder="请填写文章访问密码" />
         </el-form-item>
+        <el-form-item label="文章摘要">
+          <el-input type="textarea" autosize="true" v-model="article.articleAbstract" placeholder="默认取文章前500个字符" />
+        </el-form-item>
       </el-form>
       <div slot="footer">
         <el-button @click="addOrEdit = false">取 消</el-button>
@@ -183,6 +186,7 @@ export default {
         id: null,
         articleTitle: this.$moment(new Date()).format('YYYY-MM-DD'),
         articleContent: '',
+        articleAbstract: '',
         articleCover: '',
         categoryName: null,
         tagNames: [],

@@ -22,6 +22,8 @@ public class ArticleAdminViewDTO {
 
     private String articleTitle;
 
+    private String articleAbstract;
+
     private String articleContent;
 
     private String articleCover;
