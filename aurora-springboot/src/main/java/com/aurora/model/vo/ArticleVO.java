@@ -26,6 +26,9 @@ public class ArticleVO {
     @ApiModelProperty(name = "articleContent", value = "文章内容", required = true, dataType = "String")
     private String articleContent;
 
+    @ApiModelProperty(name = "articleAbstract", value = "文章摘要", dataType = "String")
+    private String articleAbstract;
+
     @ApiModelProperty(name = "articleCover", value = "文章缩略图", dataType = "String")
     private String articleCover;
 

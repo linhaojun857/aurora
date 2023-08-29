@@ -26,6 +26,8 @@ public class Article {
 
     private String articleTitle;
 
+    private String articleAbstract;
+
     private String articleContent;
 
     private Integer isTop;

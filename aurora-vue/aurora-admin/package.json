@@ -8,11 +8,13 @@
     "deploy": "node deploy.js"
   },
   "dependencies": {
+    "@iktakahiro/markdown-it-katex": "^4.0.1",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "dayjs": "^1.11.4",
     "element-ui": "^2.15.8",
     "image-conversion": "^2.1.1",
+    "markdown-it": "^13.0.1",
     "mavon-editor": "^2.9.0",
     "nprogress": "^0.2.0",
     "path": "^0.12.7",
