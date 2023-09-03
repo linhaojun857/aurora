@@ -25,6 +25,7 @@ import VueCalendarHeatmap from 'vue-calendar-heatmap'
 import tagCloud from './components/tag-cloud'
 import dayjs from 'dayjs'
 import Md_Katex from '@iktakahiro/markdown-it-katex'
+import mermaidPlugin from "@agoose77/markdown-it-mermaid";
 
 Vue.config.productionTip = false
 Vue.prototype.config = config
@@ -35,7 +36,7 @@ Vue.use(VueCalendarHeatmap)
 Vue.use(VueAxios, axios)
 Vue.component('v-chart', ECharts)
 Vue.prototype.$moment = dayjs
-mavonEditor.markdownIt.set({}).use(Md_Katex);
+mavonEditor.markdownIt.set({}).use(Md_Katex).use(mermaidPlugin);
 
 Vue.filter('date', function (value, formatStr = 'YYYY-MM-DD') {
   return dayjs(value).format(formatStr)

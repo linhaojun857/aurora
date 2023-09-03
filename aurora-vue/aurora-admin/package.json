@@ -8,6 +8,7 @@
     "deploy": "node deploy.js"
   },
   "dependencies": {
+    "@agoose77/markdown-it-mermaid": "^1.1.0",
     "@iktakahiro/markdown-it-katex": "^4.0.1",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
