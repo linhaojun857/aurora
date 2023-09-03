@@ -1,3 +1,4 @@
+import mermaidPlugin from "@agoose77/markdown-it-mermaid";
 export default function markdownToHtml(content: any) {
   const MarkdownIt = require('markdown-it')
   const md = new MarkdownIt({
@@ -15,5 +16,6 @@ export default function markdownToHtml(content: any) {
     .use(require('markdown-it-ins'))                       // 插入插件
     .use(require('markdown-it-mark'))                      // 标记插件
     .use(require('@iktakahiro/markdown-it-katex'))
+    .use(mermaidPlugin)
   return md.render(content)
 }

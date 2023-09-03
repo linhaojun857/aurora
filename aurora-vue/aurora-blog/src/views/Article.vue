@@ -470,6 +470,12 @@ export default defineComponent({
     }
   }
 }
+.markdown-body .hljs-center {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 </style>
 <style lang="scss" scoped>
 .my-gap {
