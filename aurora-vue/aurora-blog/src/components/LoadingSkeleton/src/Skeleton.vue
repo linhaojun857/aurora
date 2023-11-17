@@ -5,7 +5,6 @@ import { SkeletonStyle } from './SkeletonTheme.vue'
 const isEmptyVNode = (children: any) => {
   if (!children) return true
   const firstNode = children()[0]
-  console.log('firstNode', firstNode)
   let str = firstNode.text
   if (str) {
     str = str.replace(/(\n|\r\n|\s)/g, '')

@@ -260,6 +260,8 @@ export default defineComponent({
         tocSelector: '#toc1',
         contentSelector: '.post-html',
         headingSelector: 'h1, h2, h3',
+        collapseDepth: 3,
+        disableTocScrollSync: true,
         onClick: function (e) {
           e.preventDefault()
         }
@@ -380,6 +382,10 @@ export default defineComponent({
   word-wrap: break-word;
   word-break: break-all;
 }
+#toc1 {
+  max-height: 470px;
+  overflow: hidden scroll;
+}
 #toc1 > ol {
   list-style: none;
   counter-reset: li;
@@ -471,10 +477,10 @@ export default defineComponent({
   }
 }
 .markdown-body .hljs-center {
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
 <style lang="scss" scoped>

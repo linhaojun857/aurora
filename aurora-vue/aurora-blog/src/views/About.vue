@@ -129,6 +129,8 @@ export default defineComponent({
         tocSelector: '#toc2',
         contentSelector: '.post-html',
         headingSelector: 'h1, h2, h3',
+        collapseDepth: 3,
+        disableTocScrollSync: true,
         onClick: function (e) {
           e.preventDefault()
         }
@@ -202,6 +204,10 @@ export default defineComponent({
 .post-html {
   word-wrap: break-word;
   word-break: break-all;
+}
+#toc2 {
+  max-height: 470px;
+  overflow: hidden scroll;
 }
 #toc2 > ol {
   list-style: none;

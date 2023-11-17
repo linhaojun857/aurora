@@ -362,7 +362,6 @@ export default defineComponent({
     }
     const handleEnterDown = () => {
       if (searchResults.value.length === 0 && recentResults.value.length > 0) {
-        console.log(recentResults)
         handleLinkClick(recentResults.value[menuActiveIndex.value])
       } else if (searchResults.value.length > 0) {
         handleLinkClick(searchResults.value[menuActiveIndex.value])
