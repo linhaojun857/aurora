@@ -38,9 +38,9 @@
             <ob-skeleton v-else :count="2" tag="li" height="16px" width="35px" />
           </ul>
         </span>
-        <h1 class="article-title" v-if="article.articleTitle" @click="toArticle" data-dia="article-link">
+        <h1 class="article-title" v-if="article.articleTitle" @click="toArticle">
           <a>
-            <span>{{ article.articleTitle }}</span>
+            <span data-dia="article-link">{{ article.articleTitle }}</span>
             <svg-icon v-if="article.status == 2" icon-class="lock" class="lock-svg" />
           </a>
         </h1>
