@@ -153,7 +153,6 @@ export default defineComponent({
           head.appendChild(faviconLink);
       }
     }
-    console.log(computed(() => appStore.themeConfig.theme))
     return {
       title: computed(() => appStore.websiteConfig.websiteTitle || metaStore.title),
       theme: computed(() => appStore.themeConfig.theme),

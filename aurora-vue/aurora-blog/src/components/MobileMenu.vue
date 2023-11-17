@@ -127,7 +127,6 @@ export default defineComponent({
       })
     }
     const pushPage = (path: string): void => {
-      console.log(path)
       if (!path) return
       navigatorStore.toggleMobileMenu()
       navigatorStore.setOpenNavigator(false)
