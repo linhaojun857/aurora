@@ -1,0 +1,4 @@
+*.js linguist-language=Java
+*.ts linguist-language=Java
+*.css linguist-language=Java
+*.scss linguist-language=Java
