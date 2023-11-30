@@ -40,6 +40,7 @@ axios.interceptors.request.use((config: any) => {
   config.headers['Authorization'] = 'Bearer ' + sessionStorage.getItem('token')
   return config
 })
+const proxy = app.config.globalProperties
 axios.interceptors.response.use(
   (response) => {
     if (response.data.flag) {
@@ -47,7 +48,7 @@ axios.interceptors.response.use(
     }
     switch (response.data.code) {
       case 50000: {
-        app.config.globalProperties.$notify({
+        proxy.$notify({
           title: 'Error',
           message: '系统异常',
           type: 'error'
@@ -55,7 +56,7 @@ axios.interceptors.response.use(
         break
       }
       case 40001: {
-        app.config.globalProperties.$notify({
+        proxy.$notify({
           title: 'Error',
           message: '用户未登录',
           type: 'error'
@@ -69,7 +70,7 @@ axios.interceptors.response.use(
         break
       }
       default: {
-        app.config.globalProperties.$notify({
+        proxy.$notify({
           title: 'Error',
           message: response.data.message,
           type: 'error'
