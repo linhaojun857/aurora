@@ -41,12 +41,6 @@ export default defineComponent({
                 message: '登录成功',
                 type: 'success'
               })
-            } else {
-              proxy.$notify({
-                title: 'Error',
-                message: data.message,
-                type: 'error'
-              })
             }
           })
           if (userStore.currentUrl === '') {

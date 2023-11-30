@@ -97,12 +97,6 @@ export default defineComponent({
             })
           }
           reactiveData.commentContent = ''
-        } else {
-          proxy.$notify({
-            title: 'Error',
-            message: data.message,
-            type: 'error'
-          })
         }
       })
     }
