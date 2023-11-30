@@ -274,7 +274,6 @@ export default defineComponent({
     onUpdated(() => {
       keywords.value = ''
       searchResults.value = []
-
       setTimeout(() => {
         if (searchInput.value) searchInput.value.focus()
       }, 200)
@@ -367,12 +366,17 @@ export default defineComponent({
         handleLinkClick(searchResults.value[menuActiveIndex.value])
       }
     }
+    let index = 0
     const searchKeywords = (e: any) => {
+      let curIndex = ++index
       if (e.target.value !== '') {
         let params = {
           keywords: e.target.value
         }
         api.searchArticles(params).then(({ data }) => {
+          if (curIndex < index) {
+            return
+          }
           searchResults.value = data.data
           if (searchResults.value.length > 0) {
             resetIndex(searchResults.value.length)
@@ -382,6 +386,9 @@ export default defineComponent({
           }
         })
       } else {
+        if (curIndex < index) {
+          return
+        }
         isEmpty.value = false
         searchResults.value = []
         resetIndex(recentResults.value.length)
