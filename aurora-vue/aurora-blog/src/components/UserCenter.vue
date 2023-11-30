@@ -118,12 +118,6 @@ export default defineComponent({
           })
           userStore.userInfo.email = reactiveData.email
           reactiveData.emailDialogVisible = false
-        } else {
-          proxy.$notify({
-            title: 'Error',
-            message: data.message,
-            type: 'error'
-          })
         }
       })
     }
@@ -135,12 +129,6 @@ export default defineComponent({
             title: 'Success',
             message: '上传成功',
             type: 'success'
-          })
-        } else {
-          proxy.$notify({
-            title: 'Error',
-            message: data.message,
-            type: 'error'
           })
         }
       })
@@ -157,12 +145,6 @@ export default defineComponent({
               title: 'Success',
               message: '修改成功',
               type: 'success'
-            })
-          } else {
-            proxy.$notify({
-              title: 'Error',
-              message: data.message,
-              type: 'error'
             })
           }
         })
@@ -181,12 +163,6 @@ export default defineComponent({
             message: '修改成功',
             type: 'success'
           })
-        } else {
-          proxy.$notify({
-            title: 'Error',
-            message: data.message,
-            type: 'error'
-          })
         }
       })
     }
@@ -197,12 +173,6 @@ export default defineComponent({
             title: 'Success',
             message: '验证码已发送',
             type: 'success'
-          })
-        } else {
-          proxy.$notify({
-            title: 'Error',
-            message: data.message,
-            type: 'error'
           })
         }
       })

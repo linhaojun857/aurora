@@ -195,12 +195,6 @@ export default defineComponent({
             type: 'success'
           })
           reactiveDate.loginDialogVisible = false
-        } else {
-          proxy.$notify({
-            title: 'Error',
-            message: data.message,
-            type: 'error'
-          })
         }
       })
     }
@@ -215,12 +209,6 @@ export default defineComponent({
             title: 'Success',
             message: '登出成功',
             type: 'success'
-          })
-        } else {
-          proxy.$notify({
-            title: 'Error',
-            message: data.message,
-            type: 'error'
           })
         }
       })
@@ -254,12 +242,6 @@ export default defineComponent({
             message: '验证码已发送',
             type: 'success'
           })
-        } else {
-          proxy.$notify({
-            title: 'Error',
-            message: data.message,
-            type: 'error'
-          })
         }
       })
     }
@@ -278,12 +260,6 @@ export default defineComponent({
           })
           reactiveDate.registerDialogVisible = false
           reactiveDate.loginDialogVisible = true
-        } else {
-          proxy.$notify({
-            title: 'Error',
-            message: data.message,
-            type: 'error'
-          })
         }
       })
     }
@@ -320,12 +296,6 @@ export default defineComponent({
           })
           reactiveDate.forgetPasswordDialogVisible = false
           reactiveDate.loginDialogVisible = true
-        } else {
-          proxy.$notify({
-            title: 'Error',
-            message: data.message,
-            type: 'error'
-          })
         }
       })
     }
@@ -348,12 +318,6 @@ export default defineComponent({
             reactiveDate.articlePasswordDialogVisible = false
             userStore.accessArticles.push(reactiveDate.articleId)
             router.push({ path: '/articles/' + reactiveDate.articleId })
-          } else {
-            proxy.$notify({
-              title: 'Error',
-              message: data.message,
-              type: 'error'
-            })
           }
         })
     }

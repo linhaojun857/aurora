@@ -8,6 +8,9 @@ axios.interceptors.request.use((config: any) => {
 
 axios.interceptors.response.use(
   (response) => {
+    if (response.data.flag) {
+      return response
+    }
     switch (response.data.code) {
       case 50000:
         app.config.globalProperties.$notify({
@@ -23,6 +26,12 @@ axios.interceptors.response.use(
           type: 'error'
         })
         break
+      default:
+        app.config.globalProperties.$notify({
+          title: 'Error',
+          message: response.data.message,
+          type: 'error'
+        })
     }
     return response
   },
