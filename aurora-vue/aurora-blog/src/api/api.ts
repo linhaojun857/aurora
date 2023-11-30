@@ -1,44 +1,5 @@
 import axios from 'axios'
-import { app } from '@/main'
 
-axios.interceptors.request.use((config: any) => {
-  config.headers['Authorization'] = 'Bearer ' + sessionStorage.getItem('token')
-  return config
-})
-
-axios.interceptors.response.use(
-  (response) => {
-    if (response.data.flag) {
-      return response
-    }
-    switch (response.data.code) {
-      case 50000:
-        app.config.globalProperties.$notify({
-          title: 'Error',
-          message: '系统异常,请联系管理员',
-          type: 'error'
-        })
-        break
-      case 40001:
-        app.config.globalProperties.$notify({
-          title: 'Error',
-          message: '用户未登录',
-          type: 'error'
-        })
-        break
-      default:
-        app.config.globalProperties.$notify({
-          title: 'Error',
-          message: response.data.message,
-          type: 'error'
-        })
-    }
-    return response
-  },
-  (error) => {
-    return Promise.reject(error)
-  }
-)
 export default {
   getTopAndFeaturedArticles: () => {
     return axios.get('/api/articles/topAndFeatured')
