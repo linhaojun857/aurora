@@ -1,5 +1,7 @@
 # Aurora---前后端分离博客
 
+### 轻量版后端: https://github.com/zhouyqxy/aurora_Lite
+
 ## 前言
 
 - 开源不易，希望大家star支持一下
