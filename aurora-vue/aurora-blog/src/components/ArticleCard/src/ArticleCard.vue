@@ -1,5 +1,5 @@
 <template>
-  <div class="article-container">
+  <div class="article-container" @click="toArticle">
     <span v-if="article.isTop" class="article-tag">
       <b>
         <svg-icon icon-class="pin" />
@@ -38,7 +38,7 @@
             <ob-skeleton v-if="!article.tags" :count="2" tag="li" height="16px" width="35px" />
           </ul>
         </span>
-        <h1 class="article-title" v-if="article.articleTitle" @click="toArticle">
+        <h1 class="article-title" v-if="article.articleTitle">
           <a>
             <span data-dia="article-link"> {{ article.articleTitle }}</span>
             <svg-icon v-if="article.status == 2" icon-class="lock" class="lock-svg" />
