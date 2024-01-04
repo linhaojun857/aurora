@@ -45,7 +45,7 @@
           </a>
         </h1>
         <ob-skeleton v-else tag="h1" height="3rem" />
-        <p v-if="article.articleContent">{{ article.articleContent }}</p>
+        <p v-if="article.articleContent" class="article-content-main">{{ article.articleContent }}</p>
         <ob-skeleton v-else tag="p" :count="4" height="20px" />
         <div class="article-footer" v-if="article">
           <div class="flex flex-row items-center">
@@ -135,6 +135,9 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .article-title:hover {
+  cursor: default;
+}
+.article-content-main:hover {
   cursor: default;
 }
 </style>
