@@ -27,9 +27,10 @@
             </div>
             <div class="timeline-marker"></div>
             <div class="timeline-content">
-              <router-link :to="'/articles/' + article.id">
-                <h3 class="timeline-title">{{ article.articleTitle }}</h3>
-              </router-link>
+              <h3 class="timeline-title" @click="toArticle(article)">
+                <span>{{ article.articleTitle }}</span>
+                <svg-icon v-if="article.status == 2" icon-class="lock" class="lock-svg" />
+              </h3>
               <p>
                 {{ article.articleContent }}
               </p>
@@ -49,19 +50,25 @@
 <script lang="ts">
 import { useArticleStore } from '@/stores/article'
 import { useCommonStore } from '@/stores/common'
-import { defineComponent, onMounted, onUnmounted, reactive, toRef } from 'vue'
+import { useUserStore } from '@/stores/user'
+import { defineComponent, onMounted, onUnmounted, reactive, toRef, getCurrentInstance } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Paginator from '@/components/Paginator.vue'
 import api from '@/api/api'
 import markdownToHtml from '@/utils/markdown'
+import emitter from '@/utils/mitt'
 
 export default defineComponent({
   name: 'Archives',
   components: { Breadcrumb, Paginator },
   setup() {
-    const commonStore = useCommonStore()
+    const proxy: any = getCurrentInstance()?.appContext.config.globalProperties
     const articleStore = useArticleStore()
+    const commonStore = useCommonStore()
+    const userStore = useUserStore()
+    const router = useRouter()
     const { t } = useI18n()
     const pagination = reactive({
       current: 1,
@@ -105,8 +112,30 @@ export default defineComponent({
         top: 0
       })
     }
+    const toArticle = (article: any) => {
+      let isAccess = false
+      userStore.accessArticles.forEach((item: any) => {
+        if (item == article.id) {
+          isAccess = true
+        }
+      })
+      if (article.status === 2 && isAccess === false) {
+        if (userStore.userInfo === '') {
+          proxy.$notify({
+            title: 'Warning',
+            message: '该文章受密码保护,请登录后访问',
+            type: 'warning'
+          })
+        } else {
+          emitter.emit('changeArticlePasswordDialogVisible', article.id)
+        }
+      } else {
+        router.push({ path: '/articles/' + article.id })
+      }
+    }
     return {
       pageChangeHanlder,
+      toArticle,
       pagination,
       archives: toRef(articleStore.$state, 'archives'),
       t
