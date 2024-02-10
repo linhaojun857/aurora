@@ -27,7 +27,7 @@
             </div>
             <div class="timeline-marker"></div>
             <div class="timeline-content">
-              <h3 class="timeline-title" @click="toArticle(article)">
+              <h3 class="timeline-title article-title" @click="toArticle(article)">
                 <span>{{ article.articleTitle }}</span>
                 <svg-icon v-if="article.status == 2" icon-class="lock" class="lock-svg" />
               </h3>
@@ -387,5 +387,9 @@ export default defineComponent({
       left: auto;
     }
   }
+}
+
+.article-title {
+  cursor: default;
 }
 </style>
