@@ -405,11 +405,13 @@
     <select id="listArchives" resultType="com.aurora.model.dto.ArticleCardDTO">
         SELECT id,
                article_title,
-               if(article_abstract is null or article_abstract = '', SUBSTR(article_content, 1, 500), article_abstract) AS article_content,
+               if(article_abstract is null or article_abstract = '', SUBSTR(article_content, 1, 500),
+                  article_abstract) AS article_content,
+               status,
                create_time
         FROM t_article
         WHERE is_delete = 0
-          and status = 1
+          and (status = 1 or status = 2)
         ORDER BY create_time DESC
         LIMIT #{current}, #{size}
     </select>
