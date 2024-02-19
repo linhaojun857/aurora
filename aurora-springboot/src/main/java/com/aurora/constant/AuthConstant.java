@@ -10,6 +10,4 @@ public interface AuthConstant {
 
     String TOKEN_PREFIX = "Bearer ";
 
-    String SECRET = "huaweimian";
-
 }
