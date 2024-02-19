@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -25,6 +26,9 @@ import static com.aurora.constant.RedisConstant.LOGIN_USER;
 
 @Service
 public class TokenServiceImpl implements TokenService {
+
+    @Value("${jwt.secret}")
+    private String secret;
 
     @Autowired
     private RedisService redisService;
@@ -89,7 +93,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     public SecretKey generalKey() {
-        byte[] encodedKey = Base64.getDecoder().decode(SECRET);
+        byte[] encodedKey = Base64.getDecoder().decode(secret);
         return new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
     }
 
