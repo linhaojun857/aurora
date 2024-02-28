@@ -41,7 +41,7 @@ public class LocalUploadStrategyImpl extends AbstractUploadStrategyImpl {
     }
     private boolean validateCredentials() {
         // 在这里实现账号密码验证逻辑，例如：
-        return "admin".equals(username) && "secretpassword".equals(password);
+        return username.equals(username) && password.equals(password);
     }
 
     @Override
