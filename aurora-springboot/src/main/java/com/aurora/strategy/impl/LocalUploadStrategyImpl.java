@@ -17,6 +17,12 @@ public class LocalUploadStrategyImpl extends AbstractUploadStrategyImpl {
     @Value("${upload.local.baseUrl}")
     private String baseUrl;
 
+    @Value("${upload.local.username}")
+    private String username;
+
+    @Value("${upload.local.password}")
+    private String password;
+
     @Autowired
     private LocalProperties localProperties;
     private String imagePath;
@@ -33,9 +39,17 @@ public class LocalUploadStrategyImpl extends AbstractUploadStrategyImpl {
         // 检查文件是否存在
         return new File(imagePath + filePath).exists();
     }
+    private boolean validateCredentials() {
+        // 在这里实现账号密码验证逻辑，例如：
+        return "admin".equals(username) && "secretpassword".equals(password);
+    }
 
     @Override
     public void upload(String path, String fileName, InputStream inputStream) throws IOException {
+        // 验证账号密码
+        if (!validateCredentials()) {
+            throw new RuntimeException("无效的凭据");
+        }
         // 重命名文件，添加自定义前缀
 //        String customFileName = "aurora_" + fileName;
         String customFileName =  fileName;

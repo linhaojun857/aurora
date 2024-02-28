@@ -104,6 +104,8 @@ upload:
     secretKey: 密码
     bucketName: 桶的名称
   local:
+    username: admin
+    password: secretpassword
     imagePath: 'C:/code/images/'
     baseUrl: http://localhost:8080/
 #   baseUrl: https://local.gysy.ltd/
