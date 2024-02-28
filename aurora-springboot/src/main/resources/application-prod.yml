@@ -71,6 +71,12 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
 
+#把本地图片映射成local里的地址
+  resources:
+    static-locations: 'file:///C:/code/images/'
+#    linux修改为下面的
+#    static-locations: 'file:///var/www/images/'
+
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   configuration:
@@ -84,7 +90,7 @@ search:
   mode: elasticsearch
 
 upload:
-  mode: oss
+  mode: local
   oss:
     url: http://Bucket域名/
     endpoint: OSS配置endpoint
@@ -97,6 +103,12 @@ upload:
     accesskey: 用户名
     secretKey: 密码
     bucketName: 桶的名称
+  local:
+    username: admin
+    password: secretpassword
+    imagePath: 'C:/code/images/'
+    baseUrl: http://localhost:8080/
+#   baseUrl: https://local.gysy.ltd/
 
 website:
   url: https://前台域名

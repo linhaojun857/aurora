@@ -9,6 +9,8 @@ public enum UploadModeEnum {
 
     OSS("oss", "ossUploadStrategyImpl"),
 
+    Local("local","localUploadStrategyImpl"),
+
     MINIO("minio", "minioUploadStrategyImpl");
 
     private final String mode;
