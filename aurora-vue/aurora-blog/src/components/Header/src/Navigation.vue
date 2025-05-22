@@ -6,7 +6,7 @@
         v-for="route in routes"
         :key="route.path">
         <div
-          class="nav-link text-sm block px-1.5 py-0.5 rounded-md relative uppercase cursor-pointer"
+          class="nav-link text-sm block px-1.5 py-0.5 rounded-md relative cursor-pointer"
           @click="pushPage(route.path)"
           v-if="route.children && route.children.length === 0"
           :data-menu="route.name">
@@ -22,7 +22,7 @@
           @command="pushPage"
           hover
           v-else
-          class="nav-link text-sm block px-1.5 py-0.5 rounded-md relative uppercase">
+          class="nav-link text-sm block px-1.5 py-0.5 rounded-md relative">
           <span class="relative z-50" v-if="$i18n.locale === 'cn' && route.i18n.cn">
             {{ route.i18n.cn }}
           </span>
@@ -46,7 +46,7 @@
       <li
         class="not-italic font-medium text-xs h-full relative flex flex-col items-center justify-center cursor-pointer text-center py-4 px-2"
         data-menu="PhotoAlbums">
-        <Dropdown hover class="nav-link text-sm block px-1.5 py-0.5 rounded-md relative uppercase">
+        <Dropdown hover class="nav-link text-sm block px-1.5 py-0.5 rounded-md relative">
           <span class="relative z-50" v-if="$i18n.locale === 'cn'"> 相册 </span>
           <span class="relative z-50" v-else-if="$i18n.locale === 'en'"> PhotoAlbums </span>
           <DropdownMenu>

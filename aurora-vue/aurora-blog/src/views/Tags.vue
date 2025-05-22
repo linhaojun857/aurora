@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <div class="post-header">
       <Breadcrumb :current="t('menu.tags')" />
-      <h1 class="post-title text-white uppercase">{{ t('menu.tags') }}</h1>
+      <h1 class="post-title text-white">{{ t('menu.tags') }}</h1>
     </div>
     <div class="bg-ob-deep-800 px-14 py-16 rounded-2xl shadow-xl block">
       <TagList>

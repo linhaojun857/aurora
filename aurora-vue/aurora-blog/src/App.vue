@@ -26,7 +26,7 @@
     </div>
   </div>
   <AuroraNavigator />
-  <Dia v-if="!isMobile" />
+  <!-- <Dia v-if="!isMobile" /> -->
   <UserCenter />
   <teleport to="head">
     <title>{{ title }}</title>
@@ -41,7 +41,7 @@ import { useMetaStore } from '@/stores/meta'
 import HeaderMain from '@/components/Header/src/Header.vue'
 import Footer from '@/components/Footer.vue'
 import MobileMenu from '@/components/MobileMenu.vue'
-import Dia from '@/components/Dia.vue'
+// import Dia from '@/components/Dia.vue'
 import AuroraNavigator from '@/components/AuroraNavigator.vue'
 import UserCenter from '@/components/UserCenter.vue'
 import api from './api/api'
@@ -50,7 +50,7 @@ export default defineComponent({
   components: {
     HeaderMain,
     Footer,
-    Dia,
+    // Dia,
     AuroraNavigator,
     MobileMenu,
     UserCenter

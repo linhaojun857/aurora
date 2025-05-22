@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <div class="post-header">
       <Breadcrumb :current="t('menu.archives')" />
-      <h1 class="post-title text-white uppercase">{{ t('menu.archives') }}</h1>
+      <h1 class="post-title text-white">{{ t('menu.archives') }}</h1>
     </div>
     <div class="bg-ob-deep-800 px-14 py-16 rounded-2xl shadow-xl block min-h-screen">
       <ul class="timeline timeline-centered">
@@ -178,7 +178,6 @@ export default defineComponent({
   font-weight: 700;
   letter-spacing: 3px;
   margin: 0 0 0.5em 0;
-  text-transform: uppercase;
   white-space: nowrap;
 }
 

@@ -9,7 +9,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/api': {
-        target: 'https://www.linhaojun.top/api',
+        target: 'https://aurora.cloudorz.com/api',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

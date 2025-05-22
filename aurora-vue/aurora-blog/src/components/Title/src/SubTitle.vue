@@ -1,5 +1,5 @@
 <template>
-  <p class="relative flex items-center pb-2 mb-4 text-xl text-ob-bright uppercase">
+  <p class="relative flex items-center pb-2 mb-4 text-xl text-ob-bright">
     <svg-icon v-if="icon && side === 'left'" :icon-class="icon" class="inline-block mr-2" />
     <span :class="titleClass">{{ t(titleStr) }}</span>
     <svg-icon v-if="icon && side === 'right'" :icon-class="icon" class="inline-block ml-2" />

@@ -3,12 +3,12 @@
     <Breadcrumb :current="t('menu.about')" />
     <div class="flex flex-col">
       <div class="post-header">
-        <h1 v-if="about" class="post-title text-white uppercase">
+        <h1 v-if="about" class="post-title text-white">
           {{ t('titles.about') }}
         </h1>
         <ob-skeleton
           v-else
-          class="post-title text-white uppercase"
+          class="post-title text-white"
           width="100%"
           height="clamp(1.2rem, calc(1rem + 3.5vw), 4rem)" />
       </div>

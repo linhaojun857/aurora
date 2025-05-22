@@ -7,7 +7,7 @@
           class="flex flex-col lg:flex-row gap-6 lg:gap-12 row-span-1 lg:col-span-5 text-center lg:text-left mx-auto">
           <ul class="flex flex-col gap-2 mx-auto">
             <li class="flex flex-row mx-auto">
-              Copyright © 2022 - {{ currentYear }}
+              Copyright © {{ currentYear }}
               <b class="font-extrabold">&nbsp;{{ websiteConfig.author }}</b>
             </li>
             <li v-if="websiteConfig.gonganBeianNumber != '' && websiteConfig.gonganBeianNumber != undefined" class="flex flex-row mx-auto">
