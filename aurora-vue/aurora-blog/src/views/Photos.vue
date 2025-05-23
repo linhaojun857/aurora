@@ -3,10 +3,10 @@
     <Breadcrumb :current="t('menu.album')" />
     <div class="flex flex-col">
       <div class="post-header">
-        <h1 v-if="photoAlbumName != ''" class="post-title text-white uppercase">{{ photoAlbumName }}</h1>
+        <h1 v-if="photoAlbumName != ''" class="post-title text-white">{{ photoAlbumName }}</h1>
         <ob-skeleton
           v-else
-          class="post-title text-white uppercase"
+          class="post-title text-white"
           width="30%"
           height="clamp(1.2rem, calc(1rem + 3.5vw), 4rem)" />
       </div>

@@ -42,7 +42,7 @@
   <ul class="flex flex-col justify-center items-center mt-8 w-full list-none text-ob-bright">
     <li class="pb-2 cursor-pointer" v-for="route in routes" :key="route.path">
       <div
-        class="text-sm block px-1.5 py-0.5 rounded-md relative uppercase"
+        class="text-sm block px-1.5 py-0.5 rounded-md relative"
         @click="pushPage(route.path)"
         v-if="route.children && route.children.length === 0">
         <span class="relative z-50" v-if="$i18n.locale === 'cn' && route.i18n.cn">
@@ -56,7 +56,7 @@
       <Dropdown
         @command="pushPage"
         v-else
-        class="flex flex-col justify-center items-center nav-link text-sm block px-1.5 py-0.5 rounded-md relative uppercase">
+        class="flex flex-col justify-center items-center nav-link text-sm block px-1.5 py-0.5 rounded-md relative">
         <span class="relative z-50" v-if="$i18n.locale === 'cn' && route.i18n.cn">
           {{ route.i18n.cn }}
         </span>
@@ -79,7 +79,7 @@
     </li>
     <li>
       <Dropdown
-        class="flex flex-col justify-center items-center nav-link text-sm block px-1.5 py-0.5 rounded-md relative uppercase">
+        class="flex flex-col justify-center items-center nav-link text-sm block px-1.5 py-0.5 rounded-md relative">
         <span class="relative z-50" v-if="$i18n.locale === 'cn'"> 相册 </span>
         <span class="relative z-50" v-else-if="$i18n.locale === 'en'"> PhotoAlbums </span>
         <DropdownMenu expand>

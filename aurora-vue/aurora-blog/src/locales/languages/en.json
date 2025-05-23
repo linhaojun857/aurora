@@ -66,10 +66,10 @@
     "empty-tag": "Current no tags were found.",
     "pinned": "Pinned",
     "featured": "Featured",
-    "login": "LOGIN",
-    "logout":"Logout",
-    "personal-center":"Personal Center",
-    "running-time":"Running Time",
-    "view-count":"View Count"
+    "login": "Login",
+    "logout": "Logout",
+    "personal-center": "Personal Center",
+    "running-time": "Running Time",
+    "view-count": "View Count"
   }
 }

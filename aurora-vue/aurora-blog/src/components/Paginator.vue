@@ -100,7 +100,7 @@ export default defineComponent({
   ul {
     @apply flex flex-row;
     li {
-      @apply flex flex-row items-center uppercase font-extrabold cursor-pointer mr-2;
+      @apply flex flex-row items-center font-extrabold cursor-pointer mr-2;
       &:hover {
         opacity: 0.5;
       }

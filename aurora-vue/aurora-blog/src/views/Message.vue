@@ -3,7 +3,7 @@
     <Breadcrumb :current="t('menu.message')" />
     <div class="flex flex-col">
       <div class="post-header">
-        <h1 class="post-title text-white uppercase">{{ t('titles.message') }}</h1>
+        <h1 class="post-title text-white">{{ t('titles.message') }}</h1>
       </div>
       <div class="main-grid">
         <div class="relative">

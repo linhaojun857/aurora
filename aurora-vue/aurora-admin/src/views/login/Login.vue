@@ -73,7 +73,7 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
-  background: url(https://static.linhaojun.top/aurora/photos/765664a8a75211296a9cd89671d6d660.png) center center / cover
+  background: url("/images/admin-bg.png") center center / cover
     no-repeat;
 }
 .login-card {

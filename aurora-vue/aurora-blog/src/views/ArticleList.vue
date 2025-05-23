@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div class="post-header">
-      <h1 class="post-title text-white uppercase">{{ tagName }}</h1>
+      <h1 class="post-title text-white">{{ tagName }}</h1>
     </div>
     <div class="bg-ob-deep-800 px-14 py-16 rounded-2xl shadow-xl block min-h-screen">
       <ul class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">

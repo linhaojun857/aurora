@@ -82,7 +82,7 @@ export default {
     })
   },
   getWebsiteConfig: () => {
-    return axios.get('/api')
+    return axios.get('/api/info')
   },
   qqLogin: (params: any) => {
     return axios.post('/api/users/oauth/qq', params)

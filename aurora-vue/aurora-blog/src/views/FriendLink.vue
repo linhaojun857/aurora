@@ -3,7 +3,7 @@
     <Breadcrumb :current="t('menu.friends')" />
     <div class="flex flex-col">
       <div class="post-header">
-        <h1 class="post-title text-white uppercase">{{ t('titles.friends') }}</h1>
+        <h1 class="post-title text-white">{{ t('titles.friends') }}</h1>
       </div>
       <div class="main-grid">
         <div class="relative space-y-5">

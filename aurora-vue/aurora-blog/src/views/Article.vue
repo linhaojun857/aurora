@@ -29,7 +29,7 @@
         </h1>
         <ob-skeleton
           v-else
-          class="post-title text-white uppercase"
+          class="post-title text-white"
           width="100%"
           height="clamp(1.2rem, calc(1rem + 3.5vw), 4rem)" />
         <div class="flex flex-row items-center justify-start mt-8 mb-4">
